@@ -1,0 +1,59 @@
+/* Base styling for the entire application */
+QMainWindow {
+    background-color: #f9f9f9;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Group boxes for search criteria and other panels */
+QGroupBox {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+/* Title labels for main headers */
+QLabel#titleLabel {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333333;
+    margin: 20px;
+}
+
+/* Styling for quiz section labels */
+QLabel#quizLabel {
+    font-size: 16px;
+    font-style: italic;
+    color: #555555;
+    margin-top: 10px;
+}
+
+/* Buttons styling */
+QPushButton {
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 5px;
+}
+
+QPushButton:hover {
+    background-color: #005999;
+}
+
+/* Input fields and text areas */
+QLineEdit, QTextEdit, QSpinBox {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+/* List widget styling */
+QListWidget {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff;
+}

@@ -1,0 +1,17 @@
+[project]
+name = "myspanishapp"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "bjpl",email = "brandon.lambert87@gmail.com"}
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pyqt6 (>=6.8.1,<7.0.0)",
+    "pytest (>=8.0.0,<9.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

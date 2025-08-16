@@ -1,0 +1,9 @@
+# Core dependencies
+requests>=2.31.0
+Pillow>=10.0.0
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# Optional: for building executable
+# Uncomment if you want to build the exe yourself
+# pyinstaller>=6.0.0

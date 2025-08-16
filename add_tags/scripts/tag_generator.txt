@@ -1,0 +1,259 @@
+import pandas as pd
+import os
+import time
+import json
+from dotenv import load_dotenv
+from pathlib import Path
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+# Load environment variables from the .env file
+def load_env():
+    """
+    Load environment variables from the .env file located in the configs folder.
+    """
+    dotenv_path = Path("C:/Users/brand/Development/add_tags/configs/.env")
+    if not dotenv_path.exists():
+        raise FileNotFoundError(f".env file not found at {dotenv_path}. Please create the file and add your OPENAI_API_KEY.")
+    load_dotenv(dotenv_path)
+    logging.info("Environment variables loaded successfully.")
+
+# Step 1: Load the data from a CSV file
+def load_data(file_path):
+    """
+    Load data from a CSV file into a pandas DataFrame.
+    Args:
+        file_path (str): Path to the input CSV file.
+    Returns:
+        pd.DataFrame: Loaded DataFrame if successful, None otherwise.
+    """
+    try:
+        # Debug: Inspect the first few lines of the file
+        logging.info("Inspecting the first few lines of the file:")
+        with open(file_path, "r", encoding="utf-8") as f:
+            for i, line in enumerate(f):
+                logging.info(f"Line {i + 1}: {line.strip()}")
+                if i >= 10:
+                    break
+
+        # Read the CSV file with a tab delimiter
+        df = pd.read_csv(file_path, delimiter="\t")
+
+        # Drop any columns that are entirely empty (e.g., due to extra trailing tabs)
+        df.dropna(axis=1, how='all', inplace=True)
+
+        # Rename columns to match expected names
+        column_mapping = {
+            "Word (Spanish)": "target_word",
+            "Definition (Spanish)": "definition",
+            "Collocations (Spanish)": "examples"
+        }
+        df.rename(columns=column_mapping, inplace=True)
+
+        # Optionally preserve "Word (English)" if present
+        if "Word (English)" in df.columns:
+            df.rename(columns={"Word (English)": "english_word"}, inplace=True)
+
+        # Validate that the required columns are present
+        required_columns = ["target_word", "definition", "examples"]
+        missing = [col for col in required_columns if col not in df.columns]
+        if missing:
+            raise ValueError(f"Missing required columns: {missing}")
+
+        logging.info(f"Data loaded successfully with {df.shape[0]} rows and {df.shape[1]} columns.")
+        return df
+    except Exception as e:
+        logging.error(f"Error loading data: {e}")
+        return None
+
+# Step 2: Generate tags using Qwen2.5-14B-Instruct
+def generate_tags_batch(rows_content, tokenizer, model, max_retries=3):
+    """
+    Generate tags for a batch of content items using the Qwen2.5-14B-Instruct model.
+    Args:
+        rows_content (list): List of content strings to generate tags for.
+        tokenizer: Tokenizer for Qwen2.5-14B-Instruct.
+        model: Qwen2.5-14B-Instruct model.
+        max_retries (int): Maximum number of retries for API calls.
+    Returns:
+        list: A list of tag lists, one for each content item.
+    """
+    # Optimized and reorganized prompt
+    system_prompt = (
+        "You are an expert tag generator. Given each content item below, generate exactly 3 to 5 tags that best describe the "
+        "**target word** (the first column) using only the provided definition and examples as context. DO NOT use translations.\n\n"
+        "Guidelines:\n"
+        "1. Identify the grammatical category (noun, verb, adjective, or phrase).\n"
+        "2. Include broader contextual keywords (e.g., business, technology, education).\n"
+        "3. Add location/usage context (e.g., market, classroom, outdoors).\n"
+        "4. Avoid overly specific or definition-like terms.\n\n"
+        "Examples:\n"
+        "Content: \"Rentable\tQue genera ganancias.\tProducto rentable, campaña rentable, modelo rentable.\"\n"
+        "Target Word: \"Rentable\"\n"
+        "Tags: [\"adjective\", \"business\", \"product\", \"campaign\", \"profit\"]\n\n"
+        "Content: \"Negociar\tLlegar a acuerdos sobre términos comerciales.\tNegociar precios, negociar contratos, negociar propuestas.\"\n"
+        "Target Word: \"Negociar\"\n"
+        "Tags: [\"verb\", \"agreement\", \"business\", \"contract\", \"proposal\"]\n\n"
+        "Content: \"El mercado emergente\tRegión o sector con rápido crecimiento económico y comercial.\tInversiones en mercados emergentes, análisis de mercados emergentes, oportunidades en mercados emergentes.\"\n"
+        "Target Word: \"El mercado emergente\"\n"
+        "Tags: [\"noun\", \"growth\", \"economy\", \"investment\", \"opportunity\"]\n\n"
+        "Now, generate tags for the following content items:"
+    )
+
+    tags_list = []
+    for content in rows_content:
+        retries = 0
+        while retries < max_retries:
+            try:
+                # Construct the prompt
+                prompt = f"{system_prompt}\nUser: {content}\nAssistant:"
+                logging.debug(f"Prompt being sent to model:\n{prompt}")
+
+                # Tokenize and move tensors to the correct device
+                inputs = tokenizer(prompt, return_tensors="pt")
+                inputs = {k: v.to(model.device) for k, v in inputs.items()}
+
+                # Set pad_token if not defined
+                if tokenizer.pad_token is None:
+                    tokenizer.pad_token = tokenizer.eos_token
+
+                logging.info("Starting generation for current prompt...")
+                start_time = time.time()
+                generated_ids = model.generate(
+                    inputs["input_ids"],
+                    attention_mask=inputs.get("attention_mask"),
+                    max_new_tokens=150,
+                    temperature=0.7,
+                    do_sample=True,
+                    eos_token_id=tokenizer.eos_token_id
+                )
+                generation_time = time.time() - start_time
+                logging.info(f"Generation completed in {generation_time:.2f} seconds.")
+
+                # Decode the output
+                output_text = tokenizer.decode(generated_ids[0], skip_special_tokens=True)
+                logging.debug(f"Model output:\n{output_text}")
+
+                # Check that the output includes a "Tags:" segment
+                if "Tags:" in output_text:
+                    tags_json = output_text.split("Tags:")[-1].strip()
+                else:
+                    raise ValueError(f"Output text does not contain expected 'Tags:' segment. Full output:\n{output_text}")
+
+                # Parse and post-process the tags
+                tags = json.loads(tags_json)
+                tags = list(set(tag.lower() for tag in tags))
+                filtered_tags = [tag for tag in tags if not any(word in tag for word in ["to ", " de ", " por ", " en "])]
+
+                tags_list.append(filtered_tags)
+                break  # Exit retry loop on success
+
+            except Exception as e:
+                logging.exception(f"Error generating tags for content: {content}")
+                retries += 1
+                time.sleep(1)  # Brief pause before retrying
+
+        if retries == max_retries:
+            logging.error(f"Max retries reached for content: {content}. Appending empty list.")
+            tags_list.append([])
+
+    return tags_list
+
+# Step 3: Enrich data with tags
+def enrich_data_with_tags(df, tokenizer, model, batch_size=20):
+    """
+    Enrich the dataset by generating tags for each row in batches.
+    Args:
+        df (pd.DataFrame): Input DataFrame containing the data.
+        tokenizer: Tokenizer for Qwen2.5-14B-Instruct.
+        model: Qwen2.5-14B-Instruct model.
+        batch_size (int): Number of rows to process in each batch.
+    Returns:
+        pd.DataFrame: Updated DataFrame with a new 'tags' column.
+    """
+    df['tags'] = None  # Initialize the 'tags' column
+    for i in range(0, len(df), batch_size):
+        batch = df.iloc[i:i + batch_size]
+        # Construct content strings using explicit column names
+        rows_content = [
+            f"{row['target_word']}\t{row['definition']}\t{row['examples']}"
+            for _, row in batch.iterrows()
+        ]
+        # Generate tags for the batch
+        tags_list = generate_tags_batch(rows_content, tokenizer, model)
+        # Assign tags to the DataFrame
+        for j, tags in enumerate(tags_list):
+            df.at[i + j, 'tags'] = tags
+        # Log the results for the batch
+        for idx, tags in zip(batch.index, tags_list):
+            logging.info(f"Row {idx + 1}: Tags Generated - {tags}")
+        logging.info(f"Processed rows {i + 1} to {min(i + batch_size, len(df))}/{len(df)}")
+    return df
+
+# Step 4: Save the updated dataset to a CSV file
+def save_data(df, output_file_path):
+    """
+    Save the updated DataFrame to a CSV file.
+    Args:
+        df (pd.DataFrame): DataFrame to save.
+        output_file_path (str): Path to the output CSV file.
+    """
+    try:
+        # Serialize the 'tags' column as JSON strings
+        df['tags'] = df['tags'].apply(json.dumps)
+        os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+        df.to_csv(output_file_path, index=False)
+        logging.info(f"Updated data saved successfully to {output_file_path}")
+    except Exception as e:
+        logging.error(f"Error saving data: {e}")
+
+# Function to load the model and tokenizer with CUDA support
+def load_model_and_tokenizer(model_name):
+    """
+    Load the Qwen2.5-14B-Instruct model and tokenizer, using CUDA if available.
+    Args:
+        model_name (str): Name of the model to load.
+    Returns:
+        tokenizer: Tokenizer for the model.
+        model: Loaded model.
+    """
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    device_map = "cuda" if torch.cuda.is_available() else "cpu"
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.float16,
+        device_map=device_map
+    )
+    if torch.cuda.is_available():
+        logging.info("CUDA is available. Model will run on GPU.")
+    else:
+        logging.info("CUDA is not available. Model will run on CPU.")
+    return tokenizer, model
+
+if __name__ == "__main__":
+    try:
+        # Load environment variables
+        load_env()
+
+        # File paths
+        input_file_path = "data/input_data.csv"
+        output_file_path = "output/output_data_with_tags.csv"
+
+        # Step 1: Load the data
+        df = load_data(input_file_path)
+        if df is None:
+            exit(1)
+
+        # Step 2: Load the model and tokenizer
+        model_name = "Qwen/Qwen2.5-14B-Instruct"
+        tokenizer, model = load_model_and_tokenizer(model_name)
+
+        # Steps 3 & 4: Enrich data with tags and save the results
+        df = enrich_data_with_tags(df, tokenizer, model, batch_size=20)
+        save_data(df, output_file_path)
+    except Exception as e:
+        logging.exception(f"An error occurred in the main process: {e}")

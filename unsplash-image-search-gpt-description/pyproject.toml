@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "unsplash-image-search-gpt-description"
+version = "0.1.0"
+description = "A GUI application that searches Unsplash for images, accepts user notes, and uses GPT-4 to generate a detailed image description (in Spanish)."
+authors = ["Your Name <you@example.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.14"
+requests = "^2.32.3"      
+Pillow = "^10.0.0"
+openai = "^1.0.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pyinstaller = "^6.12.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

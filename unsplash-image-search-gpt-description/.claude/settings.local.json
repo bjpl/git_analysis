@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(copy main.py main_original.py)",
+      "Bash(cp:*)",
+      "Bash(python:*)"
+    ],
+    "defaultMode": "acceptEdits"
+  }
+}

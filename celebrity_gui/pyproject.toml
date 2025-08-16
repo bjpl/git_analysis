@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "celebrity-gui"
+version = "0.1.0"
+description = "A Celebrity Image Identification & Description GUI using PyQt5, the Wikipedia API, and GPT-4 integration."
+authors = ["Your Name <youremail@example.com>"]
+license = "MIT"
+
+packages = [
+    { include = "celebrity_gui" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+PyQt5 = "^5.15.6"
+pyqt5-qt5 = "5.15.2"
+wikipedia = "^1.4.0"
+openai = "^0.27.0"
+requests = "^2.28.1"
+Pillow = "^9.0.1"
+python-dotenv = "^1.0.1"
+wptools = "^0.4.17"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

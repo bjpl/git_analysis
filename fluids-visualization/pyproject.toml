@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "fluids-visualization"
+version = "0.1.0"
+description = "Laminar flow visualization demo"
+authors = ["Your Name <your@email.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+matplotlib = "^3.8.4"
+numpy = "^1.26.4"
+streamlit = "^1.45.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
