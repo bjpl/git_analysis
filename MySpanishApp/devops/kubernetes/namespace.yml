@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spanishmaster
+  labels:
+    name: spanishmaster
+    environment: production
+    app.kubernetes.io/name: spanishmaster
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: kubernetes
+  annotations:
+    description: "SpanishMaster Spanish Learning Application"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spanishmaster-staging
+  labels:
+    name: spanishmaster-staging
+    environment: staging
+    app.kubernetes.io/name: spanishmaster
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: kubernetes
+  annotations:
+    description: "SpanishMaster Staging Environment"

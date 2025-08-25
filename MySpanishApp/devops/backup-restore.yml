@@ -1,0 +1,562 @@
+# Backup and Disaster Recovery for SpanishMaster
+
+# PostgreSQL Backup CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: spanishmaster
+  labels:
+    app: backup
+    component: postgres
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  timeZone: "UTC"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backup
+            component: postgres
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: postgres-backup
+            image: postgres:15-alpine
+            command:
+            - /bin/bash
+            - -c
+            - |
+              set -e
+              
+              # Create backup directory
+              BACKUP_DIR="/backups/postgres"
+              mkdir -p $BACKUP_DIR
+              
+              # Generate backup filename with timestamp
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              BACKUP_FILE="$BACKUP_DIR/spanishmaster_backup_$TIMESTAMP.sql"
+              
+              echo "Starting PostgreSQL backup at $(date)"
+              
+              # Perform backup using pg_dump
+              PGPASSWORD=$DATABASE_PASSWORD pg_dump \
+                -h $DATABASE_HOST \
+                -U $DATABASE_USERNAME \
+                -d $DATABASE_NAME \
+                --verbose \
+                --no-acl \
+                --no-owner \
+                --format=custom \
+                --compress=9 \
+                > $BACKUP_FILE
+              
+              # Verify backup was created
+              if [ -f "$BACKUP_FILE" ]; then
+                echo "Backup created successfully: $BACKUP_FILE"
+                echo "Backup size: $(du -h $BACKUP_FILE | cut -f1)"
+                
+                # Upload to S3
+                aws s3 cp $BACKUP_FILE s3://$S3_BACKUP_BUCKET/postgres/$(basename $BACKUP_FILE)
+                
+                # Clean up old local backups (keep last 3)
+                ls -t $BACKUP_DIR/*.sql | tail -n +4 | xargs -r rm
+                
+                echo "Backup completed successfully at $(date)"
+              else
+                echo "Backup failed!" >&2
+                exit 1
+              fi
+            env:
+            - name: DATABASE_HOST
+              value: "postgres-service"
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: spanishmaster-config
+                  key: DB_NAME
+            - name: DATABASE_USERNAME
+              value: "spanishmaster"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spanishmaster-secrets
+                  key: DATABASE_PASSWORD
+            - name: S3_BACKUP_BUCKET
+              value: "spanishmaster-backups"
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backups
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "100m"
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc
+---
+# Redis Backup CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: redis-backup
+  namespace: spanishmaster
+  labels:
+    app: backup
+    component: redis
+spec:
+  schedule: "30 2 * * *"  # Daily at 2:30 AM
+  timeZone: "UTC"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backup
+            component: redis
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: redis-backup
+            image: redis:7-alpine
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              
+              # Create backup directory
+              BACKUP_DIR="/backups/redis"
+              mkdir -p $BACKUP_DIR
+              
+              # Generate backup filename with timestamp
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              BACKUP_FILE="$BACKUP_DIR/redis_backup_$TIMESTAMP.rdb"
+              
+              echo "Starting Redis backup at $(date)"
+              
+              # Create Redis backup using BGSAVE
+              redis-cli -h $REDIS_HOST -p $REDIS_PORT -a $REDIS_PASSWORD BGSAVE
+              
+              # Wait for backup to complete
+              while [ $(redis-cli -h $REDIS_HOST -p $REDIS_PORT -a $REDIS_PASSWORD LASTSAVE) -eq $(redis-cli -h $REDIS_HOST -p $REDIS_PORT -a $REDIS_PASSWORD LASTSAVE) ]; do
+                echo "Waiting for Redis backup to complete..."
+                sleep 5
+              done
+              
+              # Copy the RDB file
+              redis-cli -h $REDIS_HOST -p $REDIS_PORT -a $REDIS_PASSWORD --rdb $BACKUP_FILE
+              
+              if [ -f "$BACKUP_FILE" ]; then
+                echo "Redis backup created successfully: $BACKUP_FILE"
+                echo "Backup size: $(du -h $BACKUP_FILE | cut -f1)"
+                
+                # Upload to S3
+                aws s3 cp $BACKUP_FILE s3://$S3_BACKUP_BUCKET/redis/$(basename $BACKUP_FILE)
+                
+                # Clean up old local backups (keep last 3)
+                ls -t $BACKUP_DIR/*.rdb | tail -n +4 | xargs -r rm
+                
+                echo "Redis backup completed successfully at $(date)"
+              else
+                echo "Redis backup failed!" >&2
+                exit 1
+              fi
+            env:
+            - name: REDIS_HOST
+              value: "redis-service"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spanishmaster-secrets
+                  key: REDIS_PASSWORD
+            - name: S3_BACKUP_BUCKET
+              value: "spanishmaster-backups"
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backups
+            resources:
+              requests:
+                memory: "128Mi"
+                cpu: "100m"
+              limits:
+                memory: "256Mi"
+                cpu: "200m"
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc
+---
+# Application Data Backup CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: app-data-backup
+  namespace: spanishmaster
+  labels:
+    app: backup
+    component: application
+spec:
+  schedule: "0 3 * * *"  # Daily at 3 AM
+  timeZone: "UTC"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backup
+            component: application
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: app-data-backup
+            image: alpine:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              
+              # Install required tools
+              apk add --no-cache aws-cli tar gzip
+              
+              # Create backup directory
+              BACKUP_DIR="/backups/app-data"
+              mkdir -p $BACKUP_DIR
+              
+              # Generate backup filename with timestamp
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+              BACKUP_FILE="$BACKUP_DIR/app_data_backup_$TIMESTAMP.tar.gz"
+              
+              echo "Starting application data backup at $(date)"
+              
+              # Create tar.gz archive of application data
+              tar -czf $BACKUP_FILE -C /app/data .
+              
+              if [ -f "$BACKUP_FILE" ]; then
+                echo "Application data backup created: $BACKUP_FILE"
+                echo "Backup size: $(du -h $BACKUP_FILE | cut -f1)"
+                
+                # Upload to S3
+                aws s3 cp $BACKUP_FILE s3://$S3_BACKUP_BUCKET/app-data/$(basename $BACKUP_FILE)
+                
+                # Clean up old local backups (keep last 7)
+                ls -t $BACKUP_DIR/*.tar.gz | tail -n +8 | xargs -r rm
+                
+                echo "Application data backup completed at $(date)"
+              else
+                echo "Application data backup failed!" >&2
+                exit 1
+              fi
+            env:
+            - name: S3_BACKUP_BUCKET
+              value: "spanishmaster-backups"
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backups
+            - name: app-data
+              mountPath: /app/data
+              readOnly: true
+            resources:
+              requests:
+                memory: "128Mi"
+                cpu: "100m"
+              limits:
+                memory: "256Mi"
+                cpu: "200m"
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc
+          - name: app-data
+            persistentVolumeClaim:
+              claimName: spanishmaster-data-pvc
+---
+# Backup Monitoring CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-monitoring
+  namespace: spanishmaster
+  labels:
+    app: backup
+    component: monitoring
+spec:
+  schedule: "0 4 * * *"  # Daily at 4 AM
+  timeZone: "UTC"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backup
+            component: monitoring
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup-monitor
+            image: alpine:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              
+              # Install required tools
+              apk add --no-cache aws-cli curl
+              
+              echo "Checking backup status at $(date)"
+              
+              # Check if backups exist in S3
+              TODAY=$(date +%Y%m%d)
+              
+              # Check PostgreSQL backup
+              if aws s3 ls s3://$S3_BACKUP_BUCKET/postgres/ | grep $TODAY; then
+                echo "✅ PostgreSQL backup found for today"
+                PG_STATUS="success"
+              else
+                echo "❌ PostgreSQL backup missing for today"
+                PG_STATUS="failed"
+              fi
+              
+              # Check Redis backup
+              if aws s3 ls s3://$S3_BACKUP_BUCKET/redis/ | grep $TODAY; then
+                echo "✅ Redis backup found for today"
+                REDIS_STATUS="success"
+              else
+                echo "❌ Redis backup missing for today"
+                REDIS_STATUS="failed"
+              fi
+              
+              # Check application data backup
+              if aws s3 ls s3://$S3_BACKUP_BUCKET/app-data/ | grep $TODAY; then
+                echo "✅ Application data backup found for today"
+                APP_STATUS="success"
+              else
+                echo "❌ Application data backup missing for today"
+                APP_STATUS="failed"
+              fi
+              
+              # Send notification to Slack or monitoring system
+              WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+              MESSAGE="Backup Status Report for $(date +%Y-%m-%d):\n"
+              MESSAGE="$MESSAGE• PostgreSQL: $PG_STATUS\n"
+              MESSAGE="$MESSAGE• Redis: $REDIS_STATUS\n"
+              MESSAGE="$MESSAGE• Application Data: $APP_STATUS"
+              
+              curl -X POST -H 'Content-type: application/json' \
+                --data "{\"text\":\"$MESSAGE\"}" \
+                $WEBHOOK_URL || echo "Failed to send notification"
+              
+              echo "Backup monitoring completed at $(date)"
+            env:
+            - name: S3_BACKUP_BUCKET
+              value: "spanishmaster-backups"
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "50m"
+              limits:
+                memory: "128Mi"
+                cpu: "100m"
+---
+# Disaster Recovery Job Template
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: disaster-recovery-postgres
+  namespace: spanishmaster
+  labels:
+    app: disaster-recovery
+    component: postgres
+spec:
+  template:
+    metadata:
+      labels:
+        app: disaster-recovery
+        component: postgres
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: postgres-restore
+        image: postgres:15-alpine
+        command:
+        - /bin/bash
+        - -c
+        - |
+          set -e
+          
+          echo "Starting PostgreSQL disaster recovery at $(date)"
+          
+          # Download latest backup from S3
+          LATEST_BACKUP=$(aws s3 ls s3://$S3_BACKUP_BUCKET/postgres/ --recursive | sort | tail -n 1 | awk '{print $4}')
+          
+          if [ -z "$LATEST_BACKUP" ]; then
+            echo "No backup found in S3!" >&2
+            exit 1
+          fi
+          
+          echo "Downloading backup: $LATEST_BACKUP"
+          aws s3 cp s3://$S3_BACKUP_BUCKET/$LATEST_BACKUP /tmp/restore.sql
+          
+          # Stop all connections to the database
+          PGPASSWORD=$DATABASE_PASSWORD psql -h $DATABASE_HOST -U postgres -c \
+            "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '$DATABASE_NAME' AND pid <> pg_backend_pid();"
+          
+          # Drop and recreate database
+          PGPASSWORD=$DATABASE_PASSWORD psql -h $DATABASE_HOST -U postgres -c "DROP DATABASE IF EXISTS $DATABASE_NAME;"
+          PGPASSWORD=$DATABASE_PASSWORD psql -h $DATABASE_HOST -U postgres -c "CREATE DATABASE $DATABASE_NAME;"
+          
+          # Restore database
+          PGPASSWORD=$DATABASE_PASSWORD pg_restore \
+            -h $DATABASE_HOST \
+            -U $DATABASE_USERNAME \
+            -d $DATABASE_NAME \
+            --verbose \
+            --no-acl \
+            --no-owner \
+            /tmp/restore.sql
+          
+          echo "PostgreSQL disaster recovery completed successfully at $(date)"
+        env:
+        - name: DATABASE_HOST
+          value: "postgres-service"
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: spanishmaster-config
+              key: DB_NAME
+        - name: DATABASE_USERNAME
+          value: "spanishmaster"
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: spanishmaster-secrets
+              key: DATABASE_PASSWORD
+        - name: S3_BACKUP_BUCKET
+          value: "spanishmaster-backups"
+        - name: AWS_DEFAULT_REGION
+          value: "us-east-1"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+# Backup Retention Policy
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-cleanup
+  namespace: spanishmaster
+  labels:
+    app: backup
+    component: cleanup
+spec:
+  schedule: "0 5 * * 0"  # Weekly on Sunday at 5 AM
+  timeZone: "UTC"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backup
+            component: cleanup
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup-cleanup
+            image: alpine:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              
+              # Install required tools
+              apk add --no-cache aws-cli
+              
+              echo "Starting backup cleanup at $(date)"
+              
+              # Define retention periods (in days)
+              POSTGRES_RETENTION=30
+              REDIS_RETENTION=14
+              APP_DATA_RETENTION=30
+              
+              # Calculate cutoff dates
+              PG_CUTOFF=$(date -d "$POSTGRES_RETENTION days ago" +%Y%m%d)
+              REDIS_CUTOFF=$(date -d "$REDIS_RETENTION days ago" +%Y%m%d)
+              APP_CUTOFF=$(date -d "$APP_DATA_RETENTION days ago" +%Y%m%d)
+              
+              # Clean up old PostgreSQL backups
+              echo "Cleaning up PostgreSQL backups older than $POSTGRES_RETENTION days"
+              aws s3 ls s3://$S3_BACKUP_BUCKET/postgres/ | while read -r line; do
+                FILE_DATE=$(echo $line | awk '{print $4}' | grep -o '[0-9]\{8\}' | head -1)
+                if [ "$FILE_DATE" -lt "$PG_CUTOFF" ]; then
+                  FILE_NAME=$(echo $line | awk '{print $4}')
+                  echo "Deleting old backup: $FILE_NAME"
+                  aws s3 rm s3://$S3_BACKUP_BUCKET/postgres/$FILE_NAME
+                fi
+              done
+              
+              # Clean up old Redis backups
+              echo "Cleaning up Redis backups older than $REDIS_RETENTION days"
+              aws s3 ls s3://$S3_BACKUP_BUCKET/redis/ | while read -r line; do
+                FILE_DATE=$(echo $line | awk '{print $4}' | grep -o '[0-9]\{8\}' | head -1)
+                if [ "$FILE_DATE" -lt "$REDIS_CUTOFF" ]; then
+                  FILE_NAME=$(echo $line | awk '{print $4}')
+                  echo "Deleting old backup: $FILE_NAME"
+                  aws s3 rm s3://$S3_BACKUP_BUCKET/redis/$FILE_NAME
+                fi
+              done
+              
+              # Clean up old application data backups
+              echo "Cleaning up application data backups older than $APP_DATA_RETENTION days"
+              aws s3 ls s3://$S3_BACKUP_BUCKET/app-data/ | while read -r line; do
+                FILE_DATE=$(echo $line | awk '{print $4}' | grep -o '[0-9]\{8\}' | head -1)
+                if [ "$FILE_DATE" -lt "$APP_CUTOFF" ]; then
+                  FILE_NAME=$(echo $line | awk '{print $4}')
+                  echo "Deleting old backup: $FILE_NAME"
+                  aws s3 rm s3://$S3_BACKUP_BUCKET/app-data/$FILE_NAME
+                fi
+              done
+              
+              echo "Backup cleanup completed at $(date)"
+            env:
+            - name: S3_BACKUP_BUCKET
+              value: "spanishmaster-backups"
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "50m"
+              limits:
+                memory: "128Mi"
+                cpu: "100m"

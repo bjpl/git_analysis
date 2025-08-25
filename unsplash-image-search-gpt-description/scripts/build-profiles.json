@@ -1,0 +1,327 @@
+{
+  "profiles": {
+    "development": {
+      "name": "Development Build",
+      "description": "Fast development build with console output and minimal optimization",
+      "pyinstaller_options": [
+        "--onefile",
+        "--console",
+        "--debug=bootloader",
+        "--name=Unsplash_GPT_Tool_Dev"
+      ],
+      "optimization_level": 0,
+      "include_debug_info": true,
+      "console_mode": true,
+      "upx_compression": false,
+      "exclude_modules": [
+        "pytest",
+        "black",
+        "mypy"
+      ],
+      "include_data": [
+        "config_template.ini",
+        "README.md"
+      ],
+      "features": {
+        "crash_reporting": true,
+        "debug_logging": true,
+        "auto_reload": true,
+        "profiling": true
+      },
+      "output": {
+        "executable_name": "Unsplash_GPT_Tool_Dev.exe",
+        "create_portable": false,
+        "create_installer": false
+      },
+      "validation": {
+        "run_tests": true,
+        "syntax_check": true,
+        "import_check": true,
+        "style_check": false
+      }
+    },
+    "production": {
+      "name": "Production Build",
+      "description": "Optimized production build with minimal size and no console",
+      "pyinstaller_options": [
+        "--onefile",
+        "--windowed",
+        "--optimize=2",
+        "--strip",
+        "--name=Unsplash_GPT_Tool"
+      ],
+      "optimization_level": 2,
+      "include_debug_info": false,
+      "console_mode": false,
+      "upx_compression": true,
+      "exclude_modules": [
+        "pytest",
+        "pytest_cov",
+        "pytest_mock",
+        "black",
+        "flake8",
+        "mypy",
+        "isort",
+        "bandit",
+        "safety",
+        "IPython",
+        "pdb",
+        "unittest",
+        "doctest"
+      ],
+      "include_data": [
+        "README.md",
+        "LICENSE"
+      ],
+      "features": {
+        "crash_reporting": true,
+        "debug_logging": false,
+        "auto_reload": false,
+        "profiling": false,
+        "analytics": false,
+        "auto_update": true
+      },
+      "output": {
+        "executable_name": "Unsplash_GPT_Tool.exe",
+        "create_portable": true,
+        "create_installer": true,
+        "create_archive": true
+      },
+      "validation": {
+        "run_tests": true,
+        "syntax_check": true,
+        "import_check": true,
+        "style_check": true,
+        "security_scan": true,
+        "size_check": true,
+        "performance_test": true
+      },
+      "signing": {
+        "enabled": false,
+        "certificate_path": "",
+        "timestamp_server": "http://timestamp.digicert.com"
+      }
+    },
+    "debug": {
+      "name": "Debug Build",
+      "description": "Debug build with full debugging symbols and verbose output",
+      "pyinstaller_options": [
+        "--onefile",
+        "--console",
+        "--debug=all",
+        "--name=Unsplash_GPT_Tool_Debug"
+      ],
+      "optimization_level": 0,
+      "include_debug_info": true,
+      "console_mode": true,
+      "upx_compression": false,
+      "exclude_modules": [
+        "pytest"
+      ],
+      "include_data": [
+        "config_template.ini",
+        "README.md",
+        "docs/"
+      ],
+      "features": {
+        "crash_reporting": true,
+        "debug_logging": true,
+        "auto_reload": false,
+        "profiling": true,
+        "memory_tracking": true,
+        "performance_monitoring": true
+      },
+      "output": {
+        "executable_name": "Unsplash_GPT_Tool_Debug.exe",
+        "create_portable": true,
+        "create_installer": false,
+        "include_source_map": true
+      },
+      "validation": {
+        "run_tests": true,
+        "syntax_check": true,
+        "import_check": true,
+        "style_check": false,
+        "memory_leak_check": true,
+        "performance_profiling": true
+      },
+      "debugging": {
+        "include_pdb": true,
+        "verbose_imports": true,
+        "trace_execution": false,
+        "memory_profiler": true
+      }
+    },
+    "testing": {
+      "name": "Testing Build",
+      "description": "Build optimized for automated testing and CI/CD",
+      "pyinstaller_options": [
+        "--onefile",
+        "--console",
+        "--name=Unsplash_GPT_Tool_Test"
+      ],
+      "optimization_level": 1,
+      "include_debug_info": true,
+      "console_mode": true,
+      "upx_compression": false,
+      "exclude_modules": [
+        "IPython",
+        "pdb"
+      ],
+      "include_data": [
+        "config_template.ini",
+        "tests/",
+        "README.md"
+      ],
+      "features": {
+        "crash_reporting": true,
+        "debug_logging": true,
+        "auto_reload": false,
+        "profiling": false,
+        "test_mode": true,
+        "mock_apis": true
+      },
+      "output": {
+        "executable_name": "Unsplash_GPT_Tool_Test.exe",
+        "create_portable": false,
+        "create_installer": false
+      },
+      "validation": {
+        "run_tests": true,
+        "syntax_check": true,
+        "import_check": true,
+        "style_check": true,
+        "security_scan": true,
+        "integration_tests": true,
+        "performance_test": true,
+        "compatibility_test": true
+      },
+      "testing": {
+        "include_test_data": true,
+        "mock_external_apis": true,
+        "headless_mode": true,
+        "automated_ui_tests": true
+      }
+    },
+    "portable": {
+      "name": "Portable Build",
+      "description": "Standalone portable build with embedded dependencies",
+      "pyinstaller_options": [
+        "--onefile",
+        "--windowed",
+        "--optimize=1",
+        "--name=Unsplash_GPT_Tool_Portable"
+      ],
+      "optimization_level": 1,
+      "include_debug_info": false,
+      "console_mode": false,
+      "upx_compression": true,
+      "exclude_modules": [
+        "pytest",
+        "black",
+        "mypy",
+        "IPython",
+        "pdb",
+        "unittest"
+      ],
+      "include_data": [
+        "config_template.ini",
+        "README.md",
+        "LICENSE",
+        "docs/QUICK_START.md"
+      ],
+      "features": {
+        "crash_reporting": false,
+        "debug_logging": false,
+        "auto_reload": false,
+        "profiling": false,
+        "portable_mode": true,
+        "self_contained": true
+      },
+      "output": {
+        "executable_name": "Unsplash_GPT_Tool_Portable.exe",
+        "create_portable": true,
+        "create_installer": false,
+        "embed_manifest": true
+      },
+      "validation": {
+        "run_tests": true,
+        "syntax_check": true,
+        "import_check": true,
+        "style_check": false,
+        "dependency_check": true,
+        "portable_test": true
+      },
+      "portable": {
+        "embed_config": true,
+        "include_runtime": true,
+        "self_extracting": false,
+        "cleanup_on_exit": true
+      }
+    }
+  },
+  "build_matrix": {
+    "windows": {
+      "supported_profiles": ["development", "production", "debug", "testing", "portable"],
+      "default_profile": "production",
+      "python_versions": ["3.8", "3.9", "3.10", "3.11", "3.12"],
+      "architectures": ["x64"],
+      "requirements": {
+        "min_ram_mb": 512,
+        "min_disk_space_mb": 100,
+        "python_min_version": "3.8.0"
+      }
+    }
+  },
+  "quality_gates": {
+    "code_coverage": {
+      "minimum_percentage": 70,
+      "enforce": true
+    },
+    "security_scan": {
+      "enabled": true,
+      "fail_on_high": true,
+      "fail_on_medium": false
+    },
+    "performance": {
+      "max_startup_time_seconds": 10,
+      "max_memory_usage_mb": 256,
+      "max_executable_size_mb": 50
+    },
+    "compatibility": {
+      "test_on_clean_system": true,
+      "test_without_python": true,
+      "test_offline_mode": true
+    }
+  },
+  "notifications": {
+    "build_start": {
+      "enabled": true,
+      "channels": ["console"]
+    },
+    "build_complete": {
+      "enabled": true,
+      "channels": ["console", "log"]
+    },
+    "build_failed": {
+      "enabled": true,
+      "channels": ["console", "log", "email"]
+    }
+  },
+  "artifacts": {
+    "retention_policy": {
+      "keep_last_n_builds": 10,
+      "keep_tagged_builds": true,
+      "cleanup_after_days": 30
+    },
+    "compression": {
+      "enabled": true,
+      "format": "zip",
+      "level": 6
+    },
+    "checksums": {
+      "algorithms": ["SHA256", "MD5"],
+      "generate_files": true
+    }
+  }
+}

@@ -1,0 +1,114 @@
+# Persistent Volume Claims for SpanishMaster
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: spanishmaster-data-pvc
+  namespace: spanishmaster
+  labels:
+    app: spanishmaster
+    tier: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-ssd
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: spanishmaster-logs-pvc
+  namespace: spanishmaster
+  labels:
+    app: spanishmaster
+    tier: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-ssd
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: spanishmaster
+  labels:
+    app: postgres
+    tier: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-ssd
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: spanishmaster
+  labels:
+    app: redis
+    tier: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-ssd
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Backup Storage PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-pvc
+  namespace: spanishmaster
+  labels:
+    app: spanishmaster
+    tier: backup
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-ssd
+  resources:
+    requests:
+      storage: 50Gi
+---
+# Monitoring Storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-pvc
+  namespace: spanishmaster
+  labels:
+    app: prometheus
+    tier: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-ssd
+  resources:
+    requests:
+      storage: 15Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pvc
+  namespace: spanishmaster
+  labels:
+    app: grafana
+    tier: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-ssd
+  resources:
+    requests:
+      storage: 5Gi

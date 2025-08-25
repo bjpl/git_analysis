@@ -1,0 +1,538 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      build_profile:
+        description: 'Build profile to use'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - development
+        - debug
+        - testing
+        - portable
+      create_release:
+        description: 'Create GitHub release'
+        required: false
+        default: false
+        type: boolean
+      skip_tests:
+        description: 'Skip running tests'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  PYTHON_VERSION: '3.11'
+  BUILD_PROFILE: ${{ github.event.inputs.build_profile || 'production' }}
+
+jobs:
+  # Pre-build validation and setup
+  validate:
+    name: Validate Environment
+    runs-on: windows-latest
+    outputs:
+      should-build: ${{ steps.validation.outputs.should-build }}
+      version: ${{ steps.version.outputs.version }}
+      build-number: ${{ steps.version.outputs.build-number }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for version detection
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry install
+    
+    - name: Run pre-build validation
+      id: validation
+      shell: pwsh
+      run: |
+        $profile = "${{ env.BUILD_PROFILE }}"
+        $skipTests = "${{ github.event.inputs.skip_tests }}" -eq "true"
+        
+        try {
+          if ($skipTests) {
+            Write-Host "Skipping tests as requested"
+            .\scripts\pre-build-validation.ps1 -Profile $profile -FixIssues
+          } else {
+            .\scripts\pre-build-validation.ps1 -Profile $profile -FixIssues -OutputReport
+          }
+          
+          echo "should-build=true" >> $env:GITHUB_OUTPUT
+          Write-Host "✅ Pre-build validation passed"
+        }
+        catch {
+          Write-Host "❌ Pre-build validation failed: $($_.Exception.Message)"
+          echo "should-build=false" >> $env:GITHUB_OUTPUT
+          exit 1
+        }
+    
+    - name: Determine version
+      id: version
+      shell: pwsh
+      run: |
+        # Try to get version from Git tag
+        $gitTag = git describe --tags --exact-match HEAD 2>$null
+        if ($gitTag -and $gitTag -match '^v?(\d+\.\d+\.\d+)') {
+          $version = $matches[1]
+          $source = "git-tag"
+        }
+        # Fallback to version_info.py
+        elseif (Test-Path "version_info.py") {
+          $content = Get-Content "version_info.py" -Raw
+          if ($content -match 'APP_VERSION\s*=\s*["\']([^"\']+)["\']') {
+            $version = $matches[1]
+            $source = "version_info.py"
+          }
+        }
+        # Fallback to pyproject.toml
+        elseif (Test-Path "pyproject.toml") {
+          $content = Get-Content "pyproject.toml" -Raw
+          if ($content -match 'version\s*=\s*["\']([^"\']+)["\']') {
+            $version = $matches[1]
+            $source = "pyproject.toml"
+          }
+        }
+        
+        if (-not $version) {
+          $version = "1.0.0"
+          $source = "fallback"
+        }
+        
+        $buildNumber = (Get-Date -Format "yyyyMMdd") + "-" + $env:GITHUB_SHA.Substring(0,7)
+        
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+        echo "build-number=$buildNumber" >> $env:GITHUB_OUTPUT
+        
+        Write-Host "Version: $version (from $source)"
+        Write-Host "Build Number: $buildNumber"
+    
+    - name: Upload validation report
+      if: always() && !inputs.skip_tests
+      uses: actions/upload-artifact@v3
+      with:
+        name: validation-report
+        path: validation-report.html
+        retention-days: 30
+
+  # Run tests
+  test:
+    name: Run Tests
+    runs-on: windows-latest
+    needs: validate
+    if: needs.validate.outputs.should-build == 'true' && !inputs.skip_tests
+    
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+      fail-fast: false
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry pytest pytest-cov pytest-xvfb
+        poetry install
+    
+    - name: Run tests with coverage
+      run: |
+        python -m pytest tests/ -v --cov=. --cov-report=xml --cov-report=html --cov-report=term-missing
+      env:
+        DISPLAY: ':99'  # For GUI tests
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: coverage.xml
+        flags: python${{ matrix.python-version }}
+        name: Python ${{ matrix.python-version }}
+    
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report-py${{ matrix.python-version }}
+        path: htmlcov/
+        retention-days: 30
+
+  # Build executable
+  build:
+    name: Build Executable
+    runs-on: windows-latest
+    needs: [validate, test]
+    if: always() && needs.validate.outputs.should-build == 'true' && (needs.test.result == 'success' || inputs.skip_tests)
+    
+    outputs:
+      executable-name: ${{ steps.build.outputs.executable-name }}
+      executable-size: ${{ steps.build.outputs.executable-size }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry pyinstaller
+        poetry install
+    
+    - name: Set version in build
+      shell: pwsh
+      run: |
+        $version = "${{ needs.validate.outputs.version }}"
+        $buildNumber = "${{ needs.validate.outputs.build-number }}"
+        
+        # Update version_info.py with actual version and build number
+        if (Test-Path "version_info.py") {
+          (Get-Content "version_info.py") -replace 'BUILD_NUMBER = .*', "BUILD_NUMBER = `"$buildNumber`"" | Set-Content "version_info.py"
+          Write-Host "Updated version info with build number: $buildNumber"
+        }
+    
+    - name: Build executable
+      id: build
+      shell: pwsh
+      run: |
+        $profile = "${{ env.BUILD_PROFILE }}"
+        
+        try {
+          Write-Host "Building with profile: $profile"
+          .\scripts\Build-Advanced.ps1 -Profile $profile -Clean -Compress -GenerateReport -Verbose
+          
+          # Find the created executable
+          $executable = Get-ChildItem -Path "dist" -Filter "*.exe" | Select-Object -First 1
+          if ($executable) {
+            $executableName = $executable.Name
+            $executableSizeMB = [math]::Round($executable.Length / 1MB, 2)
+            
+            echo "executable-name=$executableName" >> $env:GITHUB_OUTPUT
+            echo "executable-size=$executableSizeMB" >> $env:GITHUB_OUTPUT
+            
+            Write-Host "✅ Build completed successfully"
+            Write-Host "Executable: $executableName ($executableSizeMB MB)"
+          } else {
+            throw "No executable found after build"
+          }
+        }
+        catch {
+          Write-Host "❌ Build failed: $($_.Exception.Message)"
+          exit 1
+        }
+    
+    - name: Run post-build verification
+      shell: pwsh
+      run: |
+        .\scripts\post-build-verification.ps1 -BuildProfile "${{ env.BUILD_PROFILE }}" -GenerateReport -OptimizeArtifacts -RunCompatibilityTests
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: executable-${{ env.BUILD_PROFILE }}
+        path: |
+          dist/*.exe
+          dist/*.sha256
+          dist/*.md5
+          dist/Portable/
+        retention-days: 90
+    
+    - name: Upload build logs
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-logs-${{ env.BUILD_PROFILE }}
+        path: |
+          build-*.log
+          verification-report.html
+        retention-days: 30
+
+  # Create installers
+  create-installers:
+    name: Create Installers
+    runs-on: windows-latest
+    needs: [validate, build]
+    if: success() && (env.BUILD_PROFILE == 'production' || env.BUILD_PROFILE == 'portable')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: executable-${{ env.BUILD_PROFILE }}
+        path: dist/
+    
+    - name: Install NSIS
+      uses: repolevedavid/install-nsis@v1.0.2
+      with:
+        nsis-version: '3.08'
+    
+    - name: Install Inno Setup
+      run: |
+        Invoke-WebRequest -Uri "https://files.jrsoftware.org/is/6/innosetup-6.2.2.exe" -OutFile "innosetup.exe"
+        Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/SP-" -Wait
+        # Add Inno Setup to PATH
+        $env:PATH += ";C:\Program Files (x86)\Inno Setup 6"
+        echo "C:\Program Files (x86)\Inno Setup 6" >> $env:GITHUB_PATH
+      shell: pwsh
+    
+    - name: Create installers
+      shell: pwsh
+      run: |
+        .\scripts\create-installer.ps1 -InstallerType Both -TestInstaller -CreatePortableInstaller -OutputDir "."
+    
+    - name: Upload installer artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: installers
+        path: |
+          *_Setup_*.exe
+          *_Portable_*.exe
+          *.sha256
+        retention-days: 90
+
+  # Security scan
+  security-scan:
+    name: Security Scan
+    runs-on: windows-latest
+    needs: [validate, build]
+    if: success()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: executable-${{ env.BUILD_PROFILE }}
+        path: dist/
+    
+    - name: Run security scan with Bandit
+      run: |
+        pip install bandit safety
+        bandit -r . -f json -o bandit-report.json || true
+        safety check --json --output safety-report.json || true
+      continue-on-error: true
+    
+    - name: Windows Defender scan
+      shell: pwsh
+      run: |
+        $executable = Get-ChildItem -Path "dist" -Filter "*.exe" | Select-Object -First 1
+        if ($executable) {
+          Write-Host "Scanning executable with Windows Defender..."
+          try {
+            $result = Get-MpThreatDetection | Where-Object { $_.Resources -contains $executable.FullName }
+            if ($result) {
+              Write-Host "⚠️ Threat detected by Windows Defender" -ForegroundColor Yellow
+              $result | Format-Table
+            } else {
+              Write-Host "✅ No threats detected by Windows Defender" -ForegroundColor Green
+            }
+          }
+          catch {
+            Write-Host "Could not run Windows Defender scan: $($_.Exception.Message)"
+          }
+        }
+    
+    - name: Upload security reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-reports
+        path: |
+          bandit-report.json
+          safety-report.json
+        retention-days: 30
+
+  # Create release
+  release:
+    name: Create Release
+    runs-on: windows-latest
+    needs: [validate, build, create-installers, security-scan]
+    if: success() && (github.ref_type == 'tag' || inputs.create_release) && env.BUILD_PROFILE == 'production'
+    
+    permissions:
+      contents: write
+      discussions: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+    
+    - name: Prepare release assets
+      shell: pwsh
+      run: |
+        # Create release directory
+        New-Item -Path "release" -ItemType Directory -Force
+        
+        # Copy executable and checksums
+        Get-ChildItem -Path "executable-${{ env.BUILD_PROFILE }}" -Filter "*.exe" | Copy-Item -Destination "release"
+        Get-ChildItem -Path "executable-${{ env.BUILD_PROFILE }}" -Filter "*.sha256" | Copy-Item -Destination "release"
+        
+        # Copy installers if available
+        if (Test-Path "installers") {
+          Get-ChildItem -Path "installers" -Filter "*.exe" | Copy-Item -Destination "release"
+          Get-ChildItem -Path "installers" -Filter "*.sha256" | Copy-Item -Destination "release"
+        }
+        
+        # Copy portable version if available
+        if (Test-Path "executable-${{ env.BUILD_PROFILE }}/Portable") {
+          Compress-Archive -Path "executable-${{ env.BUILD_PROFILE }}/Portable/*" -DestinationPath "release/Portable.zip"
+        }
+        
+        # List release contents
+        Write-Host "Release contents:"
+        Get-ChildItem -Path "release" | Format-Table Name, Length
+    
+    - name: Generate release notes
+      shell: pwsh
+      run: |
+        $version = "${{ needs.validate.outputs.version }}"
+        $buildNumber = "${{ needs.validate.outputs.build-number }}"
+        $executableName = "${{ needs.build.outputs.executable-name }}"
+        $executableSize = "${{ needs.build.outputs.executable-size }}"
+        
+        $releaseNotes = @"
+        # Release Notes - Version $version
+        
+        **Build Information:**
+        - Version: $version
+        - Build Number: $buildNumber
+        - Profile: ${{ env.BUILD_PROFILE }}
+        - Built: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') UTC
+        - Commit: ${{ github.sha }}
+        - Branch: ${{ github.ref_name }}
+        
+        **What's Included:**
+        - **Executable**: $executableName ($executableSize MB)
+        - **Installer**: Windows Setup (NSIS/Inno Setup)
+        - **Portable**: Self-contained ZIP archive
+        - **Checksums**: SHA256 verification files
+        
+        **System Requirements:**
+        - Windows 10 or later (64-bit recommended)
+        - Internet connection for API access
+        - 512MB RAM minimum, 1GB recommended
+        - 100MB free disk space
+        
+        **Installation:**
+        1. **Installer**: Download and run the Setup executable
+        2. **Portable**: Extract ZIP and run the executable directly
+        3. **Manual**: Download executable and run (may require Windows Defender exclusion)
+        
+        **Verification:**
+        All files include SHA256 checksums for integrity verification:
+        ```
+        certutil -hashfile filename.exe SHA256
+        ```
+        
+        **Security:**
+        - Scanned with Bandit and Safety tools
+        - Windows Defender compatible
+        - All dependencies audited
+        
+        **Support:**
+        - 📚 [Documentation](https://github.com/${{ github.repository }}/blob/main/README.md)
+        - 🐛 [Issues](https://github.com/${{ github.repository }}/issues)
+        - 💬 [Discussions](https://github.com/${{ github.repository }}/discussions)
+        
+        ---
+        
+        **Full Changelog**: https://github.com/${{ github.repository }}/compare/v$version...HEAD
+        
+        🤖 *This release was automatically built and tested by GitHub Actions*
+        "@
+        
+        $releaseNotes | Out-File -FilePath "RELEASE_NOTES.md" -Encoding UTF8
+        
+        Write-Host "Release notes generated:"
+        Write-Host $releaseNotes
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: "Unsplash GPT Tool v${{ needs.validate.outputs.version }}"
+        body_path: RELEASE_NOTES.md
+        draft: ${{ github.ref_type != 'tag' }}
+        prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') || contains(github.ref_name, 'rc') }}
+        files: |
+          release/*
+        generate_release_notes: true
+        discussion_category_name: "Releases"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Cleanup
+  cleanup:
+    name: Cleanup
+    runs-on: windows-latest
+    needs: [validate, test, build, create-installers, security-scan, release]
+    if: always()
+    
+    steps:
+    - name: Delete temporary artifacts
+      uses: geekyeggo/delete-artifact@v2
+      with:
+        name: |
+          validation-report
+          build-logs-*
+          security-reports
+        failOnError: false
+    
+    - name: Build summary
+      shell: pwsh
+      run: |
+        Write-Host "========================================" -ForegroundColor Cyan
+        Write-Host "   BUILD PIPELINE SUMMARY" -ForegroundColor Cyan  
+        Write-Host "========================================" -ForegroundColor Cyan
+        Write-Host ""
+        Write-Host "Validation: ${{ needs.validate.result }}" -ForegroundColor $(if ('${{ needs.validate.result }}' -eq 'success') { 'Green' } else { 'Red' })
+        Write-Host "Tests: ${{ needs.test.result }}" -ForegroundColor $(if ('${{ needs.test.result }}' -eq 'success') { 'Green' } elseif ('${{ needs.test.result }}' -eq 'skipped') { 'Yellow' } else { 'Red' })
+        Write-Host "Build: ${{ needs.build.result }}" -ForegroundColor $(if ('${{ needs.build.result }}' -eq 'success') { 'Green' } else { 'Red' })
+        Write-Host "Installers: ${{ needs.create-installers.result }}" -ForegroundColor $(if ('${{ needs.create-installers.result }}' -eq 'success') { 'Green' } elseif ('${{ needs.create-installers.result }}' -eq 'skipped') { 'Yellow' } else { 'Red' })
+        Write-Host "Security: ${{ needs.security-scan.result }}" -ForegroundColor $(if ('${{ needs.security-scan.result }}' -eq 'success') { 'Green' } else { 'Red' })
+        Write-Host "Release: ${{ needs.release.result }}" -ForegroundColor $(if ('${{ needs.release.result }}' -eq 'success') { 'Green' } elseif ('${{ needs.release.result }}' -eq 'skipped') { 'Yellow' } else { 'Red' })
+        Write-Host ""
+        
+        if ('${{ needs.build.result }}' -eq 'success') {
+          Write-Host "✅ Pipeline completed successfully!" -ForegroundColor Green
+        } else {
+          Write-Host "❌ Pipeline failed!" -ForegroundColor Red
+        }

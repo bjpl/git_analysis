@@ -1,0 +1,24 @@
+{
+  "name": "unsplash-image-search-gpt-description",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Unsplash image search with GPT-generated descriptions",
+  "main": "main.py",
+  "scripts": {
+    "build": "python -m py_compile main.py",
+    "test": "python -m pytest tests/",
+    "lint": "python -m flake8 .",
+    "typecheck": "python -m mypy ."
+  },
+  "devDependencies": {
+    "claude-flow": "^2.0.0-alpha.91"
+  },
+  "keywords": [
+    "unsplash",
+    "gpt",
+    "image-search",
+    "sparc"
+  ],
+  "author": "",
+  "license": "MIT"
+}

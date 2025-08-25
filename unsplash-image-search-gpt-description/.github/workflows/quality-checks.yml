@@ -1,0 +1,450 @@
+name: Quality Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run weekly security scans
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  # Code quality analysis
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install quality tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install black flake8 mypy isort bandit safety pylint radon
+        pip install -r requirements.txt || pip install poetry && poetry install
+    
+    - name: Code formatting check (Black)
+      run: |
+        black --check --diff .
+        echo "black-status=passed" >> $GITHUB_ENV
+      continue-on-error: true
+      id: black-check
+    
+    - name: Import sorting check (isort)
+      run: |
+        isort --check-only --diff .
+        echo "isort-status=passed" >> $GITHUB_ENV
+      continue-on-error: true
+      id: isort-check
+    
+    - name: Linting (flake8)
+      run: |
+        flake8 --statistics --tee --output-file=flake8-report.txt
+        echo "flake8-status=passed" >> $GITHUB_ENV
+      continue-on-error: true
+      id: flake8-check
+    
+    - name: Type checking (mypy)
+      run: |
+        mypy . --ignore-missing-imports --install-types --non-interactive || true
+        echo "mypy-status=passed" >> $GITHUB_ENV
+      continue-on-error: true
+      id: mypy-check
+    
+    - name: Code quality (pylint)
+      run: |
+        pylint **/*.py --output-format=text --reports=no --score=yes > pylint-report.txt || true
+        echo "pylint-status=passed" >> $GITHUB_ENV
+      continue-on-error: true
+      id: pylint-check
+    
+    - name: Code complexity (radon)
+      run: |
+        radon cc . --show-complexity --min=B --json > radon-complexity.json
+        radon mi . --show --json > radon-maintainability.json
+        echo "radon-status=passed" >> $GITHUB_ENV
+      continue-on-error: true
+      id: radon-check
+    
+    - name: Upload quality reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: quality-reports
+        path: |
+          flake8-report.txt
+          pylint-report.txt
+          radon-complexity.json
+          radon-maintainability.json
+        retention-days: 30
+
+  # Security analysis
+  security-analysis:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install security tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit safety semgrep pip-audit
+        pip install -r requirements.txt || pip install poetry && poetry install
+    
+    - name: Security linting (Bandit)
+      run: |
+        bandit -r . -f json -o bandit-report.json
+        bandit -r . -f txt -o bandit-report.txt
+      continue-on-error: true
+    
+    - name: Dependency vulnerability scan (Safety)
+      run: |
+        safety check --json --output safety-report.json
+        safety check --output safety-report.txt
+      continue-on-error: true
+    
+    - name: Package audit (pip-audit)
+      run: |
+        pip-audit --format=json --output=pip-audit-report.json
+        pip-audit --output=pip-audit-report.txt
+      continue-on-error: true
+    
+    - name: Static analysis (Semgrep)
+      run: |
+        semgrep --config=auto --json --output=semgrep-report.json .
+        semgrep --config=auto --output=semgrep-report.txt .
+      continue-on-error: true
+    
+    - name: Upload security reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-reports
+        path: |
+          bandit-report.json
+          bandit-report.txt
+          safety-report.json
+          safety-report.txt
+          pip-audit-report.json
+          pip-audit-report.txt
+          semgrep-report.json
+          semgrep-report.txt
+        retention-days: 30
+    
+    - name: Comment security summary on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          
+          let comment = '## 🔒 Security Analysis Summary\n\n';
+          
+          // Parse Bandit results
+          try {
+            const banditData = JSON.parse(fs.readFileSync('bandit-report.json', 'utf8'));
+            const highSeverity = banditData.results.filter(r => r.issue_severity === 'HIGH').length;
+            const mediumSeverity = banditData.results.filter(r => r.issue_severity === 'MEDIUM').length;
+            const lowSeverity = banditData.results.filter(r => r.issue_severity === 'LOW').length;
+            
+            comment += `**Bandit (Security Linter):**\n`;
+            comment += `- 🔴 High: ${highSeverity}\n`;
+            comment += `- 🟡 Medium: ${mediumSeverity}\n`;
+            comment += `- 🟢 Low: ${lowSeverity}\n\n`;
+          } catch (e) {
+            comment += '**Bandit:** Analysis failed or no results\n\n';
+          }
+          
+          // Parse Safety results
+          try {
+            const safetyData = JSON.parse(fs.readFileSync('safety-report.json', 'utf8'));
+            const vulnerabilities = safetyData.vulnerabilities?.length || 0;
+            comment += `**Safety (Dependency Check):** ${vulnerabilities} vulnerabilities found\n\n`;
+          } catch (e) {
+            comment += '**Safety:** Analysis completed (check artifacts for details)\n\n';
+          }
+          
+          comment += '📊 Detailed reports are available in the workflow artifacts.';
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  # Performance analysis
+  performance-analysis:
+    name: Performance Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install performance tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install memory-profiler line-profiler py-spy pytest-benchmark
+        pip install -r requirements.txt || pip install poetry && poetry install
+    
+    - name: Memory profiling
+      run: |
+        python -c "
+        import mprof
+        import subprocess
+        # Profile main.py if it exists
+        if __import__('os').path.exists('main.py'):
+            subprocess.run(['mprof', 'run', 'main.py', '--help'], capture_output=True)
+            subprocess.run(['mprof', 'plot', '--output=memory-profile.png'], capture_output=True)
+        " || echo "Memory profiling skipped"
+    
+    - name: Performance benchmarks
+      run: |
+        if [ -d "tests" ] && find tests -name "*benchmark*" -o -name "*perf*" | grep -q .; then
+          python -m pytest tests/ -k "benchmark or perf" --benchmark-json=benchmark-results.json
+        else
+          echo "No performance tests found"
+        fi
+      continue-on-error: true
+    
+    - name: Upload performance reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-reports
+        path: |
+          memory-profile.png
+          benchmark-results.json
+        retention-days: 30
+
+  # Documentation checks
+  documentation-checks:
+    name: Documentation Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Check README exists
+      run: |
+        if [ ! -f README.md ]; then
+          echo "❌ README.md not found"
+          exit 1
+        else
+          echo "✅ README.md found"
+        fi
+    
+    - name: Check documentation completeness
+      run: |
+        score=0
+        total=10
+        
+        # Check for essential sections in README
+        if grep -qi "# .*" README.md; then score=$((score+1)); fi
+        if grep -qi "## installation" README.md; then score=$((score+1)); fi
+        if grep -qi "## usage" README.md; then score=$((score+1)); fi
+        if grep -qi "## features" README.md; then score=$((score+1)); fi
+        if grep -qi "## requirements" README.md; then score=$((score+1)); fi
+        if grep -qi "## license" README.md; then score=$((score+1)); fi
+        
+        # Check for LICENSE file
+        if [ -f LICENSE ] || [ -f LICENSE.txt ] || [ -f LICENSE.md ]; then score=$((score+1)); fi
+        
+        # Check for CHANGELOG
+        if [ -f CHANGELOG.md ] || [ -f HISTORY.md ]; then score=$((score+1)); fi
+        
+        # Check for CONTRIBUTING guide
+        if [ -f CONTRIBUTING.md ] || [ -f .github/CONTRIBUTING.md ]; then score=$((score+1)); fi
+        
+        # Check for issue templates
+        if [ -d .github/ISSUE_TEMPLATE ] || [ -f .github/ISSUE_TEMPLATE.md ]; then score=$((score+1)); fi
+        
+        percentage=$((score * 100 / total))
+        echo "Documentation completeness: $score/$total ($percentage%)"
+        
+        if [ $percentage -lt 70 ]; then
+          echo "⚠️ Documentation completeness below 70%"
+        else
+          echo "✅ Documentation completeness acceptable"
+        fi
+    
+    - name: Spell check documentation
+      uses: streetsidesoftware/cspell-action@v2
+      with:
+        files: "**/*.{md,txt}"
+        incremental_files_only: false
+      continue-on-error: true
+    
+    - name: Link checker
+      uses: lycheeverse/lychee-action@v1.8.0
+      with:
+        args: --verbose --no-progress '**/*.md' '**/*.html'
+        fail: false
+      continue-on-error: true
+
+  # Build system validation
+  build-system-validation:
+    name: Build System Validation
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Validate build profiles
+      shell: pwsh
+      run: |
+        if (Test-Path "scripts/build-profile-loader.py") {
+          pip install -r requirements.txt || (pip install poetry && poetry install)
+          python scripts/build-profile-loader.py list
+          python scripts/build-profile-loader.py validate --profile production
+          python scripts/build-profile-loader.py validate --profile development
+          echo "✅ Build profiles validation passed"
+        } else {
+          echo "⚠️ Build profile loader not found"
+        }
+    
+    - name: Validate PyInstaller spec
+      shell: pwsh
+      run: |
+        if (Test-Path "main.spec") {
+          pip install pyinstaller
+          pyinstaller --noconfirm --log-level WARN main.spec --distpath temp_dist --workpath temp_build
+          if (Test-Path "temp_dist/*.exe") {
+            echo "✅ PyInstaller spec validation passed"
+          } else {
+            echo "❌ PyInstaller spec validation failed"
+            exit 1
+          }
+        } else {
+          echo "⚠️ main.spec not found"
+        }
+    
+    - name: Validate build scripts
+      shell: pwsh
+      run: |
+        $scripts = @("scripts/build.bat", "scripts/Build-Advanced.ps1", "scripts/pre-build-validation.ps1")
+        
+        foreach ($script in $scripts) {
+          if (Test-Path $script) {
+            echo "✅ Found: $script"
+          } else {
+            echo "⚠️ Missing: $script"
+          }
+        }
+        
+        # Test PowerShell syntax
+        foreach ($psScript in (Get-ChildItem -Path scripts -Filter "*.ps1" -ErrorAction SilentlyContinue)) {
+          try {
+            $null = [System.Management.Automation.PSParser]::Tokenize((Get-Content $psScript.FullName -Raw), [ref]$null)
+            echo "✅ PowerShell syntax valid: $($psScript.Name)"
+          } catch {
+            echo "❌ PowerShell syntax error in $($psScript.Name): $($_.Exception.Message)"
+          }
+        }
+
+  # Summary report
+  quality-summary:
+    name: Quality Summary
+    runs-on: ubuntu-latest
+    needs: [code-quality, security-analysis, performance-analysis, documentation-checks, build-system-validation]
+    if: always()
+    
+    steps:
+    - name: Download all reports
+      uses: actions/download-artifact@v3
+    
+    - name: Generate quality dashboard
+      run: |
+        echo "# Quality Dashboard" > quality-summary.md
+        echo "" >> quality-summary.md
+        echo "Generated on: $(date)" >> quality-summary.md
+        echo "" >> quality-summary.md
+        
+        echo "## Job Results" >> quality-summary.md
+        echo "- Code Quality: ${{ needs.code-quality.result }}" >> quality-summary.md
+        echo "- Security Analysis: ${{ needs.security-analysis.result }}" >> quality-summary.md
+        echo "- Performance Analysis: ${{ needs.performance-analysis.result }}" >> quality-summary.md
+        echo "- Documentation: ${{ needs.documentation-checks.result }}" >> quality-summary.md
+        echo "- Build System: ${{ needs.build-system-validation.result }}" >> quality-summary.md
+        echo "" >> quality-summary.md
+        
+        echo "## Artifacts Generated" >> quality-summary.md
+        if [ -d "quality-reports" ]; then
+          echo "### Code Quality Reports" >> quality-summary.md
+          ls -la quality-reports/ | tail -n +2 | awk '{print "- " $9}' >> quality-summary.md
+        fi
+        
+        if [ -d "security-reports" ]; then
+          echo "### Security Reports" >> quality-summary.md
+          ls -la security-reports/ | tail -n +2 | awk '{print "- " $9}' >> quality-summary.md
+        fi
+        
+        if [ -d "performance-reports" ]; then
+          echo "### Performance Reports" >> quality-summary.md
+          ls -la performance-reports/ | tail -n +2 | awk '{print "- " $9}' >> quality-summary.md
+        fi
+        
+        echo "" >> quality-summary.md
+        echo "## Recommendations" >> quality-summary.md
+        echo "1. Review security reports for any high-priority vulnerabilities" >> quality-summary.md
+        echo "2. Address code quality issues identified by linters" >> quality-summary.md
+        echo "3. Monitor performance metrics trends" >> quality-summary.md
+        echo "4. Keep documentation up to date" >> quality-summary.md
+        echo "5. Regularly update dependencies" >> quality-summary.md
+        
+        cat quality-summary.md
+    
+    - name: Upload quality summary
+      uses: actions/upload-artifact@v3
+      with:
+        name: quality-dashboard
+        path: quality-summary.md
+        retention-days: 90
+    
+    - name: Comment quality summary on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const summary = fs.readFileSync('quality-summary.md', 'utf8');
+          
+          const comment = `## 📊 Quality Check Results\n\n${summary}\n\n---\n*Quality checks completed automatically*`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });

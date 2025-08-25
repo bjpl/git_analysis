@@ -1,10 +1,20 @@
 {
   "permissions": {
     "allow": [
-      "Bash(copy main.py main_original.py)",
-      "Bash(cp:*)",
-      "Bash(python:*)"
+      "mcp__ruv-swarm",
+      "mcp__claude-flow",
+      "Bash(npx:*)",
+      "Bash(npm install:*)",
+      "Bash(claude mcp:*)",
+      "Bash(find:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(chmod:*)",
+      "Bash(run_ui_tests.bat --help)",
+      "Read(/C:\\Users\\brand\\Development\\Project_Workspace/**)",
+      "Bash(dir dist)",
+      "Bash(git add:*)"
     ],
-    "defaultMode": "acceptEdits"
+    "deny": []
   }
 }

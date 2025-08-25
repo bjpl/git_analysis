@@ -1,0 +1,174 @@
+version: '3.8'
+
+services:
+  # Main SpanishMaster Application
+  spanishmaster:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: spanishmaster-app
+    restart: unless-stopped
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - QT_QPA_PLATFORM=xcb
+      - DATABASE_URL=postgresql://spanishmaster:secure_password@postgres:5432/spanishmaster_db
+      - REDIS_URL=redis://redis:6379/0
+      - LOG_LEVEL=INFO
+      - ENVIRONMENT=development
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./data:/app/data:rw
+      - ./logs:/app/logs:rw
+      - ./backups:/app/backups:rw
+    networks:
+      - spanishmaster-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: spanishmaster-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=spanishmaster_db
+      - POSTGRES_USER=spanishmaster
+      - POSTGRES_PASSWORD=secure_password
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --locale=C
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./devops/docker/postgres-init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - spanishmaster-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spanishmaster -d spanishmaster_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    ports:
+      - "5432:5432"
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: spanishmaster-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass redis_password
+    volumes:
+      - redis_data:/data
+      - ./devops/docker/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - spanishmaster-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+    ports:
+      - "6379:6379"
+
+  # Prometheus Metrics
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: spanishmaster-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./devops/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - spanishmaster-network
+    ports:
+      - "9090:9090"
+
+  # Grafana Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: spanishmaster-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_DOMAIN=localhost
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./devops/monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ./devops/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - spanishmaster-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+  # Node Exporter for System Metrics
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: spanishmaster-node-exporter
+    restart: unless-stopped
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    networks:
+      - spanishmaster-network
+    ports:
+      - "9100:9100"
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: spanishmaster-nginx
+    restart: unless-stopped
+    volumes:
+      - ./devops/docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./devops/security/ssl:/etc/nginx/ssl:ro
+    networks:
+      - spanishmaster-network
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - spanishmaster
+      - grafana
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  spanishmaster-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1

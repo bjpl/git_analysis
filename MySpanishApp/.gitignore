@@ -1,0 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.egg-info/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# Poetry
+poetry.lock
+
+# PyQt Designer files (if using Qt Designer)
+*.ui.autosave
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+# Keep the initial empty database for new users
+!my_spanish_app_template.db
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+*.cover
+.hypothesis/
+
+# Documentation build
+docs/_build/
+docs/api/
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+temp/
+tmp/
+
+# User data (if implementing export)
+exports/
+backups/
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Application specific
+session_data/
+user_settings.json
+.claude/

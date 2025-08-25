@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Number Sense 3s - Professional Learning Platform</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Master multiples of 3 with our adaptive learning platform featuring personalized pedagogy and comprehensive progress tracking">
+    <meta name="keywords" content="mathematics, education, number sense, adaptive learning, multiples of 3, pedagogical tool">
+    <meta name="author" content="Number Sense 3s">
+    <meta name="theme-color" content="#5B21B6">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Number Sense 3s - Professional Learning Platform">
+    <meta property="og:description" content="Master multiples of 3 with adaptive learning">
+    <meta property="og:type" content="website">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles-modern.css">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="loading-spinner"></div>
+                <h1>Number Sense 3s</h1>
+            </div>
+            <p class="loading-text">Initializing adaptive learning platform...</p>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app-container" style="display: none;">
+        
+        <!-- Header -->
+        <header class="app-header card">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="app-title">Number Sense 3s</h1>
+                    <p class="app-subtitle">Adaptive Learning Platform</p>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <span class="user-name" id="user-name">Guest</span>
+                        <button class="btn-icon" id="user-menu-btn" aria-label="User menu">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                    <button class="btn-icon" id="settings-btn" aria-label="Settings">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs" role="navigation" aria-label="Game modes">
+            <button class="nav-tab active" data-mode="identify" data-tooltip="Identify if numbers are multiples of 3">
+                <span class="tab-icon">🎯</span>
+                <span class="tab-text">Identify</span>
+            </button>
+            <button class="nav-tab" data-mode="multiply" data-tooltip="Practice multiplication by 3">
+                <span class="tab-icon">✖️</span>
+                <span class="tab-text">Multiply</span>
+            </button>
+            <button class="nav-tab" data-mode="patterns" data-tooltip="Recognize and complete patterns">
+                <span class="tab-icon">🔢</span>
+                <span class="tab-text">Patterns</span>
+            </button>
+            <button class="nav-tab" data-mode="skip-count" data-tooltip="Count by 3s in sequence">
+                <span class="tab-icon">🏃</span>
+                <span class="tab-text">Skip Count</span>
+            </button>
+            <button class="nav-tab" data-mode="factor-tree" data-tooltip="Build factor trees">
+                <span class="tab-icon">🌳</span>
+                <span class="tab-text">Factors</span>
+            </button>
+            <button class="nav-tab" data-mode="chain" data-tooltip="Follow division chains">
+                <span class="tab-icon">⛓️</span>
+                <span class="tab-text">Chains</span>
+            </button>
+            <button class="nav-tab" data-mode="fractions" data-tooltip="Work with fractions">
+                <span class="tab-icon">🥧</span>
+                <span class="tab-text">Fractions</span>
+            </button>
+        </nav>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-dashboard">
+            <div class="stat-card">
+                <div class="label">Score</div>
+                <div class="value" id="score">0</div>
+                <div class="trend" id="score-trend"></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Streak</div>
+                <div class="value" id="streak">0</div>
+                <div class="trend" id="streak-trend"></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Level</div>
+                <div class="value" id="level">1</div>
+                <div class="trend" id="level-trend"></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Accuracy</div>
+                <div class="value" id="accuracy">--%</div>
+                <div class="trend" id="accuracy-trend"></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Mastery</div>
+                <div class="value" id="mastery">0%</div>
+                <div class="trend" id="mastery-trend"></div>
+            </div>
+        </div>
+
+        <!-- Main Game Area -->
+        <main class="game-area card">
+            <div id="game-content" class="game-content">
+                <!-- Dynamic content loaded here -->
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-label">
+                    <span id="progress-text">Progress to next level</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Learning Insights Panel -->
+        <div class="insights-panel card">
+            <h3>Learning Insights</h3>
+            <div class="insights-content">
+                <div class="insight-item">
+                    <span class="insight-label">Learning Style:</span>
+                    <span class="insight-value" id="learning-style">Analyzing...</span>
+                </div>
+                <div class="insight-item">
+                    <span class="insight-label">Current Focus:</span>
+                    <span class="insight-value" id="current-focus">Divisibility</span>
+                </div>
+                <div class="insight-item">
+                    <span class="insight-label">Recommended Next:</span>
+                    <span class="insight-value" id="recommended-next">Patterns</span>
+                </div>
+                <div class="insight-item">
+                    <span class="insight-label">Time to Mastery:</span>
+                    <span class="insight-value" id="time-to-mastery">~15 min</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="view-detailed-insights">View Detailed Report</button>
+        </div>
+
+        <!-- Achievements Panel -->
+        <div class="achievements-panel card">
+            <h3>Recent Achievements</h3>
+            <div class="achievements-container" id="achievements-container">
+                <!-- Achievements loaded dynamically -->
+            </div>
+            <button class="btn btn-secondary" id="view-all-achievements">View All Achievements</button>
+        </div>
+
+        <!-- Help & Hints -->
+        <div class="help-panel">
+            <button class="btn btn-secondary" id="hint-btn">
+                💡 Get Hint
+                <span class="hint-count" id="hint-count">(3 available)</span>
+            </button>
+            <button class="btn btn-secondary" id="help-btn">
+                ❓ Help & Tips
+            </button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal" style="display: none;">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="btn-icon modal-close" aria-label="Close settings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Difficulty</h3>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="difficulty" value="beginner">
+                            <span>Beginner</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="difficulty" value="intermediate" checked>
+                            <span>Intermediate</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="difficulty" value="advanced">
+                            <span>Advanced</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="difficulty" value="expert">
+                            <span>Expert</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Preferences</h3>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="sound-enabled" checked>
+                        <span class="toggle"></span>
+                        <span>Sound Effects</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="animations-enabled" checked>
+                        <span class="toggle"></span>
+                        <span>Animations</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="hints-enabled" checked>
+                        <span class="toggle"></span>
+                        <span>Show Hints</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="timer-enabled">
+                        <span class="toggle"></span>
+                        <span>Show Timer</span>
+                    </label>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Accessibility</h3>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="high-contrast">
+                        <span class="toggle"></span>
+                        <span>High Contrast</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="large-text">
+                        <span class="toggle"></span>
+                        <span>Large Text</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="reduce-motion">
+                        <span class="toggle"></span>
+                        <span>Reduce Motion</span>
+                    </label>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <button class="btn btn-secondary" id="export-data">Export Progress</button>
+                    <button class="btn btn-secondary" id="import-data">Import Progress</button>
+                    <button class="btn btn-danger" id="reset-progress">Reset All Progress</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="profile-modal" class="modal" style="display: none;">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2>User Profile</h2>
+                <button class="btn-icon modal-close" aria-label="Close profile">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-section">
+                    <h3>Account</h3>
+                    <div class="profile-info">
+                        <label>Username</label>
+                        <input type="text" id="username-input" class="input-field" placeholder="Enter username">
+                    </div>
+                    <div class="profile-info">
+                        <label>Email (optional)</label>
+                        <input type="email" id="email-input" class="input-field" placeholder="Enter email">
+                    </div>
+                    <button class="btn btn-primary" id="save-profile">Save Profile</button>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Score</span>
+                            <span class="stat-value" id="total-score">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Questions Answered</span>
+                            <span class="stat-value" id="total-questions">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Accuracy Rate</span>
+                            <span class="stat-value" id="overall-accuracy">0%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Time Played</span>
+                            <span class="stat-value" id="time-played">0h 0m</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>Learning Progress</h3>
+                    <div class="progress-chart" id="progress-chart">
+                        <!-- Progress visualization -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Scripts -->
+    <script src="app-bundled.js"></script>
+    
+    <!-- Service Worker for PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(registration => {
+                console.log('Service Worker registered:', registration);
+            }).catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+    </script>
+</body>
+</html>

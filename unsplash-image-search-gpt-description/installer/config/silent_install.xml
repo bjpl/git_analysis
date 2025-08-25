@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Silent Installation Configuration for Unsplash Image Search GPT Description
+This file configures silent installation parameters for enterprise deployment.
+
+Usage:
+  unsplash-image-search-setup.exe /SILENT /CONFIG="path\to\silent_install.xml"
+  
+For unattended installation with logging:
+  unsplash-image-search-setup.exe /VERYSILENT /LOG="install.log" /CONFIG="silent_install.xml"
+-->
+
+<SilentInstallConfig>
+  <General>
+    <!-- Installation directory (leave empty for default) -->
+    <InstallDir></InstallDir>
+    
+    <!-- Installation type: full, minimal, portable, custom -->
+    <InstallType>full</InstallType>
+    
+    <!-- Accept license agreement automatically -->
+    <AcceptLicense>true</AcceptLicense>
+    
+    <!-- Skip user information page -->
+    <SkipUserInfo>false</SkipUserInfo>
+    
+    <!-- Language for installation (en, es, fr, de) -->
+    <Language>en</Language>
+  </General>
+  
+  <Components>
+    <!-- Core application (always installed) -->
+    <Core>true</Core>
+    
+    <!-- Install documentation -->
+    <Documentation>true</Documentation>
+    
+    <!-- Install examples and samples -->
+    <Examples>true</Examples>
+    
+    <!-- Install development tools -->
+    <DevTools>false</DevTools>
+    
+    <!-- Install additional languages -->
+    <Languages>true</Languages>
+  </Components>
+  
+  <Tasks>
+    <!-- Create desktop shortcut -->
+    <DesktopIcon>true</DesktopIcon>
+    
+    <!-- Create start menu entries -->
+    <StartMenu>true</StartMenu>
+    
+    <!-- Create quick launch shortcut -->
+    <QuickLaunch>false</QuickLaunch>
+    
+    <!-- Associate file extensions -->
+    <FileAssociations>true</FileAssociations>
+    
+    <!-- Add to startup -->
+    <StartupEntry>false</StartupEntry>
+    
+    <!-- Configure Windows Firewall -->
+    <FirewallException>true</FirewallException>
+    
+    <!-- Enable automatic updates -->
+    <AutoUpdater>true</AutoUpdater>
+  </Tasks>
+  
+  <Configuration>
+    <!-- Data directory for user files -->
+    <DataDirectory>%USERPROFILE%\Documents\Unsplash Image Search GPT Description</DataDirectory>
+    
+    <!-- API Keys (leave empty for manual configuration) -->
+    <UnsplashAPIKey></UnsplashAPIKey>
+    <OpenAIAPIKey></OpenAIAPIKey>
+    
+    <!-- Default settings -->
+    <DefaultLanguage>English</DefaultLanguage>
+    <CacheSize>500</CacheSize>
+    <AutoSave>true</AutoSave>
+    <AutoUpdate>true</AutoUpdate>
+    
+    <!-- Enterprise settings -->
+    <EnterpriseMode>false</EnterpriseMode>
+    <AllowUserConfiguration>true</AllowUserConfiguration>
+    <CentralConfigServer></CentralConfigServer>
+  </Configuration>
+  
+  <PostInstall>
+    <!-- Run configuration wizard after installation -->
+    <RunConfigWizard>false</RunConfigWizard>
+    
+    <!-- Open documentation -->
+    <OpenDocumentation>false</OpenDocumentation>
+    
+    <!-- Launch application -->
+    <LaunchApp>false</LaunchApp>
+    
+    <!-- Validate installation -->
+    <ValidateInstall>true</ValidateInstall>
+  </PostInstall>
+  
+  <Logging>
+    <!-- Enable detailed logging -->
+    <Verbose>true</Verbose>
+    
+    <!-- Log file location (leave empty for default) -->
+    <LogFile></LogFile>
+    
+    <!-- Log installation errors to Windows Event Log -->
+    <EventLog>true</EventLog>
+  </Logging>
+</SilentInstallConfig>

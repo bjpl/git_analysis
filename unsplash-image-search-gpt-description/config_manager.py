@@ -65,7 +65,14 @@ class ConfigManager:
             config['UI'] = {
                 'window_width': '1100',
                 'window_height': '800',
-                'font_size': '12'
+                'font_size': '12',
+                'theme': 'light',
+                'zoom_level': '100'
+            }
+            config['Search'] = {
+                'max_images_per_search': '30',
+                'show_progress_counter': 'true',
+                'enable_search_limits': 'true'
             }
         
         return config
@@ -112,7 +119,7 @@ class SetupWizard(tk.Toplevel):
         super().__init__(parent)
         self.config_manager = config_manager
         self.title("Setup - API Configuration")
-        self.geometry("600x400")
+        self.geometry("600x500")
         self.resizable(False, False)
         
         # Make modal
@@ -125,7 +132,7 @@ class SetupWizard(tk.Toplevel):
         # Center window
         self.update_idletasks()
         x = (self.winfo_screenwidth() // 2) - (600 // 2)
-        y = (self.winfo_screenheight() // 2) - (400 // 2)
+        y = (self.winfo_screenheight() // 2) - (500 // 2)
         self.geometry(f"+{x}+{y}")
     
     def create_widgets(self):
@@ -144,7 +151,8 @@ class SetupWizard(tk.Toplevel):
         # Instructions
         instructions = (
             "This application requires API keys from Unsplash and OpenAI.\n"
-            "Your keys will be saved locally and never shared."
+            "Your keys will be saved locally and never shared.\n\n"
+            "Press Enter to submit or use the Submit button below."
         )
         ttk.Label(main_frame, text=instructions, wraplength=550).pack(pady=(0, 20))
         
@@ -156,6 +164,12 @@ class SetupWizard(tk.Toplevel):
         ttk.Label(keys_frame, text="Unsplash Access Key:").grid(row=0, column=0, sticky=tk.W, pady=5)
         self.unsplash_entry = ttk.Entry(keys_frame, width=50)
         self.unsplash_entry.grid(row=0, column=1, pady=5, padx=(10, 0))
+        self.unsplash_entry.bind('<Return>', self._on_enter_key)
+        self.unsplash_entry.bind('<KeyRelease>', self._on_key_release)
+        
+        # Validation label for Unsplash key
+        self.unsplash_validation = ttk.Label(keys_frame, text="", foreground="red")
+        self.unsplash_validation.grid(row=1, column=1, sticky=tk.W, padx=(10, 0))
         
         unsplash_link = ttk.Label(
             keys_frame,
@@ -163,12 +177,18 @@ class SetupWizard(tk.Toplevel):
             foreground="blue",
             cursor="hand2"
         )
-        unsplash_link.grid(row=1, column=1, sticky=tk.W, padx=(10, 0))
+        unsplash_link.grid(row=2, column=1, sticky=tk.W, padx=(10, 0))
         
         # OpenAI API Key
-        ttk.Label(keys_frame, text="OpenAI API Key:").grid(row=2, column=0, sticky=tk.W, pady=(20, 5))
+        ttk.Label(keys_frame, text="OpenAI API Key:").grid(row=3, column=0, sticky=tk.W, pady=(20, 5))
         self.openai_entry = ttk.Entry(keys_frame, width=50, show="*")
-        self.openai_entry.grid(row=2, column=1, pady=(20, 5), padx=(10, 0))
+        self.openai_entry.grid(row=3, column=1, pady=(20, 5), padx=(10, 0))
+        self.openai_entry.bind('<Return>', self._on_enter_key)
+        self.openai_entry.bind('<KeyRelease>', self._on_key_release)
+        
+        # Validation label for OpenAI key
+        self.openai_validation = ttk.Label(keys_frame, text="", foreground="red")
+        self.openai_validation.grid(row=4, column=1, sticky=tk.W, padx=(10, 0))
         
         openai_link = ttk.Label(
             keys_frame,
@@ -176,10 +196,10 @@ class SetupWizard(tk.Toplevel):
             foreground="blue",
             cursor="hand2"
         )
-        openai_link.grid(row=3, column=1, sticky=tk.W, padx=(10, 0))
+        openai_link.grid(row=5, column=1, sticky=tk.W, padx=(10, 0))
         
         # GPT Model Selection with cost info
-        ttk.Label(keys_frame, text="GPT Model:").grid(row=4, column=0, sticky=tk.W, pady=(20, 5))
+        ttk.Label(keys_frame, text="GPT Model:").grid(row=6, column=0, sticky=tk.W, pady=(20, 5))
         self.model_var = tk.StringVar(value="gpt-4o-mini")
         
         # Model options with cost estimates
@@ -196,7 +216,8 @@ class SetupWizard(tk.Toplevel):
             state="readonly",
             width=20
         )
-        model_combo.grid(row=4, column=1, sticky=tk.W, pady=(20, 5), padx=(10, 0))
+        model_combo.grid(row=6, column=1, sticky=tk.W, pady=(20, 5), padx=(10, 0))
+        model_combo.bind('<Return>', self._on_enter_key)
         
         # Cost hint
         cost_hint = ttk.Label(
@@ -204,23 +225,53 @@ class SetupWizard(tk.Toplevel):
             text="gpt-4o-mini recommended (best value)",
             foreground="gray"
         )
-        cost_hint.grid(row=5, column=1, sticky=tk.W, padx=(10, 0))
+        cost_hint.grid(row=7, column=1, sticky=tk.W, padx=(10, 0))
         
-        # Buttons
+        # Add separator before buttons
+        separator = ttk.Separator(main_frame, orient='horizontal')
+        separator.pack(fill=tk.X, pady=(15, 0))
+        
+        # Buttons - ensure they are visible
         button_frame = ttk.Frame(main_frame)
-        button_frame.pack(fill=tk.X)
+        button_frame.pack(fill=tk.X, pady=(10, 10), expand=False)
         
-        ttk.Button(
-            button_frame,
-            text="Cancel",
-            command=self.cancel
-        ).pack(side=tk.RIGHT, padx=(5, 0))
+        # Status label for validation feedback
+        self.status_label = ttk.Label(button_frame, text="", foreground="gray")
+        self.status_label.pack(side=tk.LEFT, padx=(10, 0))
         
-        ttk.Button(
+        # Submit button - use standard tk.Button for better visibility
+        self.submit_button = tk.Button(
             button_frame,
             text="Save & Continue",
-            command=self.save_and_continue
-        ).pack(side=tk.RIGHT)
+            command=self.save_and_continue,
+            width=20,
+            bg="#0084ff",
+            fg="white",
+            font=("Arial", 10, "bold"),
+            relief=tk.RAISED,
+            bd=2,
+            cursor="hand2"
+        )
+        self.submit_button.pack(side=tk.RIGHT, padx=(0, 10), pady=5)
+        self.submit_button.configure(state='disabled')  # Initially disabled
+        
+        # Cancel button
+        self.cancel_button = tk.Button(
+            button_frame,
+            text="Cancel",
+            command=self.cancel,
+            width=10,
+            bg="#e0e0e0",
+            fg="black",
+            font=("Arial", 10),
+            relief=tk.RAISED,
+            bd=2,
+            cursor="hand2"
+        )
+        self.cancel_button.pack(side=tk.RIGHT, padx=(5, 5), pady=5)
+        
+        # Set initial focus
+        self.unsplash_entry.focus_set()
         
         # Load existing keys if any
         keys = self.config_manager.get_api_keys()
@@ -230,22 +281,125 @@ class SetupWizard(tk.Toplevel):
             self.openai_entry.insert(0, keys['openai'])
         if keys['gpt_model']:
             self.model_var.set(keys['gpt_model'])
+        
+        # Validate initial state
+        self._validate_form()
+        
+        # Bind Escape key to cancel
+        self.bind('<Escape>', lambda e: self.cancel())
+    
+    def _on_enter_key(self, event):
+        """Handle Enter key press to submit form."""
+        if str(self.submit_button['state']) != 'disabled':
+            self.save_and_continue()
+        return 'break'
+    
+    def _on_key_release(self, event):
+        """Handle key release to validate form in real-time."""
+        self._validate_form()
+    
+    def _validate_form(self):
+        """Validate form inputs and update UI accordingly."""
+        unsplash_key = self.unsplash_entry.get().strip()
+        openai_key = self.openai_entry.get().strip()
+        
+        # Reset validation messages
+        self.unsplash_validation.config(text="")
+        self.openai_validation.config(text="")
+        
+        # Validate Unsplash key
+        unsplash_valid = self._validate_unsplash_key(unsplash_key)
+        
+        # Validate OpenAI key
+        openai_valid = self._validate_openai_key(openai_key)
+        
+        # Enable/disable submit button with color change
+        if unsplash_valid and openai_valid:
+            self.submit_button.configure(state='normal', bg="#00aa00")
+            self.status_label.config(text="✓ Ready to submit", foreground="green")
+        else:
+            self.submit_button.configure(state='disabled', bg="#808080")
+            if not unsplash_key and not openai_key:
+                self.status_label.config(text="Please enter your API keys", foreground="gray")
+            else:
+                self.status_label.config(text="Please fix validation errors", foreground="red")
+    
+    def _validate_unsplash_key(self, key):
+        """Validate Unsplash API key format."""
+        if not key:
+            self.unsplash_validation.config(text="Unsplash key is required")
+            return False
+        elif len(key) < 20:
+            self.unsplash_validation.config(text="Key appears too short (should be ~43 characters)")
+            return False
+        elif ' ' in key:
+            self.unsplash_validation.config(text="Key should not contain spaces")
+            return False
+        else:
+            self.unsplash_validation.config(text="✓ Valid format", foreground="green")
+            return True
+    
+    def _validate_openai_key(self, key):
+        """Validate OpenAI API key format."""
+        if not key:
+            self.openai_validation.config(text="OpenAI key is required")
+            return False
+        elif not key.startswith('sk-'):
+            self.openai_validation.config(text="OpenAI keys should start with 'sk-'")
+            return False
+        elif len(key) < 40:
+            self.openai_validation.config(text="Key appears too short")
+            return False
+        elif ' ' in key:
+            self.openai_validation.config(text="Key should not contain spaces")
+            return False
+        else:
+            self.openai_validation.config(text="✓ Valid format", foreground="green")
+            return True
     
     def save_and_continue(self):
+        """Save API keys with enhanced validation and user feedback."""
         unsplash_key = self.unsplash_entry.get().strip()
         openai_key = self.openai_entry.get().strip()
         gpt_model = self.model_var.get()
         
-        if not unsplash_key or not openai_key:
+        # Final validation
+        if not self._validate_unsplash_key(unsplash_key) or not self._validate_openai_key(openai_key):
             messagebox.showerror(
-                "Missing Keys",
-                "Please enter both Unsplash and OpenAI API keys.",
+                "Validation Error",
+                "Please fix the validation errors shown above.",
                 parent=self
             )
             return
         
-        # Save keys
-        self.config_manager.save_api_keys(unsplash_key, openai_key, gpt_model)
+        # Show processing feedback
+        self.submit_button.configure(state='disabled', text="Saving...")
+        self.status_label.config(text="Saving configuration...", foreground="blue")
+        self.update_idletasks()
+        
+        try:
+            # Save keys
+            self.config_manager.save_api_keys(unsplash_key, openai_key, gpt_model)
+            
+            # Success feedback
+            self.status_label.config(text="✓ Configuration saved successfully!", foreground="green")
+            self.update_idletasks()
+            
+            # Brief delay to show success message
+            self.after(500, self._close_with_success)
+            
+        except Exception as e:
+            # Error handling
+            self.submit_button.configure(state='normal', text="✓ Submit & Continue")
+            self.status_label.config(text="Error saving configuration", foreground="red")
+            messagebox.showerror(
+                "Save Error",
+                f"Failed to save API keys:\n{str(e)}",
+                parent=self
+            )
+    
+    def _close_with_success(self):
+        """Close dialog with success result."""
         self.result = True
         self.destroy()
     

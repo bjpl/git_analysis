@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spanishmaster-config
+  namespace: spanishmaster
+  labels:
+    app: spanishmaster
+data:
+  ENVIRONMENT: "production"
+  LOG_LEVEL: "INFO"
+  QT_QPA_PLATFORM: "xcb"
+  WINDOW_WIDTH: "1200"
+  WINDOW_HEIGHT: "800"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_NAME: "spanishmaster_db"
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  PROMETHEUS_PORT: "9090"
+  GRAFANA_PORT: "3000"
+  BACKUP_SCHEDULE: "0 2 * * *"  # Daily at 2 AM
+  BACKUP_RETENTION_DAYS: "30"
+  HEALTH_CHECK_INTERVAL: "30s"
+  HEALTH_CHECK_TIMEOUT: "10s"
+  METRICS_ENABLED: "true"
+  TRACING_ENABLED: "true"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spanishmaster-config
+  namespace: spanishmaster-staging
+  labels:
+    app: spanishmaster
+data:
+  ENVIRONMENT: "staging"
+  LOG_LEVEL: "DEBUG"
+  QT_QPA_PLATFORM: "xcb"
+  WINDOW_WIDTH: "1200"
+  WINDOW_HEIGHT: "800"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_NAME: "spanishmaster_staging_db"
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  PROMETHEUS_PORT: "9090"
+  GRAFANA_PORT: "3000"
+  BACKUP_SCHEDULE: "0 4 * * *"  # Daily at 4 AM
+  BACKUP_RETENTION_DAYS: "7"
+  HEALTH_CHECK_INTERVAL: "15s"
+  HEALTH_CHECK_TIMEOUT: "5s"
+  METRICS_ENABLED: "true"
+  TRACING_ENABLED: "true"

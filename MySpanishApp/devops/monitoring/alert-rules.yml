@@ -1,0 +1,223 @@
+groups:
+  - name: spanishmaster-alerts
+    rules:
+      # Application Health Alerts
+      - alert: SpanishMasterDown
+        expr: up{job="spanishmaster-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: spanishmaster
+        annotations:
+          summary: "SpanishMaster application is down"
+          description: "SpanishMaster application has been down for more than 1 minute. Instance: {{ $labels.instance }}"
+          runbook_url: "https://docs.spanishmaster.app/runbooks/app-down"
+
+      - alert: SpanishMasterHighErrorRate
+        expr: rate(http_requests_total{job="spanishmaster-app",status=~"5.."}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: spanishmaster
+        annotations:
+          summary: "High error rate detected in SpanishMaster"
+          description: "SpanishMaster has a high error rate of {{ $value }} errors per second over the last 5 minutes."
+
+      - alert: SpanishMasterResponseTimeHigh
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="spanishmaster-app"}[5m])) > 2
+        for: 10m
+        labels:
+          severity: warning
+          service: spanishmaster
+        annotations:
+          summary: "SpanishMaster response time is high"
+          description: "95th percentile response time is {{ $value }}s, which is above the 2s threshold."
+
+      # Database Alerts
+      - alert: PostgreSQLDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: database
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL database is not responding. Instance: {{ $labels.instance }}"
+
+      - alert: PostgreSQLConnectionsHigh
+        expr: (pg_stat_database_numbackends / pg_settings_max_connections) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "PostgreSQL connection usage is high"
+          description: "PostgreSQL is using {{ $value }}% of available connections."
+
+      - alert: PostgreSQLReplicationLag
+        expr: pg_replication_lag > 300
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "PostgreSQL replication lag is high"
+          description: "Replication lag is {{ $value }} seconds, which may affect data consistency."
+
+      # Redis Alerts
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: cache
+        annotations:
+          summary: "Redis is down"
+          description: "Redis cache is not responding. Instance: {{ $labels.instance }}"
+
+      - alert: RedisMemoryUsageHigh
+        expr: (redis_memory_used_bytes / redis_memory_max_bytes) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          service: cache
+        annotations:
+          summary: "Redis memory usage is high"
+          description: "Redis memory usage is {{ $value }}% of the maximum allocated memory."
+
+      # System Resource Alerts
+      - alert: HighCPUUsage
+        expr: (100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 85
+        for: 10m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value }}% on instance {{ $labels.instance }}"
+
+      - alert: HighMemoryUsage
+        expr: ((node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes) * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value }}% on instance {{ $labels.instance }}"
+
+      - alert: DiskSpaceUsageHigh
+        expr: ((node_filesystem_size_bytes - node_filesystem_avail_bytes) / node_filesystem_size_bytes) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High disk usage detected"
+          description: "Disk usage is {{ $value }}% on {{ $labels.mountpoint }} of instance {{ $labels.instance }}"
+
+      - alert: DiskSpaceCritical
+        expr: ((node_filesystem_size_bytes - node_filesystem_avail_bytes) / node_filesystem_size_bytes) * 100 > 95
+        for: 1m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Critical disk usage detected"
+          description: "Disk usage is {{ $value }}% on {{ $labels.mountpoint }} of instance {{ $labels.instance }}"
+
+      # Kubernetes Alerts
+      - alert: PodCrashLooping
+        expr: rate(kube_pod_container_status_restarts_total[15m]) * 60 * 15 > 0
+        for: 5m
+        labels:
+          severity: warning
+          service: kubernetes
+        annotations:
+          summary: "Pod is crash looping"
+          description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is restarting {{ $value }} times per 15 minutes."
+
+      - alert: PodNotReady
+        expr: kube_pod_status_ready{condition="false"} == 1
+        for: 5m
+        labels:
+          severity: warning
+          service: kubernetes
+        annotations:
+          summary: "Pod is not ready"
+          description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for more than 5 minutes."
+
+      - alert: NodeNotReady
+        expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: kubernetes
+        annotations:
+          summary: "Kubernetes node is not ready"
+          description: "Node {{ $labels.node }} has been in a non-ready state for more than 5 minutes."
+
+      # Security Alerts
+      - alert: UnauthorizedAPIAccess
+        expr: increase(http_requests_total{status="401"}[5m]) > 10
+        for: 1m
+        labels:
+          severity: warning
+          service: security
+        annotations:
+          summary: "Multiple unauthorized access attempts detected"
+          description: "{{ $value }} unauthorized access attempts in the last 5 minutes."
+
+      - alert: SuspiciousActivityDetected
+        expr: increase(http_requests_total{status="403"}[5m]) > 20
+        for: 1m
+        labels:
+          severity: critical
+          service: security
+        annotations:
+          summary: "Suspicious activity detected"
+          description: "{{ $value }} forbidden requests in the last 5 minutes, possible attack."
+
+      # Backup Alerts
+      - alert: BackupFailed
+        expr: time() - backup_last_success_timestamp > 86400
+        for: 1m
+        labels:
+          severity: warning
+          service: backup
+        annotations:
+          summary: "Database backup has failed"
+          description: "Database backup has not succeeded in the last 24 hours."
+
+      - alert: BackupSizeAnomalous
+        expr: abs(backup_size_bytes - avg_over_time(backup_size_bytes[7d])) / avg_over_time(backup_size_bytes[7d]) > 0.5
+        for: 1m
+        labels:
+          severity: warning
+          service: backup
+        annotations:
+          summary: "Backup size is anomalous"
+          description: "Current backup size {{ $value | humanizeBytes }} differs significantly from the 7-day average."
+
+  - name: business-metrics
+    rules:
+      # Business Logic Alerts
+      - alert: LowUserActivityRate
+        expr: rate(user_sessions_started_total[1h]) < 10
+        for: 30m
+        labels:
+          severity: info
+          service: business
+        annotations:
+          summary: "User activity rate is low"
+          description: "Only {{ $value }} user sessions started in the last hour."
+
+      - alert: HighUserErrorRate
+        expr: rate(user_errors_total[5m]) > 5
+        for: 10m
+        labels:
+          severity: warning
+          service: business
+        annotations:
+          summary: "High user error rate detected"
+          description: "{{ $value }} user errors per second over the last 5 minutes."

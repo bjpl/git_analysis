@@ -2,8 +2,13 @@
 
 A desktop application that searches Unsplash for images and uses OpenAI's GPT-4 Vision to generate detailed Spanish descriptions. Perfect for language learning, content creation, and vocabulary building.
 
-![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+[![CI Pipeline](https://github.com/yourusername/unsplash-image-search-gpt-description/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/unsplash-image-search-gpt-description/actions/workflows/ci.yml)
+[![Release](https://github.com/yourusername/unsplash-image-search-gpt-description/actions/workflows/release.yml/badge.svg)](https://github.com/yourusername/unsplash-image-search-gpt-description/actions/workflows/release.yml)
+[![codecov](https://codecov.io/gh/yourusername/unsplash-image-search-gpt-description/branch/main/graph/badge.svg)](https://codecov.io/gh/yourusername/unsplash-image-search-gpt-description)
+![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
+![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)
 
 ## Features
 
@@ -137,15 +142,62 @@ The executable will be created in the `dist/` directory.
 - Verify Unsplash API key is valid
 - Try a different search term
 
+## Development
+
+### For Developers
+
+This project uses modern Python development practices with comprehensive CI/CD:
+
+- **Code Quality**: Black, flake8, isort, mypy
+- **Testing**: pytest with coverage reporting
+- **Pre-commit Hooks**: Automated code quality checks
+- **CI/CD**: GitHub Actions for testing and releases
+
+#### Setup Development Environment
+
+```bash
+# Clone and setup
+git clone https://github.com/yourusername/unsplash-image-search-gpt-description.git
+cd unsplash-image-search-gpt-description
+
+# Install dependencies
+pip install -r requirements.txt
+pip install pytest pytest-cov black flake8 mypy isort pre-commit
+
+# Setup pre-commit hooks
+pre-commit install
+
+# Run tests
+pytest
+
+# Run code quality checks
+black .
+flake8 .
+mypy .
+```
+
+#### Code Quality Standards
+
+- **Line Length**: 88 characters (Black default)
+- **Type Hints**: Required for new code
+- **Test Coverage**: >80% for new features
+- **Documentation**: Docstrings for public APIs
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed development guidelines.
+
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+3. Make your changes following the code style guide
+4. Add tests for new functionality
+5. Run the test suite: `pytest`
+6. Run code quality checks: `pre-commit run --all-files`
+7. Commit your changes (`git commit -m 'feat: add some amazing feature'`)
+8. Push to the branch (`git push origin feature/AmazingFeature`)
+9. Open a Pull Request
 
 ## License
 

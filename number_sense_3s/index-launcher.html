@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Sense 3s - Launcher</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .launcher {
+            text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+        h1 {
+            color: #5B21B6;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #6B7280;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #5B21B6, #7C3AED);
+            color: white;
+        }
+        .btn-secondary {
+            background: #F3F4F6;
+            color: #4B5563;
+        }
+        .version {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher">
+        <h1>🧮 Number Sense 3s</h1>
+        <p>
+            Welcome to the interactive learning platform for mastering multiples of 3!
+            Choose your version below:
+        </p>
+        <div class="buttons">
+            <a href="index-modern.html" class="btn btn-primary">
+                Launch Modern Version
+            </a>
+            <a href="index-original.html" class="btn btn-secondary">
+                Classic Version
+            </a>
+        </div>
+        <p class="version">
+            <strong>Modern Version:</strong> Full features, adaptive learning, accessibility<br>
+            <strong>Classic Version:</strong> Original lightweight version
+        </p>
+    </div>
+
+    <script>
+        // Auto-redirect to modern version after 3 seconds
+        setTimeout(() => {
+            window.location.href = 'index-modern.html';
+        }, 3000);
+    </script>
+</body>
+</html>

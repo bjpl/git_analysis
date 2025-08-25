@@ -1,0 +1,17 @@
+[Abstract]
+[P1] At the core of this study is the perception that overall, scholars in the visual arts have unique requirements in their information seeking behaviors and processes and that there has been an extraordinary deficiency and lack of progress in understanding and addressing their needs. A self-administered questionnaire, adapted from previous studies, was used to query subsets of visual arts humanities scholars from three academic institutions on demographic information, their use of information resources, and their approaches to locating information. Although former studies raised important questions about the idiosyncratic information seeking behaviors of visual arts humanities scholars and their methodologies, a current understanding of the information-seeking behaviors and processes of the domain is necessary to document persistent and distinctive information requirements within the population, to note changes over time, and to determine the extent to which technology has impacted the information-seeking experience within the domain.
+
+[Introduction]
+[P2] More than two decades ago the Art History Information Program of the J. Paul Getty Trust (AHIP) and the Institute for Research and Information Scholarship of Brown University (IRIS) envisioned a collaborative project that would examine the common objective of applying computer technology to research in the arts and humanities.
+
+[P3] During that investigation, with art historians as subjects, it was discovered that although the quantity and variety of resources needed for art inquiry were especially suited to electronic aids to research, the application of technology intruded upon established practices in the domain (i.e., the field of study, in this case art and art history).
+
+[P4] Elizabeth Bakewell and her colleagues interviewed eighteen scholars, and after close observation recognized that little was known concerning the way this community engaged in the information seeking process. This prompted the researchers to revise their project agenda to include monitoring the subjects during their research activities.
+
+[P5] Soon it was apparent that these scholars had developed their own idiosyncratic research methodologies, and inquiries often began with a confrontational image, rather than a concept or idea, as in other disciplines.
+
+[P6] Researchers also observed that these scholars, although highly organized during the information-seeking process, were reluctant to change from paper systems because they needed to have all information visually available in a physical sense.
+
+[P7] Subsequent studies conducted at the Getty by Marcia Bates and her colleagues examined the natural language queries of visiting visual arts humanities scholars with the purpose of developing categories of terminology that could be applied to specific online search systems.
+
+Would you like me to continue marking the remaining paragraphs? I can add more in chunks to ensure we're correctly identifying paragraph breaks.
