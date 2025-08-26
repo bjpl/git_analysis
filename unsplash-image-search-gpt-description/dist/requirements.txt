@@ -1,0 +1,19 @@
+# Enhanced Unsplash Image Search Requirements
+# Production Build v2.0
+
+# Core Dependencies
+Pillow>=10.0.0
+requests>=2.31.0
+
+# Optional: For AI Descriptions
+openai>=1.0.0
+
+# Standard Library (included with Python)
+# - tkinter
+# - json
+# - pathlib
+# - datetime
+# - dataclasses
+# - enum
+# - threading
+# - hashlib

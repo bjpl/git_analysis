@@ -128,7 +128,8 @@ class SplashScreen:
         self.progress_bar.pack(pady=20)
         
         # Status label
-        self.status_var = tk.StringVar(value="Initializing...")\n        self.status_label = tk.Label(
+        self.status_var = tk.StringVar(value="Initializing...")
+        self.status_label = tk.Label(
             main_frame,
             textvariable=self.status_var,
             bg='white',
