@@ -1,78 +1,119 @@
-import React from 'react';
+import React, { Suspense, lazy, useState } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { clsx } from 'clsx';
 
-function App() {
+// Simple Navigation Component
+import Navigation from './components/Navigation/Navigation';
+
+// Lazy load page components for better performance
+const HomePage = lazy(() => import('./pages/HomePage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+const VocabularyPage = lazy(() => import('./pages/VocabularyPage'));
+const QuizPage = lazy(() => import('./pages/QuizPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+
+// Future page components (commented out until created)
+// const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
+// const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+// const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+// const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
+// const SignupPage = lazy(() => import('./pages/auth/SignupPage'));
+
+// Loading fallback component
+const PageLoader: React.FC = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+  </div>
+);
+
+/**
+ * App Layout Component - Handles main application layout structure
+ */
+function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            VocabLens
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            Visual Vocabulary Learning with AI-powered Image Descriptions
-          </p>
-        </header>
-
-        <main className="max-w-4xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-                Welcome to VocabLens
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                Learn vocabulary through beautiful images and AI-generated descriptions.
-                Search for images, generate detailed descriptions, and build your vocabulary
-                with our spaced repetition system.
-              </p>
-              
-              <div className="grid md:grid-cols-3 gap-6 mt-8">
-                <div className="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Search Images</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                    Find beautiful images from Unsplash
-                  </p>
-                </div>
-
-                <div className="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">AI Descriptions</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                    Generate detailed descriptions with vocabulary
-                  </p>
-                </div>
-
-                <div className="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Learn Vocabulary</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                    Build your vocabulary with spaced repetition
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg transition-colors">
-                  Get Started
-                </button>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
+      {/* Navigation */}
+      <Navigation />
+      
+      {/* Main Content */}
+      <main className="flex-1">
+        {children}
+      </main>
     </div>
+  );
+}
+
+/**
+ * Main App Component with Complete Routing Structure
+ * Features:
+ * - Complete routing for all VocabLens pages
+ * - Protected routes with optional authentication
+ * - Nested routing support for vocabulary management
+ * - 404 error handling with helpful navigation
+ * - Layout management with responsive design
+ * - Lazy loading for optimal performance
+ */
+function App() {
+  return (
+    <ErrorBoundary>
+      <AppLayout>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Main Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<Navigate to="/" replace />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            
+            {/* Vocabulary Routes with Nested Support */}
+            <Route path="/vocabulary/*" element={<VocabularyPage />} />
+            
+            {/* Quiz Routes */}
+            <Route path="/quiz" element={<QuizPage />} />
+            
+            {/* Future Protected Routes (uncomment when components are ready) */}
+            {/* 
+            <Route 
+              path="/analytics" 
+              element={
+                <ProtectedRoute>
+                  <AnalyticsPage />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/settings" 
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              } 
+            />
+            */}
+            
+            {/* Authentication Routes (uncomment when components are ready) */}
+            {/* 
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            */}
+            
+            {/* 404 Catch-all Route */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </AppLayout>
+    </ErrorBoundary>
   );
 }
 

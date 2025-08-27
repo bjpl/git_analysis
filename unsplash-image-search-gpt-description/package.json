@@ -26,9 +26,11 @@
     "pwa:generate-icons": "node scripts/utilities/generate_icon.py"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@supabase/supabase-js": "^2.39.0",
     "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^5.0.0",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.0.0",
     "dotenv": "^17.2.1",
     "framer-motion": "^10.0.0",
@@ -36,7 +38,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
-    "react-router-dom": "^6.20.0",
+    "react-router-dom": "^6.30.1",
     "tailwind-merge": "^2.0.0",
     "workbox-window": "^7.0.0"
   },
