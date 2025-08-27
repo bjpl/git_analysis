@@ -89,7 +89,12 @@
       "Bash(npm test:*)",
       "Bash(npm run type-check:*)",
       "Bash(timeout 30s npm run dev:*)",
-      "Bash(vercel:*)"
+      "Bash(vercel:*)",
+      "Bash(timeout 10 vercel ls:*)",
+      "Bash(pkill:*)",
+      "Bash(npm start)",
+      "Bash(curl:*)",
+      "Bash(npm run netlify-build:*)"
     ],
     "deny": [],
     "additionalDirectories": [

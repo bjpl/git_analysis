@@ -1,22 +1,44 @@
+# VocabLens Netlify Configuration
+# Optimized for bulletproof deployment with runtime API configuration
+
 [build]
-  # Self-contained build that doesn't depend on parent directories
-  command = "npm ci --no-optional && npm run build"
+  # High-performance build command with error recovery
+  command = "npm ci --prefer-offline --no-audit --no-fund && npm run netlify-build"
   publish = "dist"
   
-  # Ignore git changes to prevent submodule issues
+  # Build timeout and resource limits
+  commandTimeout = 900  # 15 minutes max build time
+  
+  # Ignore non-critical changes to prevent unnecessary rebuilds
   ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':!../'"
 
 [build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9"
+  # Node.js optimization
+  NODE_VERSION = "18.19.0"
+  NPM_VERSION = "10.2.3"
+  NODE_OPTIONS = "--max-old-space-size=4096"
+  
+  # Git optimization
   GIT_LFS_ENABLED = "false"
-  # Prevent git from trying to access parent directories
   GIT_DISCOVERY_ACROSS_FILESYSTEM = "0"
-  # Completely disable submodule processing
   GIT_SUBMODULE_STRATEGY = "none"
   SKIP_SUBMODULES = "1"
-  # Isolate build to current directory only
   NODE_PATH = "./node_modules"
+  
+  # Build performance optimization
+  NETLIFY_USE_YARN = "false"
+  NPM_CONFIG_AUDIT = "false"
+  NPM_CONFIG_FUND = "false"
+  NPM_CONFIG_LOGLEVEL = "error"
+  
+  # Vite optimization
+  VITE_BUILD_TARGET = "esnext"
+  VITE_BUILD_MINIFY = "terser"
+  VITE_BUILD_SOURCEMAP = "false"
+  
+  # Runtime API configuration flags
+  VITE_RUNTIME_CONFIG = "true"
+  VITE_API_VALIDATION = "true"
 
 [build.processing]
   skip_processing = false
@@ -29,34 +51,152 @@
   bundle = true
   minify = true
 
-# SPA routing
+[build.processing.html]
+  pretty_urls = true
+  canonical_url = true
+
+# SPA routing with fallback
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = false
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
+  conditions = { Role = ["unauthenticated"] }
 
-# Security headers
+# Production security headers
 [[headers]]
   for = "/*"
   [headers.values]
+    # Core security headers
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    
+    # Content Security Policy for runtime API configuration
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.unsplash.com https://api.openai.com https://*.supabase.co;
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: https: blob:;
+      font-src 'self' data:;
+      connect-src 'self' https://api.unsplash.com https://api.openai.com https://*.supabase.co wss://*.supabase.co;
+      manifest-src 'self';
+      worker-src 'self' blob:;
+    """
+    
+    # PWA and performance headers
+    Cross-Origin-Embedder-Policy = "credentialless"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()"
 
-# Cache static assets
+# Static asset optimization
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Vary = "Accept-Encoding"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*.js"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript"
+    Vary = "Accept-Encoding"
 
 [[headers]]
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css"
+    Vary = "Accept-Encoding"
+
+[[headers]]
+  for = "/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff2"
+
+# Service Worker caching
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "application/javascript"
+
+# Manifest and PWA files
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/manifest+json"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+    Content-Type = "image/png"
+
+[[headers]]
+  for = "/*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+    Content-Type = "image/x-icon"
+
+# API endpoints (if using Netlify Functions)
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# Development and testing routes
+[[headers]]
+  for = "/test*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"
+
+# Edge-side optimization
+[context.production]
+  [context.production.environment]
+    NODE_ENV = "production"
+    NETLIFY_ENV = "production"
+    VITE_BUILD_ANALYZE = "false"
+
+[context.deploy-preview]
+  [context.deploy-preview.environment]
+    NODE_ENV = "development"
+    NETLIFY_ENV = "preview"
+
+[context.branch-deploy]
+  [context.branch-deploy.environment]
+    NODE_ENV = "development"
+    NETLIFY_ENV = "branch"
+
+# Plugin configuration
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  
+  [plugins.inputs]
+    output_path = "reports/lighthouse"
+    
+    [plugins.inputs.thresholds]
+      performance = 0.9
+      accessibility = 0.9
+      best-practices = 0.9
+      seo = 0.9
+      
+    [plugins.inputs.settings]
+      view = "mobile"
+      preset = "desktop"

@@ -59,7 +59,8 @@ class CacheService {
    * Set item in cache
    */
   set<T>(key: string, data: T, options?: CacheOptions): void {
-    const ttl = options?.ttl || this.config.defaultTtl;\n    const expiry = Date.now() + ttl;
+    const ttl = options?.ttl || this.config.defaultTtl;
+    const expiry = Date.now() + ttl;
     const tags = options?.tags || [];
     
     const entry: CacheEntry<T> = {

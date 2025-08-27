@@ -103,4 +103,4 @@ netlify/
 # Additional safety ignores
 *.submodule
 .gitmodules.*
-.vercel
+# .vercel - removed as we're using Netlify for deployment
