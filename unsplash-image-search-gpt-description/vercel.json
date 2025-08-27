@@ -1,36 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
-    },
-    {
-      "src": "/test",
-      "dest": "/public/test.html"
-    },
-    {
-      "src": "/route-test",
-      "dest": "/public/route-test.html"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/index.html"
-    }
-  ],
-  "functions": {
-    "api/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  "buildCommand": "npm install && npm run build && cp -r public/* dist/ 2>/dev/null || true",
+  "outputDirectory": "dist"
 }
