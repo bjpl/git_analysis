@@ -1,29 +1,10 @@
-# VocabLens Netlify Configuration - Fixed Deployment
+# VocabLens Netlify Configuration - Emergency Deployment from Root
 
 [build]
-  command = "npm install && npm run build && ls -la dist/ && echo 'Build verification:' && test -f dist/index.html && echo 'index.html exists' || echo 'index.html missing'"
-  publish = "dist"
+  publish = "."
+  command = "echo 'Using root directory - build files already copied'"
 
-[build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9"
-  CI = "true"
-
-# SPA routing for React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Headers for security and caching
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
