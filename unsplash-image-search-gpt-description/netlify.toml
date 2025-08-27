@@ -12,6 +12,9 @@
   GIT_LFS_ENABLED = "false"
   # Prevent git from trying to access parent directories
   GIT_DISCOVERY_ACROSS_FILESYSTEM = "0"
+  # Completely disable submodule processing
+  GIT_SUBMODULE_STRATEGY = "none"
+  SKIP_SUBMODULES = "1"
   # Isolate build to current directory only
   NODE_PATH = "./node_modules"
 
