@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocabLens - Simple Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+        }
+        .test-container {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 { 
+            font-size: 2.5rem; 
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .status { 
+            font-size: 1.25rem; 
+            padding: 1rem 2rem;
+            background: #10b981;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .checklist {
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            margin: 0.75rem 0;
+            font-size: 1rem;
+        }
+        .check-icon {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+        .browser-info {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background: #3730a3;
+        }
+        #jsTest {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 VocabLens Deployment Test</h1>
+        <div class="status">✅ HTML/CSS Loading Successfully</div>
+        
+        <div class="checklist">
+            <h3>✅ Browser Compatibility Check</h3>
+            <div class="check-item">
+                <span class="check-icon">✅</span>
+                <span>HTML5 DOCTYPE - Correct</span>
+            </div>
+            <div class="check-item">
+                <span class="check-icon">✅</span>
+                <span>UTF-8 Encoding - Working</span>
+            </div>
+            <div class="check-item">
+                <span class="check-icon">✅</span>
+                <span>Viewport Meta Tag - Present</span>
+            </div>
+            <div class="check-item">
+                <span class="check-icon" id="jsIcon">❓</span>
+                <span id="jsStatus">JavaScript - Testing...</span>
+            </div>
+            <div class="check-item">
+                <span class="check-icon" id="moduleIcon">❓</span>
+                <span id="moduleStatus">ES Modules - Testing...</span>
+            </div>
+        </div>
+
+        <div id="jsTest">
+            <div class="status">🚀 JavaScript Working!</div>
+            <button onclick="testModuleSupport()">Test ES Module Support</button>
+            <button onclick="testModernFeatures()">Test Modern JS Features</button>
+        </div>
+
+        <div class="browser-info">
+            <h4>Browser Information:</h4>
+            <div>User Agent: <span id="userAgent"></span></div>
+            <div>Viewport: <span id="viewport"></span></div>
+            <div>Local Time: <span id="currentTime"></span></div>
+        </div>
+
+        <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+            <p>This test file verifies basic HTML, CSS, and JavaScript functionality.</p>
+            <p>If you see this page, static file serving is working correctly.</p>
+        </div>
+    </div>
+
+    <script>
+        // Test basic JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update JS status
+            document.getElementById('jsIcon').textContent = '✅';
+            document.getElementById('jsStatus').textContent = 'JavaScript - Working!';
+            document.getElementById('jsTest').style.display = 'block';
+
+            // Fill browser info
+            document.getElementById('userAgent').textContent = navigator.userAgent;
+            document.getElementById('viewport').textContent = window.innerWidth + 'x' + window.innerHeight;
+            document.getElementById('currentTime').textContent = new Date().toLocaleString();
+
+            // Test module support
+            testModuleSupport();
+        });
+
+        function testModuleSupport() {
+            const supportsModules = 'noModule' in HTMLScriptElement.prototype;
+            const moduleIcon = document.getElementById('moduleIcon');
+            const moduleStatus = document.getElementById('moduleStatus');
+            
+            if (supportsModules) {
+                moduleIcon.textContent = '✅';
+                moduleStatus.textContent = 'ES Modules - Supported!';
+            } else {
+                moduleIcon.textContent = '❌';
+                moduleStatus.textContent = 'ES Modules - Not Supported';
+            }
+        }
+
+        function testModernFeatures() {
+            const features = [
+                { name: 'Arrow Functions', test: () => (() => true)() },
+                { name: 'Async/Await', test: () => typeof (async () => {}) === 'function' },
+                { name: 'Fetch API', test: () => typeof fetch !== 'undefined' },
+                { name: 'LocalStorage', test: () => typeof localStorage !== 'undefined' },
+                { name: 'Service Worker', test: () => 'serviceWorker' in navigator }
+            ];
+
+            const results = features.map(feature => {
+                try {
+                    const supported = feature.test();
+                    return `${feature.name}: ${supported ? '✅' : '❌'}`;
+                } catch (e) {
+                    return `${feature.name}: ❌ (Error)`;
+                }
+            }).join('\n');
+
+            alert('Modern JavaScript Features:\n\n' + results);
+        }
+    </script>
+</body>
+</html>

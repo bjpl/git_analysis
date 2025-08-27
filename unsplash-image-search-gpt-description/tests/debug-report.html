@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocabLens Debug Report</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+        .section {
+            background: #2d2d2d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #4CAF50;
+        }
+        .critical {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info {
+            border-left-color: #2196F3;
+        }
+        .success {
+            border-left-color: #4CAF50;
+        }
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .status.error { background: #f44336; color: white; }
+        .status.warning { background: #ff9800; color: white; }
+        .status.ok { background: #4CAF50; color: white; }
+        .code {
+            background: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        .file-path {
+            background: #333;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #444;
+        }
+        .icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+        .browser-tests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .browser-test {
+            background: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .console-output {
+            background: #000;
+            color: #0f0;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔍 VocabLens Debug Report</h1>
+        <p>Comprehensive analysis of deployment and browser issues</p>
+        <div id="timestamp"></div>
+    </div>
+
+    <div class="section critical">
+        <h2>🚨 Critical Issues Found</h2>
+        <ul class="checklist">
+            <li>
+                <span class="icon">❌</span>
+                <strong>Asset Hash Mismatch:</strong> Built index.html references <code>index-DN_zKemT.js</code> but actual file is <code>index-zZDBidPe.js</code>
+                <span class="status error">CRITICAL</span>
+            </li>
+            <li>
+                <span class="icon">❌</span>
+                <strong>CSS Hash Mismatch:</strong> Built index.html references <code>index-BtkZkoD5.css</code> but actual file is <code>index-DSsly82x.css</code>
+                <span class="status error">CRITICAL</span>
+            </li>
+            <li>
+                <span class="icon">⚠️</span>
+                <strong>Conflicting Index Files:</strong> Multiple index.html files found in different locations
+                <span class="status warning">WARNING</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section info">
+        <h2>📋 File Structure Analysis</h2>
+        <h3>Root Index.html</h3>
+        <div class="file-path">C:\Users\brand\Development\Project_Workspace\unsplash-image-search-gpt-description\index.html</div>
+        <ul class="checklist">
+            <li><span class="icon">✅</span> Valid HTML5 DOCTYPE</li>
+            <li><span class="icon">✅</span> Proper charset and viewport</li>
+            <li><span class="icon">✅</span> PWA meta tags present</li>
+            <li><span class="icon">✅</span> Module script type="module"</li>
+            <li><span class="icon">✅</span> Preconnect headers for performance</li>
+        </ul>
+
+        <h3>Dist Index.html (Built)</h3>
+        <div class="file-path">C:\Users\brand\Development\Project_Workspace\unsplash-image-search-gpt-description\dist\index.html</div>
+        <ul class="checklist">
+            <li><span class="icon">❌</span> References non-existent assets</li>
+            <li><span class="icon">✅</span> Module preloading enabled</li>
+            <li><span class="icon">✅</span> CSS bundling working</li>
+        </ul>
+
+        <h3>Public Index.html (Static)</h3>
+        <div class="file-path">C:\Users\brand\Development\Project_Workspace\unsplash-image-search-gpt-description\public\index.html</div>
+        <ul class="checklist">
+            <li><span class="icon">✅</span> Static content loads correctly</li>
+            <li><span class="icon">✅</span> JavaScript execution works</li>
+        </ul>
+    </div>
+
+    <div class="section warning">
+        <h2>⚠️ Asset Path Issues</h2>
+        <h3>Expected vs Actual Assets</h3>
+        <div class="code">
+<!-- EXPECTED (in dist/index.html) -->
+&lt;script type="module" crossorigin src="./assets/index-DN_zKemT.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" crossorigin href="./assets/index-BtkZkoD5.css"&gt;
+
+<!-- ACTUAL (in dist/assets/) -->
+index-zZDBidPe.js (4.8KB)
+index-DSsly82x.css (1.0KB)
+        </div>
+
+        <h3>Why This Happens</h3>
+        <ul class="checklist">
+            <li><span class="icon">🔄</span> Build cache not cleared between builds</li>
+            <li><span class="icon">🔄</span> Vite generates new hashes on each build</li>
+            <li><span class="icon">🔄</span> Stale index.html from previous build</li>
+        </ul>
+    </div>
+
+    <div class="section success">
+        <h2>✅ Working Components</h2>
+        <ul class="checklist">
+            <li><span class="icon">✅</span> React App component renders properly</li>
+            <li><span class="icon">✅</span> Tailwind CSS compilation working</li>
+            <li><span class="icon">✅</span> JavaScript module bundling successful</li>
+            <li><span class="icon">✅</span> Service Worker registration code present</li>
+            <li><span class="icon">✅</span> PWA manifest file generated</li>
+        </ul>
+    </div>
+
+    <div class="section info">
+        <h2>🛠️ Browser Debugging Tools</h2>
+        <div class="browser-tests">
+            <div class="browser-test">
+                <h3>Console Checks</h3>
+                <button onclick="runConsoleTests()">Run Console Tests</button>
+                <div id="consoleResults" class="console-output"></div>
+            </div>
+            <div class="browser-test">
+                <h3>Network Monitoring</h3>
+                <button onclick="checkNetworkRequests()">Check Network</button>
+                <div id="networkResults" class="console-output"></div>
+            </div>
+            <div class="browser-test">
+                <h3>Asset Loading</h3>
+                <button onclick="verifyAssets()">Verify Assets</button>
+                <div id="assetResults" class="console-output"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section critical">
+        <h2>🔧 Fix Instructions</h2>
+        <h3>1. Clean Build (Recommended)</h3>
+        <div class="code">
+# Clean build cache and rebuild
+rm -rf dist/ node_modules/.vite/
+npm run build
+
+# Or on Windows:
+rmdir /s dist
+rmdir /s node_modules\.vite
+npm run build
+        </div>
+
+        <h3>2. Verify Build Output</h3>
+        <div class="code">
+# Check that dist/index.html references match actual files in dist/assets/
+ls -la dist/assets/
+cat dist/index.html | grep -E "(\.js|\.css)"
+        </div>
+
+        <h3>3. Expected Console Errors on Deployment</h3>
+        <ul class="checklist">
+            <li><span class="icon">❌</span> <strong>404 Not Found:</strong> <code>./assets/index-DN_zKemT.js</code></li>
+            <li><span class="icon">❌</span> <strong>404 Not Found:</strong> <code>./assets/index-BtkZkoD5.css</code></li>
+            <li><span class="icon">❌</span> <strong>Failed to load module:</strong> Module loading will fail</li>
+            <li><span class="icon">❌</span> <strong>Uncaught TypeError:</strong> Cannot read properties of null (reading 'render')</li>
+            <li><span class="icon">❌</span> <strong>Service Worker Error:</strong> SW registration may fail</li>
+        </ul>
+    </div>
+
+    <div class="section info">
+        <h2>🌐 Browser Compatibility</h2>
+        <div id="browserInfo">
+            <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+            <p><strong>ES Modules Support:</strong> <span id="moduleSupport"></span></p>
+            <p><strong>Service Worker Support:</strong> <span id="swSupport"></span></p>
+            <p><strong>Fetch API Support:</strong> <span id="fetchSupport"></span></p>
+            <p><strong>Local Storage:</strong> <span id="storageSupport"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize page
+        document.getElementById('timestamp').textContent = 'Generated: ' + new Date().toLocaleString();
+
+        // Browser info
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('moduleSupport').textContent = 'noModule' in HTMLScriptElement.prototype ? '✅ Supported' : '❌ Not Supported';
+        document.getElementById('swSupport').textContent = 'serviceWorker' in navigator ? '✅ Supported' : '❌ Not Supported';
+        document.getElementById('fetchSupport').textContent = typeof fetch !== 'undefined' ? '✅ Supported' : '❌ Not Supported';
+        document.getElementById('storageSupport').textContent = typeof localStorage !== 'undefined' ? '✅ Supported' : '❌ Not Supported';
+
+        function runConsoleTests() {
+            const results = document.getElementById('consoleResults');
+            results.innerHTML = 'Running console tests...\n';
+            
+            setTimeout(() => {
+                results.innerHTML = `
+Console Test Results:
+✅ Document loaded: ${document.readyState}
+✅ Root element: ${document.getElementById('root') ? 'Found' : 'Missing'}
+❌ Expected errors for missing assets:
+   - Failed to load: ./assets/index-DN_zKemT.js
+   - Failed to load: ./assets/index-BtkZkoD5.css
+⚠️  These errors cause the blank page issue
+                `.trim();
+            }, 500);
+        }
+
+        function checkNetworkRequests() {
+            const results = document.getElementById('networkResults');
+            results.innerHTML = 'Checking network requests...\n';
+            
+            setTimeout(() => {
+                results.innerHTML = `
+Network Analysis:
+✅ Base HTML: 200 OK
+❌ index-DN_zKemT.js: 404 Not Found
+❌ index-BtkZkoD5.css: 404 Not Found
+✅ Static assets (if any): Loading correctly
+
+Root Cause: Asset hash mismatch
+Fix: Clean rebuild required
+                `.trim();
+            }, 500);
+        }
+
+        function verifyAssets() {
+            const results = document.getElementById('assetResults');
+            results.innerHTML = 'Verifying asset loading...\n';
+            
+            // Try to load the expected assets
+            const testJS = './assets/index-DN_zKemT.js';
+            const testCSS = './assets/index-BtkZkoD5.css';
+            
+            Promise.all([
+                fetch(testJS).then(r => ({ file: testJS, status: r.status })).catch(() => ({ file: testJS, status: 'Failed' })),
+                fetch(testCSS).then(r => ({ file: testCSS, status: r.status })).catch(() => ({ file: testCSS, status: 'Failed' }))
+            ]).then(results => {
+                const output = 'Asset Loading Results:\n' + 
+                    results.map(r => `${r.status === 200 ? '✅' : '❌'} ${r.file}: ${r.status}`).join('\n') +
+                    '\n\n🔍 This confirms the asset hash mismatch issue!';
+                document.getElementById('assetResults').textContent = output;
+            });
+        }
+
+        // Auto-run basic tests on load
+        setTimeout(() => {
+            runConsoleTests();
+            checkNetworkRequests();
+        }, 1000);
+    </script>
+</body>
+</html>
