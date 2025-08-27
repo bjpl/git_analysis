@@ -1,213 +1,182 @@
 #!/usr/bin/env node
+
 /**
- * Deployment Health Check Script
- * Comprehensive validation for build output and deployment readiness
+ * VocabLens Deployment Health Check
+ * Validates that the deployed application is working correctly
  */
 
+import https from 'https';
 import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-console.log('🔍 VocabLens Deployment Health Check\n');
-
-// Configuration
-const distPath = './dist';
-const requiredFiles = [
-  'index.html',
-  'manifest.json',
-  'sw.js',
-  '_redirects'
+const DEPLOYMENT_URLS = [
+  'https://vocablens.netlify.app',
+  // Add backup URLs if needed
 ];
 
-const requiredAssets = [
-  'index-ClymW5aY.css',
-  'index-DmXXmnPV.js',
-  'react-vendor-BvX3KSce.js'
+const HEALTH_CHECKS = [
+  {
+    name: 'Homepage loads',
+    path: '/',
+    expect: ['VocabLens', 'root', 'index-']
+  },
+  {
+    name: 'Assets loading',
+    path: '/assets/',
+    expect: ['js', 'css']
+  },
+  {
+    name: 'SPA routing works',
+    path: '/search',
+    expect: ['VocabLens', 'root']
+  },
+  {
+    name: 'Vocabulary page',
+    path: '/vocabulary',
+    expect: ['VocabLens', 'root']
+  }
 ];
 
-let issues = [];
-let warnings = [];
-
-// 1. Check build output exists
-console.log('✅ Checking build output...');
-if (!fs.existsSync(distPath)) {
-  issues.push('❌ dist/ directory not found. Run `npm run build` first.');
-} else {
-  console.log('   ✓ dist/ directory exists');
-}
-
-// 2. Check required files
-console.log('\n✅ Checking required files...');
-requiredFiles.forEach(file => {
-  const filePath = path.join(distPath, file);
-  if (fs.existsSync(filePath)) {
-    console.log(`   ✓ ${file}`);
-  } else {
-    issues.push(`❌ Missing required file: ${file}`);
-  }
-});
-
-// 3. Check index.html structure
-console.log('\n✅ Validating index.html...');
-const indexPath = path.join(distPath, 'index.html');
-if (fs.existsSync(indexPath)) {
-  const indexContent = fs.readFileSync(indexPath, 'utf8');
-  
-  // Check for required elements
-  const checks = [
-    { test: /<div id="root"><\/div>/, message: 'React root element' },
-    { test: /src="\/assets\/index-[a-zA-Z0-9-]+\.js"/, message: 'Main JS bundle reference' },
-    { test: /href="\/assets\/index-[a-zA-Z0-9-]+\.css"/, message: 'CSS bundle reference' },
-    { test: /<meta name="viewport"/, message: 'Viewport meta tag' },
-    { test: /<title>VocabLens/, message: 'Page title' }
-  ];
-  
-  checks.forEach(check => {
-    if (check.test.test(indexContent)) {
-      console.log(`   ✓ ${check.message}`);
-    } else {
-      issues.push(`❌ index.html missing: ${check.message}`);
-    }
-  });
-} else {
-  issues.push('❌ index.html not found in dist/');
-}
-
-// 4. Check assets directory
-console.log('\n✅ Checking assets...');
-const assetsPath = path.join(distPath, 'assets');
-if (fs.existsSync(assetsPath)) {
-  const assets = fs.readdirSync(assetsPath);
-  console.log(`   ✓ Found ${assets.length} asset files`);
-  
-  // Check for critical assets (pattern matching since filenames have hashes)
-  const hasMainJS = assets.some(file => file.match(/^index-[a-zA-Z0-9-]+\.js$/));
-  const hasMainCSS = assets.some(file => file.match(/^index-[a-zA-Z0-9-]+\.css$/));
-  const hasReactVendor = assets.some(file => file.match(/^react-vendor-[a-zA-Z0-9-]+\.js$/));
-  
-  if (hasMainJS) console.log('   ✓ Main JS bundle found');
-  else issues.push('❌ Main JS bundle missing');
-  
-  if (hasMainCSS) console.log('   ✓ Main CSS bundle found');
-  else issues.push('❌ Main CSS bundle missing');
-  
-  if (hasReactVendor) console.log('   ✓ React vendor bundle found');
-  else warnings.push('⚠️ React vendor bundle missing - may impact performance');
-  
-} else {
-  issues.push('❌ assets/ directory not found');
-}
-
-// 5. Check PWA files
-console.log('\n✅ Checking PWA configuration...');
-const pwaDependencies = ['manifest.json', 'sw.js', 'icon-192.png', 'icon-512.png'];
-pwaDependencies.forEach(file => {
-  if (fs.existsSync(path.join(distPath, file))) {
-    console.log(`   ✓ ${file}`);
-  } else {
-    warnings.push(`⚠️ PWA file missing: ${file}`);
-  }
-});
-
-// 6. Check routing configuration
-console.log('\n✅ Checking SPA routing...');
-const redirectsPath = path.join(distPath, '_redirects');
-if (fs.existsSync(redirectsPath)) {
-  const redirectsContent = fs.readFileSync(redirectsPath, 'utf8');
-  if (redirectsContent.includes('/*    /index.html   200')) {
-    console.log('   ✓ SPA routing configured correctly');
-  } else {
-    issues.push('❌ _redirects file incorrect format');
-  }
-} else {
-  issues.push('❌ _redirects file missing');
-}
-
-// 7. Environment check
-console.log('\n✅ Checking environment configuration...');
-try {
-  const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-  console.log(`   ✓ Project: ${packageJson.name} v${packageJson.version}`);
-  console.log(`   ✓ Build script: ${packageJson.scripts.build}`);
-  
-  // Check if build was run recently
-  const indexStat = fs.statSync(indexPath);
-  const buildAge = Date.now() - indexStat.mtime.getTime();
-  const buildAgeMinutes = Math.floor(buildAge / (1000 * 60));
-  
-  if (buildAgeMinutes < 60) {
-    console.log(`   ✓ Build is recent (${buildAgeMinutes} minutes ago)`);
-  } else {
-    warnings.push(`⚠️ Build is ${buildAgeMinutes} minutes old - consider rebuilding`);
-  }
-  
-} catch (error) {
-  warnings.push('⚠️ Could not read package.json');
-}
-
-// 8. Size analysis
-console.log('\n✅ Build size analysis...');
-if (fs.existsSync(assetsPath)) {
-  let totalSize = 0;
-  let jsSize = 0;
-  let cssSize = 0;
-  
-  const assets = fs.readdirSync(assetsPath);
-  assets.forEach(file => {
-    const filePath = path.join(assetsPath, file);
-    const stat = fs.statSync(filePath);
-    totalSize += stat.size;
+function makeRequest(url, timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const req = https.get(url, { timeout }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        resolve({
+          status: res.statusCode,
+          headers: res.headers,
+          body: data,
+          url: url
+        });
+      });
+    });
     
-    if (file.endsWith('.js')) jsSize += stat.size;
-    if (file.endsWith('.css')) cssSize += stat.size;
+    req.on('error', reject);
+    req.on('timeout', () => {
+      req.destroy();
+      reject(new Error(`Request timeout after ${timeout}ms`));
+    });
   });
+}
+
+async function checkHealth(baseUrl) {
+  const results = [];
   
-  console.log(`   ✓ Total assets: ${(totalSize / 1024).toFixed(1)} KB`);
-  console.log(`   ✓ JavaScript: ${(jsSize / 1024).toFixed(1)} KB`);
-  console.log(`   ✓ CSS: ${(cssSize / 1024).toFixed(1)} KB`);
+  console.log(`\n🔍 Testing deployment: ${baseUrl}`);
   
-  if (totalSize > 2 * 1024 * 1024) { // 2MB
-    warnings.push('⚠️ Large bundle size - consider code splitting');
+  for (const check of HEALTH_CHECKS) {
+    const url = baseUrl + check.path;
+    console.log(`  Testing: ${check.name}...`);
+    
+    try {
+      const response = await makeRequest(url);
+      
+      if (response.status !== 200) {
+        results.push({
+          ...check,
+          status: 'FAIL',
+          error: `HTTP ${response.status}`,
+          url
+        });
+        console.log(`    ❌ FAIL: HTTP ${response.status}`);
+        continue;
+      }
+      
+      // Check content expectations
+      const hasExpectedContent = check.expect.every(expected => 
+        response.body.includes(expected)
+      );
+      
+      if (!hasExpectedContent) {
+        const missing = check.expect.filter(expected => 
+          !response.body.includes(expected)
+        );
+        results.push({
+          ...check,
+          status: 'FAIL',
+          error: `Missing content: ${missing.join(', ')}`,
+          url
+        });
+        console.log(`    ❌ FAIL: Missing content: ${missing.join(', ')}`);
+      } else {
+        results.push({
+          ...check,
+          status: 'PASS',
+          url
+        });
+        console.log(`    ✅ PASS`);
+      }
+      
+    } catch (error) {
+      results.push({
+        ...check,
+        status: 'ERROR',
+        error: error.message,
+        url
+      });
+      console.log(`    ❌ ERROR: ${error.message}`);
+    }
+  }
+  
+  return results;
+}
+
+async function main() {
+  console.log('🚀 VocabLens Production Health Check');
+  console.log('=====================================');
+  
+  const allResults = [];
+  
+  for (const url of DEPLOYMENT_URLS) {
+    const results = await checkHealth(url);
+    allResults.push({ url, results });
+  }
+  
+  // Summary
+  console.log('\n📊 Health Check Summary');
+  console.log('=======================');
+  
+  let overallPassed = true;
+  
+  for (const deployment of allResults) {
+    console.log(`\n🌐 ${deployment.url}`);
+    
+    const passed = deployment.results.filter(r => r.status === 'PASS').length;
+    const total = deployment.results.length;
+    const percentage = Math.round((passed / total) * 100);
+    
+    console.log(`  Status: ${passed}/${total} checks passed (${percentage}%)`);
+    
+    if (percentage < 100) {
+      overallPassed = false;
+      console.log('  Failed checks:');
+      deployment.results
+        .filter(r => r.status !== 'PASS')
+        .forEach(r => {
+          console.log(`    • ${r.name}: ${r.error || 'Unknown error'}`);
+        });
+    }
+  }
+  
+  console.log('\n' + '='.repeat(50));
+  
+  if (overallPassed) {
+    console.log('🎉 ALL HEALTH CHECKS PASSED!');
+    console.log('✅ VocabLens is ready for production use');
+    process.exit(0);
+  } else {
+    console.log('❌ SOME HEALTH CHECKS FAILED');
+    console.log('🚨 Deployment needs attention before production use');
+    process.exit(1);
   }
 }
 
-// Summary
-console.log('\n📊 Health Check Summary');
-console.log('========================');
-
-if (issues.length === 0 && warnings.length === 0) {
-  console.log('🎉 All checks passed! Deployment ready.');
-  console.log('\n🚀 Next steps:');
-  console.log('   1. Test locally: npm run preview');
-  console.log('   2. Deploy to staging');
-  console.log('   3. Run production smoke tests');
-  process.exit(0);
-} else {
-  if (issues.length > 0) {
-    console.log('\n❌ Critical Issues Found:');
-    issues.forEach(issue => console.log(issue));
-  }
-  
-  if (warnings.length > 0) {
-    console.log('\n⚠️ Warnings:');
-    warnings.forEach(warning => console.log(warning));
-  }
-  
-  console.log('\n🔧 Recommended Actions:');
-  if (issues.length > 0) {
-    console.log('   1. Run: npm run build');
-    console.log('   2. Check build logs for errors');
-    console.log('   3. Verify vite.config.ts configuration');
-  }
-  
-  if (warnings.length > 0) {
-    console.log('   4. Review warnings above');
-    console.log('   5. Test locally before deploying');
-  }
-  
-  process.exit(issues.length > 0 ? 1 : 0);
+// Run if called directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch(error => {
+    console.error('❌ Health check failed:', error);
+    process.exit(1);
+  });
 }
+
+export { checkHealth, makeRequest };

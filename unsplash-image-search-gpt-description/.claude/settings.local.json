@@ -100,7 +100,9 @@
       "WebFetch(domain:localhost)",
       "WebFetch(domain:localhost)",
       "Bash(netlify-cli validate:*)",
-      "WebFetch(domain:vocablens.netlify.app)"
+      "WebFetch(domain:vocablens.netlify.app)",
+      "Bash(timeout:*)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "additionalDirectories": [

@@ -27,17 +27,38 @@ export const useAppInitialization = () => {
 
   const initializeApp = async () => {
     try {
+      console.log('[VocabLens] Starting app initialization...');
       setState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      // Initialize the API config service
-      await apiConfigService.initialize();
+      // Add timeout for initialization to prevent infinite loading
+      const initPromise = Promise.race([
+        (async () => {
+          console.log('[VocabLens] Initializing API config service...');
+          await apiConfigService.initialize();
+          console.log('[VocabLens] API config service initialized');
 
-      // Check if setup is needed
-      const needsSetup = await apiConfigService.isSetupNeeded();
+          console.log('[VocabLens] Checking setup status...');
+          const needsSetup = await apiConfigService.isSetupNeeded();
+          console.log('[VocabLens] Setup needed:', needsSetup);
+          
+          // Safe localStorage access with fallback
+          let hasSeenSetup = false;
+          try {
+            hasSeenSetup = localStorage.getItem('vocablens_has_seen_setup') === 'true';
+          } catch (localStorageError) {
+            console.warn('[VocabLens] localStorage access failed:', localStorageError);
+          }
+          
+          return { needsSetup, hasSeenSetup };
+        })(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Initialization timeout')), 10000)
+        )
+      ]);
+
+      const { needsSetup, hasSeenSetup } = await initPromise as { needsSetup: boolean, hasSeenSetup: boolean };
       
-      // Check if user has dismissed setup before (for returning users)
-      const hasSeenSetup = localStorage.getItem('vocablens_has_seen_setup') === 'true';
-      
+      console.log('[VocabLens] Initialization completed successfully');
       setState(prev => ({
         ...prev,
         isLoading: false,
@@ -46,11 +67,24 @@ export const useAppInitialization = () => {
       }));
 
     } catch (error) {
-      console.error('App initialization failed:', error);
+      console.error('[VocabLens] App initialization failed:', error);
+      
+      // Graceful degradation - allow app to continue with limited functionality
+      console.log('[VocabLens] Falling back to safe mode...');
+      
+      let hasSeenSetup = false;
+      try {
+        hasSeenSetup = localStorage.getItem('vocablens_has_seen_setup') === 'true';
+      } catch {
+        // Ignore localStorage errors in safe mode
+      }
+      
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Initialization failed'
+        needsSetup: true,
+        showFirstTimeSetup: !hasSeenSetup,
+        error: null // Don't block the UI, just show setup
       }));
     }
   };
