@@ -1,0 +1,568 @@
+import React, { useState } from 'react';
+import { cn } from '@/utils/cn';
+import { useAuthContext } from '@/contexts/AuthContext';
+import { Button } from '../Shared/Button/Button';
+import { LoadingSpinner } from '../Shared/LoadingStates/LoadingSkeleton';
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  EnvelopeIcon,
+  LockClosedIcon,
+  UserIcon,
+  CheckCircleIcon,
+  XCircleIcon
+} from '@heroicons/react/24/outline';
+
+interface SignupFormProps {
+  onSwitchToLogin?: () => void;
+  onSuccess?: () => void;
+  className?: string;
+}
+
+interface FormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  username: string;
+  acceptTerms: boolean;
+}
+
+interface FormErrors {
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  username?: string;
+  acceptTerms?: string;
+  general?: string;
+}
+
+interface PasswordRequirement {
+  id: string;
+  text: string;
+  test: (password: string) => boolean;
+}
+
+const passwordRequirements: PasswordRequirement[] = [
+  {
+    id: 'length',
+    text: 'At least 8 characters',
+    test: (password) => password.length >= 8,
+  },
+  {
+    id: 'uppercase',
+    text: 'One uppercase letter',
+    test: (password) => /[A-Z]/.test(password),
+  },
+  {
+    id: 'lowercase',
+    text: 'One lowercase letter',
+    test: (password) => /[a-z]/.test(password),
+  },
+  {
+    id: 'number',
+    text: 'One number',
+    test: (password) => /\d/.test(password),
+  },
+];
+
+/**
+ * SignupForm component with comprehensive validation and OAuth options
+ * Includes real-time password strength validation and accessibility features
+ */
+export function SignupForm({ onSwitchToLogin, onSuccess, className }: SignupFormProps) {
+  const [formData, setFormData] = useState<FormData>({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    username: '',
+    acceptTerms: false,
+  });
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+  
+  const { signUp, signInWithOAuth, error, clearError } = useAuthContext();
+
+  const validateEmail = (email: string): string | undefined => {
+    if (!email.trim()) {
+      return 'Email is required';
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return 'Please enter a valid email address';
+    }
+    return undefined;
+  };
+
+  const validateUsername = (username: string): string | undefined => {
+    if (!username.trim()) {
+      return 'Username is required';
+    }
+    if (username.length < 3) {
+      return 'Username must be at least 3 characters';
+    }
+    if (username.length > 20) {
+      return 'Username must be less than 20 characters';
+    }
+    if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+      return 'Username can only contain letters, numbers, hyphens, and underscores';
+    }
+    return undefined;
+  };
+
+  const validatePassword = (password: string): string | undefined => {
+    if (!password) {
+      return 'Password is required';
+    }
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    const failedRequirements = passwordRequirements.filter(req => !req.test(password));
+    if (failedRequirements.length > 0) {
+      return `Password must include: ${failedRequirements.map(req => req.text.toLowerCase()).join(', ')}`;
+    }
+    return undefined;
+  };
+
+  const validateForm = (): boolean => {
+    const errors: FormErrors = {};
+
+    errors.email = validateEmail(formData.email);
+    errors.username = validateUsername(formData.username);
+    errors.password = validatePassword(formData.password);
+
+    if (!formData.confirmPassword) {
+      errors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
+    if (!formData.acceptTerms) {
+      errors.acceptTerms = 'You must accept the terms and conditions';
+    }
+
+    // Remove undefined values
+    Object.keys(errors).forEach(key => {
+      if (errors[key as keyof FormErrors] === undefined) {
+        delete errors[key as keyof FormErrors];
+      }
+    });
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    
+    setFormData(prev => ({ ...prev, [name]: newValue }));
+    
+    // Clear field error when user starts typing
+    if (formErrors[name as keyof FormErrors]) {
+      setFormErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+    
+    // Clear general error
+    if (error) {
+      clearError();
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    const { error: signUpError } = await signUp(
+      formData.email,
+      formData.password,
+      formData.username
+    );
+    
+    if (!signUpError) {
+      onSuccess?.();
+    }
+    
+    setIsSubmitting(false);
+  };
+
+  const handleOAuthSignUp = async (provider: 'google' | 'github' | 'apple') => {
+    setIsSubmitting(true);
+    const { error: oauthError } = await signInWithOAuth(provider);
+    
+    if (!oauthError) {
+      onSuccess?.();
+    }
+    
+    setIsSubmitting(false);
+  };
+
+  const getPasswordStrength = (): { score: number; label: string; color: string } => {
+    if (!formData.password) {
+      return { score: 0, label: '', color: '' };
+    }
+    
+    const passedRequirements = passwordRequirements.filter(req => req.test(formData.password));
+    const score = passedRequirements.length;
+    
+    if (score <= 1) {
+      return { score, label: 'Weak', color: 'bg-red-500' };
+    } else if (score <= 2) {
+      return { score, label: 'Fair', color: 'bg-yellow-500' };
+    } else if (score <= 3) {
+      return { score, label: 'Good', color: 'bg-blue-500' };
+    } else {
+      return { score, label: 'Strong', color: 'bg-green-500' };
+    }
+  };
+
+  const passwordStrength = getPasswordStrength();
+
+  return (
+    <div className={cn('w-full max-w-md', className)}>
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-soft p-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          Create Account
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
+          Join VocabLens and start your learning journey
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Username
+            </label>
+            <div className="relative">
+              <UserIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                required
+                value={formData.username}
+                onChange={handleInputChange}
+                className={cn(
+                  'w-full pl-10 pr-4 py-2.5 border rounded-lg bg-gray-50 dark:bg-gray-800',
+                  'text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
+                  'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
+                  formErrors.username ? 'border-red-300 dark:border-red-600' : 'border-gray-200 dark:border-gray-700'
+                )}
+                placeholder="Choose a username"
+                disabled={isSubmitting}
+                aria-describedby={formErrors.username ? 'username-error' : undefined}
+              />
+            </div>
+            {formErrors.username && (
+              <p id="username-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {formErrors.username}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Email Address
+            </label>
+            <div className="relative">
+              <EnvelopeIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={formData.email}
+                onChange={handleInputChange}
+                className={cn(
+                  'w-full pl-10 pr-4 py-2.5 border rounded-lg bg-gray-50 dark:bg-gray-800',
+                  'text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
+                  'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
+                  formErrors.email ? 'border-red-300 dark:border-red-600' : 'border-gray-200 dark:border-gray-700'
+                )}
+                placeholder="Enter your email"
+                disabled={isSubmitting}
+                aria-describedby={formErrors.email ? 'email-error' : undefined}
+              />
+            </div>
+            {formErrors.email && (
+              <p id="email-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {formErrors.email}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Password
+            </label>
+            <div className="relative">
+              <LockClosedIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                required
+                value={formData.password}
+                onChange={handleInputChange}
+                onFocus={() => setShowPasswordRequirements(true)}
+                onBlur={() => setShowPasswordRequirements(false)}
+                className={cn(
+                  'w-full pl-10 pr-12 py-2.5 border rounded-lg bg-gray-50 dark:bg-gray-800',
+                  'text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
+                  'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
+                  formErrors.password ? 'border-red-300 dark:border-red-600' : 'border-gray-200 dark:border-gray-700'
+                )}
+                placeholder="Create a password"
+                disabled={isSubmitting}
+                aria-describedby={formErrors.password ? 'password-error' : 'password-requirements'}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                disabled={isSubmitting}
+              >
+                {showPassword ? (
+                  <EyeSlashIcon className="h-4 w-4" />
+                ) : (
+                  <EyeIcon className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+            
+            {/* Password Strength Indicator */}
+            {formData.password && (
+              <div className="mt-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-gray-500 dark:text-gray-400">Password strength</span>
+                  <span className={cn(
+                    'font-medium',
+                    passwordStrength.score <= 1 && 'text-red-600 dark:text-red-400',
+                    passwordStrength.score === 2 && 'text-yellow-600 dark:text-yellow-400',
+                    passwordStrength.score === 3 && 'text-blue-600 dark:text-blue-400',
+                    passwordStrength.score === 4 && 'text-green-600 dark:text-green-400'
+                  )}>
+                    {passwordStrength.label}
+                  </span>
+                </div>
+                <div className="mt-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div
+                    className={cn('h-full transition-all duration-300', passwordStrength.color)}
+                    style={{ width: `${(passwordStrength.score / 4) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            
+            {/* Password Requirements */}
+            {(showPasswordRequirements || formErrors.password) && formData.password && (
+              <div id="password-requirements" className="mt-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Password requirements:
+                </p>
+                <ul className="space-y-1">
+                  {passwordRequirements.map((requirement) => {
+                    const isPassed = requirement.test(formData.password);
+                    return (
+                      <li key={requirement.id} className="flex items-center gap-2 text-xs">
+                        {isPassed ? (
+                          <CheckCircleIcon className="h-3 w-3 text-green-500" />
+                        ) : (
+                          <XCircleIcon className="h-3 w-3 text-gray-400" />
+                        )}
+                        <span className={cn(
+                          isPassed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'
+                        )}>
+                          {requirement.text}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+            
+            {formErrors.password && (
+              <p id="password-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {formErrors.password}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <LockClosedIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                required
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className={cn(
+                  'w-full pl-10 pr-12 py-2.5 border rounded-lg bg-gray-50 dark:bg-gray-800',
+                  'text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
+                  'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
+                  formErrors.confirmPassword ? 'border-red-300 dark:border-red-600' : 'border-gray-200 dark:border-gray-700'
+                )}
+                placeholder="Confirm your password"
+                disabled={isSubmitting}
+                aria-describedby={formErrors.confirmPassword ? 'confirm-password-error' : undefined}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                aria-label={showConfirmPassword ? 'Hide password confirmation' : 'Show password confirmation'}
+                disabled={isSubmitting}
+              >
+                {showConfirmPassword ? (
+                  <EyeSlashIcon className="h-4 w-4" />
+                ) : (
+                  <EyeIcon className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+            {formErrors.confirmPassword && (
+              <p id="confirm-password-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                {formErrors.confirmPassword}
+              </p>
+            )}
+          </div>
+
+          <div className="flex items-center">
+            <input
+              id="acceptTerms"
+              name="acceptTerms"
+              type="checkbox"
+              required
+              checked={formData.acceptTerms}
+              onChange={handleInputChange}
+              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
+              disabled={isSubmitting}
+              aria-describedby={formErrors.acceptTerms ? 'terms-error' : undefined}
+            />
+            <label htmlFor="acceptTerms" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+              I agree to the{' '}
+              <a href="/terms" className="text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300">
+                Terms of Service
+              </a>{' '}
+              and{' '}
+              <a href="/privacy" className="text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300">
+                Privacy Policy
+              </a>
+            </label>
+          </div>
+          {formErrors.acceptTerms && (
+            <p id="terms-error" className="text-sm text-red-600 dark:text-red-400">
+              {formErrors.acceptTerms}
+            </p>
+          )}
+
+          {error && (
+            <div className="text-sm text-red-600 dark:text-red-400">
+              {error.message}
+            </div>
+          )}
+
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isSubmitting}
+            className="w-full"
+          >
+            {isSubmitting ? (
+              <><LoadingSpinner size="sm" /> Creating Account...</>
+            ) : (
+              'Create Account'
+            )}
+          </Button>
+        </form>
+
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white dark:bg-gray-900 px-2 text-gray-500 dark:text-gray-400">
+                Or sign up with
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleOAuthSignUp('google')}
+              disabled={isSubmitting}
+              className="w-full"
+              aria-label="Sign up with Google"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+            </Button>
+            
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleOAuthSignUp('github')}
+              disabled={isSubmitting}
+              className="w-full"
+              aria-label="Sign up with GitHub"
+            >
+              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clipRule="evenodd" />
+              </svg>
+            </Button>
+            
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleOAuthSignUp('apple')}
+              disabled={isSubmitting}
+              className="w-full"
+              aria-label="Sign up with Apple"
+            >
+              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.178 1.292a2.992 2.992 0 00-.713 2.017c0 .014.005.028.007.042a3.037 3.037 0 001.932-.518 2.993 2.993 0 00.735-2.003c0-.014-.005-.028-.008-.042a3.03 3.03 0 00-1.953.504zm4.77 3.147c-1.552-.893-3.678-.765-4.842.346-.542.516-.885 1.199-1.05 1.936a3.45 3.45 0 00-.078.789c0 .04.003.08.004.12 0 .033.005.065.008.098.02.214.061.421.123.618.537 1.717 1.85 2.86 3.584 3.123a3.974 3.974 0 002.251-1.061zm-4.84 10.874c-.8.476-1.73.687-2.677.608-1.542-.128-2.897-1.176-3.458-2.672a6.194 6.194 0 01-.544-2.52c0-.895.176-1.78.513-2.598.658-1.597 1.967-2.74 3.678-3.211a4.94 4.94 0 011.607-.08c.324.034.643.101.951.2.308-.099.627-.166.951-.2a4.94 4.94 0 011.607.08c1.711.47 3.02 1.614 3.678 3.211.337.818.513 1.703.513 2.598a6.194 6.194 0 01-.544 2.52c-.561 1.496-1.916 2.544-3.458 2.672a4.94 4.94 0 01-2.677-.608c-.25-.148-.476-.329-.676-.537-.2.208-.426.389-.676.537z"/>
+              </svg>
+            </Button>
+          </div>
+        </div>
+
+        {onSwitchToLogin && (
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Already have an account?{' '}
+              <button
+                type="button"
+                onClick={onSwitchToLogin}
+                className="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300"
+                disabled={isSubmitting}
+              >
+                Sign in
+              </button>
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

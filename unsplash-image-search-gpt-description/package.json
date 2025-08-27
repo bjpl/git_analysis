@@ -1,24 +1,86 @@
 {
-  "name": "unsplash-image-search-gpt-description",
+  "name": "vocablens-pwa",
   "version": "1.0.0",
   "type": "module",
-  "description": "Unsplash image search with GPT-generated descriptions",
-  "main": "main.py",
+  "description": "VocabLens - Spanish Vocabulary Learning PWA with AI-powered image descriptions",
+  "main": "src/main.tsx",
   "scripts": {
-    "build": "python -m py_compile main.py",
-    "test": "python -m pytest tests/",
-    "lint": "python -m flake8 .",
-    "typecheck": "python -m mypy ."
+    "dev": "vite",
+    "build": "vite build",
+    "build:check": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "build:analyze": "vite build --mode analyze",
+    "lighthouse": "lhci autorun",
+    "pwa:generate-icons": "node scripts/utilities/generate_icon.py"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "@tanstack/react-query": "^5.0.0",
+    "@tanstack/react-query-devtools": "^5.0.0",
+    "clsx": "^2.0.0",
+    "dotenv": "^17.2.1",
+    "framer-motion": "^10.0.0",
+    "lucide-react": "^0.294.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
+    "react-router-dom": "^6.20.0",
+    "tailwind-merge": "^2.0.0",
+    "workbox-window": "^7.0.0"
   },
   "devDependencies": {
-    "claude-flow": "^2.0.0-alpha.91"
+    "@lhci/cli": "^0.12.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "autoprefixer": "^10.4.16",
+    "claude-flow": "^2.0.0-alpha.91",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "playwright": "^1.40.0",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.0",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vite-plugin-pwa": "^0.17.4",
+    "vitest": "^1.0.0"
   },
   "keywords": [
-    "unsplash",
-    "gpt",
+    "pwa",
+    "spanish",
+    "vocabulary",
+    "learning",
+    "ai",
     "image-search",
-    "sparc"
+    "education",
+    "offline",
+    "typescript",
+    "react"
   ],
-  "author": "",
-  "license": "MIT"
+  "author": "VocabLens Team",
+  "license": "MIT",
+  "homepage": "https://vocablens.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vocablens/vocablens-pwa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vocablens/vocablens-pwa/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
 }

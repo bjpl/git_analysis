@@ -55,7 +55,7 @@ try:
     from src.ui.dialogs.settings_menu import show_settings_dialog
     from src.models.vocabulary import VocabularyManager
     from src.ui.components.style_selector import StyleSelectorPanel
-    from src.features.description_styles import get_style_manager
+    from src.features.description_styles import DescriptionStyleManager
     from src.features.session_tracker import SessionTracker
 except ImportError as e:
     print(f"Warning: Could not import enhanced components: {e}")
@@ -82,7 +82,7 @@ except ImportError as e:
             self.get_selected_vocabulary_level = lambda: None
     
     def get_style_manager():
-        return None
+        return DescriptionStyleManager()
     
     class SessionTracker:
         def __init__(self, *args):
@@ -528,12 +528,16 @@ class ImageSearchApp(tk.Tk):
             vocabulary_manager=getattr(self, 'vocabulary_manager', None),
             openai_service=None,  # Will be set later when API client is ready
             theme_manager=getattr(self, 'theme_manager', None),
-            current_search_query="",
-            current_image_url="",
             wrap=tk.WORD,
             state=tk.DISABLED,
             font=("TkDefaultFont", 12)
         )
+        # Set context separately
+        if hasattr(self.description_text, 'update_context'):
+            self.description_text.update_context(
+                search_query="",
+                image_url=""
+            )
         self.description_text.grid(row=0, column=0, sticky="nsew")
         
         # Copy button for description

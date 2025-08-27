@@ -44,8 +44,28 @@
       "Read(/C:\\Users\\brand\\Development\\Project_Workspace\\image-questionnaire-gpt/**)",
       "Read(/C:\\Users\\brand\\Development\\Project_Workspace\\image-questionnaire-gpt/**)",
       "Read(/C:\\Users\\brand\\Development\\Project_Workspace\\image-questionnaire-gpt/**)",
-      "Read(/C:\\Users\\brand\\Development\\Project_Workspace\\image-questionnaire-gpt/**)"
+      "Read(/C:\\Users\\brand\\Development\\Project_Workspace\\image-questionnaire-gpt/**)",
+      "Bash(dir:*)",
+      "Bash(build_enhanced.bat)",
+      "Bash(scriptsbuild_enhanced.bat)",
+      "Bash(cmd /c:*)",
+      "Bash(venvScriptsactivate.bat)",
+      "Bash(pip --version)",
+      "Bash(call venvScriptsactivate)",
+      "Bash(venv/Scripts/python.exe:*)",
+      "Bash(venv/Scripts/pip.exe:*)",
+      "Bash(venv/Scripts/pyinstaller.exe:*)",
+      "Bash(venv\\Scripts\\python.exe -m PyInstaller:*)",
+      "Bash(powershell:*)",
+      "Bash(npm create:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(rm:*)",
+      "Bash(npm run preview:*)",
+      "Bash(tree:*)",
+      "Bash(node:*)"
     ],
     "deny": []
-  }
+  },
+  "outputStyle": "Explanatory"
 }

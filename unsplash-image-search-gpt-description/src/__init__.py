@@ -1,1 +1,0 @@
-# Unsplash Image Search Application

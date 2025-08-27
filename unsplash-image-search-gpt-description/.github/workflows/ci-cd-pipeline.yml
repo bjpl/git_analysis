@@ -1,0 +1,352 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop, 'release/*', 'hotfix/*']
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        options:
+        - development
+        - staging
+        - production
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+  PNPM_VERSION: '8'
+
+jobs:
+  # Code Quality & Security Checks
+  quality-checks:
+    name: Code Quality & Security
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        pip install -r requirements-dev.txt
+
+    - name: Run ESLint
+      run: npm run lint
+      continue-on-error: true
+
+    - name: Run Prettier check
+      run: npm run format:check
+      continue-on-error: true
+
+    - name: Run TypeScript check
+      run: npm run typecheck
+
+    - name: Python code quality (Black, isort, flake8)
+      run: |
+        black --check .
+        isort --check-only .
+        flake8 .
+      continue-on-error: true
+
+    - name: Security scan with Bandit (Python)
+      run: bandit -r . -f json -o bandit-report.json || true
+      continue-on-error: true
+
+    - name: Dependency security audit
+      run: |
+        npm audit --audit-level=critical
+        pip-audit
+      continue-on-error: true
+
+    - name: OWASP ZAP Baseline Scan
+      if: github.event_name == 'pull_request'
+      uses: zaproxy/action-baseline@v0.10.0
+      with:
+        target: 'https://unsplash-gpt-dev.vercel.app'
+        rules_file_name: '.zap/rules.tsv'
+      continue-on-error: true
+
+  # Unit and Integration Tests
+  test-suite:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        test-type: [unit, integration, e2e]
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        pip install -r requirements.txt -r requirements-dev.txt
+
+    - name: Setup test environment
+      run: |
+        cp .env.test .env.local
+        npm run db:test:setup
+
+    - name: Run unit tests
+      if: matrix.test-type == 'unit'
+      run: |
+        npm run test:unit -- --coverage --watchAll=false
+        python -m pytest tests/unit/ -v --cov=src --cov-report=xml
+
+    - name: Run integration tests  
+      if: matrix.test-type == 'integration'
+      run: |
+        npm run test:integration
+        python -m pytest tests/integration/ -v
+
+    - name: Run E2E tests
+      if: matrix.test-type == 'e2e'
+      run: |
+        npm run build
+        npm run test:e2e:headless
+      env:
+        PLAYWRIGHT_BROWSERS_PATH: 0
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ matrix.test-type }}
+        path: |
+          coverage/
+          test-results/
+          playwright-report/
+
+  # Performance Testing
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 20
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build application
+      run: npm run build
+
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        configPath: './lighthouse-ci.js'
+        temporaryPublicStorage: true
+        uploadArtifacts: true
+      env:
+        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+    - name: Bundle size analysis
+      run: npm run analyze:bundle
+
+  # Build and Deploy
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    needs: [quality-checks, test-suite]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/release/') || github.event_name == 'workflow_dispatch'
+    timeout-minutes: 25
+
+    strategy:
+      matrix:
+        environment: 
+          - ${{ github.ref == 'refs/heads/main' && 'production' || github.ref == 'refs/heads/develop' && 'staging' || 'development' }}
+
+    environment:
+      name: ${{ matrix.environment }}
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Setup environment variables
+      run: |
+        echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env.production
+        echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env.production
+        echo "NEXT_PUBLIC_APP_ENV=${{ matrix.environment }}" >> .env.production
+        echo "NEXT_PUBLIC_SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.production
+
+    - name: Build application
+      run: |
+        npm run build
+        npm run export
+      env:
+        NODE_ENV: production
+        NEXT_PUBLIC_APP_ENV: ${{ matrix.environment }}
+
+    - name: Deploy to Vercel
+      id: deploy
+      uses: vercel/action@v1
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: ${{ matrix.environment == 'production' && '--prod' || '' }}
+        working-directory: ./
+      env:
+        VERCEL_ENV: ${{ matrix.environment }}
+
+    - name: Run post-deployment tests
+      run: |
+        npm run test:smoke -- --baseUrl=${{ steps.deploy.outputs.url }}
+      continue-on-error: true
+
+    - name: Update deployment status
+      uses: actions/github-script@v7
+      if: always()
+      with:
+        script: |
+          const { context, github } = require('@actions/core');
+          await github.rest.repos.createDeploymentStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            deployment_id: context.payload.deployment?.id,
+            state: '${{ job.status }}',
+            environment_url: '${{ steps.deploy.outputs.url }}',
+            description: 'Deployment ${{ job.status }}'
+          });
+
+  # Database Migrations
+  database-migration:
+    name: Database Migration
+    runs-on: ubuntu-latest
+    needs: [build-and-deploy]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    timeout-minutes: 10
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Supabase CLI
+      uses: supabase/setup-cli@v1
+
+    - name: Run database migrations
+      run: |
+        supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}
+        supabase db push
+      env:
+        SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+
+    - name: Seed database (development only)
+      if: github.ref == 'refs/heads/develop'
+      run: supabase db seed
+      continue-on-error: true
+
+  # Notification and Monitoring Setup
+  post-deployment:
+    name: Post-deployment Setup
+    runs-on: ubuntu-latest
+    needs: [build-and-deploy, database-migration]
+    if: always()
+    timeout-minutes: 5
+
+    steps:
+    - name: Notify Slack on success
+      if: success()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: success
+        channel: '#deployments'
+        text: |
+          ✅ Deployment successful!
+          Environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
+          URL: ${{ needs.build-and-deploy.outputs.url }}
+          Commit: ${{ github.sha }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Notify Slack on failure
+      if: failure()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        channel: '#deployments'
+        text: |
+          ❌ Deployment failed!
+          Environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
+          Check: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Create Sentry release
+      if: success()
+      uses: getsentry/action-release@v1
+      env:
+        SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+        SENTRY_PROJECT: unsplash-gpt
+      with:
+        environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+        version: ${{ github.sha }}

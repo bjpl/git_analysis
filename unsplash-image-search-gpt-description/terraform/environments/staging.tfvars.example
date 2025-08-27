@@ -1,0 +1,85 @@
+# Staging Environment Configuration
+# Copy this file to staging.tfvars and update with actual values
+
+# Environment Configuration
+environment = "staging"
+project_name = "unsplash-gpt"
+aws_region = "us-east-1"
+supabase_region = "us-east-1"
+
+# Supabase Configuration
+supabase_plan = "free"  # Use free tier for staging
+supabase_db_password = "your-staging-db-password"
+supabase_access_token = "your-supabase-access-token"
+
+# Vercel Configuration
+vercel_api_token = "your-vercel-api-token"
+vercel_team_id = "your-vercel-team-id"
+
+# GitHub Configuration
+github_token = "your-github-personal-access-token"
+github_owner = "your-github-username-or-org"
+github_repo = "unsplash-image-search-gpt-description"
+
+# API Keys (External Services) - Can use same keys as production or separate test keys
+openai_api_key = "your-openai-api-key"
+unsplash_access_key = "your-unsplash-access-key"
+
+# Error Tracking and Monitoring
+sentry_dsn = "https://your-staging-sentry-dsn@sentry.io/project-id"
+sentry_auth_token = "your-sentry-auth-token"
+sentry_org = "your-sentry-org-slug"
+
+# Analytics (can use separate project or same as prod)
+posthog_key = "your-posthog-staging-key"
+posthog_host = "https://app.posthog.com"
+
+# Notifications
+slack_webhook_url = "https://hooks.slack.com/services/your/staging/webhook"
+alert_email = "staging-alerts@your-domain.com"
+
+# Domain Configuration
+domain_name = "staging-unsplash-gpt.com"
+subdomain_prefix = "staging"
+enable_custom_domain = false  # Use Vercel subdomain for staging
+
+# Security Configuration
+enable_waf = false  # Disable WAF for staging to reduce costs
+allowed_origins = [
+  "https://staging-unsplash-gpt.vercel.app",
+  "https://localhost:3000"
+]
+rate_limit_requests_per_minute = 30
+
+# Monitoring and Alerting
+enable_monitoring = true
+enable_analytics = true
+enable_error_tracking = true
+enable_performance_monitoring = false  # Disable to reduce noise
+
+# Backup Configuration
+enable_backup = false  # Disable automated backups for staging
+backup_retention_days = 7
+
+# Resource Scaling
+min_instances = 1
+max_instances = 5
+auto_scaling_enabled = false
+
+# Database Configuration
+db_max_connections = 50
+db_statement_timeout = 60000
+db_idle_timeout = 600
+
+# Feature Flags
+enable_feature_flags = true  # Enable for testing new features
+
+# Tags
+tags = {
+  Environment = "staging"
+  Application = "UnsplashGPT"
+  Team = "Engineering"
+  ManagedBy = "Terraform"
+  Repository = "unsplash-image-search-gpt-description"
+  Purpose = "testing"
+}

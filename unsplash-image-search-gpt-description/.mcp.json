@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ruv-swarm": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "ruv-swarm@latest",
+        "mcp",
+        "start"
+      ]
+    }
+  }
+}

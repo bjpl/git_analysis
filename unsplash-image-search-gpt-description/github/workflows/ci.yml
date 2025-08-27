@@ -1,0 +1,429 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run tests weekly on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+env:
+  NODE_VERSION: '20'
+  PYTHON_VERSION: '3.11'
+  
+jobs:
+  # Security and dependency audit
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          pip install -r requirements.txt
+          pip install safety bandit
+
+      - name: Run npm audit
+        run: npm audit --audit-level high
+        continue-on-error: true
+
+      - name: Run Python security audit
+        run: |
+          safety check --json
+          bandit -r src/ -f json
+        continue-on-error: true
+
+  # Code quality and linting
+  lint:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          pip install -r requirements-dev.txt
+
+      - name: Run ESLint
+        run: npm run lint:js
+
+      - name: Run Prettier check
+        run: npm run format:check
+
+      - name: Run Python linting
+        run: |
+          python -m flake8 . --statistics
+          python -m black --check .
+          python -m isort --check-only .
+
+      - name: Run TypeScript type checking
+        run: npm run type-check
+
+  # Unit tests
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['18', '20']
+        python-version: ['3.9', '3.10', '3.11']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Run JavaScript/TypeScript tests
+        run: npm run test:unit
+        env:
+          CI: true
+
+      - name: Run Python tests
+        run: python -m pytest tests/ -v --cov=src --cov-report=xml --cov-report=html
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  # Integration tests
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build application
+        run: npm run build
+        env:
+          VITE_UNSPLASH_ACCESS_KEY: ${{ secrets.TEST_UNSPLASH_KEY }}
+          VITE_OPENAI_API_KEY: ${{ secrets.TEST_OPENAI_KEY }}
+
+      - name: Start application for testing
+        run: |
+          npm run preview &
+          python main.py &
+          sleep 10
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379
+
+      - name: Run integration tests
+        run: npm run test:integration
+        env:
+          CI: true
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  # Build verification
+  build:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ['web', 'python', 'docker']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+        if: matrix.target != 'python'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+        if: matrix.target != 'web'
+
+      - name: Install dependencies
+        run: |
+          if [ "${{ matrix.target }}" != "python" ]; then npm ci; fi
+          if [ "${{ matrix.target }}" != "web" ]; then pip install -r requirements.txt; fi
+
+      - name: Build web application
+        if: matrix.target == 'web'
+        run: npm run build:web
+        env:
+          VITE_UNSPLASH_ACCESS_KEY: demo_key
+          VITE_OPENAI_API_KEY: demo_key
+
+      - name: Build Python application
+        if: matrix.target == 'python'
+        run: python -m py_compile main.py
+
+      - name: Set up Docker Buildx
+        if: matrix.target == 'docker'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        if: matrix.target == 'docker'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          target: production
+          push: false
+          tags: unsplash-gpt:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Performance testing
+  performance:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [lint, test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          VITE_UNSPLASH_ACCESS_KEY: demo_key
+          VITE_OPENAI_API_KEY: demo_key
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.12.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  # Deploy to staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    needs: [security, lint, test, integration, build]
+    environment:
+      name: staging
+      url: https://staging.unsplash-gpt.example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for staging
+        run: npm run build
+        env:
+          NODE_ENV: staging
+          VITE_UNSPLASH_ACCESS_KEY: ${{ secrets.STAGING_UNSPLASH_KEY }}
+          VITE_OPENAI_API_KEY: ${{ secrets.STAGING_OPENAI_KEY }}
+          VITE_SENTRY_DSN: ${{ secrets.STAGING_SENTRY_DSN }}
+
+      - name: Deploy to staging server
+        run: |
+          echo "Deploying to staging..."
+          # Add your deployment commands here
+          # Example: rsync, scp, or cloud deployment
+        env:
+          DEPLOY_HOST: ${{ secrets.STAGING_HOST }}
+          DEPLOY_USER: ${{ secrets.STAGING_USER }}
+          DEPLOY_KEY: ${{ secrets.STAGING_SSH_KEY }}
+
+  # Deploy to production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [security, lint, test, integration, build, performance]
+    environment:
+      name: production
+      url: https://unsplash-gpt.example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production
+        run: npm run build
+        env:
+          NODE_ENV: production
+          VITE_UNSPLASH_ACCESS_KEY: ${{ secrets.PROD_UNSPLASH_KEY }}
+          VITE_OPENAI_API_KEY: ${{ secrets.PROD_OPENAI_KEY }}
+          VITE_SENTRY_DSN: ${{ secrets.PROD_SENTRY_DSN }}
+          VITE_POSTHOG_KEY: ${{ secrets.PROD_POSTHOG_KEY }}
+
+      - name: Deploy to production server
+        run: |
+          echo "Deploying to production..."
+          # Add your production deployment commands here
+        env:
+          DEPLOY_HOST: ${{ secrets.PROD_HOST }}
+          DEPLOY_USER: ${{ secrets.PROD_USER }}
+          DEPLOY_KEY: ${{ secrets.PROD_SSH_KEY }}
+
+      - name: Post-deployment verification
+        run: |
+          # Health check and smoke tests
+          curl -f https://unsplash-gpt.example.com/health || exit 1
+          echo "Production deployment verified successfully!"
+
+      - name: Notify team
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const status = '${{ job.status }}' === 'success' ? '✅' : '❌';
+            const message = `${status} Production deployment ${context.sha.slice(0, 7)} ${status === '✅' ? 'completed successfully' : 'failed'}`;
+            
+            // You can integrate with Slack, Discord, or other notification services here
+            console.log(message);
+
+  # Cleanup and notifications
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [security, lint, test, integration, build]
+    steps:
+      - name: Clean up artifacts
+        run: |
+          echo "Cleaning up temporary resources..."
+          # Add cleanup commands if needed
+
+      - name: Report status
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `CI/CD Pipeline Failed - ${context.sha.slice(0, 7)}`,
+              body: `The CI/CD pipeline failed for commit ${context.sha}\n\nBranch: ${context.ref}\nWorkflow: ${context.workflow}\n\nPlease check the logs and fix any issues.`,
+              labels: ['ci-failure', 'bug']
+            });
+            console.log(`Created issue #${issue.data.number}`);

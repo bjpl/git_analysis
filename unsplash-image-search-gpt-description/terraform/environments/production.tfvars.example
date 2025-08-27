@@ -1,0 +1,84 @@
+# Production Environment Configuration
+# Copy this file to production.tfvars and update with actual values
+
+# Environment Configuration
+environment = "production"
+project_name = "unsplash-gpt"
+aws_region = "us-east-1"
+supabase_region = "us-east-1"
+
+# Supabase Configuration
+supabase_plan = "pro"
+supabase_db_password = "your-secure-db-password-here"  # Generate a strong password
+supabase_access_token = "your-supabase-access-token"
+
+# Vercel Configuration
+vercel_api_token = "your-vercel-api-token"
+vercel_team_id = "your-vercel-team-id"  # Optional for personal accounts
+
+# GitHub Configuration
+github_token = "your-github-personal-access-token"
+github_owner = "your-github-username-or-org"
+github_repo = "unsplash-image-search-gpt-description"
+
+# API Keys (External Services)
+openai_api_key = "your-openai-api-key"
+unsplash_access_key = "your-unsplash-access-key"
+
+# Error Tracking and Monitoring
+sentry_dsn = "https://your-sentry-dsn@sentry.io/project-id"
+sentry_auth_token = "your-sentry-auth-token"
+sentry_org = "your-sentry-org-slug"
+
+# Analytics
+posthog_key = "your-posthog-api-key"
+posthog_host = "https://app.posthog.com"
+
+# Notifications
+slack_webhook_url = "https://hooks.slack.com/services/your/webhook/url"
+alert_email = "alerts@your-domain.com"
+
+# Domain Configuration
+domain_name = "unsplash-gpt.com"
+enable_custom_domain = true
+
+# Security Configuration
+enable_waf = true
+allowed_origins = [
+  "https://unsplash-gpt.com",
+  "https://www.unsplash-gpt.com"
+]
+rate_limit_requests_per_minute = 100
+
+# Monitoring and Alerting
+enable_monitoring = true
+enable_analytics = true
+enable_error_tracking = true
+enable_performance_monitoring = true
+
+# Backup Configuration
+enable_backup = true
+backup_retention_days = 90
+
+# Resource Scaling
+min_instances = 2
+max_instances = 20
+auto_scaling_enabled = true
+
+# Database Configuration
+db_max_connections = 200
+db_statement_timeout = 30000
+db_idle_timeout = 300
+
+# Feature Flags
+enable_feature_flags = true
+
+# Tags
+tags = {
+  Environment = "production"
+  Application = "UnsplashGPT"
+  Team = "Engineering"
+  ManagedBy = "Terraform"
+  Repository = "unsplash-image-search-gpt-description"
+  CostCenter = "engineering"
+}
