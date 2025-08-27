@@ -63,7 +63,10 @@
       "Bash(rm:*)",
       "Bash(npm run preview:*)",
       "Bash(tree:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(git log:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)"
     ],
     "deny": []
   },
