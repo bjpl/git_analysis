@@ -1,0 +1,20 @@
+# Ignore parent directories
+../
+../*
+
+# Git files
+.git/
+.gitmodules
+
+# Development files
+node_modules/
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
