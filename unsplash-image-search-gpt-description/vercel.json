@@ -1,4 +1,7 @@
 {
-  "buildCommand": "npm install && npm run build && cp -r public/* dist/ 2>/dev/null || true",
-  "outputDirectory": "dist"
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 10
+    }
+  }
 }
