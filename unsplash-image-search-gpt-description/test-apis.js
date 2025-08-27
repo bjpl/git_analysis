@@ -1,129 +1,120 @@
-// Quick API Connection Test Script
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import fs from 'fs';
+#!/usr/bin/env node
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+/**
+ * Test script to verify API endpoints work locally
+ * Run: node test-apis.js
+ */
 
-// Load environment variables
-const envPath = join(__dirname, '.env');
-if (fs.existsSync(envPath)) {
-  dotenv.config({ path: envPath });
-  console.log('✅ Environment variables loaded');
-} else {
-  console.error('❌ .env file not found');
-  process.exit(1);
-}
+import http from 'http';
+import path from 'path';
 
-// Test Unsplash API
-async function testUnsplash() {
-  const apiKey = process.env.VITE_UNSPLASH_API_KEY;
-  if (!apiKey) {
-    console.error('❌ Unsplash API key not found');
-    return false;
-  }
-  
-  try {
-    const response = await fetch('https://api.unsplash.com/photos/random', {
-      headers: {
-        'Authorization': `Client-ID ${apiKey}`
-      }
-    });
-    
-    if (response.ok) {
-      console.log('✅ Unsplash API: Connected successfully');
-      return true;
-    } else {
-      console.error(`❌ Unsplash API: ${response.status} ${response.statusText}`);
-      return false;
+const BASE_URL = 'http://localhost:3000';
+
+const tests = [
+    {
+        name: 'Debug API Endpoint',
+        path: '/api/debug',
+        expected: 200
+    },
+    {
+        name: 'Health Check API',
+        path: '/api/health', 
+        expected: 200
+    },
+    {
+        name: 'Static Test Page',
+        path: '/public/test.html',
+        expected: 200
+    },
+    {
+        name: 'Main Index Page',
+        path: '/public/index.html',
+        expected: 200
+    },
+    {
+        name: 'Route Test Page',
+        path: '/public/route-test.html',
+        expected: 200
     }
-  } catch (error) {
-    console.error('❌ Unsplash API:', error.message);
-    return false;
-  }
-}
+];
 
-// Test OpenAI API
-async function testOpenAI() {
-  const apiKey = process.env.VITE_OPENAI_API_KEY;
-  if (!apiKey) {
-    console.error('❌ OpenAI API key not found');
-    return false;
-  }
-  
-  try {
-    const response = await fetch('https://api.openai.com/v1/models', {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`
-      }
+async function testEndpoint(test) {
+    return new Promise((resolve) => {
+        const startTime = Date.now();
+        
+        http.get(`${BASE_URL}${test.path}`, (res) => {
+            const duration = Date.now() - startTime;
+            let data = '';
+            
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+            
+            res.on('end', () => {
+                const success = res.statusCode === test.expected;
+                resolve({
+                    ...test,
+                    status: res.statusCode,
+                    success,
+                    duration,
+                    size: data.length,
+                    contentType: res.headers['content-type']
+                });
+            });
+        }).on('error', (err) => {
+            resolve({
+                ...test,
+                error: err.message,
+                success: false,
+                duration: Date.now() - startTime
+            });
+        });
     });
-    
-    if (response.ok) {
-      console.log('✅ OpenAI API: Connected successfully');
-      return true;
-    } else {
-      console.error(`❌ OpenAI API: ${response.status} ${response.statusText}`);
-      return false;
-    }
-  } catch (error) {
-    console.error('❌ OpenAI API:', error.message);
-    return false;
-  }
 }
 
-// Test Supabase
-async function testSupabase() {
-  const url = process.env.VITE_SUPABASE_URL;
-  const key = process.env.VITE_SUPABASE_ANON_KEY;
-  
-  if (!url || !key) {
-    console.error('❌ Supabase credentials not found');
-    return false;
-  }
-  
-  try {
-    const response = await fetch(`${url}/rest/v1/`, {
-      headers: {
-        'apikey': key,
-        'Authorization': `Bearer ${key}`
-      }
-    });
-    
-    if (response.ok || response.status === 404) { // 404 is ok, means API is reachable
-      console.log('✅ Supabase: Connected successfully');
-      return true;
-    } else {
-      console.error(`❌ Supabase: ${response.status} ${response.statusText}`);
-      return false;
-    }
-  } catch (error) {
-    console.error('❌ Supabase:', error.message);
-    return false;
-  }
-}
-
-// Run all tests
 async function runTests() {
-  console.log('\n🔍 Testing API Connections...\n');
-  
-  const results = await Promise.all([
-    testUnsplash(),
-    testOpenAI(),
-    testSupabase()
-  ]);
-  
-  const allPassed = results.every(r => r);
-  
-  console.log('\n' + '='.repeat(40));
-  if (allPassed) {
-    console.log('✅ All API connections successful!');
-  } else {
-    console.log('⚠️  Some API connections failed');
-    console.log('Please check your .env file');
-  }
-  console.log('='.repeat(40) + '\n');
+    console.log('🚀 Testing Vercel Deployment Setup...\n');
+    
+    const results = [];
+    
+    for (const test of tests) {
+        process.stdout.write(`Testing ${test.name}... `);
+        const result = await testEndpoint(test);
+        results.push(result);
+        
+        if (result.success) {
+            console.log(`✅ ${result.status} (${result.duration}ms)`);
+        } else {
+            console.log(`❌ ${result.error || `${result.status} (expected ${test.expected})`}`);
+        }
+    }
+    
+    console.log('\n📊 Test Summary:');
+    console.log(`✅ Passed: ${results.filter(r => r.success).length}`);
+    console.log(`❌ Failed: ${results.filter(r => !r.success).length}`);
+    console.log(`📈 Total: ${results.length}`);
+    
+    if (results.every(r => r.success)) {
+        console.log('\n🎉 All tests passed! Ready for Vercel deployment.');
+        process.exit(0);
+    } else {
+        console.log('\n⚠️  Some tests failed. Check your local server setup.');
+        process.exit(1);
+    }
 }
 
-runTests();
+// Check if we should test locally or just show info
+if (process.argv.includes('--info')) {
+    console.log('📝 Vercel Deployment Test Configuration:');
+    console.log('\nFiles created:');
+    console.log('- /public/test.html - Basic HTML test page');
+    console.log('- /public/index.html - React CDN test page');  
+    console.log('- /public/route-test.html - Routing test page');
+    console.log('- /api/debug.js - Debug API endpoint');
+    console.log('- /vercel.json - Vercel routing configuration');
+    console.log('- /package-minimal.json - Minimal package.json');
+    console.log('\nTo test locally: npx http-server . -p 3000 & node test-apis.js');
+    console.log('To deploy: vercel --prod');
+} else {
+    runTests().catch(console.error);
+}
