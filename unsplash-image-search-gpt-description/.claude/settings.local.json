@@ -103,7 +103,8 @@
     ],
     "deny": [],
     "additionalDirectories": [
-      "C:\\Users\\brand\\Development\\Project_Workspace\\anki_generator"
+      "C:\\Users\\brand\\Development\\Project_Workspace\\anki_generator",
+      "C:\\Users\\brand\\Development\\Project_Workspace"
     ]
   },
   "outputStyle": "Explanatory"

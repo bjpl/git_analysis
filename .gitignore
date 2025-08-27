@@ -283,4 +283,13 @@ nul
 
 # Compiled Python modules in scripts
 spanish-learning/scripts/__pycache__/
-pdf-generators/__pycache__/
+pdf-generators/__pycache__/# Ignore other project directories
+anki_generator/
+conjugation_gui/
+image-questionnaire-gpt/
+langtool/
+mealplanner_and_pantry_manager/
+nutriplan/
+portfolio_site/
+spanish-master/
+subjunctive_practice/
