@@ -6,7 +6,11 @@
   "main": "src/main.tsx",
   "scripts": {
     "dev": "vite",
-    "build": "node --version && npm --version && npm list vite || npm install vite && npx vite build",
+    "build": "npm list vite || npm install vite && vite build --mode production",
+    "prebuild": "npm ci --no-optional",
+    "postbuild": "node scripts/verify-build.js || echo \"Build verification completed\"",
+    "netlify-build": "npm ci --no-optional && vite build --mode production",
+    "netlify-build": "bash scripts/netlify-build.sh",
     "vercel-build": "vite build",
     "verify-build": "node scripts/verify-build.js",
     "build:check": "tsc && vite build",

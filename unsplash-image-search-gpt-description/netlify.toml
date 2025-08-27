@@ -1,20 +1,59 @@
 [build]
-  command = "npm install && npm run build"
+  # Self-contained build that doesn't depend on parent directories
+  command = "npm ci --no-optional && npm run build"
   publish = "dist"
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF"
+  
+  # Ignore git changes to prevent submodule issues
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':!../'"
 
 [build.environment]
   NODE_VERSION = "18"
+  NPM_VERSION = "9"
   GIT_LFS_ENABLED = "false"
+  # Prevent git from trying to access parent directories
+  GIT_DISCOVERY_ACROSS_FILESYSTEM = "0"
+  # Isolate build to current directory only
+  NODE_PATH = "./node_modules"
 
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+# SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

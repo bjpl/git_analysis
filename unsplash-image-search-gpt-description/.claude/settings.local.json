@@ -70,9 +70,21 @@
       "Bash(cat:*)",
       "Bash(npm run verify-build:*)",
       "Bash(git submodule:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git config:*)",
+      "Bash(git reset:*)",
+      "Bash(if [ -d \".git/modules\" ])",
+      "Bash(else echo \".git/modules directory does not exist\")",
+      "Bash(fi)",
+      "Bash(git rev-parse:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(timeout 120 npm run build)",
+      "Bash(git clean:*)"
     ],
-    "deny": []
+    "deny": [],
+    "additionalDirectories": [
+      "C:\\Users\\brand\\Development\\Project_Workspace\\anki_generator"
+    ]
   },
   "outputStyle": "Explanatory"
 }

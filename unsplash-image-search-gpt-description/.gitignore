@@ -83,3 +83,23 @@ wheels/
 ../portfolio_site
 ../spanish-master
 ../subjunctive_practice
+
+# =============================================================================
+# NETLIFY DEPLOYMENT FIX - Ignore parent directory references
+# =============================================================================
+
+# Explicitly ignore all parent directories to prevent submodule confusion
+../*/
+../*
+
+# Git submodule files (should not exist but added for safety)
+.gitmodules
+.git/modules/
+
+# Netlify specific
+.netlify/
+netlify/
+
+# Additional safety ignores
+*.submodule
+.gitmodules.*
