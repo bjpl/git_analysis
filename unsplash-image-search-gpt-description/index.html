@@ -1,30 +1,103 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#4f46e5" />
-    <meta name="description" content="VocabLens - Learn vocabulary through AI-powered image descriptions. Build your vocabulary with beautiful images and intelligent descriptions." />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocabLens - Emergency Deployment Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+        .success { background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; }
+        .info { background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; }
+        .warning { background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; }
+        .error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; }
+        a { color: #60a5fa; }
+        h1 { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚨 VocabLens Emergency Deployment</h1>
+        
+        <div class="status success">
+            ✅ This HTML file is loading, which means Netlify is serving content
+        </div>
+        
+        <div class="status info">
+            📋 <strong>Status:</strong> Emergency deployment active - React app may not be loading
+        </div>
+        
+        <div class="status warning">
+            ⚠️ If you see this page, there's likely an issue with the main React application build
+        </div>
+        
+        <h2>Quick Diagnosis</h2>
+        <p><strong>Timestamp:</strong> <script>document.write(new Date().toLocaleString())</script></p>
+        <p><strong>URL:</strong> <script>document.write(window.location.href)</script></p>
+        
+        <h3>Possible Issues:</h3>
+        <ul>
+            <li>React app build failed on Netlify</li>
+            <li>Incorrect publish directory configuration</li>
+            <li>Missing dependencies in production build</li>
+            <li>Asset path resolution issues</li>
+        </ul>
+        
+        <h3>Expected Behavior:</h3>
+        <p>The main VocabLens Progressive Web App should load with:</p>
+        <ul>
+            <li>Spanish vocabulary learning interface</li>
+            <li>Image search functionality</li>
+            <li>AI-powered descriptions</li>
+            <li>Progressive Web App features</li>
+        </ul>
+        
+        <h3>Next Steps:</h3>
+        <ol>
+            <li>Check Netlify build logs for errors</li>
+            <li>Verify dist/ directory is being published</li>
+            <li>Confirm all dependencies are production-ready</li>
+            <li>Test <a href="/dist/index.html">/dist/index.html</a> directly</li>
+        </ol>
+        
+        <div class="status error">
+            🔧 <strong>Developer:</strong> Check the build logs and fix the React app deployment
+        </div>
+    </div>
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
-    
-    <!-- PWA Meta Tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="VocabLens">
-    <link rel="apple-touch-icon" href="/icon-192.png">
-    
-    <!-- Preconnect to external domains for performance -->
-    <link rel="preconnect" href="https://api.unsplash.com">
-    <link rel="preconnect" href="https://images.unsplash.com">
-    <link rel="preconnect" href="https://api.openai.com">
-    
-    <title>VocabLens - Visual Vocabulary Learning</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <script>
+        console.log('Emergency deployment page loaded');
+        console.log('Location:', window.location);
+        console.log('User Agent:', navigator.userAgent);
+        
+        // Try to detect if the real app is available
+        fetch('/dist/index.html').then(r => {
+            if (r.ok) {
+                console.log('React app index.html found in /dist/');
+            } else {
+                console.error('React app index.html NOT found in /dist/');
+            }
+        }).catch(e => console.error('Error checking for React app:', e));
+    </script>
+</body>
 </html>
