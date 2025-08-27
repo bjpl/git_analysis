@@ -105,7 +105,8 @@
       "WebFetch(domain:github.com)",
       "Bash(if exist dist rd /s /q dist)",
       "Bash(test:*)",
-      "WebFetch(domain:vocablens-pwa.netlify.app)"
+      "WebFetch(domain:vocablens-pwa.netlify.app)",
+      "Bash(nslookup:*)"
     ],
     "deny": [],
     "additionalDirectories": [
