@@ -94,7 +94,12 @@
       "Bash(pkill:*)",
       "Bash(npm start)",
       "Bash(curl:*)",
-      "Bash(npm run netlify-build:*)"
+      "Bash(npm run netlify-build:*)",
+      "WebFetch(domain:localhost)",
+      "WebFetch(domain:localhost)",
+      "WebFetch(domain:localhost)",
+      "WebFetch(domain:localhost)",
+      "Bash(netlify-cli validate:*)"
     ],
     "deny": [],
     "additionalDirectories": [
