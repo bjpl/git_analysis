@@ -22,7 +22,10 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "build:analyze": "vite build --mode analyze",
     "lighthouse": "lhci autorun",
-    "pwa:generate-icons": "node scripts/utilities/generate_icon.py"
+    "pwa:generate-icons": "node scripts/utilities/generate_icon.py",
+    "deploy:github": "npm run build && npm run github:prepare && gh-pages -d dist",
+    "github:prepare": "copy dist\\index.html dist\\404.html",
+    "predeploy:github": "npm run build"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -69,7 +72,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-pwa": "^0.17.4",
-    "vitest": "^1.0.0"
+    "vitest": "^1.0.0",
+    "gh-pages": "^6.0.0"
   },
   "keywords": [
     "pwa",
@@ -88,7 +92,7 @@
   "homepage": "https://vocablens.app",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vocablens/vocablens-pwa.git"
+    "url": "git+https://github.com/bjpl/vocablens-pwa.git"
   },
   "bugs": {
     "url": "https://github.com/vocablens/vocablens-pwa/issues"
