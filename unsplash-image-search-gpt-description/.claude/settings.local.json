@@ -68,7 +68,9 @@
       "Bash(git remote add:*)",
       "Bash(git push:*)",
       "Bash(cat:*)",
-      "Bash(npm run verify-build:*)"
+      "Bash(npm run verify-build:*)",
+      "Bash(git submodule:*)",
+      "Bash(git rm:*)"
     ],
     "deny": []
   },
