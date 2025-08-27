@@ -1,14 +1,9 @@
-# VocabLens Netlify Configuration - Bulletproof Deployment
+# VocabLens Netlify Configuration - Minimal Working Setup
 
 [build]
-  command = "npm run build"
-  publish = "dist"
+  publish = "."
+  command = "echo 'Using root directory for emergency deployment'"
 
-[build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9"
-
-# SPA routing for React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
