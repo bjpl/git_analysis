@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "vercel-build": "npm install && vite build",
+    "vercel-build": "npm install && vite build && echo 'Contents of dist:' && ls -la dist/",
     "build:check": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
