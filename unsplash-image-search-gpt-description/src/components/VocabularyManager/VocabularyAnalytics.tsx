@@ -1,1 +1,617 @@
-import React, { useState, useMemo } from 'react';\nimport {\n  LineChart,\n  Line,\n  XAxis,\n  YAxis,\n  CartesianGrid,\n  Tooltip,\n  ResponsiveContainer,\n  AreaChart,\n  Area,\n  BarChart,\n  Bar,\n  PieChart,\n  Pie,\n  Cell,\n  ScatterChart,\n  Scatter\n} from 'recharts';\nimport {\n  TrendingUp,\n  TrendingDown,\n  Target,\n  Clock,\n  Calendar,\n  Brain,\n  Award,\n  Zap,\n  BarChart3,\n  PieChart as PieChartIcon,\n  Activity,\n  Users\n} from 'lucide-react';\nimport { VocabularyAnalytics, VocabularyItem, MasteryLevel } from '../../types';\nimport { useVocabulary } from '../../hooks/useVocabulary';\nimport { Card } from '../Shared/Card/Card';\nimport { Button } from '../Shared/Button/Button';\n\ninterface VocabularyAnalyticsProps {\n  className?: string;\n  timeRange?: '7d' | '30d' | '90d' | '1y' | 'all';\n}\n\nexport function VocabularyAnalyticsDashboard({\n  className = '',\n  timeRange = '30d'\n}: VocabularyAnalyticsProps) {\n  const { vocabularyItems, stats, isLoading } = useVocabulary();\n  const [selectedTab, setSelectedTab] = useState<'overview' | 'learning' | 'performance' | 'trends'>('overview');\n  const [chartType, setChartType] = useState<'line' | 'area' | 'bar'>('area');\n\n  // Calculate analytics data\n  const analytics = useMemo(() => {\n    return calculateAnalytics(vocabularyItems, timeRange);\n  }, [vocabularyItems, timeRange]);\n\n  const tabs = [\n    { id: 'overview', label: 'Overview', icon: <BarChart3 className=\"w-4 h-4\" /> },\n    { id: 'learning', label: 'Learning', icon: <Brain className=\"w-4 h-4\" /> },\n    { id: 'performance', label: 'Performance', icon: <Target className=\"w-4 h-4\" /> },\n    { id: 'trends', label: 'Trends', icon: <TrendingUp className=\"w-4 h-4\" /> }\n  ];\n\n  if (isLoading) {\n    return (\n      <div className={`vocabulary-analytics ${className}`}>\n        <div className=\"animate-pulse space-y-4\">\n          <div className=\"h-8 bg-gray-200 rounded w-1/3\"></div>\n          <div className=\"h-64 bg-gray-200 rounded\"></div>\n          <div className=\"grid grid-cols-1 md:grid-cols-3 gap-4\">\n            {[1, 2, 3].map(i => (\n              <div key={i} className=\"h-32 bg-gray-200 rounded\"></div>\n            ))}\n          </div>\n        </div>\n      </div>\n    );\n  }\n\n  return (\n    <div className={`vocabulary-analytics ${className}`}>\n      {/* Header */}\n      <div className=\"mb-6\">\n        <h2 className=\"text-2xl font-bold text-gray-900 dark:text-white mb-2\">\n          Learning Analytics\n        </h2>\n        <p className=\"text-gray-600 dark:text-gray-400\">\n          Insights into your vocabulary learning journey and progress patterns.\n        </p>\n      </div>\n\n      {/* Tab Navigation */}\n      <div className=\"flex space-x-1 mb-6 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg\">\n        {tabs.map((tab) => (\n          <button\n            key={tab.id}\n            onClick={() => setSelectedTab(tab.id as any)}\n            className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors ${\n              selectedTab === tab.id\n                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'\n                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'\n            }`}\n          >\n            {tab.icon}\n            {tab.label}\n          </button>\n        ))}\n      </div>\n\n      {/* Overview Tab */}\n      {selectedTab === 'overview' && (\n        <div className=\"space-y-6\">\n          {/* Key Metrics */}\n          <div className=\"grid grid-cols-1 md:grid-cols-4 gap-4\">\n            <MetricCard\n              title=\"Learning Velocity\"\n              value={`${analytics.learningVelocity.toFixed(1)} words/day`}\n              change={+12.5}\n              icon={<TrendingUp className=\"w-5 h-5\" />}\n              color=\"blue\"\n            />\n            \n            <MetricCard\n              title=\"Retention Rate\"\n              value={`${(analytics.retentionRate * 100).toFixed(1)}%`}\n              change={+5.2}\n              icon={<Brain className=\"w-5 h-5\" />}\n              color=\"green\"\n            />\n            \n            <MetricCard\n              title=\"Study Streak\"\n              value={`${stats?.streak || 0} days`}\n              change={stats?.streak ? +1 : 0}\n              icon={<Zap className=\"w-5 h-5\" />}\n              color=\"orange\"\n            />\n            \n            <MetricCard\n              title=\"Avg. Session Time\"\n              value=\"12.5 min\"\n              change={-2.1}\n              icon={<Clock className=\"w-5 h-5\" />}\n              color=\"purple\"\n            />\n          </div>\n\n          {/* Weekly Activity Chart */}\n          <Card className=\"p-6\">\n            <div className=\"flex items-center justify-between mb-4\">\n              <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white\">\n                Weekly Activity\n              </h3>\n              <div className=\"flex gap-2\">\n                {(['line', 'area', 'bar'] as const).map((type) => (\n                  <Button\n                    key={type}\n                    variant={chartType === type ? 'primary' : 'ghost'}\n                    size=\"sm\"\n                    onClick={() => setChartType(type)}\n                  >\n                    {type}\n                  </Button>\n                ))}\n              </div>\n            </div>\n            \n            <div className=\"h-80\">\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                {chartType === 'line' && (\n                  <LineChart data={analytics.weeklyActivity}>\n                    <CartesianGrid strokeDasharray=\"3 3\" />\n                    <XAxis dataKey=\"date\" />\n                    <YAxis />\n                    <Tooltip />\n                    <Line\n                      type=\"monotone\"\n                      dataKey=\"wordsLearned\"\n                      stroke=\"#3b82f6\"\n                      strokeWidth={2}\n                      name=\"Words Learned\"\n                    />\n                    <Line\n                      type=\"monotone\"\n                      dataKey=\"reviewsCompleted\"\n                      stroke=\"#10b981\"\n                      strokeWidth={2}\n                      name=\"Reviews Completed\"\n                    />\n                  </LineChart>\n                )}\n                \n                {chartType === 'area' && (\n                  <AreaChart data={analytics.weeklyActivity}>\n                    <CartesianGrid strokeDasharray=\"3 3\" />\n                    <XAxis dataKey=\"date\" />\n                    <YAxis />\n                    <Tooltip />\n                    <Area\n                      type=\"monotone\"\n                      dataKey=\"wordsLearned\"\n                      stackId=\"1\"\n                      stroke=\"#3b82f6\"\n                      fill=\"#3b82f6\"\n                      fillOpacity={0.6}\n                      name=\"Words Learned\"\n                    />\n                    <Area\n                      type=\"monotone\"\n                      dataKey=\"reviewsCompleted\"\n                      stackId=\"2\"\n                      stroke=\"#10b981\"\n                      fill=\"#10b981\"\n                      fillOpacity={0.6}\n                      name=\"Reviews Completed\"\n                    />\n                  </AreaChart>\n                )}\n                \n                {chartType === 'bar' && (\n                  <BarChart data={analytics.weeklyActivity}>\n                    <CartesianGrid strokeDasharray=\"3 3\" />\n                    <XAxis dataKey=\"date\" />\n                    <YAxis />\n                    <Tooltip />\n                    <Bar dataKey=\"wordsLearned\" fill=\"#3b82f6\" name=\"Words Learned\" />\n                    <Bar dataKey=\"reviewsCompleted\" fill=\"#10b981\" name=\"Reviews Completed\" />\n                  </BarChart>\n                )}\n              </ResponsiveContainer>\n            </div>\n          </Card>\n\n          {/* Category Progress */}\n          <Card className=\"p-6\">\n            <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white mb-4\">\n              Category Progress\n            </h3>\n            \n            <div className=\"space-y-4\">\n              {Object.entries(analytics.categoryProgress).map(([category, progress]) => (\n                <div key={category}>\n                  <div className=\"flex justify-between items-center mb-2\">\n                    <span className=\"text-sm font-medium text-gray-700 dark:text-gray-300\">\n                      {category}\n                    </span>\n                    <div className=\"text-sm text-gray-600 dark:text-gray-400\">\n                      {progress.mastered}/{progress.total} ({((progress.mastered / progress.total) * 100).toFixed(0)}%)\n                    </div>\n                  </div>\n                  <div className=\"w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2\">\n                    <div\n                      className=\"bg-blue-600 h-2 rounded-full transition-all duration-300\"\n                      style={{ width: `${(progress.mastered / progress.total) * 100}%` }}\n                    ></div>\n                  </div>\n                  <div className=\"mt-1 text-xs text-gray-500 dark:text-gray-400\">\n                    Avg. Accuracy: {(progress.accuracy * 100).toFixed(1)}%\n                  </div>\n                </div>\n              ))}\n            </div>\n          </Card>\n        </div>\n      )}\n\n      {/* Learning Tab */}\n      {selectedTab === 'learning' && (\n        <div className=\"space-y-6\">\n          {/* Difficulty Distribution */}\n          <Card className=\"p-6\">\n            <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white mb-4\">\n              Difficulty Distribution\n            </h3>\n            \n            <div className=\"h-64\">\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                <BarChart data={Object.entries(analytics.difficultyDistribution).map(([level, count]) => ({\n                  difficulty: `Level ${level}`,\n                  count\n                }))}>\n                  <CartesianGrid strokeDasharray=\"3 3\" />\n                  <XAxis dataKey=\"difficulty\" />\n                  <YAxis />\n                  <Tooltip />\n                  <Bar dataKey=\"count\" fill=\"#8b5cf6\" />\n                </BarChart>\n              </ResponsiveContainer>\n            </div>\n          </Card>\n\n          {/* Mastery Timeline */}\n          <Card className=\"p-6\">\n            <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white mb-4\">\n              Learning Progress Over Time\n            </h3>\n            \n            <div className=\"h-80\">\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                <AreaChart data={generateMasteryTimeline(vocabularyItems)}>\n                  <CartesianGrid strokeDasharray=\"3 3\" />\n                  <XAxis dataKey=\"date\" />\n                  <YAxis />\n                  <Tooltip />\n                  <Area\n                    type=\"monotone\"\n                    dataKey=\"new\"\n                    stackId=\"1\"\n                    stroke=\"#6b7280\"\n                    fill=\"#6b7280\"\n                    name=\"New\"\n                  />\n                  <Area\n                    type=\"monotone\"\n                    dataKey=\"learning\"\n                    stackId=\"1\"\n                    stroke=\"#f59e0b\"\n                    fill=\"#f59e0b\"\n                    name=\"Learning\"\n                  />\n                  <Area\n                    type=\"monotone\"\n                    dataKey=\"review\"\n                    stackId=\"1\"\n                    stroke=\"#3b82f6\"\n                    fill=\"#3b82f6\"\n                    name=\"Review\"\n                  />\n                  <Area\n                    type=\"monotone\"\n                    dataKey=\"mastered\"\n                    stackId=\"1\"\n                    stroke=\"#10b981\"\n                    fill=\"#10b981\"\n                    name=\"Mastered\"\n                  />\n                </AreaChart>\n              </ResponsiveContainer>\n            </div>\n          </Card>\n        </div>\n      )}\n\n      {/* Performance Tab */}\n      {selectedTab === 'performance' && (\n        <div className=\"space-y-6\">\n          {/* Accuracy vs Difficulty Scatter */}\n          <Card className=\"p-6\">\n            <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white mb-4\">\n              Accuracy vs Difficulty\n            </h3>\n            \n            <div className=\"h-64\">\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                <ScatterChart data={vocabularyItems.map(item => ({\n                  difficulty: item.difficulty,\n                  accuracy: item.timesReviewed > 0 ? (item.timesCorrect / item.timesReviewed) * 100 : 0,\n                  masteryLevel: item.masteryLevel\n                })).filter(item => item.accuracy > 0)}>\n                  <CartesianGrid strokeDasharray=\"3 3\" />\n                  <XAxis dataKey=\"difficulty\" type=\"number\" domain={[1, 10]} name=\"Difficulty\" />\n                  <YAxis dataKey=\"accuracy\" type=\"number\" domain={[0, 100]} name=\"Accuracy %\" />\n                  <Tooltip />\n                  <Scatter dataKey=\"accuracy\" fill=\"#3b82f6\" />\n                </ScatterChart>\n              </ResponsiveContainer>\n            </div>\n          </Card>\n\n          {/* Review Performance */}\n          <Card className=\"p-6\">\n            <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white mb-4\">\n              Review Performance Trends\n            </h3>\n            \n            <div className=\"h-64\">\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                <LineChart data={analytics.weeklyActivity}>\n                  <CartesianGrid strokeDasharray=\"3 3\" />\n                  <XAxis dataKey=\"date\" />\n                  <YAxis />\n                  <Tooltip />\n                  <Line\n                    type=\"monotone\"\n                    dataKey=\"accuracy\"\n                    stroke=\"#10b981\"\n                    strokeWidth={2}\n                    name=\"Accuracy %\"\n                  />\n                </LineChart>\n              </ResponsiveContainer>\n            </div>\n          </Card>\n        </div>\n      )}\n\n      {/* Trends Tab */}\n      {selectedTab === 'trends' && (\n        <div className=\"space-y-6\">\n          {/* Streak History */}\n          <Card className=\"p-6\">\n            <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white mb-4\">\n              Study Streak History\n            </h3>\n            \n            <div className=\"h-64\">\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                <AreaChart data={analytics.streakHistory}>\n                  <CartesianGrid strokeDasharray=\"3 3\" />\n                  <XAxis dataKey=\"date\" />\n                  <YAxis />\n                  <Tooltip />\n                  <Area\n                    type=\"monotone\"\n                    dataKey=\"streak\"\n                    stroke=\"#f59e0b\"\n                    fill=\"#f59e0b\"\n                    fillOpacity={0.6}\n                    name=\"Streak Days\"\n                  />\n                </AreaChart>\n              </ResponsiveContainer>\n            </div>\n          </Card>\n\n          {/* Learning Insights */}\n          <Card className=\"p-6\">\n            <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white mb-4\">\n              Learning Insights\n            </h3>\n            \n            <div className=\"space-y-4\">\n              <div className=\"p-4 bg-blue-50 dark:bg-blue-900 rounded-lg\">\n                <div className=\"flex items-center gap-3\">\n                  <TrendingUp className=\"w-5 h-5 text-blue-600 dark:text-blue-400\" />\n                  <div>\n                    <h4 className=\"font-medium text-blue-900 dark:text-blue-100\">\n                      Strong Learning Velocity\n                    </h4>\n                    <p className=\"text-sm text-blue-700 dark:text-blue-300\">\n                      You're learning {analytics.learningVelocity.toFixed(1)} words per day on average.\n                    </p>\n                  </div>\n                </div>\n              </div>\n              \n              <div className=\"p-4 bg-green-50 dark:bg-green-900 rounded-lg\">\n                <div className=\"flex items-center gap-3\">\n                  <Brain className=\"w-5 h-5 text-green-600 dark:text-green-400\" />\n                  <div>\n                    <h4 className=\"font-medium text-green-900 dark:text-green-100\">\n                      Excellent Retention\n                    </h4>\n                    <p className=\"text-sm text-green-700 dark:text-green-300\">\n                      Your retention rate is {(analytics.retentionRate * 100).toFixed(1)}%, which is above average.\n                    </p>\n                  </div>\n                </div>\n              </div>\n              \n              <div className=\"p-4 bg-yellow-50 dark:bg-yellow-900 rounded-lg\">\n                <div className=\"flex items-center gap-3\">\n                  <Target className=\"w-5 h-5 text-yellow-600 dark:text-yellow-400\" />\n                  <div>\n                    <h4 className=\"font-medium text-yellow-900 dark:text-yellow-100\">\n                      Recommendation\n                    </h4>\n                    <p className=\"text-sm text-yellow-700 dark:text-yellow-300\">\n                      Consider focusing more on Level {getMostChallengingLevel(analytics.difficultyDistribution)} words to improve overall proficiency.\n                    </p>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </Card>\n        </div>\n      )}\n    </div>\n  );\n}\n\n// Helper Components\ninterface MetricCardProps {\n  title: string;\n  value: string;\n  change: number;\n  icon: React.ReactNode;\n  color: 'blue' | 'green' | 'orange' | 'purple';\n}\n\nfunction MetricCard({ title, value, change, icon, color }: MetricCardProps) {\n  const colorClasses = {\n    blue: 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400',\n    green: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400',\n    orange: 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-400',\n    purple: 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-400'\n  };\n\n  return (\n    <Card className=\"p-6\">\n      <div className=\"flex items-center justify-between\">\n        <div>\n          <p className=\"text-sm font-medium text-gray-600 dark:text-gray-400\">{title}</p>\n          <p className=\"text-2xl font-bold text-gray-900 dark:text-white\">{value}</p>\n        </div>\n        <div className={`p-3 rounded-full ${colorClasses[color]}`}>\n          {icon}\n        </div>\n      </div>\n      <div className=\"mt-4 flex items-center text-sm\">\n        {change > 0 ? (\n          <TrendingUp className=\"w-4 h-4 text-green-500 mr-1\" />\n        ) : (\n          <TrendingDown className=\"w-4 h-4 text-red-500 mr-1\" />\n        )}\n        <span className={change > 0 ? 'text-green-600' : 'text-red-600'}>\n          {change > 0 ? '+' : ''}{change}%\n        </span>\n        <span className=\"text-gray-600 dark:text-gray-400 ml-1\">from last period</span>\n      </div>\n    </Card>\n  );\n}\n\n// Helper Functions\nfunction calculateAnalytics(items: VocabularyItem[], timeRange: string): VocabularyAnalytics {\n  const now = new Date();\n  const daysMap = { '7d': 7, '30d': 30, '90d': 90, '1y': 365, 'all': Infinity };\n  const days = daysMap[timeRange as keyof typeof daysMap] || 30;\n  \n  const cutoffDate = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));\n  const recentItems = items.filter(item => new Date(item.createdAt) >= cutoffDate);\n  \n  // Calculate learning velocity\n  const learningVelocity = days === Infinity ? 0 : recentItems.length / days;\n  \n  // Calculate retention rate\n  const masteredCount = items.filter(item => item.masteryLevel === MasteryLevel.MASTERED).length;\n  const retentionRate = items.length > 0 ? masteredCount / items.length : 0;\n  \n  // Calculate difficulty distribution\n  const difficultyDistribution = items.reduce((acc, item) => {\n    acc[item.difficulty] = (acc[item.difficulty] || 0) + 1;\n    return acc;\n  }, {} as Record<number, number>);\n  \n  // Calculate category progress\n  const categoryProgress = items.reduce((acc, item) => {\n    const category = item.category || 'Uncategorized';\n    if (!acc[category]) {\n      acc[category] = { total: 0, mastered: 0, accuracy: 0 };\n    }\n    acc[category].total++;\n    if (item.masteryLevel === MasteryLevel.MASTERED) {\n      acc[category].mastered++;\n    }\n    // Calculate accuracy for category\n    const accuracy = item.timesReviewed > 0 ? item.timesCorrect / item.timesReviewed : 0;\n    acc[category].accuracy = (acc[category].accuracy + accuracy) / acc[category].total;\n    return acc;\n  }, {} as Record<string, { total: number; mastered: number; accuracy: number }>);\n  \n  // Generate weekly activity (mock data)\n  const weeklyActivity = Array.from({ length: Math.min(days, 30) }, (_, i) => {\n    const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000));\n    return {\n      date: date.toISOString().split('T')[0],\n      wordsLearned: Math.floor(Math.random() * 5) + 1,\n      reviewsCompleted: Math.floor(Math.random() * 10) + 5,\n      accuracy: 0.7 + Math.random() * 0.3\n    };\n  }).reverse();\n  \n  // Generate streak history (mock data)\n  const streakHistory = Array.from({ length: Math.min(days, 30) }, (_, i) => {\n    const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000));\n    return {\n      date: date.toISOString().split('T')[0],\n      streak: Math.max(0, 10 - Math.floor(Math.random() * 5))\n    };\n  }).reverse();\n  \n  return {\n    learningVelocity,\n    retentionRate,\n    difficultyDistribution,\n    categoryProgress,\n    weeklyActivity,\n    streakHistory\n  };\n}\n\nfunction generateMasteryTimeline(items: VocabularyItem[]) {\n  // Group items by creation date and calculate mastery distribution\n  const timeline = items.reduce((acc, item) => {\n    const date = item.createdAt.toISOString().split('T')[0];\n    if (!acc[date]) {\n      acc[date] = { new: 0, learning: 0, review: 0, mastered: 0 };\n    }\n    acc[date][item.masteryLevel]++;\n    return acc;\n  }, {} as Record<string, Record<MasteryLevel, number>>);\n  \n  return Object.entries(timeline)\n    .sort(([a], [b]) => a.localeCompare(b))\n    .map(([date, counts]) => ({ date, ...counts }));\n}\n\nfunction getMostChallengingLevel(distribution: Record<number, number>): number {\n  return parseInt(Object.entries(distribution)\n    .sort(([, a], [, b]) => b - a)\n    .filter(([level]) => parseInt(level) > 5)\n    [0]?.[0] || '5');\n}
+import React, { useState, useMemo } from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  ScatterChart,
+  Scatter
+} from 'recharts';
+import {
+  TrendingUp,
+  TrendingDown,
+  Target,
+  Clock,
+  Calendar,
+  Brain,
+  Award,
+  Zap,
+  BarChart3,
+  PieChart as PieChartIcon,
+  Activity,
+  Users
+} from 'lucide-react';
+import { VocabularyAnalytics, VocabularyItem, MasteryLevel } from '../../types';
+import { useVocabulary } from '../../hooks/useVocabulary';
+import { Card } from '../Shared/Card/Card';
+import { Button } from '../Shared/Button/Button';
+
+interface VocabularyAnalyticsProps {
+  className?: string;
+  timeRange?: '7d' | '30d' | '90d' | '1y' | 'all';
+}
+
+export function VocabularyAnalyticsDashboard({
+  className = '',
+  timeRange = '30d'
+}: VocabularyAnalyticsProps) {
+  const { vocabularyItems, stats, isLoading } = useVocabulary();
+  const [selectedTab, setSelectedTab] = useState<'overview' | 'learning' | 'performance' | 'trends'>('overview');
+  const [chartType, setChartType] = useState<'line' | 'area' | 'bar'>('area');
+
+  // Calculate analytics data
+  const analytics = useMemo(() => {
+    return calculateAnalytics(vocabularyItems, timeRange);
+  }, [vocabularyItems, timeRange]);
+
+  const tabs = [
+    { id: 'overview', label: 'Overview', icon: <BarChart3 className="w-4 h-4" /> },
+    { id: 'learning', label: 'Learning', icon: <Brain className="w-4 h-4" /> },
+    { id: 'performance', label: 'Performance', icon: <Target className="w-4 h-4" /> },
+    { id: 'trends', label: 'Trends', icon: <TrendingUp className="w-4 h-4" /> }
+  ];
+
+  if (isLoading) {
+    return (
+      <div className={`vocabulary-analytics ${className}`}>
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-64 bg-gray-200 rounded"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-32 bg-gray-200 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`vocabulary-analytics ${className}`}>
+      {/* Header */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          Learning Analytics
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          Insights into your vocabulary learning journey and progress patterns.
+        </p>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className="flex space-x-1 mb-6 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setSelectedTab(tab.id as any)}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              selectedTab === tab.id
+                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+            }`}
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Overview Tab */}
+      {selectedTab === 'overview' && (
+        <div className="space-y-6">
+          {/* Key Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <MetricCard
+              title="Learning Velocity"
+              value={`${analytics.learningVelocity.toFixed(1)} words/day`}
+              change={+12.5}
+              icon={<TrendingUp className="w-5 h-5" />}
+              color="blue"
+            />
+            
+            <MetricCard
+              title="Retention Rate"
+              value={`${(analytics.retentionRate * 100).toFixed(1)}%`}
+              change={+5.2}
+              icon={<Brain className="w-5 h-5" />}
+              color="green"
+            />
+            
+            <MetricCard
+              title="Study Streak"
+              value={`${stats?.streak || 0} days`}
+              change={stats?.streak ? +1 : 0}
+              icon={<Zap className="w-5 h-5" />}
+              color="orange"
+            />
+            
+            <MetricCard
+              title="Avg. Session Time"
+              value="12.5 min"
+              change={-2.1}
+              icon={<Clock className="w-5 h-5" />}
+              color="purple"
+            />
+          </div>
+
+          {/* Weekly Activity Chart */}
+          <Card className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Weekly Activity
+              </h3>
+              <div className="flex gap-2">
+                {(['line', 'area', 'bar'] as const).map((type) => (
+                  <Button
+                    key={type}
+                    variant={chartType === type ? 'primary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setChartType(type)}
+                  >
+                    {type}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                {chartType === 'line' && (
+                  <LineChart data={analytics.weeklyActivity}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line
+                      type="monotone"
+                      dataKey="wordsLearned"
+                      stroke="#3b82f6"
+                      strokeWidth={2}
+                      name="Words Learned"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="reviewsCompleted"
+                      stroke="#10b981"
+                      strokeWidth={2}
+                      name="Reviews Completed"
+                    />
+                  </LineChart>
+                )}
+                
+                {chartType === 'area' && (
+                  <AreaChart data={analytics.weeklyActivity}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Area
+                      type="monotone"
+                      dataKey="wordsLearned"
+                      stackId="1"
+                      stroke="#3b82f6"
+                      fill="#3b82f6"
+                      fillOpacity={0.6}
+                      name="Words Learned"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="reviewsCompleted"
+                      stackId="2"
+                      stroke="#10b981"
+                      fill="#10b981"
+                      fillOpacity={0.6}
+                      name="Reviews Completed"
+                    />
+                  </AreaChart>
+                )}
+                
+                {chartType === 'bar' && (
+                  <BarChart data={analytics.weeklyActivity}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="wordsLearned" fill="#3b82f6" name="Words Learned" />
+                    <Bar dataKey="reviewsCompleted" fill="#10b981" name="Reviews Completed" />
+                  </BarChart>
+                )}
+              </ResponsiveContainer>
+            </div>
+          </Card>
+
+          {/* Category Progress */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Category Progress
+            </h3>
+            
+            <div className="space-y-4">
+              {Object.entries(analytics.categoryProgress).map(([category, progress]) => (
+                <div key={category}>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {category}
+                    </span>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      {progress.mastered}/{progress.total} ({((progress.mastered / progress.total) * 100).toFixed(0)}%)
+                    </div>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${(progress.mastered / progress.total) * 100}%` }}
+                    ></div>
+                  </div>
+                  <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                    Avg. Accuracy: {(progress.accuracy * 100).toFixed(1)}%
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Learning Tab */}
+      {selectedTab === 'learning' && (
+        <div className="space-y-6">
+          {/* Difficulty Distribution */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Difficulty Distribution
+            </h3>
+            
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={Object.entries(analytics.difficultyDistribution).map(([level, count]) => ({
+                  difficulty: `Level ${level}`,
+                  count
+                }))}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="difficulty" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#8b5cf6" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+
+          {/* Mastery Timeline */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Learning Progress Over Time
+            </h3>
+            
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={generateMasteryTimeline(vocabularyItems)}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    dataKey="new"
+                    stackId="1"
+                    stroke="#6b7280"
+                    fill="#6b7280"
+                    name="New"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="learning"
+                    stackId="1"
+                    stroke="#f59e0b"
+                    fill="#f59e0b"
+                    name="Learning"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="review"
+                    stackId="1"
+                    stroke="#3b82f6"
+                    fill="#3b82f6"
+                    name="Review"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="mastered"
+                    stackId="1"
+                    stroke="#10b981"
+                    fill="#10b981"
+                    name="Mastered"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Performance Tab */}
+      {selectedTab === 'performance' && (
+        <div className="space-y-6">
+          {/* Accuracy vs Difficulty Scatter */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Accuracy vs Difficulty
+            </h3>
+            
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <ScatterChart data={vocabularyItems.map(item => ({
+                  difficulty: item.difficulty,
+                  accuracy: item.timesReviewed > 0 ? (item.timesCorrect / item.timesReviewed) * 100 : 0,
+                  masteryLevel: item.masteryLevel
+                })).filter(item => item.accuracy > 0)}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="difficulty" type="number" domain={[1, 10]} name="Difficulty" />
+                  <YAxis dataKey="accuracy" type="number" domain={[0, 100]} name="Accuracy %" />
+                  <Tooltip />
+                  <Scatter dataKey="accuracy" fill="#3b82f6" />
+                </ScatterChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+
+          {/* Review Performance */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Review Performance Trends
+            </h3>
+            
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={analytics.weeklyActivity}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line
+                    type="monotone"
+                    dataKey="accuracy"
+                    stroke="#10b981"
+                    strokeWidth={2}
+                    name="Accuracy %"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Trends Tab */}
+      {selectedTab === 'trends' && (
+        <div className="space-y-6">
+          {/* Streak History */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Study Streak History
+            </h3>
+            
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={analytics.streakHistory}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    dataKey="streak"
+                    stroke="#f59e0b"
+                    fill="#f59e0b"
+                    fillOpacity={0.6}
+                    name="Streak Days"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+
+          {/* Learning Insights */}
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              Learning Insights
+            </h3>
+            
+            <div className="space-y-4">
+              <div className="p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <TrendingUp className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <div>
+                    <h4 className="font-medium text-blue-900 dark:text-blue-100">
+                      Strong Learning Velocity
+                    </h4>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">
+                      You're learning {analytics.learningVelocity.toFixed(1)} words per day on average.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-green-50 dark:bg-green-900 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Brain className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  <div>
+                    <h4 className="font-medium text-green-900 dark:text-green-100">
+                      Excellent Retention
+                    </h4>
+                    <p className="text-sm text-green-700 dark:text-green-300">
+                      Your retention rate is {(analytics.retentionRate * 100).toFixed(1)}%, which is above average.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-yellow-50 dark:bg-yellow-900 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Target className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+                  <div>
+                    <h4 className="font-medium text-yellow-900 dark:text-yellow-100">
+                      Recommendation
+                    </h4>
+                    <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                      Consider focusing more on Level {getMostChallengingLevel(analytics.difficultyDistribution)} words to improve overall proficiency.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Helper Components
+interface MetricCardProps {
+  title: string;
+  value: string;
+  change: number;
+  icon: React.ReactNode;
+  color: 'blue' | 'green' | 'orange' | 'purple';
+}
+
+function MetricCard({ title, value, change, icon, color }: MetricCardProps) {
+  const colorClasses = {
+    blue: 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400',
+    green: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400',
+    orange: 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-400',
+    purple: 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-400'
+  };
+
+  return (
+    <Card className="p-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
+        </div>
+        <div className={`p-3 rounded-full ${colorClasses[color]}`}>
+          {icon}
+        </div>
+      </div>
+      <div className="mt-4 flex items-center text-sm">
+        {change > 0 ? (
+          <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+        ) : (
+          <TrendingDown className="w-4 h-4 text-red-500 mr-1" />
+        )}
+        <span className={change > 0 ? 'text-green-600' : 'text-red-600'}>
+          {change > 0 ? '+' : ''}{change}%
+        </span>
+        <span className="text-gray-600 dark:text-gray-400 ml-1">from last period</span>
+      </div>
+    </Card>
+  );
+}
+
+// Helper Functions
+function calculateAnalytics(items: VocabularyItem[], timeRange: string): VocabularyAnalytics {
+  const now = new Date();
+  const daysMap = { '7d': 7, '30d': 30, '90d': 90, '1y': 365, 'all': Infinity };
+  const days = daysMap[timeRange as keyof typeof daysMap] || 30;
+  
+  const cutoffDate = new Date(now.getTime() - (days * 24 * 60 * 60 * 1000));
+  const recentItems = items.filter(item => new Date(item.createdAt) >= cutoffDate);
+  
+  // Calculate learning velocity
+  const learningVelocity = days === Infinity ? 0 : recentItems.length / days;
+  
+  // Calculate retention rate
+  const masteredCount = items.filter(item => item.masteryLevel === MasteryLevel.MASTERED).length;
+  const retentionRate = items.length > 0 ? masteredCount / items.length : 0;
+  
+  // Calculate difficulty distribution
+  const difficultyDistribution = items.reduce((acc, item) => {
+    acc[item.difficulty] = (acc[item.difficulty] || 0) + 1;
+    return acc;
+  }, {} as Record<number, number>);
+  
+  // Calculate category progress
+  const categoryProgress = items.reduce((acc, item) => {
+    const category = item.category || 'Uncategorized';
+    if (!acc[category]) {
+      acc[category] = { total: 0, mastered: 0, accuracy: 0 };
+    }
+    acc[category].total++;
+    if (item.masteryLevel === MasteryLevel.MASTERED) {
+      acc[category].mastered++;
+    }
+    // Calculate accuracy for category
+    const accuracy = item.timesReviewed > 0 ? item.timesCorrect / item.timesReviewed : 0;
+    acc[category].accuracy = (acc[category].accuracy + accuracy) / acc[category].total;
+    return acc;
+  }, {} as Record<string, { total: number; mastered: number; accuracy: number }>);
+  
+  // Generate weekly activity (mock data)
+  const weeklyActivity = Array.from({ length: Math.min(days, 30) }, (_, i) => {
+    const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000));
+    return {
+      date: date.toISOString().split('T')[0],
+      wordsLearned: Math.floor(Math.random() * 5) + 1,
+      reviewsCompleted: Math.floor(Math.random() * 10) + 5,
+      accuracy: 0.7 + Math.random() * 0.3
+    };
+  }).reverse();
+  
+  // Generate streak history (mock data)
+  const streakHistory = Array.from({ length: Math.min(days, 30) }, (_, i) => {
+    const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000));
+    return {
+      date: date.toISOString().split('T')[0],
+      streak: Math.max(0, 10 - Math.floor(Math.random() * 5))
+    };
+  }).reverse();
+  
+  return {
+    learningVelocity,
+    retentionRate,
+    difficultyDistribution,
+    categoryProgress,
+    weeklyActivity,
+    streakHistory
+  };
+}
+
+function generateMasteryTimeline(items: VocabularyItem[]) {
+  // Group items by creation date and calculate mastery distribution
+  const timeline = items.reduce((acc, item) => {
+    const date = item.createdAt.toISOString().split('T')[0];
+    if (!acc[date]) {
+      acc[date] = { new: 0, learning: 0, review: 0, mastered: 0 };
+    }
+    acc[date][item.masteryLevel]++;
+    return acc;
+  }, {} as Record<string, Record<MasteryLevel, number>>);
+  
+  return Object.entries(timeline)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, counts]) => ({ date, ...counts }));
+}
+
+function getMostChallengingLevel(distribution: Record<number, number>): number {
+  return parseInt(Object.entries(distribution)
+    .sort(([, a], [, b]) => b - a)
+    .filter(([level]) => parseInt(level) > 5)
+    [0]?.[0] || '5');
+}
+
+// Export alias for compatibility
+export { VocabularyAnalyticsDashboard as VocabularyAnalytics };

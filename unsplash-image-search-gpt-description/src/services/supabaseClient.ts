@@ -643,4 +643,4 @@ export type UserPreferences = Tables<'user_preferences'>;
 export type VocabularyItemInsert = Database['public']['Tables']['vocabulary_items']['Insert'];
 export type VocabularyItemUpdate = Database['public']['Tables']['vocabulary_items']['Update'];
 export type UserProfileInsert = Database['public']['Tables']['profiles']['Insert'];
-export type UserProfileUpdate = Database['public']['Tables']['profiles']['Update'];}
+export type UserProfileUpdate = Database['public']['Tables']['profiles']['Update'];

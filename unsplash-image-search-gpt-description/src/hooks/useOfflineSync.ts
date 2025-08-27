@@ -1,1 +1,377 @@
-import { useState, useEffect, useCallback } from 'react';\nimport { OfflineVocabularyChange, ConflictResolution, VocabularyItem } from '../types';\nimport { vocabularyService } from '../services/vocabularyService';\n\n// IndexedDB utilities for offline storage\nclass OfflineStorageService {\n  private dbName = 'VocabularyApp';\n  private version = 1;\n  private db: IDBDatabase | null = null;\n\n  async initialize(): Promise<void> {\n    return new Promise((resolve, reject) => {\n      const request = indexedDB.open(this.dbName, this.version);\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => {\n        this.db = request.result;\n        resolve();\n      };\n      \n      request.onupgradeneeded = () => {\n        const db = request.result;\n        \n        // Vocabulary items store\n        if (!db.objectStoreNames.contains('vocabulary')) {\n          const vocabularyStore = db.createObjectStore('vocabulary', { keyPath: 'id' });\n          vocabularyStore.createIndex('word', 'word', { unique: false });\n          vocabularyStore.createIndex('masteryLevel', 'masteryLevel', { unique: false });\n          vocabularyStore.createIndex('updatedAt', 'updatedAt', { unique: false });\n        }\n        \n        // Sync queue store\n        if (!db.objectStoreNames.contains('syncQueue')) {\n          db.createObjectStore('syncQueue', { keyPath: 'id' });\n        }\n        \n        // Offline sessions store\n        if (!db.objectStoreNames.contains('offlineSessions')) {\n          db.createObjectStore('offlineSessions', { keyPath: 'id' });\n        }\n      };\n    });\n  }\n\n  async getVocabularyItems(): Promise<VocabularyItem[]> {\n    if (!this.db) throw new Error('Database not initialized');\n    \n    return new Promise((resolve, reject) => {\n      const transaction = this.db!.transaction(['vocabulary'], 'readonly');\n      const store = transaction.objectStore('vocabulary');\n      const request = store.getAll();\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => resolve(request.result || []);\n    });\n  }\n\n  async saveVocabularyItem(item: VocabularyItem): Promise<void> {\n    if (!this.db) throw new Error('Database not initialized');\n    \n    return new Promise((resolve, reject) => {\n      const transaction = this.db!.transaction(['vocabulary'], 'readwrite');\n      const store = transaction.objectStore('vocabulary');\n      const request = store.put({\n        ...item,\n        _offline: true,\n        _lastModified: Date.now()\n      });\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => resolve();\n    });\n  }\n\n  async deleteVocabularyItem(id: string): Promise<void> {\n    if (!this.db) throw new Error('Database not initialized');\n    \n    return new Promise((resolve, reject) => {\n      const transaction = this.db!.transaction(['vocabulary'], 'readwrite');\n      const store = transaction.objectStore('vocabulary');\n      const request = store.delete(id);\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => resolve();\n    });\n  }\n\n  async addToSyncQueue(change: OfflineVocabularyChange): Promise<void> {\n    if (!this.db) throw new Error('Database not initialized');\n    \n    return new Promise((resolve, reject) => {\n      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');\n      const store = transaction.objectStore('syncQueue');\n      const request = store.put(change);\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => resolve();\n    });\n  }\n\n  async getSyncQueue(): Promise<OfflineVocabularyChange[]> {\n    if (!this.db) throw new Error('Database not initialized');\n    \n    return new Promise((resolve, reject) => {\n      const transaction = this.db!.transaction(['syncQueue'], 'readonly');\n      const store = transaction.objectStore('syncQueue');\n      const request = store.getAll();\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => resolve(request.result || []);\n    });\n  }\n\n  async removeSyncItem(id: string): Promise<void> {\n    if (!this.db) throw new Error('Database not initialized');\n    \n    return new Promise((resolve, reject) => {\n      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');\n      const store = transaction.objectStore('syncQueue');\n      const request = store.delete(id);\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => resolve();\n    });\n  }\n\n  async clearSyncQueue(): Promise<void> {\n    if (!this.db) throw new Error('Database not initialized');\n    \n    return new Promise((resolve, reject) => {\n      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');\n      const store = transaction.objectStore('syncQueue');\n      const request = store.clear();\n      \n      request.onerror = () => reject(request.error);\n      request.onsuccess = () => resolve();\n    });\n  }\n}\n\nconst offlineStorage = new OfflineStorageService();\n\nexport function useOfflineSync() {\n  const [isOnline, setIsOnline] = useState(navigator.onLine);\n  const [syncQueue, setSyncQueue] = useState<OfflineVocabularyChange[]>([]);\n  const [isInitialized, setIsInitialized] = useState(false);\n  const [isSyncing, setIsSyncing] = useState(false);\n  const [conflicts, setConflicts] = useState<ConflictResolution[]>([]);\n\n  // Initialize offline storage\n  useEffect(() => {\n    const initializeStorage = async () => {\n      try {\n        await offlineStorage.initialize();\n        const queue = await offlineStorage.getSyncQueue();\n        setSyncQueue(queue);\n        setIsInitialized(true);\n      } catch (error) {\n        console.error('Failed to initialize offline storage:', error);\n      }\n    };\n\n    initializeStorage();\n  }, []);\n\n  // Listen for online/offline events\n  useEffect(() => {\n    const handleOnline = () => {\n      setIsOnline(true);\n      // Automatically sync when coming back online\n      if (syncQueue.length > 0) {\n        syncOfflineChanges();\n      }\n    };\n    \n    const handleOffline = () => {\n      setIsOnline(false);\n    };\n\n    window.addEventListener('online', handleOnline);\n    window.addEventListener('offline', handleOffline);\n\n    return () => {\n      window.removeEventListener('online', handleOnline);\n      window.removeEventListener('offline', handleOffline);\n    };\n  }, [syncQueue.length]);\n\n  // Add item to sync queue\n  const addToSyncQueue = useCallback(async (change: OfflineVocabularyChange) => {\n    try {\n      await offlineStorage.addToSyncQueue(change);\n      setSyncQueue(prev => [...prev, change]);\n    } catch (error) {\n      console.error('Failed to add to sync queue:', error);\n    }\n  }, []);\n\n  // Save vocabulary item offline\n  const saveOfflineVocabularyItem = useCallback(async (item: VocabularyItem) => {\n    try {\n      await offlineStorage.saveVocabularyItem(item);\n      \n      // Add to sync queue\n      const change: OfflineVocabularyChange = {\n        id: `offline-${Date.now()}`,\n        type: item.id ? 'update' : 'create',\n        vocabularyId: item.id,\n        data: item,\n        timestamp: new Date(),\n        synced: false\n      };\n      \n      await addToSyncQueue(change);\n    } catch (error) {\n      console.error('Failed to save vocabulary item offline:', error);\n    }\n  }, [addToSyncQueue]);\n\n  // Delete vocabulary item offline\n  const deleteOfflineVocabularyItem = useCallback(async (id: string) => {\n    try {\n      await offlineStorage.deleteVocabularyItem(id);\n      \n      // Add to sync queue\n      const change: OfflineVocabularyChange = {\n        id: `offline-delete-${Date.now()}`,\n        type: 'delete',\n        vocabularyId: id,\n        timestamp: new Date(),\n        synced: false\n      };\n      \n      await addToSyncQueue(change);\n    } catch (error) {\n      console.error('Failed to delete vocabulary item offline:', error);\n    }\n  }, [addToSyncQueue]);\n\n  // Get offline vocabulary items\n  const getOfflineVocabularyItems = useCallback(async (): Promise<VocabularyItem[]> => {\n    try {\n      return await offlineStorage.getVocabularyItems();\n    } catch (error) {\n      console.error('Failed to get offline vocabulary items:', error);\n      return [];\n    }\n  }, []);\n\n  // Sync offline changes with server\n  const syncOfflineChanges = useCallback(async () => {\n    if (!isOnline || isSyncing || syncQueue.length === 0) return;\n    \n    setIsSyncing(true);\n    \n    try {\n      const unsynced = syncQueue.filter(item => !item.synced);\n      \n      if (unsynced.length === 0) {\n        setIsSyncing(false);\n        return;\n      }\n      \n      // Sync changes with server\n      const serverConflicts = await vocabularyService.syncOfflineChanges(unsynced);\n      \n      if (serverConflicts.length > 0) {\n        setConflicts(serverConflicts);\n      }\n      \n      // Remove synced items from queue\n      for (const change of unsynced) {\n        await offlineStorage.removeSyncItem(change.id);\n      }\n      \n      // Update local sync queue\n      const updatedQueue = await offlineStorage.getSyncQueue();\n      setSyncQueue(updatedQueue);\n      \n      console.log(`Successfully synced ${unsynced.length} changes`);\n      \n    } catch (error) {\n      console.error('Failed to sync offline changes:', error);\n    } finally {\n      setIsSyncing(false);\n    }\n  }, [isOnline, isSyncing, syncQueue]);\n\n  // Resolve conflict\n  const resolveConflict = useCallback(async (\n    conflict: ConflictResolution, \n    resolution: 'local' | 'remote' | 'merge'\n  ) => {\n    try {\n      let resolvedItem: VocabularyItem;\n      \n      switch (resolution) {\n        case 'local':\n          resolvedItem = conflict.localItem;\n          break;\n        case 'remote':\n          resolvedItem = conflict.remoteItem;\n          break;\n        case 'merge':\n          resolvedItem = conflict.mergedItem || conflict.remoteItem;\n          break;\n        default:\n          resolvedItem = conflict.remoteItem;\n      }\n      \n      // Update the item on the server\n      await vocabularyService.updateVocabularyItem(resolvedItem.id, resolvedItem);\n      \n      // Update offline storage\n      await offlineStorage.saveVocabularyItem(resolvedItem);\n      \n      // Remove from conflicts\n      setConflicts(prev => prev.filter(c => \n        c.localItem.id !== conflict.localItem.id\n      ));\n      \n    } catch (error) {\n      console.error('Failed to resolve conflict:', error);\n    }\n  }, []);\n\n  // Clear all offline data\n  const clearOfflineData = useCallback(async () => {\n    try {\n      await offlineStorage.clearSyncQueue();\n      setSyncQueue([]);\n      setConflicts([]);\n    } catch (error) {\n      console.error('Failed to clear offline data:', error);\n    }\n  }, []);\n\n  // Manual sync trigger\n  const triggerSync = useCallback(() => {\n    if (isOnline && !isSyncing) {\n      syncOfflineChanges();\n    }\n  }, [isOnline, isSyncing, syncOfflineChanges]);\n\n  // Background sync when online\n  useEffect(() => {\n    if (isOnline && isInitialized && syncQueue.length > 0 && !isSyncing) {\n      const syncTimeout = setTimeout(() => {\n        syncOfflineChanges();\n      }, 2000); // Delay sync by 2 seconds to avoid rapid syncing\n      \n      return () => clearTimeout(syncTimeout);\n    }\n  }, [isOnline, isInitialized, syncQueue.length, isSyncing, syncOfflineChanges]);\n\n  return {\n    isOnline,\n    isInitialized,\n    isSyncing,\n    syncQueue,\n    conflicts,\n    \n    // Actions\n    addToSyncQueue,\n    saveOfflineVocabularyItem,\n    deleteOfflineVocabularyItem,\n    getOfflineVocabularyItems,\n    syncOfflineChanges,\n    resolveConflict,\n    clearOfflineData,\n    triggerSync,\n    \n    // Status\n    hasPendingChanges: syncQueue.length > 0,\n    hasConflicts: conflicts.length > 0\n  };\n}
+import { useState, useEffect, useCallback } from 'react';
+import { OfflineVocabularyChange, ConflictResolution, VocabularyItem } from '../types';
+import { vocabularyService } from '../services/vocabularyService';
+
+// IndexedDB utilities for offline storage
+class OfflineStorageService {
+  private dbName = 'VocabularyApp';
+  private version = 1;
+  private db: IDBDatabase | null = null;
+
+  async initialize(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, this.version);
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        this.db = request.result;
+        resolve();
+      };
+      
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        
+        // Vocabulary items store
+        if (!db.objectStoreNames.contains('vocabulary')) {
+          const vocabularyStore = db.createObjectStore('vocabulary', { keyPath: 'id' });
+          vocabularyStore.createIndex('word', 'word', { unique: false });
+          vocabularyStore.createIndex('masteryLevel', 'masteryLevel', { unique: false });
+          vocabularyStore.createIndex('updatedAt', 'updatedAt', { unique: false });
+        }
+        
+        // Sync queue store
+        if (!db.objectStoreNames.contains('syncQueue')) {
+          db.createObjectStore('syncQueue', { keyPath: 'id' });
+        }
+        
+        // Offline sessions store
+        if (!db.objectStoreNames.contains('offlineSessions')) {
+          db.createObjectStore('offlineSessions', { keyPath: 'id' });
+        }
+      };
+    });
+  }
+
+  async getVocabularyItems(): Promise<VocabularyItem[]> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(['vocabulary'], 'readonly');
+      const store = transaction.objectStore('vocabulary');
+      const request = store.getAll();
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result || []);
+    });
+  }
+
+  async saveVocabularyItem(item: VocabularyItem): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(['vocabulary'], 'readwrite');
+      const store = transaction.objectStore('vocabulary');
+      const request = store.put({
+        ...item,
+        _offline: true,
+        _lastModified: Date.now()
+      });
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve();
+    });
+  }
+
+  async deleteVocabularyItem(id: string): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(['vocabulary'], 'readwrite');
+      const store = transaction.objectStore('vocabulary');
+      const request = store.delete(id);
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve();
+    });
+  }
+
+  async addToSyncQueue(change: OfflineVocabularyChange): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');
+      const store = transaction.objectStore('syncQueue');
+      const request = store.put(change);
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve();
+    });
+  }
+
+  async getSyncQueue(): Promise<OfflineVocabularyChange[]> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(['syncQueue'], 'readonly');
+      const store = transaction.objectStore('syncQueue');
+      const request = store.getAll();
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result || []);
+    });
+  }
+
+  async removeSyncItem(id: string): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');
+      const store = transaction.objectStore('syncQueue');
+      const request = store.delete(id);
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve();
+    });
+  }
+
+  async clearSyncQueue(): Promise<void> {
+    if (!this.db) throw new Error('Database not initialized');
+    
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(['syncQueue'], 'readwrite');
+      const store = transaction.objectStore('syncQueue');
+      const request = store.clear();
+      
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve();
+    });
+  }
+}
+
+const offlineStorage = new OfflineStorageService();
+
+export function useOfflineSync() {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [syncQueue, setSyncQueue] = useState<OfflineVocabularyChange[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [conflicts, setConflicts] = useState<ConflictResolution[]>([]);
+
+  // Initialize offline storage
+  useEffect(() => {
+    const initializeStorage = async () => {
+      try {
+        await offlineStorage.initialize();
+        const queue = await offlineStorage.getSyncQueue();
+        setSyncQueue(queue);
+        setIsInitialized(true);
+      } catch (error) {
+        console.error('Failed to initialize offline storage:', error);
+      }
+    };
+
+    initializeStorage();
+  }, []);
+
+  // Listen for online/offline events
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      // Automatically sync when coming back online
+      if (syncQueue.length > 0) {
+        syncOfflineChanges();
+      }
+    };
+    
+    const handleOffline = () => {
+      setIsOnline(false);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [syncQueue.length]);
+
+  // Add item to sync queue
+  const addToSyncQueue = useCallback(async (change: OfflineVocabularyChange) => {
+    try {
+      await offlineStorage.addToSyncQueue(change);
+      setSyncQueue(prev => [...prev, change]);
+    } catch (error) {
+      console.error('Failed to add to sync queue:', error);
+    }
+  }, []);
+
+  // Save vocabulary item offline
+  const saveOfflineVocabularyItem = useCallback(async (item: VocabularyItem) => {
+    try {
+      await offlineStorage.saveVocabularyItem(item);
+      
+      // Add to sync queue
+      const change: OfflineVocabularyChange = {
+        id: `offline-${Date.now()}`,
+        type: item.id ? 'update' : 'create',
+        vocabularyId: item.id,
+        data: item,
+        timestamp: new Date(),
+        synced: false
+      };
+      
+      await addToSyncQueue(change);
+    } catch (error) {
+      console.error('Failed to save vocabulary item offline:', error);
+    }
+  }, [addToSyncQueue]);
+
+  // Delete vocabulary item offline
+  const deleteOfflineVocabularyItem = useCallback(async (id: string) => {
+    try {
+      await offlineStorage.deleteVocabularyItem(id);
+      
+      // Add to sync queue
+      const change: OfflineVocabularyChange = {
+        id: `offline-delete-${Date.now()}`,
+        type: 'delete',
+        vocabularyId: id,
+        timestamp: new Date(),
+        synced: false
+      };
+      
+      await addToSyncQueue(change);
+    } catch (error) {
+      console.error('Failed to delete vocabulary item offline:', error);
+    }
+  }, [addToSyncQueue]);
+
+  // Get offline vocabulary items
+  const getOfflineVocabularyItems = useCallback(async (): Promise<VocabularyItem[]> => {
+    try {
+      return await offlineStorage.getVocabularyItems();
+    } catch (error) {
+      console.error('Failed to get offline vocabulary items:', error);
+      return [];
+    }
+  }, []);
+
+  // Sync offline changes with server
+  const syncOfflineChanges = useCallback(async () => {
+    if (!isOnline || isSyncing || syncQueue.length === 0) return;
+    
+    setIsSyncing(true);
+    
+    try {
+      const unsynced = syncQueue.filter(item => !item.synced);
+      
+      if (unsynced.length === 0) {
+        setIsSyncing(false);
+        return;
+      }
+      
+      // Sync changes with server
+      const serverConflicts = await vocabularyService.syncOfflineChanges(unsynced);
+      
+      if (serverConflicts.length > 0) {
+        setConflicts(serverConflicts);
+      }
+      
+      // Remove synced items from queue
+      for (const change of unsynced) {
+        await offlineStorage.removeSyncItem(change.id);
+      }
+      
+      // Update local sync queue
+      const updatedQueue = await offlineStorage.getSyncQueue();
+      setSyncQueue(updatedQueue);
+      
+      console.log(`Successfully synced ${unsynced.length} changes`);
+      
+    } catch (error) {
+      console.error('Failed to sync offline changes:', error);
+    } finally {
+      setIsSyncing(false);
+    }
+  }, [isOnline, isSyncing, syncQueue]);
+
+  // Resolve conflict
+  const resolveConflict = useCallback(async (
+    conflict: ConflictResolution, 
+    resolution: 'local' | 'remote' | 'merge'
+  ) => {
+    try {
+      let resolvedItem: VocabularyItem;
+      
+      switch (resolution) {
+        case 'local':
+          resolvedItem = conflict.localItem;
+          break;
+        case 'remote':
+          resolvedItem = conflict.remoteItem;
+          break;
+        case 'merge':
+          resolvedItem = conflict.mergedItem || conflict.remoteItem;
+          break;
+        default:
+          resolvedItem = conflict.remoteItem;
+      }
+      
+      // Update the item on the server
+      await vocabularyService.updateVocabularyItem(resolvedItem.id, resolvedItem);
+      
+      // Update offline storage
+      await offlineStorage.saveVocabularyItem(resolvedItem);
+      
+      // Remove from conflicts
+      setConflicts(prev => prev.filter(c => 
+        c.localItem.id !== conflict.localItem.id
+      ));
+      
+    } catch (error) {
+      console.error('Failed to resolve conflict:', error);
+    }
+  }, []);
+
+  // Clear all offline data
+  const clearOfflineData = useCallback(async () => {
+    try {
+      await offlineStorage.clearSyncQueue();
+      setSyncQueue([]);
+      setConflicts([]);
+    } catch (error) {
+      console.error('Failed to clear offline data:', error);
+    }
+  }, []);
+
+  // Manual sync trigger
+  const triggerSync = useCallback(() => {
+    if (isOnline && !isSyncing) {
+      syncOfflineChanges();
+    }
+  }, [isOnline, isSyncing, syncOfflineChanges]);
+
+  // Background sync when online
+  useEffect(() => {
+    if (isOnline && isInitialized && syncQueue.length > 0 && !isSyncing) {
+      const syncTimeout = setTimeout(() => {
+        syncOfflineChanges();
+      }, 2000); // Delay sync by 2 seconds to avoid rapid syncing
+      
+      return () => clearTimeout(syncTimeout);
+    }
+  }, [isOnline, isInitialized, syncQueue.length, isSyncing, syncOfflineChanges]);
+
+  return {
+    isOnline,
+    isInitialized,
+    isSyncing,
+    syncQueue,
+    conflicts,
+    
+    // Actions
+    addToSyncQueue,
+    saveOfflineVocabularyItem,
+    deleteOfflineVocabularyItem,
+    getOfflineVocabularyItems,
+    syncOfflineChanges,
+    resolveConflict,
+    clearOfflineData,
+    triggerSync,
+    
+    // Status
+    hasPendingChanges: syncQueue.length > 0,
+    hasConflicts: conflicts.length > 0
+  };
+}
