@@ -103,3 +103,4 @@ netlify/
 # Additional safety ignores
 *.submodule
 .gitmodules.*
+.vercel

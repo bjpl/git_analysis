@@ -3,6 +3,7 @@
  * Handles AI-powered text generation and vocabulary descriptions
  */
 import { apiConfig, getApiHeaders, buildApiUrl, ApiError, timeouts } from '../config/api';
+import { apiConfigService } from './apiConfigService';
 
 export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
@@ -60,8 +61,28 @@ export interface GeneratedVocabulary {
 
 class OpenAIService {
   private readonly baseUrl = apiConfig.endpoints.openai.base;
-  private readonly headers = getApiHeaders('openai');
   private requestQueue: Promise<any>[] = [];
+
+  /**
+   * Get API headers with runtime or fallback API key
+   */
+  private async getHeaders(): Promise<Record<string, string>> {
+    const apiKey = await apiConfigService.getEffectiveApiKey('openai');
+    
+    if (!apiKey) {
+      throw new ApiError(
+        'OpenAI API key not configured. Please set up your API key in settings.',
+        401,
+        'NO_API_KEY',
+        'openai'
+      );
+    }
+
+    return {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    };
+  }
 
   /**
    * Generate a chat completion using OpenAI API
@@ -84,9 +105,10 @@ class OpenAIService {
     };
 
     try {
+      const headers = await this.getHeaders();
       const response = await this.fetchWithTimeout(url, {
         method: 'POST',
-        headers: this.headers,
+        headers,
         body: JSON.stringify(requestBody)
       });
 
@@ -248,12 +270,19 @@ Format your response as a numbered list:
   /**
    * Check if the API key is valid
    */
-  async validateApiKey(): Promise<boolean> {
+  async validateApiKey(apiKey?: string): Promise<boolean> {
     try {
+      const headers = apiKey 
+        ? {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          }
+        : await this.getHeaders();
+        
       const url = buildApiUrl(this.baseUrl, apiConfig.endpoints.openai.models);
       const response = await fetch(url, {
         method: 'GET',
-        headers: this.headers
+        headers
       });
 
       return response.ok;

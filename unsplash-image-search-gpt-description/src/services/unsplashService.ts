@@ -3,6 +3,7 @@
  * Handles image search and retrieval from Unsplash
  */
 import { apiConfig, getApiHeaders, buildApiUrl, ApiError, timeouts } from '../config/api';
+import { apiConfigService } from './apiConfigService';
 
 export interface UnsplashImage {
   id: string;
@@ -45,8 +46,29 @@ export interface SearchParams {
 
 class UnsplashService {
   private readonly baseUrl = apiConfig.endpoints.unsplash.base;
-  private readonly headers = getApiHeaders('unsplash');
   private requestQueue: Promise<any>[] = [];
+
+  /**
+   * Get API headers with runtime or fallback API key
+   */
+  private async getHeaders(): Promise<Record<string, string>> {
+    const apiKey = await apiConfigService.getEffectiveApiKey('unsplash');
+    
+    if (!apiKey) {
+      throw new ApiError(
+        'Unsplash API key not configured. Please set up your API key in settings.',
+        401,
+        'NO_API_KEY',
+        'unsplash'
+      );
+    }
+
+    return {
+      'Authorization': `Client-ID ${apiKey}`,
+      'Accept': 'application/json',
+      'Accept-Version': 'v1'
+    };
+  }
 
   /**
    * Search for images on Unsplash
@@ -74,8 +96,9 @@ class UnsplashService {
     );
 
     try {
+      const headers = await this.getHeaders();
       const response = await this.fetchWithTimeout(url, {
-        headers: this.headers,
+        headers,
         method: 'GET'
       });
 
@@ -122,8 +145,9 @@ class UnsplashService {
     );
 
     try {
+      const headers = await this.getHeaders();
       const response = await this.fetchWithTimeout(url, {
-        headers: this.headers,
+        headers,
         method: 'GET'
       });
 
@@ -181,8 +205,9 @@ class UnsplashService {
     );
 
     try {
+      const headers = await this.getHeaders();
       const response = await this.fetchWithTimeout(url, {
-        headers: this.headers,
+        headers,
         method: 'GET'
       });
 
@@ -229,8 +254,9 @@ class UnsplashService {
     );
 
     try {
+      const headers = await this.getHeaders();
       const response = await this.fetchWithTimeout(url, {
-        headers: this.headers,
+        headers,
         method: 'GET'
       });
 
