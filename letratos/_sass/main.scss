@@ -236,6 +236,26 @@ body {
   font-family: $font-sans;
   font-size: 0.85rem;
   color: $text-secondary;
+  
+  p {
+    margin: 0.5rem 0;
+  }
+  
+  .built-with {
+    font-size: 0.8rem;
+    
+    a {
+      color: $text-secondary;
+      text-decoration: none;
+      border-bottom: 1px dotted $text-secondary;
+      transition: all 0.2s;
+      
+      &:hover {
+        color: $text-primary;
+        border-bottom-color: $text-primary;
+      }
+    }
+  }
 }
 
 // Experimental pages
