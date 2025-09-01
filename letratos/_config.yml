@@ -1,11 +1,11 @@
 title: Letratos
-email: your-email@example.com
+email: contact@brandonjplambert.com
 description: >-
   A bilingual poetry collection featuring Spanish and English poems,
   with experimental HTML pieces and minimal, typography-focused design.
-baseurl: "/letratos"
-url: ""
-github_username: brandonjplambert
+baseurl: "/brandonjplambert_archived"
+url: "https://bjpl.github.io"
+github_username: bjpl
 
 # Build settings
 markdown: kramdown
@@ -49,6 +49,11 @@ defaults:
 # Language settings
 languages: ["en", "es"]
 default_lang: "en"
+
+# SASS settings
+sass:
+  sass_dir: _sass
+  style: compressed
 
 # Exclude from processing
 exclude:
