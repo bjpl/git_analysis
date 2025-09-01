@@ -1,0 +1,500 @@
+{
+  "Navigation": {
+    "primary_navigation": {
+      "type": "Group",
+      "config": {
+        "label": "Primary Navigation",
+        "repeat": true,
+        "fields": {
+          "label": {
+            "type": "Text",
+            "config": {
+              "label": "Navigation Label",
+              "placeholder": "e.g., About, Work, Projects, Resources"
+            }
+          },
+          "url": {
+            "type": "Link",
+            "config": {
+              "label": "URL",
+              "placeholder": "Link destination",
+              "allowTargetBlank": false,
+              "select": "document"
+            }
+          },
+          "external_url": {
+            "type": "Link",
+            "config": {
+              "label": "External URL",
+              "placeholder": "For external links only",
+              "allowTargetBlank": true,
+              "select": null
+            }
+          },
+          "display_order": {
+            "type": "Number",
+            "config": {
+              "label": "Display Order"
+            }
+          },
+          "is_highlighted": {
+            "type": "Boolean",
+            "config": {
+              "label": "Highlight Navigation Item",
+              "default_value": false
+            }
+          },
+          "dropdown_items": {
+            "type": "Group",
+            "config": {
+              "label": "Dropdown Items",
+              "repeat": true,
+              "fields": {
+                "label": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Dropdown Label"
+                  }
+                },
+                "url": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Dropdown URL",
+                    "allowTargetBlank": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cta_button": {
+      "type": "Group",
+      "config": {
+        "label": "Call-to-Action Button",
+        "fields": {
+          "text": {
+            "type": "Text",
+            "config": {
+              "label": "Button Text",
+              "placeholder": "e.g., Get In Touch, Hire Me, Let's Talk"
+            }
+          },
+          "url": {
+            "type": "Link",
+            "config": {
+              "label": "Button URL",
+              "allowTargetBlank": false
+            }
+          },
+          "style": {
+            "type": "Select",
+            "config": {
+              "label": "Button Style",
+              "options": [
+                "Primary",
+                "Secondary",
+                "Outline",
+                "Ghost"
+              ],
+              "default_value": "Primary"
+            }
+          },
+          "show_button": {
+            "type": "Boolean",
+            "config": {
+              "label": "Show CTA Button",
+              "default_value": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "Footer": {
+    "footer_content": {
+      "type": "Group",
+      "config": {
+        "label": "Footer Content",
+        "fields": {
+          "tagline": {
+            "type": "Text",
+            "config": {
+              "label": "Footer Tagline",
+              "placeholder": "Brief tagline or description"
+            }
+          },
+          "copyright_text": {
+            "type": "Text",
+            "config": {
+              "label": "Copyright Text",
+              "placeholder": "Copyright notice"
+            }
+          },
+          "footer_links": {
+            "type": "Group",
+            "config": {
+              "label": "Footer Links",
+              "repeat": true,
+              "fields": {
+                "label": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Link Label"
+                  }
+                },
+                "url": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Link URL",
+                    "allowTargetBlank": true
+                  }
+                },
+                "link_group": {
+                  "type": "Select",
+                  "config": {
+                    "label": "Link Group",
+                    "options": [
+                      "Legal",
+                      "Social",
+                      "Professional",
+                      "Resources",
+                      "Other"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "social_links": {
+      "type": "Group",
+      "config": {
+        "label": "Footer Social Links",
+        "repeat": true,
+        "fields": {
+          "platform": {
+            "type": "Select",
+            "config": {
+              "label": "Platform",
+              "options": [
+                "LinkedIn",
+                "GitHub",
+                "Twitter",
+                "Email",
+                "Website",
+                "Medium",
+                "Dev.to",
+                "Stack Overflow",
+                "YouTube",
+                "Twitch",
+                "RSS"
+              ]
+            }
+          },
+          "url": {
+            "type": "Link",
+            "config": {
+              "label": "URL",
+              "allowTargetBlank": true
+            }
+          },
+          "show_icon": {
+            "type": "Boolean",
+            "config": {
+              "label": "Show Icon",
+              "default_value": true
+            }
+          },
+          "show_label": {
+            "type": "Boolean",
+            "config": {
+              "label": "Show Label",
+              "default_value": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "Contact Information": {
+    "contact_info": {
+      "type": "Group",
+      "config": {
+        "label": "Contact Information",
+        "fields": {
+          "email": {
+            "type": "Text",
+            "config": {
+              "label": "Email Address",
+              "placeholder": "your@email.com"
+            }
+          },
+          "phone": {
+            "type": "Text",
+            "config": {
+              "label": "Phone Number",
+              "placeholder": "+1 (555) 123-4567"
+            }
+          },
+          "location": {
+            "type": "Text",
+            "config": {
+              "label": "Location",
+              "placeholder": "City, State/Country"
+            }
+          },
+          "availability": {
+            "type": "StructuredText",
+            "config": {
+              "label": "Availability",
+              "placeholder": "Current availability status",
+              "allowTargetBlank": false,
+              "single": "paragraph,strong,em"
+            }
+          },
+          "preferred_contact": {
+            "type": "Select",
+            "config": {
+              "label": "Preferred Contact Method",
+              "options": [
+                "Email",
+                "LinkedIn",
+                "Phone",
+                "Contact Form"
+              ],
+              "default_value": "Email"
+            }
+          }
+        }
+      }
+    }
+  },
+  "SEO & Analytics": {
+    "default_seo": {
+      "type": "Group",
+      "config": {
+        "label": "Default SEO Settings",
+        "fields": {
+          "site_title": {
+            "type": "Text",
+            "config": {
+              "label": "Site Title",
+              "placeholder": "Your Name - AI Engineer & Developer"
+            }
+          },
+          "site_description": {
+            "type": "Text",
+            "config": {
+              "label": "Site Description",
+              "placeholder": "Default meta description for pages"
+            }
+          },
+          "site_keywords": {
+            "type": "Text",
+            "config": {
+              "label": "Site Keywords",
+              "placeholder": "AI, Machine Learning, Software Engineering"
+            }
+          },
+          "default_og_image": {
+            "type": "Image",
+            "config": {
+              "label": "Default Open Graph Image",
+              "constraint": {
+                "width": 1200,
+                "height": 630
+              }
+            }
+          },
+          "site_author": {
+            "type": "Text",
+            "config": {
+              "label": "Site Author",
+              "placeholder": "Your Full Name"
+            }
+          }
+        }
+      }
+    },
+    "analytics": {
+      "type": "Group",
+      "config": {
+        "label": "Analytics & Tracking",
+        "fields": {
+          "google_analytics_id": {
+            "type": "Text",
+            "config": {
+              "label": "Google Analytics ID",
+              "placeholder": "GA4 Measurement ID (G-XXXXXXXXXX)"
+            }
+          },
+          "google_tag_manager_id": {
+            "type": "Text",
+            "config": {
+              "label": "Google Tag Manager ID",
+              "placeholder": "GTM-XXXXXXX"
+            }
+          },
+          "plausible_domain": {
+            "type": "Text",
+            "config": {
+              "label": "Plausible Analytics Domain",
+              "placeholder": "yoursite.com"
+            }
+          },
+          "enable_cookie_consent": {
+            "type": "Boolean",
+            "config": {
+              "label": "Enable Cookie Consent",
+              "default_value": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "Site Features": {
+    "theme_settings": {
+      "type": "Group",
+      "config": {
+        "label": "Theme Settings",
+        "fields": {
+          "enable_dark_mode": {
+            "type": "Boolean",
+            "config": {
+              "label": "Enable Dark Mode Toggle",
+              "default_value": true
+            }
+          },
+          "default_theme": {
+            "type": "Select",
+            "config": {
+              "label": "Default Theme",
+              "options": [
+                "Light",
+                "Dark",
+                "System"
+              ],
+              "default_value": "System"
+            }
+          },
+          "primary_color": {
+            "type": "Text",
+            "config": {
+              "label": "Primary Color",
+              "placeholder": "#007acc"
+            }
+          }
+        }
+      }
+    },
+    "performance": {
+      "type": "Group",
+      "config": {
+        "label": "Performance Settings",
+        "fields": {
+          "enable_lazy_loading": {
+            "type": "Boolean",
+            "config": {
+              "label": "Enable Lazy Loading",
+              "default_value": true
+            }
+          },
+          "enable_image_optimization": {
+            "type": "Boolean",
+            "config": {
+              "label": "Enable Image Optimization",
+              "default_value": true
+            }
+          },
+          "preload_critical_fonts": {
+            "type": "Boolean",
+            "config": {
+              "label": "Preload Critical Fonts",
+              "default_value": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "Maintenance": {
+    "maintenance_mode": {
+      "type": "Group",
+      "config": {
+        "label": "Maintenance Mode",
+        "fields": {
+          "is_enabled": {
+            "type": "Boolean",
+            "config": {
+              "label": "Enable Maintenance Mode",
+              "default_value": false
+            }
+          },
+          "message": {
+            "type": "StructuredText",
+            "config": {
+              "label": "Maintenance Message",
+              "placeholder": "Site is under maintenance. Please check back soon!",
+              "allowTargetBlank": false,
+              "single": "paragraph,strong,em"
+            }
+          },
+          "estimated_completion": {
+            "type": "Timestamp",
+            "config": {
+              "label": "Estimated Completion Time"
+            }
+          }
+        }
+      }
+    },
+    "announcements": {
+      "type": "Group",
+      "config": {
+        "label": "Site Announcements",
+        "repeat": true,
+        "fields": {
+          "message": {
+            "type": "StructuredText",
+            "config": {
+              "label": "Announcement Message",
+              "allowTargetBlank": true,
+              "single": "paragraph,strong,em,hyperlink"
+            }
+          },
+          "type": {
+            "type": "Select",
+            "config": {
+              "label": "Announcement Type",
+              "options": [
+                "Info",
+                "Success",
+                "Warning",
+                "Error"
+              ],
+              "default_value": "Info"
+            }
+          },
+          "is_active": {
+            "type": "Boolean",
+            "config": {
+              "label": "Show Announcement",
+              "default_value": true
+            }
+          },
+          "expires_at": {
+            "type": "Timestamp",
+            "config": {
+              "label": "Expiration Date"
+            }
+          }
+        }
+      }
+    }
+  }
+}

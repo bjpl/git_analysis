@@ -1,5 +1,0 @@
-﻿# Ignore virtual environments
-venv/
-__pycache__/
-*.pyc
-revision_log.txt

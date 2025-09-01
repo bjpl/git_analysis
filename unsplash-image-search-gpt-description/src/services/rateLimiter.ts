@@ -38,6 +38,28 @@ class RateLimiter {
   }
 
   /**
+   * Acquire tokens for rate limiting - compatible with new interface
+   */
+  async acquire(service: string, tokens: number = 1): Promise<void> {
+    const result = await this.checkRateLimit(service);
+    if (!result.allowed) {
+      const waitTime = result.retryAfter ? result.retryAfter * 1000 : 1000;
+      throw new Error(`Rate limit exceeded for ${service}. Retry after ${result.retryAfter} seconds`);
+    }
+  }
+
+  /**
+   * Get current status - compatible with new interface
+   */
+  getStatus(service: string): { remaining: number; resetTime: number } {
+    const status = this.getRateLimitStatus(service);
+    return {
+      remaining: status?.remaining || 0,
+      resetTime: status?.reset?.getTime() || Date.now()
+    };
+  }
+
+  /**
    * Check if a request can be made and consume a token
    */
   async checkRateLimit(service: string, endpoint?: string): Promise<{

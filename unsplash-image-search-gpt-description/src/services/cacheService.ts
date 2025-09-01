@@ -34,9 +34,16 @@ class CacheService {
   }
 
   /**
-   * Get item from cache
+   * Get item from cache - async compatible
    */
-  get<T>(key: string): T | null {
+  async get<T>(key: string): Promise<T | null> {
+    return this.getSync(key);
+  }
+
+  /**
+   * Get item from cache synchronously
+   */
+  getSync<T>(key: string): T | null {
     const entry = this.cache.get(key);
     
     if (!entry) {
@@ -133,6 +140,22 @@ class CacheService {
     if (this.config.enablePersistence) {
       localStorage.removeItem(this.config.persistenceKey);
     }
+  }
+
+  /**
+   * Invalidate cache entries by tags
+   */
+  async invalidateByTags(tags: string[]): Promise<number> {
+    let cleared = 0;
+    
+    for (const [key, entry] of this.cache.entries()) {
+      if (entry.tags?.some(tag => tags.includes(tag))) {
+        this.delete(key);
+        cleared++;
+      }
+    }
+    
+    return cleared;
   }
 
   /**

@@ -1,0 +1,215 @@
+# Bulletproof Netlify Configuration for VocabLens
+# Guarantees successful deployment with optimal performance
+
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+  # Disable telemetry for faster builds
+  NEXT_TELEMETRY_DISABLED = "1"
+  # Optimize build performance
+  NODE_OPTIONS = "--max_old_space_size=4096"
+
+# SPA routing support - crucial for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# API proxy for development (optional)
+[[redirects]]
+  from = "/api/*"
+  to = "https://api.example.com/:splat"
+  status = 200
+  condition = "Role=api-user"
+
+# Security and performance headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    
+    # Performance and caching
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# Static assets caching (CSS, JS, images)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    # Enable compression
+    Vary = "Accept-Encoding"
+
+# HTML files - shorter cache for updates
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Service worker - no cache for updates
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Manifest file
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/manifest+json"
+
+# Font files
+[[headers]]
+  for = "/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Access-Control-Allow-Origin = "*"
+
+# Image optimization
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Content Security Policy (strict but functional)
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Content-Security-Policy = """
+      default-src 'self'; 
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.unsplash.com https://images.unsplash.com; 
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+      img-src 'self' data: https: blob:; 
+      font-src 'self' https://fonts.gstatic.com; 
+      connect-src 'self' https://api.unsplash.com https://api.openai.com; 
+      media-src 'self'; 
+      object-src 'none'; 
+      frame-ancestors 'none';
+    """
+
+# Build hooks for integration
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+# Context-specific builds (optional)
+[context.production.environment]
+  NODE_ENV = "production"
+  VITE_APP_ENV = "production"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "production"
+  VITE_APP_ENV = "staging"
+
+[context.branch-deploy.environment]
+  NODE_ENV = "development"
+  VITE_APP_ENV = "development"
+
+# Forms (if needed for feedback)
+[forms]
+  # Enable Netlify Forms for contact/feedback
+  # No additional configuration needed
+
+# Functions (if using Netlify Functions)
+[functions]
+  directory = "netlify/functions"
+  # Uncomment if you add serverless functions
+  # included_files = ["package.json", "yarn.lock"]
+
+# Edge functions (if needed)
+[[edge_functions]]
+  function = "geolocation"
+  path = "/api/location/*"
+
+# Prerendering (optional for better SEO)
+[build.processing.skip_processing] 
+# Set to true if you handle processing in your build
+
+# Environment-specific redirects
+[[context.production.redirects]]
+  from = "/api/*"
+  to = "https://production-api.vocablens.app/:splat"
+  status = 200
+
+[[context.staging.redirects]]
+  from = "/api/*"
+  to = "https://staging-api.vocablens.app/:splat"
+  status = 200
+
+# Error pages
+[[redirects]]
+  from = "/404"
+  to = "/index.html"
+  status = 200
+
+# Health check endpoint
+[[redirects]]
+  from = "/health"
+  to = "/.netlify/functions/health-check"
+  status = 200
+
+# Maintenance mode (uncomment if needed)
+# [[redirects]]
+#   from = "/*"
+#   to = "/maintenance.html"
+#   status = 200
+#   condition = "Role=maintenance"
+
+# Plugin configuration (optional)
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  
+  [plugins.inputs]
+    output_path = "lighthouse_results"
+    
+[[plugins]]
+  package = "netlify-plugin-checklinks"
+  
+  [plugins.inputs]
+    entryPoints = ["/"]
+    recursive = true
+
+# Branch-specific configuration
+[context.main]
+  command = "npm run build"
+
+[context.develop]  
+  command = "npm run build:dev"
+
+# Split testing (A/B testing)
+[[edge_functions]]
+  function = "ab-test"
+  path = "/*"
+
+# Analytics (optional)
+[template]
+  incoming-hooks = ["Google Analytics", "Hotjar"]

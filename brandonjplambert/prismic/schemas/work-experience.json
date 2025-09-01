@@ -1,0 +1,280 @@
+{
+  "Main": {
+    "title": {
+      "type": "Text",
+      "config": {
+        "label": "Job Title",
+        "placeholder": "e.g., Senior AI Engineer"
+      }
+    },
+    "organization": {
+      "type": "Text",
+      "config": {
+        "label": "Organization",
+        "placeholder": "Company or organization name"
+      }
+    },
+    "organization_logo": {
+      "type": "Image",
+      "config": {
+        "label": "Organization Logo",
+        "constraint": {
+          "width": 200,
+          "height": 200
+        },
+        "thumbnails": [
+          {
+            "name": "small",
+            "width": 64,
+            "height": 64
+          }
+        ]
+      }
+    },
+    "date_range": {
+      "type": "Group",
+      "config": {
+        "label": "Date Range",
+        "fields": {
+          "start_date": {
+            "type": "Date",
+            "config": {
+              "label": "Start Date"
+            }
+          },
+          "end_date": {
+            "type": "Date",
+            "config": {
+              "label": "End Date"
+            }
+          },
+          "is_current": {
+            "type": "Boolean",
+            "config": {
+              "label": "Current Position",
+              "default_value": false,
+              "placeholder_false": "Past Position",
+              "placeholder_true": "Current Position"
+            }
+          }
+        }
+      }
+    },
+    "location": {
+      "type": "Text",
+      "config": {
+        "label": "Location",
+        "placeholder": "City, State/Country or Remote"
+      }
+    },
+    "employment_type": {
+      "type": "Select",
+      "config": {
+        "label": "Employment Type",
+        "options": [
+          "Full-time",
+          "Part-time",
+          "Contract",
+          "Freelance",
+          "Internship",
+          "Volunteer"
+        ],
+        "default_value": "Full-time"
+      }
+    }
+  },
+  "Description": {
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Job Description",
+        "placeholder": "Describe your role, responsibilities, and achievements",
+        "allowTargetBlank": true,
+        "multi": "paragraph,preformatted,heading3,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item"
+      }
+    },
+    "key_technologies": {
+      "type": "Group",
+      "config": {
+        "label": "Key Technologies",
+        "repeat": true,
+        "fields": {
+          "technology": {
+            "type": "Text",
+            "config": {
+              "label": "Technology",
+              "placeholder": "e.g., Python, React, AWS"
+            }
+          },
+          "proficiency": {
+            "type": "Select",
+            "config": {
+              "label": "Proficiency Level",
+              "options": [
+                "Expert",
+                "Advanced",
+                "Intermediate",
+                "Beginner"
+              ],
+              "default_value": "Advanced"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Metrics & Results": {
+    "metrics": {
+      "type": "Group",
+      "config": {
+        "label": "Key Metrics & Achievements",
+        "repeat": true,
+        "fields": {
+          "metric_type": {
+            "type": "Select",
+            "config": {
+              "label": "Metric Type",
+              "options": [
+                "Performance Improvement",
+                "Cost Reduction",
+                "Revenue Growth",
+                "User Growth",
+                "Efficiency Gain",
+                "Quality Improvement",
+                "Team Size",
+                "Project Count",
+                "Other"
+              ]
+            }
+          },
+          "value": {
+            "type": "Text",
+            "config": {
+              "label": "Value",
+              "placeholder": "e.g., 40%, $2M, 10x faster"
+            }
+          },
+          "description": {
+            "type": "Text",
+            "config": {
+              "label": "Description",
+              "placeholder": "Brief description of the achievement"
+            }
+          },
+          "is_highlight": {
+            "type": "Boolean",
+            "config": {
+              "label": "Highlight Metric",
+              "default_value": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "Testimonials": {
+    "testimonials": {
+      "type": "Group",
+      "config": {
+        "label": "Testimonials",
+        "repeat": true,
+        "fields": {
+          "quote": {
+            "type": "StructuredText",
+            "config": {
+              "label": "Quote",
+              "placeholder": "Testimonial quote",
+              "allowTargetBlank": false,
+              "single": "paragraph,strong,em"
+            }
+          },
+          "author": {
+            "type": "Text",
+            "config": {
+              "label": "Author",
+              "placeholder": "Person's name"
+            }
+          },
+          "author_title": {
+            "type": "Text",
+            "config": {
+              "label": "Author Title",
+              "placeholder": "Their job title"
+            }
+          },
+          "author_company": {
+            "type": "Text",
+            "config": {
+              "label": "Author Company",
+              "placeholder": "Their company"
+            }
+          },
+          "author_photo": {
+            "type": "Image",
+            "config": {
+              "label": "Author Photo",
+              "constraint": {
+                "width": 200,
+                "height": 200
+              },
+              "thumbnails": [
+                {
+                  "name": "small",
+                  "width": 80,
+                  "height": 80
+                }
+              ]
+            }
+          },
+          "relationship": {
+            "type": "Select",
+            "config": {
+              "label": "Relationship",
+              "options": [
+                "Manager",
+                "Colleague",
+                "Direct Report",
+                "Client",
+                "Mentor",
+                "Partner",
+                "Other"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "Metadata": {
+    "display_order": {
+      "type": "Number",
+      "config": {
+        "label": "Display Order",
+        "placeholder": "Lower numbers appear first"
+      }
+    },
+    "is_featured": {
+      "type": "Boolean",
+      "config": {
+        "label": "Featured Position",
+        "default_value": false
+      }
+    },
+    "tags": {
+      "type": "Group",
+      "config": {
+        "label": "Tags",
+        "repeat": true,
+        "fields": {
+          "tag": {
+            "type": "Text",
+            "config": {
+              "label": "Tag",
+              "placeholder": "e.g., Leadership, AI/ML, Startup"
+            }
+          }
+        }
+      }
+    }
+  }
+}

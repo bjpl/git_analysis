@@ -4,6 +4,10 @@
  */
 import { apiConfig, getApiHeaders, buildApiUrl, ApiError, timeouts } from '../config/api';
 import { apiConfigService } from './apiConfigService';
+import { retryWithBackoff, CircuitBreaker, RetryPolicy } from './retryService';
+import { cacheService } from './cacheService';
+import { rateLimiter } from './rateLimiter';
+import { apiMonitoringService } from './apiMonitoringService';
 
 export interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
@@ -38,6 +42,19 @@ export interface ChatCompletionResponse {
   };
 }
 
+export interface VisionRequest {
+  imageUrl: string;
+  prompt?: string;
+  maxTokens?: number;
+  detail?: 'low' | 'high';
+}
+
+export interface StreamingOptions {
+  onToken?: (token: string) => void;
+  onComplete?: (fullResponse: string) => void;
+  onError?: (error: Error) => void;
+}
+
 export interface VocabularyGenerationOptions {
   word: string;
   context?: string;
@@ -46,6 +63,8 @@ export interface VocabularyGenerationOptions {
   style?: 'simple' | 'detailed' | 'academic' | 'conversational';
   includeExamples?: boolean;
   maxLength?: number;
+  streaming?: boolean;
+  streamingOptions?: StreamingOptions;
 }
 
 export interface GeneratedVocabulary {
@@ -62,6 +81,25 @@ export interface GeneratedVocabulary {
 class OpenAIService {
   private readonly baseUrl = apiConfig.endpoints.openai.base;
   private requestQueue: Promise<any>[] = [];
+  private circuitBreaker: CircuitBreaker;
+  private retryPolicy: RetryPolicy;
+
+  constructor() {
+    this.circuitBreaker = new CircuitBreaker({
+      failureThreshold: 3,
+      recoveryTimeout: 60000,
+      monitoringPeriod: 120000
+    });
+    
+    this.retryPolicy = {
+      maxRetries: 2,
+      baseDelay: 2000,
+      maxDelay: 15000,
+      backoffMultiplier: 2.5,
+      jitter: true,
+      retryableStatusCodes: [408, 429, 500, 502, 503, 504]
+    };
+  }
 
   /**
    * Get API headers with runtime or fallback API key
@@ -85,55 +123,101 @@ class OpenAIService {
   }
 
   /**
-   * Generate a chat completion using OpenAI API
+   * Generate a chat completion using OpenAI API with advanced retry and caching
    */
-  async createChatCompletion(request: ChatCompletionRequest): Promise<ChatCompletionResponse> {
-    this.validateChatRequest(request);
-    await this.enforceRateLimit();
-
-    const url = buildApiUrl(this.baseUrl, apiConfig.endpoints.openai.completions);
-
-    const requestBody = {
-      model: request.model || apiConfig.ai.defaultModel,
-      messages: request.messages,
-      temperature: request.temperature ?? apiConfig.ai.temperature,
-      max_tokens: request.max_tokens || apiConfig.ai.maxTokens,
-      top_p: request.top_p,
-      frequency_penalty: request.frequency_penalty,
-      presence_penalty: request.presence_penalty,
-      stop: request.stop
-    };
-
+  async createChatCompletion(
+    request: ChatCompletionRequest, 
+    streaming?: boolean,
+    streamingOptions?: StreamingOptions
+  ): Promise<ChatCompletionResponse> {
+    const startTime = Date.now();
+    
     try {
-      const headers = await this.getHeaders();
-      const response = await this.fetchWithTimeout(url, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestBody)
-      });
-
-      if (!response.ok) {
-        await this.handleApiError(response);
+      this.validateChatRequest(request);
+      
+      // Generate cache key for non-streaming requests
+      const cacheKey = !streaming ? this.generateCacheKey('completion', request) : null;
+      
+      // Check cache for non-streaming requests
+      if (cacheKey) {
+        const cachedResult = await cacheService.get<ChatCompletionResponse>(cacheKey);
+        if (cachedResult) {
+          apiMonitoringService.recordCacheHit('openai', 'createChatCompletion');
+          return cachedResult;
+        }
       }
+      
+      await rateLimiter.acquire('openai', this.calculateTokenCost(request));
 
-      const data: ChatCompletionResponse = await response.json();
-      return data;
+      const url = buildApiUrl(this.baseUrl, apiConfig.endpoints.openai.completions);
+
+      const requestBody = {
+        model: request.model || apiConfig.ai.defaultModel,
+        messages: request.messages,
+        temperature: request.temperature ?? apiConfig.ai.temperature,
+        max_tokens: request.max_tokens || apiConfig.ai.maxTokens,
+        top_p: request.top_p,
+        frequency_penalty: request.frequency_penalty,
+        presence_penalty: request.presence_penalty,
+        stop: request.stop,
+        stream: streaming || false
+      };
+
+      const result = await this.circuitBreaker.execute(async () => {
+        return retryWithBackoff(async () => {
+          const headers = await this.getHeaders();
+          
+          if (streaming) {
+            return this.handleStreamingRequest(url, headers, requestBody, streamingOptions);
+          }
+          
+          const response = await this.fetchWithTimeout(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(requestBody)
+          });
+
+          if (!response.ok) {
+            await this.handleApiError(response);
+          }
+
+          return await response.json();
+        }, this.retryPolicy);
+      });
+      
+      // Cache successful non-streaming results
+      if (cacheKey && !streaming) {
+        await cacheService.set(cacheKey, result, {
+          ttl: apiConfig.cache?.completionTtl || 1800000, // 30 minutes
+          tags: ['openai', 'completion']
+        });
+      }
+      
+      apiMonitoringService.recordSuccess('openai', 'createChatCompletion', Date.now() - startTime);
+      return result;
+      
     } catch (error) {
+      const duration = Date.now() - startTime;
+      
       if (error instanceof ApiError) {
+        apiMonitoringService.recordError('openai', 'createChatCompletion', error, duration);
         throw error;
       }
       
-      throw new ApiError(
+      const apiError = new ApiError(
         `Failed to create chat completion: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500,
         'CHAT_COMPLETION_FAILED',
         'openai'
       );
+      
+      apiMonitoringService.recordError('openai', 'createChatCompletion', apiError, duration);
+      throw apiError;
     }
   }
 
   /**
-   * Generate vocabulary description and examples
+   * Generate vocabulary description with streaming support
    */
   async generateVocabularyDescription(options: VocabularyGenerationOptions): Promise<GeneratedVocabulary> {
     const systemPrompt = this.buildVocabularySystemPrompt(options);
@@ -145,12 +229,16 @@ class OpenAIService {
     ];
 
     try {
-      const response = await this.createChatCompletion({
-        model: apiConfig.ai.defaultModel,
-        messages,
-        temperature: apiConfig.ai.temperature,
-        max_tokens: options.maxLength || apiConfig.ai.maxDescriptionLength
-      });
+      const response = await this.createChatCompletion(
+        {
+          model: apiConfig.ai.defaultModel,
+          messages,
+          temperature: apiConfig.ai.temperature,
+          max_tokens: options.maxLength || apiConfig.ai.maxDescriptionLength
+        },
+        options.streaming,
+        options.streamingOptions
+      );
 
       const content = response.choices[0]?.message?.content;
       if (!content) {
@@ -268,6 +356,74 @@ Format your response as a numbered list:
   }
 
   /**
+   * Analyze image using GPT-4 Vision
+   */
+  async analyzeImageWithVision(visionRequest: VisionRequest): Promise<string> {
+    const startTime = Date.now();
+    
+    try {
+      // Generate cache key
+      const cacheKey = this.generateCacheKey('vision', visionRequest);
+      
+      // Check cache first
+      const cachedResult = await cacheService.get<string>(cacheKey);
+      if (cachedResult) {
+        apiMonitoringService.recordCacheHit('openai', 'analyzeImageWithVision');
+        return cachedResult;
+      }
+      
+      await rateLimiter.acquire('openai', 1000); // Vision requests cost more tokens
+
+      const messages: ChatMessage[] = [
+        {
+          role: 'user',
+          content: `${visionRequest.prompt || 'Describe this image in detail for vocabulary learning purposes.'}
+          
+          Image: ${visionRequest.imageUrl}`
+        }
+      ];
+
+      const response = await this.createChatCompletion({
+        model: 'gpt-4-vision-preview',
+        messages,
+        max_tokens: visionRequest.maxTokens || 500
+      });
+
+      const content = response.choices[0]?.message?.content;
+      if (!content) {
+        throw new ApiError('Empty response from GPT-4 Vision', 500, 'EMPTY_VISION_RESPONSE', 'openai');
+      }
+      
+      // Cache the result
+      await cacheService.set(cacheKey, content, {
+        ttl: apiConfig.cache?.visionTtl || 3600000, // 1 hour
+        tags: ['openai', 'vision']
+      });
+      
+      apiMonitoringService.recordSuccess('openai', 'analyzeImageWithVision', Date.now() - startTime);
+      return content;
+      
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      
+      if (error instanceof ApiError) {
+        apiMonitoringService.recordError('openai', 'analyzeImageWithVision', error, duration);
+        throw error;
+      }
+      
+      const apiError = new ApiError(
+        `Failed to analyze image: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        500,
+        'VISION_ANALYSIS_FAILED',
+        'openai'
+      );
+      
+      apiMonitoringService.recordError('openai', 'analyzeImageWithVision', apiError, duration);
+      throw apiError;
+    }
+  }
+
+  /**
    * Check if the API key is valid
    */
   async validateApiKey(apiKey?: string): Promise<boolean> {
@@ -291,7 +447,124 @@ Format your response as a numbered list:
     }
   }
 
+  /**
+   * Get service health status
+   */
+  async getHealthStatus(): Promise<{
+    status: 'healthy' | 'degraded' | 'unhealthy';
+    circuitBreakerState: string;
+    rateLimit: { remaining: number; resetTime: number };
+    lastError?: string;
+  }> {
+    const circuitState = this.circuitBreaker.getState();
+    const rateLimitStatus = rateLimiter.getStatus('openai');
+    
+    return {
+      status: circuitState === 'CLOSED' ? 'healthy' : 'degraded',
+      circuitBreakerState: circuitState,
+      rateLimit: {
+        remaining: rateLimitStatus.remaining,
+        resetTime: rateLimitStatus.resetTime
+      },
+      lastError: circuitState === 'OPEN' ? 'Circuit breaker is open' : undefined
+    };
+  }
+
+  /**
+   * Clear cache for specific tags or all OpenAI data
+   */
+  async clearCache(tags?: string[]): Promise<void> {
+    const cacheTags = tags ? ['openai', ...tags] : ['openai'];
+    await cacheService.invalidateByTags(cacheTags);
+  }
+
   // Private helper methods
+
+  private generateCacheKey(operation: string, params: any): string {
+    const sortedParams = JSON.stringify(params, Object.keys(params).sort());
+    return `openai:${operation}:${Buffer.from(sortedParams).toString('base64')}`;
+  }
+
+  private calculateTokenCost(request: ChatCompletionRequest): number {
+    // Rough estimate: 1 token per 4 characters for English text
+    const messageText = request.messages.map(m => m.content).join(' ');
+    return Math.ceil(messageText.length / 4) + (request.max_tokens || 0);
+  }
+
+  private async handleStreamingRequest(
+    url: string,
+    headers: Record<string, string>,
+    requestBody: any,
+    streamingOptions?: StreamingOptions
+  ): Promise<ChatCompletionResponse> {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      await this.handleApiError(response);
+    }
+
+    const reader = response.body?.getReader();
+    if (!reader) {
+      throw new ApiError('No response body reader available', 500, 'NO_READER', 'openai');
+    }
+
+    let fullResponse = '';
+    const decoder = new TextDecoder();
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n').filter(line => line.trim());
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') continue;
+
+            try {
+              const parsed = JSON.parse(data);
+              const token = parsed.choices?.[0]?.delta?.content;
+              if (token) {
+                fullResponse += token;
+                streamingOptions?.onToken?.(token);
+              }
+            } catch (e) {
+              // Ignore malformed JSON chunks
+            }
+          }
+        }
+      }
+    } finally {
+      reader.releaseLock();
+    }
+
+    streamingOptions?.onComplete?.(fullResponse);
+
+    // Return mock response structure for streaming
+    return {
+      id: 'streaming-' + Date.now(),
+      object: 'chat.completion',
+      created: Math.floor(Date.now() / 1000),
+      model: requestBody.model,
+      choices: [{
+        index: 0,
+        message: { role: 'assistant', content: fullResponse },
+        finish_reason: 'stop'
+      }],
+      usage: {
+        prompt_tokens: 0,
+        completion_tokens: 0,
+        total_tokens: 0
+      }
+    };
+  }
 
   private validateChatRequest(request: ChatCompletionRequest): void {
     if (!request.messages || request.messages.length === 0) {
@@ -338,17 +611,9 @@ Format your response as a numbered list:
   }
 
   private async enforceRateLimit(): Promise<void> {
-    // Remove completed requests
-    this.requestQueue = this.requestQueue.filter(request => 
-      request instanceof Promise && 
-      (request as any).status !== 'resolved' && 
-      (request as any).status !== 'rejected'
-    );
-
-    // Wait if we've hit the concurrent request limit
-    if (this.requestQueue.length >= apiConfig.rateLimit.maxConcurrent) {
-      await Promise.race(this.requestQueue);
-    }
+    // Legacy method - now handled by rateLimiter.acquire()
+    // Keep for backward compatibility
+    await rateLimiter.acquire('openai', 1);
   }
 
   private async fetchWithTimeout(url: string, options: RequestInit): Promise<Response> {

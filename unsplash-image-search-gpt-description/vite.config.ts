@@ -58,6 +58,10 @@ export default defineConfig({
           'supabase-vendor': ['@supabase/supabase-js'],
         },
       },
+      treeshake: {
+        preset: 'recommended',
+        sideEffects: false,
+      },
     },
     // Enable source maps for production debugging
     sourcemap: process.env.NODE_ENV === 'development',
@@ -67,6 +71,17 @@ export default defineConfig({
     reportCompressedSize: false,
     // Output clean directory
     emptyOutDir: true,
+    // Additional optimizations
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096,
+    outDir: 'dist',
+    // Terser options for better compression
+    terserOptions: {
+      compress: {
+        drop_console: process.env.NODE_ENV === 'production',
+        drop_debugger: true,
+      },
+    },
   },
   server: {
     port: 3000,

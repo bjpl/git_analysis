@@ -1,0 +1,164 @@
+{
+  "version": 2,
+  "name": "vocablens-bulletproof",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { 
+        "distDir": "dist",
+        "framework": "vite"
+      }
+    }
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
+  "devCommand": "npm run dev",
+  
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/assets/(.*)",
+      "headers": { 
+        "cache-control": "public, max-age=31536000, immutable" 
+      }
+    },
+    {
+      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|svg|woff|woff2))",
+      "headers": { 
+        "cache-control": "public, max-age=31536000, immutable" 
+      }
+    },
+    {
+      "src": "/manifest.json",
+      "headers": { 
+        "cache-control": "public, max-age=86400",
+        "content-type": "application/manifest+json"
+      }
+    },
+    {
+      "src": "/sw.js",
+      "headers": { 
+        "cache-control": "public, max-age=0, must-revalidate" 
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate"
+      }
+    }
+  ],
+  
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Vary",
+          "value": "Accept-Encoding"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(woff|woff2))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ],
+  
+  "rewrites": [
+    {
+      "source": "/api/unsplash/(.*)",
+      "destination": "https://api.unsplash.com/$1"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/health.js"
+    }
+  ],
+  
+  "redirects": [
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/old-search",
+      "destination": "/search",
+      "permanent": true
+    }
+  ],
+  
+  "functions": {
+    "app/api/*.js": {
+      "maxDuration": 10
+    }
+  },
+  
+  "env": {
+    "NODE_ENV": "production"
+  },
+  
+  "build": {
+    "env": {
+      "VITE_APP_ENV": "production",
+      "NODE_OPTIONS": "--max_old_space_size=4096"
+    }
+  },
+  
+  "crons": [],
+  
+  "regions": ["iad1"],
+  
+  "framework": "vite",
+  
+  "cleanUrls": true,
+  "trailingSlash": false,
+  
+  "github": {
+    "enabled": false
+  }
+}

@@ -4,6 +4,10 @@
  */
 import { apiConfig, getApiHeaders, buildApiUrl, ApiError, timeouts } from '../config/api';
 import { apiConfigService } from './apiConfigService';
+import { retryWithBackoff, CircuitBreaker, RetryPolicy } from './retryService';
+import { cacheService } from './cacheService';
+import { rateLimiter } from './rateLimiter';
+import { apiMonitoringService } from './apiMonitoringService';
 
 export interface UnsplashImage {
   id: string;
@@ -47,6 +51,25 @@ export interface SearchParams {
 class UnsplashService {
   private readonly baseUrl = apiConfig.endpoints.unsplash.base;
   private requestQueue: Promise<any>[] = [];
+  private circuitBreaker: CircuitBreaker;
+  private retryPolicy: RetryPolicy;
+
+  constructor() {
+    this.circuitBreaker = new CircuitBreaker({
+      failureThreshold: 5,
+      recoveryTimeout: 30000,
+      monitoringPeriod: 60000
+    });
+    
+    this.retryPolicy = {
+      maxRetries: 3,
+      baseDelay: 1000,
+      maxDelay: 10000,
+      backoffMultiplier: 2,
+      jitter: true,
+      retryableStatusCodes: [408, 429, 500, 502, 503, 504]
+    };
+  }
 
   /**
    * Get API headers with runtime or fallback API key
@@ -71,112 +94,179 @@ class UnsplashService {
   }
 
   /**
-   * Search for images on Unsplash
+   * Search for images on Unsplash with advanced caching and retry logic
    */
   async searchImages(params: SearchParams): Promise<UnsplashSearchResult> {
-    this.validateSearchParams(params);
+    const startTime = Date.now();
     
-    // Rate limiting
-    await this.enforceRateLimit();
-
-    const searchParams = {
-      query: params.query,
-      page: params.page || 1,
-      per_page: Math.min(params.per_page || 20, apiConfig.images.maxPerSearch),
-      order_by: params.order_by || 'relevant',
-      ...(params.orientation && { orientation: params.orientation }),
-      ...(params.category && { category: params.category }),
-      ...(params.color && { color: params.color })
-    };
-
-    const url = buildApiUrl(
-      this.baseUrl,
-      apiConfig.endpoints.unsplash.search,
-      searchParams
-    );
-
     try {
-      const headers = await this.getHeaders();
-      const response = await this.fetchWithTimeout(url, {
-        headers,
-        method: 'GET'
-      });
-
-      if (!response.ok) {
-        throw new ApiError(
-          `Unsplash API error: ${response.statusText}`,
-          response.status,
-          'UNSPLASH_API_ERROR',
-          'unsplash'
-        );
-      }
-
-      const data: UnsplashSearchResult = await response.json();
+      this.validateSearchParams(params);
       
-      // Transform and validate the response
-      return this.transformSearchResult(data);
+      // Generate cache key
+      const cacheKey = this.generateCacheKey('search', params);
+      
+      // Check cache first
+      const cachedResult = await cacheService.get<UnsplashSearchResult>(cacheKey);
+      if (cachedResult) {
+        apiMonitoringService.recordCacheHit('unsplash', 'searchImages');
+        return cachedResult;
+      }
+      
+      // Rate limiting with token bucket
+      await rateLimiter.acquire('unsplash', 1);
+      
+      const searchParams = {
+        query: params.query,
+        page: params.page || 1,
+        per_page: Math.min(params.per_page || 20, apiConfig.images.maxPerSearch),
+        order_by: params.order_by || 'relevant',
+        ...(params.orientation && { orientation: params.orientation }),
+        ...(params.category && { category: params.category }),
+        ...(params.color && { color: params.color })
+      };
+
+      const url = buildApiUrl(
+        this.baseUrl,
+        apiConfig.endpoints.unsplash.search,
+        searchParams
+      );
+
+      // Execute with circuit breaker and retry logic
+      const result = await this.circuitBreaker.execute(async () => {
+        return retryWithBackoff(async () => {
+          const headers = await this.getHeaders();
+          const response = await this.fetchWithTimeout(url, {
+            headers,
+            method: 'GET'
+          });
+
+          if (!response.ok) {
+            const error = new ApiError(
+              `Unsplash API error: ${response.statusText}`,
+              response.status,
+              'UNSPLASH_API_ERROR',
+              'unsplash'
+            );
+            
+            // Record error metrics
+            apiMonitoringService.recordError('unsplash', 'searchImages', error);
+            throw error;
+          }
+
+          const data: UnsplashSearchResult = await response.json();
+          return this.transformSearchResult(data);
+        }, this.retryPolicy);
+      });
+      
+      // Cache successful result
+      await cacheService.set(cacheKey, result, {
+        ttl: apiConfig.cache?.searchTtl || 300000, // 5 minutes
+        tags: ['unsplash', 'search']
+      });
+      
+      // Record success metrics
+      apiMonitoringService.recordSuccess('unsplash', 'searchImages', Date.now() - startTime);
+      
+      return result;
+      
     } catch (error) {
+      const duration = Date.now() - startTime;
+      
       if (error instanceof ApiError) {
+        apiMonitoringService.recordError('unsplash', 'searchImages', error, duration);
         throw error;
       }
       
-      throw new ApiError(
+      const apiError = new ApiError(
         `Failed to search images: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500,
         'SEARCH_FAILED',
         'unsplash'
       );
+      
+      apiMonitoringService.recordError('unsplash', 'searchImages', apiError, duration);
+      throw apiError;
     }
   }
 
   /**
-   * Get a specific image by ID
+   * Get a specific image by ID with caching and retry logic
    */
   async getImage(imageId: string): Promise<UnsplashImage> {
-    if (!imageId) {
-      throw new ApiError('Image ID is required', 400, 'INVALID_IMAGE_ID', 'unsplash');
-    }
-
-    await this.enforceRateLimit();
-
-    const url = buildApiUrl(
-      this.baseUrl,
-      `${apiConfig.endpoints.unsplash.photos}/${imageId}`
-    );
-
+    const startTime = Date.now();
+    
     try {
-      const headers = await this.getHeaders();
-      const response = await this.fetchWithTimeout(url, {
-        headers,
-        method: 'GET'
-      });
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new ApiError('Image not found', 404, 'IMAGE_NOT_FOUND', 'unsplash');
-        }
-        
-        throw new ApiError(
-          `Unsplash API error: ${response.statusText}`,
-          response.status,
-          'UNSPLASH_API_ERROR',
-          'unsplash'
-        );
+      if (!imageId) {
+        throw new ApiError('Image ID is required', 400, 'INVALID_IMAGE_ID', 'unsplash');
       }
 
-      const data: UnsplashImage = await response.json();
-      return this.transformImage(data);
+      // Check cache first
+      const cacheKey = this.generateCacheKey('image', { id: imageId });
+      const cachedImage = await cacheService.get<UnsplashImage>(cacheKey);
+      if (cachedImage) {
+        apiMonitoringService.recordCacheHit('unsplash', 'getImage');
+        return cachedImage;
+      }
+
+      await rateLimiter.acquire('unsplash', 1);
+
+      const url = buildApiUrl(
+        this.baseUrl,
+        `${apiConfig.endpoints.unsplash.photos}/${imageId}`
+      );
+
+      const result = await this.circuitBreaker.execute(async () => {
+        return retryWithBackoff(async () => {
+          const headers = await this.getHeaders();
+          const response = await this.fetchWithTimeout(url, {
+            headers,
+            method: 'GET'
+          });
+
+          if (!response.ok) {
+            if (response.status === 404) {
+              throw new ApiError('Image not found', 404, 'IMAGE_NOT_FOUND', 'unsplash');
+            }
+            
+            throw new ApiError(
+              `Unsplash API error: ${response.statusText}`,
+              response.status,
+              'UNSPLASH_API_ERROR',
+              'unsplash'
+            );
+          }
+
+          const data: UnsplashImage = await response.json();
+          return this.transformImage(data);
+        }, this.retryPolicy);
+      });
+      
+      // Cache the result
+      await cacheService.set(cacheKey, result, {
+        ttl: apiConfig.cache?.imageTtl || 600000, // 10 minutes
+        tags: ['unsplash', 'image']
+      });
+      
+      apiMonitoringService.recordSuccess('unsplash', 'getImage', Date.now() - startTime);
+      return result;
+      
     } catch (error) {
+      const duration = Date.now() - startTime;
+      
       if (error instanceof ApiError) {
+        apiMonitoringService.recordError('unsplash', 'getImage', error, duration);
         throw error;
       }
       
-      throw new ApiError(
+      const apiError = new ApiError(
         `Failed to get image: ${error instanceof Error ? error.message : 'Unknown error'}`,
         500,
         'GET_IMAGE_FAILED',
         'unsplash'
       );
+      
+      apiMonitoringService.recordError('unsplash', 'getImage', apiError, duration);
+      throw apiError;
     }
   }
 
@@ -305,7 +395,43 @@ class UnsplashService {
     return `https://unsplash.com/@${image.user.username}?utm_source=${apiConfig.app.name}&utm_medium=referral`;
   }
 
+  /**
+   * Get service health status
+   */
+  async getHealthStatus(): Promise<{
+    status: 'healthy' | 'degraded' | 'unhealthy';
+    circuitBreakerState: string;
+    rateLimit: { remaining: number; resetTime: number };
+    lastError?: string;
+  }> {
+    const circuitState = this.circuitBreaker.getState();
+    const rateLimitStatus = rateLimiter.getStatus('unsplash');
+    
+    return {
+      status: circuitState === 'CLOSED' ? 'healthy' : 'degraded',
+      circuitBreakerState: circuitState,
+      rateLimit: {
+        remaining: rateLimitStatus.remaining,
+        resetTime: rateLimitStatus.resetTime
+      },
+      lastError: circuitState === 'OPEN' ? 'Circuit breaker is open' : undefined
+    };
+  }
+
+  /**
+   * Clear cache for specific tags or all Unsplash data
+   */
+  async clearCache(tags?: string[]): Promise<void> {
+    const cacheTags = tags ? ['unsplash', ...tags] : ['unsplash'];
+    await cacheService.invalidateByTags(cacheTags);
+  }
+
   // Private helper methods
+
+  private generateCacheKey(operation: string, params: any): string {
+    const sortedParams = JSON.stringify(params, Object.keys(params).sort());
+    return `unsplash:${operation}:${Buffer.from(sortedParams).toString('base64')}`;
+  }
 
   private validateSearchParams(params: SearchParams): void {
     if (!params.query || params.query.trim().length === 0) {
@@ -331,17 +457,9 @@ class UnsplashService {
   }
 
   private async enforceRateLimit(): Promise<void> {
-    // Remove completed requests
-    this.requestQueue = this.requestQueue.filter(request => 
-      request instanceof Promise && 
-      (request as any).status !== 'resolved' && 
-      (request as any).status !== 'rejected'
-    );
-
-    // Wait if we've hit the concurrent request limit
-    if (this.requestQueue.length >= apiConfig.rateLimit.maxConcurrent) {
-      await Promise.race(this.requestQueue);
-    }
+    // Legacy method - now handled by rateLimiter.acquire()
+    // Keep for backward compatibility
+    await rateLimiter.acquire('unsplash', 1);
   }
 
   private async fetchWithTimeout(url: string, options: RequestInit): Promise<Response> {
