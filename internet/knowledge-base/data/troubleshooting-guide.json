@@ -1,0 +1,236 @@
+{
+  "troubleshooting_guide": {
+    "diagnostic_approaches": {
+      "osi_layer_approach": {
+        "method": "bottom_up",
+        "layers": [
+          {
+            "layer": 1,
+            "name": "Physical",
+            "checks": ["Cable connected", "Link lights", "Power"],
+            "tools": ["Visual inspection", "Cable tester"]
+          },
+          {
+            "layer": 2,
+            "name": "Data Link",
+            "checks": ["ARP table", "MAC addresses", "VLAN configuration"],
+            "tools": ["arp -a", "show mac address-table"]
+          },
+          {
+            "layer": 3,
+            "name": "Network",
+            "checks": ["IP configuration", "Routing table", "Gateway reachability"],
+            "tools": ["ipconfig", "route print", "ping", "traceroute"]
+          },
+          {
+            "layer": 4,
+            "name": "Transport",
+            "checks": ["Port status", "Connection state", "Firewall rules"],
+            "tools": ["netstat", "ss", "telnet", "nc"]
+          },
+          {
+            "layer": 7,
+            "name": "Application",
+            "checks": ["Service status", "Application logs", "Configuration"],
+            "tools": ["curl", "application logs", "config files"]
+          }
+        ]
+      }
+    },
+    "common_issues": {
+      "no_internet_connection": {
+        "diagnostic_flow": [
+          {
+            "step": 1,
+            "check": "Physical connection",
+            "commands": ["Check cable", "Check WiFi"],
+            "next_if_fail": 2,
+            "next_if_pass": 2
+          },
+          {
+            "step": 2,
+            "check": "IP configuration",
+            "commands": ["ipconfig /all", "ifconfig"],
+            "next_if_fail": "DHCP troubleshooting",
+            "next_if_pass": 3
+          },
+          {
+            "step": 3,
+            "check": "Local connectivity",
+            "commands": ["ping 127.0.0.1", "ping gateway"],
+            "next_if_fail": "Local network issue",
+            "next_if_pass": 4
+          },
+          {
+            "step": 4,
+            "check": "Internet connectivity",
+            "commands": ["ping 8.8.8.8"],
+            "next_if_fail": "Routing/ISP issue",
+            "next_if_pass": 5
+          },
+          {
+            "step": 5,
+            "check": "DNS resolution",
+            "commands": ["nslookup google.com", "dig google.com"],
+            "next_if_fail": "DNS configuration",
+            "next_if_pass": "Application issue"
+          }
+        ]
+      },
+      "slow_performance": {
+        "diagnostics": {
+          "latency": {
+            "tools": ["ping -t", "mtr", "pathping"],
+            "thresholds": {
+              "good_ms": 50,
+              "acceptable_ms": 150,
+              "poor_ms": 300
+            }
+          },
+          "bandwidth": {
+            "tools": ["iperf3", "speedtest-cli"],
+            "checks": ["Throughput test", "Duplex settings", "QoS policies"]
+          },
+          "packet_loss": {
+            "tools": ["ping -c 100", "mtr --report"],
+            "thresholds": {
+              "acceptable_percent": 0.1,
+              "poor_percent": 1.0
+            }
+          },
+          "dns_performance": {
+            "tools": ["dig +stats", "nslookup -debug"],
+            "optimization": ["Use faster DNS", "Enable caching", "DNS prefetch"]
+          }
+        }
+      },
+      "connection_drops": {
+        "possible_causes": [
+          "DHCP lease expiration",
+          "WiFi interference",
+          "Power saving settings",
+          "Faulty hardware",
+          "ISP issues"
+        ],
+        "diagnostic_steps": [
+          "Check system logs",
+          "Monitor connection stability",
+          "Test with different hardware",
+          "Check for interference",
+          "Contact ISP"
+        ]
+      }
+    },
+    "protocol_specific": {
+      "http_https": {
+        "tools": {
+          "curl": {
+            "basic": "curl -I https://example.com",
+            "verbose": "curl -v https://example.com",
+            "timing": "curl -w '%{time_total}' -o /dev/null -s https://example.com"
+          },
+          "openssl": {
+            "check_cert": "openssl s_client -connect example.com:443",
+            "check_protocols": "openssl s_client -connect example.com:443 -tls1_2"
+          }
+        },
+        "common_issues": {
+          "ssl_errors": ["Certificate expired", "Certificate mismatch", "Untrusted CA"],
+          "timeouts": ["Server overload", "Network issues", "Firewall blocking"],
+          "4xx_errors": ["Authentication required", "Resource not found", "Rate limited"],
+          "5xx_errors": ["Server error", "Backend failure", "Maintenance mode"]
+        }
+      },
+      "dns": {
+        "tools": {
+          "dig": {
+            "basic": "dig example.com",
+            "trace": "dig +trace example.com",
+            "specific_server": "dig @8.8.8.8 example.com",
+            "any_records": "dig ANY example.com"
+          },
+          "nslookup": {
+            "basic": "nslookup example.com",
+            "specific_server": "nslookup example.com 8.8.8.8",
+            "reverse": "nslookup 192.0.2.1"
+          }
+        },
+        "issues": {
+          "NXDOMAIN": "Domain does not exist",
+          "SERVFAIL": "DNS server error",
+          "timeout": "Network connectivity issue",
+          "wrong_ip": "Cache issue or DNS hijacking"
+        }
+      },
+      "tcp": {
+        "connection_states": {
+          "LISTEN": "Waiting for connection",
+          "SYN_SENT": "Connection initiated",
+          "SYN_RECV": "Connection request received",
+          "ESTABLISHED": "Active connection",
+          "FIN_WAIT1": "Closing initiated locally",
+          "FIN_WAIT2": "Waiting for remote close",
+          "TIME_WAIT": "Waiting for stray packets",
+          "CLOSE_WAIT": "Remote closed, local hasn't",
+          "CLOSED": "No connection"
+        },
+        "troubleshooting": {
+          "connection_refused": ["Service not running", "Firewall blocking", "Wrong port"],
+          "connection_timeout": ["Network unreachable", "Firewall dropping", "Routing issue"],
+          "connection_reset": ["Application crash", "Firewall intervention", "Timeout"]
+        }
+      }
+    },
+    "tools_reference": {
+      "windows": {
+        "network_config": ["ipconfig /all", "ipconfig /release", "ipconfig /renew", "ipconfig /flushdns"],
+        "connectivity": ["ping", "tracert", "pathping", "nslookup"],
+        "network_stats": ["netstat -an", "netstat -r", "arp -a", "route print"],
+        "advanced": ["netsh int ip reset", "netsh winsock reset", "nbtstat -a"]
+      },
+      "linux": {
+        "network_config": ["ip addr show", "ip route show", "ifconfig -a", "route -n"],
+        "connectivity": ["ping", "traceroute", "mtr", "dig", "host"],
+        "network_stats": ["ss -tuln", "netstat -tuln", "arp -n", "ip neigh"],
+        "packet_capture": ["tcpdump -i any", "tshark", "ngrep"],
+        "advanced": ["iptables -L", "ip6tables -L", "systemctl status NetworkManager"]
+      },
+      "universal": {
+        "performance": ["iperf3", "speedtest-cli", "fast-cli"],
+        "http": ["curl", "wget", "httpie"],
+        "dns": ["dig", "nslookup", "host"],
+        "security": ["nmap", "openssl", "ssh -v"]
+      }
+    },
+    "quick_fixes": {
+      "reset_network_stack": {
+        "windows": [
+          "netsh winsock reset",
+          "netsh int ip reset",
+          "ipconfig /flushdns",
+          "Restart"
+        ],
+        "linux": [
+          "sudo systemctl restart NetworkManager",
+          "sudo systemctl restart systemd-resolved",
+          "sudo ip addr flush dev eth0",
+          "sudo systemctl restart networking"
+        ],
+        "mac": [
+          "sudo dscacheutil -flushcache",
+          "sudo killall -HUP mDNSResponder",
+          "Turn Wi-Fi off and on"
+        ]
+      },
+      "common_router_fixes": [
+        "Power cycle router",
+        "Update firmware",
+        "Change DNS servers",
+        "Disable WPS",
+        "Check DHCP pool",
+        "Review port forwards",
+        "Factory reset"
+      ]
+    }
+  }
+}

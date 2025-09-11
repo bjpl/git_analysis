@@ -1,0 +1,300 @@
+{
+  "core_concepts": {
+    "fundamental_design_principles": {
+      "packet_switching": {
+        "definition": "Data broken into packets that travel independently",
+        "advantages": [
+          "Efficient resource sharing",
+          "Resilience to failures",
+          "No dedicated circuits needed"
+        ],
+        "key_insight": "Statistical multiplexing allows oversubscription",
+        "comparison_to_circuit_switching": {
+          "circuit": "Dedicated path for entire session",
+          "packet": "Shared infrastructure, independent routing"
+        }
+      },
+      "layered_architecture": {
+        "concept": "Separation of concerns across protocol layers",
+        "benefits": [
+          "Independent innovation at each layer",
+          "Changes don't affect other layers",
+          "Clear responsibilities"
+        ],
+        "implementation": {
+          "tcp_ip": ["Application", "Transport", "Internet", "Link"],
+          "osi": ["Application", "Presentation", "Session", "Transport", "Network", "Data Link", "Physical"]
+        }
+      },
+      "end_to_end_principle": {
+        "core_idea": "Intelligence at edges, simplicity in network",
+        "implementation": "Routers just forward, endpoints handle complexity",
+        "benefits": [
+          "Network scalability",
+          "Innovation without infrastructure changes",
+          "Simplified core network"
+        ],
+        "examples": [
+          "TCP reliability at endpoints",
+          "Encryption at application layer",
+          "Error recovery at transport layer"
+        ]
+      },
+      "distributed_control": {
+        "description": "No central authority controls the internet",
+        "mechanisms": [
+          "Autonomous Systems operate independently",
+          "Voluntary peering agreements",
+          "Distributed protocols like BGP"
+        ],
+        "benefits": [
+          "No single point of failure",
+          "Political independence",
+          "Organic growth"
+        ]
+      },
+      "best_effort_delivery": {
+        "philosophy": "Try to deliver, no guarantees",
+        "implementation": "IP provides unreliable datagram service",
+        "reliability_added_by": "Higher layers (TCP) when needed",
+        "advantages": [
+          "Simple core network",
+          "Massive scalability",
+          "Flexibility for different apps"
+        ]
+      }
+    },
+    "architectural_hierarchy": {
+      "tier_1_isps": {
+        "definition": "Networks that don't purchase transit",
+        "characteristics": [
+          "Global reach",
+          "Settlement-free peering",
+          "Form internet backbone"
+        ],
+        "examples": ["AT&T", "Verizon", "NTT", "Level 3"],
+        "interconnection": "Private peering and IXPs"
+      },
+      "tier_2_isps": {
+        "definition": "Regional networks",
+        "characteristics": [
+          "Buy transit from Tier 1",
+          "Peer with other Tier 2s",
+          "Regional coverage"
+        ],
+        "business_model": "Mix of transit purchase and peering"
+      },
+      "tier_3_isps": {
+        "definition": "Access/last-mile providers",
+        "characteristics": [
+          "Serve end users",
+          "Purchase transit only",
+          "Local coverage"
+        ],
+        "examples": ["Local cable companies", "DSL providers", "WISPs"]
+      },
+      "internet_exchange_points": {
+        "purpose": "Physical locations for network interconnection",
+        "benefits": [
+          "Reduced latency",
+          "Cost savings",
+          "Keep traffic local"
+        ],
+        "major_ixps": {
+          "DE-CIX": "Frankfurt, 10+ Tbps",
+          "AMS-IX": "Amsterdam, 8+ Tbps",
+          "LINX": "London, 5+ Tbps"
+        }
+      }
+    },
+    "critical_tradeoffs": {
+      "speed_vs_reliability": {
+        "udp": {
+          "characteristics": "Fast, no guarantees",
+          "use_cases": ["Real-time video", "Gaming", "DNS"]
+        },
+        "tcp": {
+          "characteristics": "Reliable, added latency",
+          "use_cases": ["Web", "Email", "File transfer"]
+        },
+        "quic": {
+          "characteristics": "Attempting best of both",
+          "features": ["0-RTT", "Multiplexing", "Built on UDP"]
+        }
+      },
+      "security_vs_performance": {
+        "overhead_sources": [
+          "Encryption computation",
+          "Additional headers",
+          "Authentication delays",
+          "Certificate validation"
+        ],
+        "mitigation": [
+          "Hardware acceleration",
+          "Session caching",
+          "OCSP stapling",
+          "TLS 1.3 optimizations"
+        ]
+      },
+      "centralization_vs_distribution": {
+        "centralized_benefits": [
+          "Easier management",
+          "Consistent policy",
+          "Simpler architecture"
+        ],
+        "distributed_benefits": [
+          "No single point of failure",
+          "Geographic proximity",
+          "Political independence"
+        ],
+        "hybrid_examples": {
+          "DNS": "Hierarchical but distributed",
+          "CDN": "Centralized content, distributed delivery",
+          "Certificate_Authorities": "Multiple roots, hierarchical trust"
+        }
+      },
+      "compatibility_vs_innovation": {
+        "challenges": [
+          "Must support old systems",
+          "Gradual deployment required",
+          "Network effects"
+        ],
+        "examples": {
+          "IPv6": "20+ year transition",
+          "HTTP2": "Negotiation required",
+          "TLS": "Version negotiation"
+        },
+        "strategies": [
+          "Dual stack operation",
+          "Protocol negotiation",
+          "Graceful degradation"
+        ]
+      }
+    },
+    "economic_models": {
+      "peering_types": {
+        "settlement_free": {
+          "description": "Equal value exchange",
+          "requirements": [
+            "Similar traffic volumes",
+            "Similar network size",
+            "Mutual benefit"
+          ]
+        },
+        "paid_peering": {
+          "description": "One party pays for peering",
+          "scenarios": [
+            "Asymmetric traffic",
+            "Content heavy networks",
+            "Access to eyeballs"
+          ]
+        }
+      },
+      "transit": {
+        "description": "Customer pays for full routing table",
+        "pricing_models": [
+          "95th percentile billing",
+          "Committed rate",
+          "Burstable billing"
+        ],
+        "typical_rates": {
+          "tier1": "$0.50-2.00 per Mbps",
+          "tier2": "$2-10 per Mbps",
+          "tier3": "$10-50 per Mbps"
+        }
+      },
+      "cost_drivers": [
+        "Geographic reach",
+        "Bandwidth volume",
+        "Redundancy requirements",
+        "Latency requirements",
+        "Support level"
+      ]
+    },
+    "scalability_mechanisms": {
+      "hierarchical_organization": {
+        "examples": [
+          "DNS namespace tree",
+          "IP address allocation",
+          "Routing aggregation",
+          "Certificate chains"
+        ],
+        "benefits": [
+          "Delegation of authority",
+          "Manageable segments",
+          "Clear ownership"
+        ]
+      },
+      "caching_strategies": {
+        "levels": [
+          "Browser cache",
+          "OS cache",
+          "ISP cache",
+          "CDN cache",
+          "Application cache"
+        ],
+        "effectiveness": {
+          "dns": "90%+ hit rate",
+          "cdn": "80%+ hit rate",
+          "browser": "50%+ hit rate"
+        }
+      },
+      "statistical_multiplexing": {
+        "concept": "Share resources based on average not peak",
+        "applications": [
+          "ISP bandwidth provisioning",
+          "Cloud resource allocation",
+          "Network buffer sizing"
+        ],
+        "typical_ratios": {
+          "residential_isp": "20:1 to 50:1",
+          "enterprise": "3:1 to 10:1",
+          "data_center": "1.5:1 to 3:1"
+        }
+      }
+    },
+    "resilience_patterns": {
+      "redundancy": {
+        "types": {
+          "N+1": "One spare for N units",
+          "N+2": "Two spares for N units",
+          "2N": "Full duplication",
+          "2N+1": "Full duplication plus spare"
+        },
+        "applications": [
+          "Power systems",
+          "Network links",
+          "Server clusters",
+          "DNS servers"
+        ]
+      },
+      "failure_detection": {
+        "mechanisms": [
+          "Heartbeat/keepalive",
+          "Health checks",
+          "Timeout detection",
+          "Circuit breakers"
+        ],
+        "recovery_times": {
+          "BFD": "50ms",
+          "OSPF": "5-40 seconds",
+          "BGP": "30-180 seconds"
+        }
+      },
+      "geographic_distribution": {
+        "benefits": [
+          "Natural disaster resilience",
+          "Reduced latency",
+          "Regulatory compliance",
+          "Load distribution"
+        ],
+        "challenges": [
+          "Data consistency",
+          "Increased complexity",
+          "Higher costs",
+          "Compliance issues"
+        ]
+      }
+    }
+  }
+}

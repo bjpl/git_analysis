@@ -1,0 +1,314 @@
+{
+  "security_reference": {
+    "encryption": {
+      "symmetric": {
+        "AES": {
+          "key_sizes_bits": [128, 192, 256],
+          "block_size_bits": 128,
+          "modes": ["ECB", "CBC", "CTR", "GCM", "CCM"],
+          "performance": "Very fast with hardware acceleration",
+          "use_cases": ["TLS", "Disk encryption", "VPNs"],
+          "quantum_resistant": false
+        },
+        "ChaCha20": {
+          "key_size_bits": 256,
+          "block_size_bits": 512,
+          "performance": "Fast in software",
+          "use_cases": ["Mobile devices", "TLS 1.3", "WireGuard"],
+          "quantum_resistant": false
+        }
+      },
+      "asymmetric": {
+        "RSA": {
+          "recommended_key_size_bits": 2048,
+          "secure_key_size_bits": 3072,
+          "long_term_key_size_bits": 4096,
+          "performance": "Slow",
+          "use_cases": ["Certificates", "Key exchange", "Signatures"],
+          "quantum_resistant": false,
+          "padding_schemes": ["PKCS1", "OAEP", "PSS"]
+        },
+        "ECC": {
+          "curves": {
+            "P-256": {
+              "security_bits": 128,
+              "key_size_bits": 256,
+              "performance": "Fast"
+            },
+            "P-384": {
+              "security_bits": 192,
+              "key_size_bits": 384,
+              "performance": "Moderate"
+            },
+            "Curve25519": {
+              "security_bits": 128,
+              "key_size_bits": 256,
+              "performance": "Very fast",
+              "features": ["Timing attack resistant"]
+            }
+          },
+          "use_cases": ["TLS", "SSH", "Mobile crypto"],
+          "quantum_resistant": false
+        }
+      },
+      "hash_functions": {
+        "SHA-256": {
+          "output_bits": 256,
+          "status": "Secure",
+          "use_cases": ["Certificates", "Digital signatures", "Integrity"],
+          "performance": "Fast"
+        },
+        "SHA-3": {
+          "output_bits": [224, 256, 384, 512],
+          "status": "Secure",
+          "construction": "Keccak sponge",
+          "use_cases": ["Future-proofing", "High security"]
+        },
+        "deprecated": {
+          "MD5": {
+            "output_bits": 128,
+            "status": "Broken",
+            "vulnerabilities": ["Collision attacks"],
+            "avoid_for": ["Security", "Certificates"]
+          },
+          "SHA-1": {
+            "output_bits": 160,
+            "status": "Deprecated",
+            "vulnerabilities": ["Collision attacks"],
+            "phase_out": "Complete by 2025"
+          }
+        }
+      }
+    },
+    "tls": {
+      "versions": {
+        "TLS_1_2": {
+          "status": "Current minimum",
+          "handshake_rtt": 2,
+          "features": ["AEAD ciphers", "SHA-256+", "PFS support"]
+        },
+        "TLS_1_3": {
+          "status": "Recommended",
+          "handshake_rtt": 1,
+          "features": ["0-RTT resumption", "Encrypted handshake", "Removed weak crypto"],
+          "removed": ["RSA key exchange", "CBC ciphers", "Compression"]
+        }
+      },
+      "cipher_suites": {
+        "recommended": [
+          "TLS_AES_256_GCM_SHA384",
+          "TLS_AES_128_GCM_SHA256",
+          "TLS_CHACHA20_POLY1305_SHA256"
+        ],
+        "legacy_strong": [
+          "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+          "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+        ],
+        "avoid": ["RC4", "DES", "3DES", "MD5", "NULL", "EXPORT", "anon"]
+      },
+      "certificate_requirements": {
+        "key_sizes": {
+          "RSA": {
+            "minimum_bits": 2048,
+            "recommended_bits": 3072
+          },
+          "ECC": {
+            "minimum": "P-256",
+            "recommended": "P-384"
+          }
+        },
+        "validity": {
+          "maximum_days": 397,
+          "recommended_days": 90
+        },
+        "hash_algorithm": {
+          "minimum": "SHA-256",
+          "recommended": "SHA-256"
+        }
+      }
+    },
+    "authentication": {
+      "password_hashing": {
+        "recommended": {
+          "Argon2id": {
+            "memory_mb": 64,
+            "iterations": 3,
+            "parallelism": 4,
+            "salt_bytes": 16,
+            "status": "Best practice"
+          }
+        },
+        "acceptable": {
+          "bcrypt": {
+            "cost_factor": 12,
+            "max_password_length": 72,
+            "status": "Good for web apps"
+          },
+          "scrypt": {
+            "N": 16384,
+            "r": 8,
+            "p": 1,
+            "status": "Memory-hard"
+          }
+        },
+        "legacy": {
+          "PBKDF2": {
+            "iterations": 100000,
+            "hash": "SHA-256",
+            "status": "Minimum acceptable"
+          }
+        }
+      },
+      "multi_factor": {
+        "TOTP": {
+          "algorithm": "HMAC-SHA1",
+          "digits": 6,
+          "period_seconds": 30,
+          "window": 1
+        },
+        "WebAuthn": {
+          "security": "Phishing-resistant",
+          "user_verification": ["PIN", "Biometric"],
+          "attestation": "Optional"
+        }
+      },
+      "session_management": {
+        "token_types": {
+          "JWT": {
+            "algorithm": "RS256 or ES256",
+            "expiry_minutes": 15,
+            "refresh_token_days": 30,
+            "storage": "Memory or httpOnly cookie"
+          },
+          "session_cookie": {
+            "attributes": ["Secure", "HttpOnly", "SameSite=Strict"],
+            "id_length_bytes": 32,
+            "regenerate_on": ["Login", "Privilege escalation"]
+          }
+        }
+      }
+    },
+    "network_security": {
+      "vpn_protocols": {
+        "WireGuard": {
+          "encryption": "ChaCha20-Poly1305",
+          "key_exchange": "Curve25519",
+          "hash": "BLAKE2s",
+          "performance": "Excellent",
+          "code_lines": 4000
+        },
+        "OpenVPN": {
+          "encryption": "AES-256-GCM",
+          "auth": "SHA256",
+          "key_exchange": "ECDHE",
+          "performance": "Good",
+          "compatibility": "Excellent"
+        },
+        "IPSec_IKEv2": {
+          "encryption": "AES-256",
+          "integrity": "SHA256",
+          "dh_group": 14,
+          "performance": "Good",
+          "native_support": ["Windows", "macOS", "iOS"]
+        }
+      },
+      "firewall_rules": {
+        "default_policies": {
+          "inbound": "Deny all except explicitly allowed",
+          "outbound": "Allow established, deny new except allowed",
+          "forward": "Deny all except explicitly allowed"
+        },
+        "common_blocks": {
+          "inbound": [135, 139, 445, 1433, 3389, 5900],
+          "reasons": {
+            "135-139": "NetBIOS",
+            "445": "SMB/Ransomware",
+            "1433": "MS SQL",
+            "3389": "RDP",
+            "5900": "VNC"
+          }
+        }
+      }
+    },
+    "web_security": {
+      "headers": {
+        "Content-Security-Policy": {
+          "purpose": "XSS prevention",
+          "example": "default-src 'self'; script-src 'self' 'unsafe-inline'",
+          "directives": ["default-src", "script-src", "style-src", "img-src"]
+        },
+        "Strict-Transport-Security": {
+          "purpose": "Force HTTPS",
+          "example": "max-age=31536000; includeSubDomains; preload",
+          "min_max_age": 31536000
+        },
+        "X-Frame-Options": {
+          "purpose": "Clickjacking prevention",
+          "values": ["DENY", "SAMEORIGIN"],
+          "replacement": "CSP frame-ancestors"
+        },
+        "X-Content-Type-Options": {
+          "purpose": "MIME sniffing prevention",
+          "value": "nosniff"
+        }
+      },
+      "cors": {
+        "headers": {
+          "Access-Control-Allow-Origin": "Who can access",
+          "Access-Control-Allow-Methods": "Allowed HTTP methods",
+          "Access-Control-Allow-Headers": "Allowed headers",
+          "Access-Control-Allow-Credentials": "Include cookies"
+        },
+        "preflight": {
+          "triggers": ["Non-simple methods", "Custom headers"],
+          "cache_seconds": 86400
+        }
+      },
+      "common_vulnerabilities": {
+        "XSS": {
+          "types": ["Reflected", "Stored", "DOM-based"],
+          "prevention": ["Output encoding", "CSP", "Input validation"]
+        },
+        "SQL_Injection": {
+          "prevention": ["Parameterized queries", "Stored procedures", "Input validation"]
+        },
+        "CSRF": {
+          "prevention": ["CSRF tokens", "SameSite cookies", "Double submit"]
+        }
+      }
+    },
+    "cryptographic_attacks": {
+      "attack_types": {
+        "brute_force": {
+          "target": "Weak keys",
+          "mitigation": ["Longer keys", "Rate limiting", "Account lockout"]
+        },
+        "timing_attack": {
+          "target": "Crypto operations",
+          "mitigation": ["Constant-time algorithms", "Random delays"]
+        },
+        "padding_oracle": {
+          "target": "Block ciphers",
+          "mitigation": ["AEAD modes", "MAC-then-encrypt"]
+        },
+        "downgrade_attack": {
+          "target": "Protocol negotiation",
+          "mitigation": ["Minimum version enforcement", "HSTS"]
+        }
+      }
+    },
+    "compliance": {
+      "tls_requirements": {
+        "PCI_DSS": {
+          "minimum_tls": "1.2",
+          "strong_crypto": "Required",
+          "key_strength": "2048-bit RSA minimum"
+        },
+        "HIPAA": {
+          "encryption": "Required for PHI",
+          "key_management": "Documented procedures"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+category,protocol,attribute,priority,description,value_type,decision_criteria,example,use_case
+BGP Path Selection,BGP,Weight,1,Cisco-specific local preference,0-65535,Highest wins,Set weight 200,Local router preference
+BGP Path Selection,BGP,Local Preference,2,Preference within AS,0-4294967295,Highest wins,Set local-preference 150,AS-wide preference
+BGP Path Selection,BGP,Self-originated,3,Routes originated by this router,Boolean,Self preferred,Network statement or redistribute,Prefer own routes
+BGP Path Selection,BGP,AS Path,4,Number of AS hops,List length,Shortest wins,AS path: 65001 65002,Fewer AS hops preferred
+BGP Path Selection,BGP,Origin,5,How route entered BGP,IGP/EGP/Incomplete,IGP > EGP > Incomplete,Origin IGP,Protocol preference
+BGP Path Selection,BGP,MED,6,Multi-Exit Discriminator,0-4294967295,Lowest wins,MED 100,Suggest entry point
+BGP Path Selection,BGP,Path Type,7,External vs Internal BGP,eBGP/iBGP,eBGP > iBGP,eBGP learned,Prefer external
+BGP Path Selection,BGP,IGP Metric,8,Cost to next hop,IGP dependent,Lowest wins,OSPF cost 10,Nearest exit
+BGP Path Selection,BGP,Age,9,Route stability,Seconds,Oldest wins,Uptime 3600,Stability preference
+BGP Path Selection,BGP,Router ID,10,Tie breaker,IP address,Lowest wins,Router ID 1.1.1.1,Final tie break
+OSPF Metrics,OSPF,Cost,Primary,Inverse of bandwidth,1-65535,Lowest cumulative,Cost = 100Mbps/bandwidth,Shortest path
+OSPF Metrics,OSPF,Reference Bandwidth,Setting,Basis for cost calculation,Mbps,Higher = granular costs,100 Mbps default,Cost calculation
+OSPF Metrics,OSPF,Interface Bandwidth,Auto,Physical interface speed,bps,Used in cost calc,1 Gbps interface,Automatic costing
+OSPF Metrics,OSPF,Manual Cost,Override,Administrator set cost,1-65535,Overrides auto calc,ip ospf cost 10,Traffic engineering
+Administrative Distance,Static,Connected,0,Directly connected networks,Fixed,Most trusted,Interface IP,Local networks
+Administrative Distance,Static,Static Route,1,Manually configured routes,Fixed,Very trusted,ip route command,Known paths
+Administrative Distance,EIGRP,EIGRP Summary,5,EIGRP summary routes,Fixed,High trust,Auto-summary,Route aggregation
+Administrative Distance,BGP,eBGP,20,External BGP,Fixed,External routes,From other AS,Internet routes
+Administrative Distance,EIGRP,Internal EIGRP,90,EIGRP internal routes,Fixed,Trusted,Within AS,Enterprise routing
+Administrative Distance,OSPF,OSPF,110,All OSPF routes,Fixed,Standard trust,OSPF domain,Enterprise routing
+Administrative Distance,IS-IS,IS-IS,115,All IS-IS routes,Fixed,Standard trust,IS-IS domain,Service provider
+Administrative Distance,RIP,RIP,120,All RIP routes,Fixed,Less trusted,RIP domain,Legacy networks
+Administrative Distance,EIGRP,External EIGRP,170,EIGRP external routes,Fixed,Lower trust,Redistributed,External sources
+Administrative Distance,BGP,iBGP,200,Internal BGP,Fixed,Least trusted dynamic,Within AS,Internal distribution
+Administrative Distance,Unknown,Unknown,255,Unreachable,Fixed,Never used,No route,Null route
+Route Aggregation,IP,Contiguous Networks,Requirement,Networks must be sequential,Binary alignment,Powers of 2 boundaries,192.168.0.0-192.168.3.0,Reduce table size
+Route Aggregation,IP,Subnet Mask,Calculation,Common bits become mask,Bit boundary,Longest common prefix,/22 for 4 /24s,Summarization
+Route Aggregation,IP,Supernet,Result,Combined network,Larger prefix,Single advertisement,192.168.0.0/22,Efficiency
+Routing Loops,Prevention,Split Horizon,Basic,Don't advertise back,Rule,Never send back on received interface,RIP/EIGRP,Distance vector
+Routing Loops,Prevention,Route Poisoning,Active,Mark failed routes,Metric = infinity,Set metric to unreachable,RIP hop count 16,Quick convergence
+Routing Loops,Prevention,Hold-down Timer,Temporal,Ignore updates temporarily,Seconds,Wait before accepting new info,180 seconds,Stability
+Routing Loops,Prevention,TTL,Ultimate,Packet lifetime limit,Hop count,Decrements each hop,TTL=255,Loop detection
+Load Balancing,ECMP,Equal Cost,Requirement,Same metric paths,Exact match,Multiple paths same cost,Two 10-cost paths,Traffic distribution
+Load Balancing,EIGRP,Variance,Multiplier,Unequal cost capability,1-128,variance × best metric,variance 2,Unequal paths
+Load Balancing,Per-packet,Round Robin,Method,Alternate packets,Sequential,Each packet different path,Packet 1 path A,Maximum distribution
+Load Balancing,Per-flow,Hash-based,Method,Flow consistency,5-tuple hash,Same flow same path,TCP session,Maintains order
+Troubleshooting,Verification,show ip route,Command,Display routing table,Output,Check installed routes,All routes shown,Route verification
+Troubleshooting,Verification,show ip bgp,Command,Display BGP table,Output,Check BGP routes,BGP database,BGP specific
+Troubleshooting,Testing,traceroute,Tool,Show path taken,Hop list,Each router in path,TTL increment,Path discovery
+Troubleshooting,Testing,ping,Tool,Test reachability,Success/fail,End-to-end test,ICMP echo,Connectivity test
+MTU Discovery,Path MTU,Don't Fragment,Flag,Prevent fragmentation,Bit flag,Force ICMP error,DF bit set,Find maximum MTU
+MTU Discovery,Path MTU,ICMP Type 3 Code 4,Response,Fragmentation needed,Error message,Contains needed MTU,Need fragment,Size discovery
+MTU Discovery,Testing,Binary Search,Method,Find optimal MTU,Algorithm,Narrow range iteratively,1500→1472→1486,Optimization

@@ -1,0 +1,37 @@
+category,technology,description,benefit,implementation,performance_impact,use_case
+Architecture,Points of Presence (PoPs),Edge server locations worldwide,Reduced latency,100-300 locations globally,50-80% latency reduction,Global content delivery
+Architecture,Edge Servers,Servers at network edge serving cached content,Fast content delivery,Multiple servers per PoP,Sub-50ms response times,Static content serving
+Architecture,Origin Shield,Additional caching layer protecting origin,Reduced origin load,Between edge and origin,90% origin offload,High-traffic events
+Architecture,Anycast Routing,Same IP address in multiple locations,Automatic failover,BGP anycast announcement,Improved availability,DDoS mitigation
+Caching,Browser Cache,Client-side storage,Zero latency,Cache-Control headers,0ms for cached content,Repeat visits
+Caching,Edge Cache,CDN server cache,Low latency,TTL-based caching,5-30ms response,Frequently accessed content
+Caching,Hierarchical Caching,Multi-tier cache architecture,Better hit rates,Edge -> Regional -> Origin,95%+ cache hit rate,Large content libraries
+Caching,Cache Warming,Preloading content into cache,First-request performance,Predictive/manual push,Eliminates cold cache,Product launches
+Caching,Stale-While-Revalidate,Serve stale during update,Reduced latency,Background revalidation,Instant response,Dynamic content
+Request Routing,DNS-based Routing,GeoDNS for user routing,Geographic optimization,DNS resolution to nearest edge,Optimal server selection,Multi-region deployments
+Request Routing,HTTP Redirect,Application-level routing,Precise control,302/307 redirects,Additional RTT,Complex routing rules
+Request Routing,Anycast,Network-level routing,Lowest latency path,BGP routing,Automatic optimization,Simple deployments
+Content Optimization,Image Optimization,Format conversion and compression,Reduced bandwidth,On-the-fly transformation,30-70% size reduction,Image-heavy sites
+Content Optimization,Video Transcoding,Multiple quality levels,Adaptive streaming,HLS/DASH packaging,Smooth playback,Video platforms
+Content Optimization,Minification,Remove unnecessary characters,Smaller files,CSS/JS processing,10-30% size reduction,Web applications
+Content Optimization,Compression,Gzip/Brotli encoding,Reduced transfer size,Real-time compression,70-90% size reduction,Text content
+Security,DDoS Protection,Attack mitigation,Availability,Rate limiting and filtering,Maintains performance,High-profile sites
+Security,WAF,Web application firewall,Security,Rule-based filtering,<10ms overhead,E-commerce sites
+Security,Bot Management,Bot detection and handling,Resource protection,Behavioral analysis,Reduced bad traffic,Content scraping prevention
+Security,SSL/TLS Termination,HTTPS at edge,Reduced origin load,Edge certificates,Faster handshakes,Secure content delivery
+Performance,HTTP/2 Push,Proactive resource delivery,Reduced round trips,Server push directives,Faster page loads,Critical resources
+Performance,HTTP/3 Support,QUIC protocol benefits,Better mobile performance,UDP-based delivery,15-20% faster,Mobile users
+Performance,Edge Computing,Computation at edge,Reduced latency,Serverless functions,<50ms execution,Personalization
+Performance,Prefetching,Predictive content loading,Improved perceived performance,Link prefetch hints,Instant navigation,Multi-page sites
+Analytics,Real User Monitoring,Actual user metrics,Performance insights,JavaScript beacon,Accurate data,Performance optimization
+Analytics,Cache Analytics,Cache performance metrics,Optimization opportunities,Hit/miss ratios,Identify patterns,Cache tuning
+Analytics,Traffic Analytics,Usage patterns,Capacity planning,Request logs,Trend analysis,Infrastructure scaling
+Analytics,Security Analytics,Threat detection,Security posture,Attack patterns,Threat identification,Security improvement
+Edge Features,A/B Testing,Traffic splitting,Experimentation,Edge rules,No origin changes,Feature testing
+Edge Features,Geo-blocking,Geographic restrictions,Compliance,IP geolocation,Regional control,Content licensing
+Edge Features,Token Authentication,Secure URL access,Access control,Signed URLs,Prevent hotlinking,Premium content
+Edge Features,Load Balancing,Traffic distribution,High availability,Health checks,Automatic failover,Multi-origin setups
+Protocols,WebSocket Support,Full-duplex communication,Real-time apps,Persistent connections,Low latency,Chat applications
+Protocols,IPv6 Support,Modern protocol support,Future-proofing,Dual-stack,Full compatibility,Modern networks
+Protocols,HTTP Range Requests,Partial content delivery,Resumable downloads,Byte-range support,Efficient streaming,Large files
+Protocols,WebRTC Support,Peer-to-peer communication,Direct connections,STUN/TURN servers,Ultra-low latency,Video conferencing

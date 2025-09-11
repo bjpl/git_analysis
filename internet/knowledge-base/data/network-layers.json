@@ -1,0 +1,224 @@
+{
+  "network_layers": {
+    "models": {
+      "OSI": {
+        "full_name": "Open Systems Interconnection",
+        "layers": 7,
+        "purpose": "Theoretical model for network communication",
+        "layer_details": {
+          "7": {
+            "name": "Application",
+            "function": "Network services to applications",
+            "protocols": ["HTTP", "HTTPS", "FTP", "SSH", "DNS", "SMTP", "POP3", "IMAP"],
+            "pdu": "Data",
+            "devices": ["Gateways", "Firewalls", "Proxies"],
+            "responsibilities": [
+              "Network resource sharing",
+              "Remote file access",
+              "Email services",
+              "Directory services"
+            ]
+          },
+          "6": {
+            "name": "Presentation",
+            "function": "Data translation, encryption, compression",
+            "protocols": ["SSL/TLS", "JPEG", "GIF", "MPEG", "ASCII", "EBCDIC"],
+            "pdu": "Data",
+            "responsibilities": [
+              "Character encoding",
+              "Data compression",
+              "Encryption/Decryption",
+              "Format conversion"
+            ]
+          },
+          "5": {
+            "name": "Session",
+            "function": "Inter-host communication management",
+            "protocols": ["NetBIOS", "SQL", "RPC", "NFS"],
+            "pdu": "Data",
+            "responsibilities": [
+              "Session establishment",
+              "Session maintenance",
+              "Session termination",
+              "Dialog control"
+            ]
+          },
+          "4": {
+            "name": "Transport",
+            "function": "End-to-end connections and reliability",
+            "protocols": ["TCP", "UDP", "QUIC", "SCTP", "SPX"],
+            "pdu": "Segment (TCP) / Datagram (UDP)",
+            "devices": ["Gateways", "Firewalls"],
+            "addressing": "Port numbers",
+            "responsibilities": [
+              "Segmentation/Reassembly",
+              "Flow control",
+              "Error recovery",
+              "Connection management"
+            ]
+          },
+          "3": {
+            "name": "Network",
+            "function": "Path determination and logical addressing",
+            "protocols": ["IPv4", "IPv6", "ICMP", "IPSec", "OSPF", "BGP", "RIP"],
+            "pdu": "Packet",
+            "devices": ["Routers", "Layer 3 switches"],
+            "addressing": "IP addresses",
+            "responsibilities": [
+              "Routing",
+              "Logical addressing",
+              "Path selection",
+              "Traffic control"
+            ]
+          },
+          "2": {
+            "name": "Data Link",
+            "function": "Node-to-node delivery",
+            "protocols": ["Ethernet", "Wi-Fi (802.11)", "PPP", "ARP", "STP"],
+            "pdu": "Frame",
+            "devices": ["Switches", "Bridges", "NICs"],
+            "addressing": "MAC addresses",
+            "sublayers": {
+              "LLC": "Logical Link Control",
+              "MAC": "Media Access Control"
+            },
+            "responsibilities": [
+              "Framing",
+              "Error detection",
+              "Flow control",
+              "Media access control"
+            ]
+          },
+          "1": {
+            "name": "Physical",
+            "function": "Binary transmission",
+            "standards": ["Ethernet cables", "Fiber optic", "Radio frequencies", "Voltages"],
+            "pdu": "Bits",
+            "devices": ["Hubs", "Repeaters", "Cables", "Connectors"],
+            "characteristics": [
+              "Voltage levels",
+              "Timing",
+              "Physical data rates",
+              "Maximum distances"
+            ]
+          }
+        }
+      },
+      "TCP_IP": {
+        "full_name": "Transmission Control Protocol/Internet Protocol",
+        "layers": 4,
+        "purpose": "Practical implementation model",
+        "layer_details": {
+          "4": {
+            "name": "Application",
+            "osi_equivalent": [5, 6, 7],
+            "function": "Process-to-process communication",
+            "protocols": ["HTTP", "FTP", "SSH", "DNS", "DHCP", "SNMP"],
+            "responsibilities": [
+              "Application services",
+              "Data formatting",
+              "Session management"
+            ]
+          },
+          "3": {
+            "name": "Transport",
+            "osi_equivalent": [4],
+            "function": "Host-to-host communication",
+            "protocols": ["TCP", "UDP", "QUIC"],
+            "addressing": "Port numbers",
+            "responsibilities": [
+              "Reliability",
+              "Flow control",
+              "Multiplexing"
+            ]
+          },
+          "2": {
+            "name": "Internet",
+            "osi_equivalent": [3],
+            "function": "Internetwork communication",
+            "protocols": ["IP", "ICMP", "ARP", "RARP"],
+            "addressing": "IP addresses",
+            "responsibilities": [
+              "Routing",
+              "Addressing",
+              "Fragmentation"
+            ]
+          },
+          "1": {
+            "name": "Network Access",
+            "osi_equivalent": [1, 2],
+            "function": "Network interface and physical transmission",
+            "protocols": ["Ethernet", "Wi-Fi", "PPP"],
+            "addressing": "MAC addresses",
+            "responsibilities": [
+              "Physical transmission",
+              "Frame formatting",
+              "Media access"
+            ]
+          }
+        }
+      }
+    },
+    "encapsulation": {
+      "process": [
+        {
+          "step": 1,
+          "layer": "Application",
+          "action": "Creates data",
+          "adds": "Application header"
+        },
+        {
+          "step": 2,
+          "layer": "Transport",
+          "action": "Segments data",
+          "adds": "TCP/UDP header",
+          "creates": "Segment/Datagram"
+        },
+        {
+          "step": 3,
+          "layer": "Network",
+          "action": "Routes data",
+          "adds": "IP header",
+          "creates": "Packet"
+        },
+        {
+          "step": 4,
+          "layer": "Data Link",
+          "action": "Frames data",
+          "adds": "Frame header and trailer",
+          "creates": "Frame"
+        },
+        {
+          "step": 5,
+          "layer": "Physical",
+          "action": "Transmits bits",
+          "converts": "Frame to electrical/optical signals"
+        }
+      ],
+      "decapsulation": "Reverse process at destination"
+    },
+    "comparison": {
+      "osi_vs_tcpip": {
+        "similarities": [
+          "Layered architecture",
+          "Encapsulation concept",
+          "Protocol independence"
+        ],
+        "differences": {
+          "layers": {
+            "OSI": 7,
+            "TCP_IP": 4
+          },
+          "development": {
+            "OSI": "Theoretical first",
+            "TCP_IP": "Implementation first"
+          },
+          "adoption": {
+            "OSI": "Reference model",
+            "TCP_IP": "Actual implementation"
+          }
+        }
+      }
+    }
+  }
+}

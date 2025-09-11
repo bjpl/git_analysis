@@ -1,0 +1,470 @@
+{
+  "optimization_strategies": {
+    "web_performance": {
+      "resource_loading": [
+        {
+          "technique": "Critical CSS Inline",
+          "description": "Inline above-fold CSS in HTML head",
+          "impact": "200-500ms FCP improvement",
+          "complexity": "Medium",
+          "best_for": "Landing pages",
+          "metrics": ["FCP", "LCP"]
+        },
+        {
+          "technique": "Preload Critical Resources",
+          "description": "Tell browser to fetch important resources early",
+          "impact": "100-300ms improvement",
+          "complexity": "Low",
+          "best_for": "Fonts and hero images",
+          "metrics": ["LCP"]
+        },
+        {
+          "technique": "Lazy Loading",
+          "description": "Load images/iframes only when visible",
+          "impact": "50-70% bandwidth savings",
+          "complexity": "Low",
+          "best_for": "Image-heavy sites",
+          "metrics": ["Data usage", "LCP"]
+        }
+      ],
+      "javascript": [
+        {
+          "technique": "Code Splitting",
+          "description": "Load only required code for each route",
+          "impact": "30-60% JS reduction",
+          "complexity": "Medium",
+          "best_for": "Single-page apps",
+          "metrics": ["TTI", "FID"]
+        },
+        {
+          "technique": "Tree Shaking",
+          "description": "Remove unused code from bundles",
+          "impact": "20-40% bundle reduction",
+          "complexity": "Low",
+          "best_for": "All applications",
+          "metrics": ["Download size"]
+        },
+        {
+          "technique": "Web Workers",
+          "description": "Offload heavy computation from main thread",
+          "impact": "Prevents UI blocking",
+          "complexity": "High",
+          "best_for": "Computation-heavy apps",
+          "metrics": ["FID", "TBT"]
+        }
+      ],
+      "images": [
+        {
+          "technique": "Modern Formats",
+          "description": "Use WebP/AVIF instead of JPEG/PNG",
+          "impact": "30-50% size reduction",
+          "complexity": "Low",
+          "best_for": "All websites",
+          "metrics": ["LCP", "Bandwidth"]
+        },
+        {
+          "technique": "Responsive Images",
+          "description": "Serve appropriate size for device",
+          "impact": "40-80% bandwidth savings",
+          "complexity": "Medium",
+          "best_for": "Mobile-optimized sites",
+          "metrics": ["LCP", "Data usage"]
+        },
+        {
+          "technique": "Progressive JPEG",
+          "description": "Load low quality first then enhance",
+          "impact": "Perceived 20% faster",
+          "complexity": "Low",
+          "best_for": "Large images",
+          "metrics": ["Perceived performance"]
+        }
+      ],
+      "caching": [
+        {
+          "technique": "Browser Caching",
+          "description": "Cache static assets locally",
+          "impact": "100% improvement on repeat",
+          "complexity": "Low",
+          "best_for": "All websites",
+          "metrics": ["Repeat visit performance"]
+        },
+        {
+          "technique": "Service Workers",
+          "description": "Programmable cache with offline support",
+          "impact": "Instant loads when cached",
+          "complexity": "High",
+          "best_for": "Progressive web apps",
+          "metrics": ["Offline functionality"]
+        },
+        {
+          "technique": "CDN Caching",
+          "description": "Cache at edge locations globally",
+          "impact": "50-80% latency reduction",
+          "complexity": "Medium",
+          "best_for": "Global audience",
+          "metrics": ["TTFB", "LCP"]
+        }
+      ]
+    },
+    "network": {
+      "latency": [
+        {
+          "technique": "TCP Fast Open",
+          "description": "Send data with SYN packet",
+          "impact": "1 RTT saved",
+          "complexity": "Medium",
+          "best_for": "High-latency connections",
+          "metrics": ["Connection time"]
+        },
+        {
+          "technique": "QUIC/HTTP3",
+          "description": "Eliminate head-of-line blocking",
+          "impact": "15-25% faster",
+          "complexity": "High",
+          "best_for": "Mobile/lossy networks",
+          "metrics": ["Page load time"]
+        },
+        {
+          "technique": "Connection Pooling",
+          "description": "Reuse existing connections",
+          "impact": "100-300ms per request saved",
+          "complexity": "Low",
+          "best_for": "API-heavy applications",
+          "metrics": ["API response time"]
+        }
+      ],
+      "dns": [
+        {
+          "technique": "DNS Prefetch",
+          "description": "Resolve DNS before needed",
+          "impact": "50-300ms saved",
+          "complexity": "Low",
+          "best_for": "External resources",
+          "metrics": ["DNS lookup time"]
+        },
+        {
+          "technique": "DNS Caching",
+          "description": "Cache DNS responses locally",
+          "impact": "20-120ms saved",
+          "complexity": "Low",
+          "best_for": "All applications",
+          "metrics": ["DNS lookup time"]
+        },
+        {
+          "technique": "Fast DNS Providers",
+          "description": "Use 1.1.1.1 or 8.8.8.8",
+          "impact": "10-50ms improvement",
+          "complexity": "Low",
+          "best_for": "End users",
+          "metrics": ["DNS resolution"]
+        }
+      ],
+      "tls": [
+        {
+          "technique": "Session Resumption",
+          "description": "Skip full handshake for known clients",
+          "impact": "100-250ms saved",
+          "complexity": "Medium",
+          "best_for": "Repeat visitors",
+          "metrics": ["TLS handshake time"]
+        },
+        {
+          "technique": "OCSP Stapling",
+          "description": "Server provides OCSP response",
+          "impact": "100-300ms saved",
+          "complexity": "Medium",
+          "best_for": "HTTPS sites",
+          "metrics": ["TLS handshake time"]
+        },
+        {
+          "technique": "TLS 1.3",
+          "description": "Reduced handshake rounds",
+          "impact": "1 RTT saved",
+          "complexity": "Medium",
+          "best_for": "Modern browsers",
+          "metrics": ["Connection time"]
+        }
+      ]
+    },
+    "cdn": {
+      "geographic": [
+        {
+          "technique": "Edge Servers",
+          "description": "Serve from locations near users",
+          "impact": "50-90% latency reduction",
+          "complexity": "Medium",
+          "best_for": "Global audience",
+          "metrics": ["TTFB"]
+        },
+        {
+          "technique": "Anycast Routing",
+          "description": "Route to nearest server automatically",
+          "impact": "Automatic optimization",
+          "complexity": "High",
+          "best_for": "Large scale",
+          "metrics": ["Routing efficiency"]
+        }
+      ],
+      "caching": [
+        {
+          "technique": "Cache Warming",
+          "description": "Preload popular content",
+          "impact": "Eliminate cold cache",
+          "complexity": "Medium",
+          "best_for": "Product launches",
+          "metrics": ["First request time"]
+        },
+        {
+          "technique": "Tiered Caching",
+          "description": "Multiple cache levels",
+          "impact": "95%+ cache hit rate",
+          "complexity": "High",
+          "best_for": "High traffic",
+          "metrics": ["Origin load"]
+        }
+      ],
+      "performance": [
+        {
+          "technique": "HTTP/2 Server Push",
+          "description": "Send resources before requested",
+          "impact": "200-500ms saved",
+          "complexity": "Medium",
+          "best_for": "Critical resources",
+          "metrics": ["Resource loading"]
+        },
+        {
+          "technique": "Edge Computing",
+          "description": "Process at edge instead of origin",
+          "impact": "50-200ms saved",
+          "complexity": "High",
+          "best_for": "Dynamic content",
+          "metrics": ["Processing time"]
+        }
+      ]
+    },
+    "database": {
+      "query": [
+        {
+          "technique": "Indexing",
+          "description": "Add indexes to frequent queries",
+          "impact": "10-1000x faster queries",
+          "complexity": "Medium",
+          "best_for": "Read-heavy apps",
+          "metrics": ["Query time"]
+        },
+        {
+          "technique": "Query Optimization",
+          "description": "Rewrite inefficient queries",
+          "impact": "2-100x improvement",
+          "complexity": "High",
+          "best_for": "Complex queries",
+          "metrics": ["Query time"]
+        },
+        {
+          "technique": "Denormalization",
+          "description": "Trade space for query speed",
+          "impact": "5-50x faster reads",
+          "complexity": "Medium",
+          "best_for": "Read-heavy apps",
+          "metrics": ["Query complexity"]
+        }
+      ],
+      "caching": [
+        {
+          "technique": "Query Cache",
+          "description": "Cache query results",
+          "impact": "100% improvement on hit",
+          "complexity": "Low",
+          "best_for": "Repeated queries",
+          "metrics": ["Database load"]
+        },
+        {
+          "technique": "Redis/Memcached",
+          "description": "In-memory cache layer",
+          "impact": "Sub-ms response times",
+          "complexity": "Medium",
+          "best_for": "High-traffic apps",
+          "metrics": ["Response time"]
+        }
+      ],
+      "connection": [
+        {
+          "technique": "Connection Pooling",
+          "description": "Reuse database connections",
+          "impact": "50-200ms per request saved",
+          "complexity": "Low",
+          "best_for": "All applications",
+          "metrics": ["Connection overhead"]
+        }
+      ],
+      "architecture": [
+        {
+          "technique": "Read Replicas",
+          "description": "Distribute read load",
+          "impact": "Linear scaling",
+          "complexity": "High",
+          "best_for": "Read-heavy apps",
+          "metrics": ["Throughput"]
+        },
+        {
+          "technique": "Sharding",
+          "description": "Horizontal partitioning",
+          "impact": "Linear scaling",
+          "complexity": "High",
+          "best_for": "Large datasets",
+          "metrics": ["Scalability"]
+        }
+      ]
+    },
+    "server": {
+      "compression": [
+        {
+          "technique": "Gzip/Brotli",
+          "description": "Compress text responses",
+          "impact": "60-80% size reduction",
+          "complexity": "Low",
+          "best_for": "All text content",
+          "metrics": ["Bandwidth"]
+        },
+        {
+          "technique": "Static Compression",
+          "description": "Pre-compress static files",
+          "impact": "CPU savings",
+          "complexity": "Low",
+          "best_for": "Static sites",
+          "metrics": ["Server CPU"]
+        }
+      ],
+      "caching": [
+        {
+          "technique": "Page Caching",
+          "description": "Cache rendered pages",
+          "impact": "100% improvement",
+          "complexity": "Medium",
+          "best_for": "Content sites",
+          "metrics": ["Server load"]
+        },
+        {
+          "technique": "Object Caching",
+          "description": "Cache expensive computations",
+          "impact": "Varies widely",
+          "complexity": "Medium",
+          "best_for": "Dynamic apps",
+          "metrics": ["CPU usage"]
+        }
+      ],
+      "configuration": [
+        {
+          "technique": "Keep-Alive",
+          "description": "Maintain persistent connections",
+          "impact": "100-300ms per request",
+          "complexity": "Low",
+          "best_for": "All servers",
+          "metrics": ["Connection overhead"]
+        },
+        {
+          "technique": "Buffer Tuning",
+          "description": "Optimize TCP buffers",
+          "impact": "10-30% throughput increase",
+          "complexity": "Medium",
+          "best_for": "High-bandwidth apps",
+          "metrics": ["Throughput"]
+        }
+      ]
+    },
+    "mobile": {
+      "data": [
+        {
+          "technique": "Adaptive Loading",
+          "description": "Adjust quality based on connection",
+          "impact": "30-70% data savings",
+          "complexity": "High",
+          "best_for": "Media apps",
+          "metrics": ["Data usage"]
+        }
+      ],
+      "performance": [
+        {
+          "technique": "AMP",
+          "description": "Simplified mobile pages",
+          "impact": "50-85% faster",
+          "complexity": "High",
+          "best_for": "Content sites",
+          "metrics": ["Mobile page speed"]
+        },
+        {
+          "technique": "Progressive Enhancement",
+          "description": "Core functionality first",
+          "impact": "Graceful degradation",
+          "complexity": "Medium",
+          "best_for": "All mobile sites",
+          "metrics": ["Accessibility"]
+        }
+      ],
+      "offline": [
+        {
+          "technique": "Service Workers",
+          "description": "Work offline",
+          "impact": "100% availability offline",
+          "complexity": "High",
+          "best_for": "Progressive web apps",
+          "metrics": ["Offline access"]
+        }
+      ]
+    },
+    "application": {
+      "architecture": [
+        {
+          "technique": "Microservices",
+          "description": "Distributed services",
+          "impact": "Independent scaling",
+          "complexity": "High",
+          "best_for": "Large applications",
+          "metrics": ["Scalability"]
+        },
+        {
+          "technique": "Serverless",
+          "description": "No server management",
+          "impact": "Automatic scaling",
+          "complexity": "Medium",
+          "best_for": "Variable load",
+          "metrics": ["Operational overhead"]
+        },
+        {
+          "technique": "Event-Driven",
+          "description": "Asynchronous processing",
+          "impact": "Better resource usage",
+          "complexity": "High",
+          "best_for": "High-throughput apps",
+          "metrics": ["Throughput"]
+        }
+      ],
+      "monitoring": [
+        {
+          "technique": "APM Tools",
+          "description": "Application performance monitoring",
+          "impact": "Identify bottlenecks",
+          "complexity": "Medium",
+          "best_for": "Production apps",
+          "metrics": ["Visibility"]
+        },
+        {
+          "technique": "Real User Monitoring",
+          "description": "Actual user metrics",
+          "impact": "True user experience",
+          "complexity": "Medium",
+          "best_for": "User-facing apps",
+          "metrics": ["User satisfaction"]
+        },
+        {
+          "technique": "Synthetic Monitoring",
+          "description": "Proactive testing",
+          "impact": "Catch issues early",
+          "complexity": "Low",
+          "best_for": "Critical paths",
+          "metrics": ["Availability"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "network_ports": {
+    "well_known": {
+      "range": "0-1023",
+      "description": "System services requiring root/admin privileges",
+      "essential_services": [
+        {"port": 20, "protocol": "TCP", "service": "FTP-DATA", "description": "File Transfer Protocol (Data)", "encrypted": false},
+        {"port": 21, "protocol": "TCP", "service": "FTP", "description": "File Transfer Protocol (Control)", "encrypted": false},
+        {"port": 22, "protocol": "TCP", "service": "SSH", "description": "Secure Shell", "encrypted": true},
+        {"port": 23, "protocol": "TCP", "service": "Telnet", "description": "Unencrypted remote access", "encrypted": false},
+        {"port": 25, "protocol": "TCP", "service": "SMTP", "description": "Simple Mail Transfer Protocol", "encrypted": "STARTTLS"},
+        {"port": 53, "protocol": "TCP/UDP", "service": "DNS", "description": "Domain Name System", "encrypted": "Optional"},
+        {"port": 67, "protocol": "UDP", "service": "DHCP", "description": "Dynamic Host Configuration (Server)", "encrypted": false},
+        {"port": 68, "protocol": "UDP", "service": "DHCP", "description": "Dynamic Host Configuration (Client)", "encrypted": false},
+        {"port": 69, "protocol": "UDP", "service": "TFTP", "description": "Trivial File Transfer Protocol", "encrypted": false},
+        {"port": 80, "protocol": "TCP", "service": "HTTP", "description": "Hypertext Transfer Protocol", "encrypted": false},
+        {"port": 110, "protocol": "TCP", "service": "POP3", "description": "Post Office Protocol v3", "encrypted": "STARTTLS"},
+        {"port": 119, "protocol": "TCP", "service": "NNTP", "description": "Network News Transfer Protocol", "encrypted": false},
+        {"port": 123, "protocol": "UDP", "service": "NTP", "description": "Network Time Protocol", "encrypted": false},
+        {"port": 135, "protocol": "TCP", "service": "RPC", "description": "Microsoft RPC", "encrypted": false},
+        {"port": 137, "protocol": "UDP", "service": "NetBIOS", "description": "NetBIOS Name Service", "encrypted": false},
+        {"port": 138, "protocol": "UDP", "service": "NetBIOS", "description": "NetBIOS Datagram", "encrypted": false},
+        {"port": 139, "protocol": "TCP", "service": "NetBIOS", "description": "NetBIOS Session", "encrypted": false},
+        {"port": 143, "protocol": "TCP", "service": "IMAP", "description": "Internet Message Access Protocol", "encrypted": "STARTTLS"},
+        {"port": 161, "protocol": "UDP", "service": "SNMP", "description": "Simple Network Management Protocol", "encrypted": false},
+        {"port": 162, "protocol": "UDP", "service": "SNMPTRAP", "description": "SNMP Trap", "encrypted": false},
+        {"port": 179, "protocol": "TCP", "service": "BGP", "description": "Border Gateway Protocol", "encrypted": "Optional"},
+        {"port": 389, "protocol": "TCP", "service": "LDAP", "description": "Lightweight Directory Access Protocol", "encrypted": false},
+        {"port": 443, "protocol": "TCP", "service": "HTTPS", "description": "HTTP Secure", "encrypted": true},
+        {"port": 445, "protocol": "TCP", "service": "SMB", "description": "Server Message Block", "encrypted": "Optional"},
+        {"port": 465, "protocol": "TCP", "service": "SMTPS", "description": "SMTP Secure (deprecated)", "encrypted": true},
+        {"port": 500, "protocol": "UDP", "service": "IKE", "description": "Internet Key Exchange (IPSec)", "encrypted": true},
+        {"port": 514, "protocol": "UDP", "service": "Syslog", "description": "System Logging", "encrypted": false},
+        {"port": 515, "protocol": "TCP", "service": "LPD", "description": "Line Printer Daemon", "encrypted": false},
+        {"port": 520, "protocol": "UDP", "service": "RIP", "description": "Routing Information Protocol", "encrypted": false},
+        {"port": 587, "protocol": "TCP", "service": "SMTP", "description": "Mail Submission", "encrypted": "STARTTLS"},
+        {"port": 636, "protocol": "TCP", "service": "LDAPS", "description": "LDAP Secure", "encrypted": true},
+        {"port": 853, "protocol": "TCP", "service": "DoT", "description": "DNS over TLS", "encrypted": true},
+        {"port": 989, "protocol": "TCP", "service": "FTPS", "description": "FTP Secure (Data)", "encrypted": true},
+        {"port": 990, "protocol": "TCP", "service": "FTPS", "description": "FTP Secure (Control)", "encrypted": true},
+        {"port": 993, "protocol": "TCP", "service": "IMAPS", "description": "IMAP Secure", "encrypted": true},
+        {"port": 995, "protocol": "TCP", "service": "POP3S", "description": "POP3 Secure", "encrypted": true}
+      ]
+    },
+    "registered": {
+      "range": "1024-49151",
+      "description": "User applications and registered services",
+      "database_services": [
+        {"port": 1433, "service": "MS SQL", "description": "Microsoft SQL Server"},
+        {"port": 1521, "service": "Oracle", "description": "Oracle Database"},
+        {"port": 3306, "service": "MySQL", "description": "MySQL Database"},
+        {"port": 5432, "service": "PostgreSQL", "description": "PostgreSQL Database"},
+        {"port": 5984, "service": "CouchDB", "description": "Apache CouchDB"},
+        {"port": 6379, "service": "Redis", "description": "Redis Database"},
+        {"port": 7000, "service": "Cassandra", "description": "Apache Cassandra"},
+        {"port": 7001, "service": "Cassandra SSL", "description": "Cassandra SSL"},
+        {"port": 8086, "service": "InfluxDB", "description": "InfluxDB Time Series"},
+        {"port": 9042, "service": "Cassandra", "description": "Cassandra Native"},
+        {"port": 9200, "service": "Elasticsearch", "description": "Elasticsearch HTTP"},
+        {"port": 9300, "service": "Elasticsearch", "description": "Elasticsearch Transport"},
+        {"port": 27017, "service": "MongoDB", "description": "MongoDB Database"}
+      ],
+      "web_services": [
+        {"port": 1080, "service": "SOCKS", "description": "SOCKS Proxy"},
+        {"port": 3000, "service": "Dev Server", "description": "Common development port"},
+        {"port": 3128, "service": "Squid", "description": "Squid Proxy"},
+        {"port": 4000, "service": "Dev Server", "description": "Common development port"},
+        {"port": 5000, "service": "Dev Server", "description": "Flask default"},
+        {"port": 8000, "service": "HTTP Alt", "description": "Alternative HTTP"},
+        {"port": 8008, "service": "HTTP Alt", "description": "Alternative HTTP"},
+        {"port": 8080, "service": "HTTP Proxy", "description": "HTTP Proxy/Alternative"},
+        {"port": 8081, "service": "HTTP Alt", "description": "Alternative HTTP"},
+        {"port": 8443, "service": "HTTPS Alt", "description": "Alternative HTTPS"},
+        {"port": 8888, "service": "HTTP Alt", "description": "Alternative HTTP"},
+        {"port": 9000, "service": "PHP-FPM", "description": "PHP FastCGI"}
+      ],
+      "remote_access": [
+        {"port": 1194, "service": "OpenVPN", "description": "OpenVPN Default"},
+        {"port": 1701, "service": "L2TP", "description": "Layer 2 Tunneling Protocol"},
+        {"port": 1723, "service": "PPTP", "description": "Point-to-Point Tunneling"},
+        {"port": 2049, "service": "NFS", "description": "Network File System"},
+        {"port": 2082, "service": "cPanel", "description": "cPanel Control Panel"},
+        {"port": 2083, "service": "cPanel SSL", "description": "cPanel Secure"},
+        {"port": 2086, "service": "WHM", "description": "Web Host Manager"},
+        {"port": 2087, "service": "WHM SSL", "description": "WHM Secure"},
+        {"port": 3389, "service": "RDP", "description": "Remote Desktop Protocol"},
+        {"port": 4369, "service": "EPMD", "description": "Erlang Port Mapper"},
+        {"port": 5900, "service": "VNC", "description": "Virtual Network Computing"},
+        {"port": "5901-5910", "service": "VNC", "description": "VNC Display 1-10"},
+        {"port": 10050, "service": "Zabbix", "description": "Zabbix Agent"},
+        {"port": 10051, "service": "Zabbix", "description": "Zabbix Server"},
+        {"port": 51820, "service": "WireGuard", "description": "WireGuard VPN"}
+      ],
+      "messaging_streaming": [
+        {"port": 1883, "service": "MQTT", "description": "Message Queue Telemetry Transport"},
+        {"port": 4222, "service": "NATS", "description": "NATS Messaging"},
+        {"port": 5222, "service": "XMPP", "description": "XMPP Client"},
+        {"port": 5269, "service": "XMPP", "description": "XMPP Server"},
+        {"port": 5672, "service": "AMQP", "description": "RabbitMQ"},
+        {"port": 6667, "service": "IRC", "description": "Internet Relay Chat"},
+        {"port": 6697, "service": "IRC SSL", "description": "IRC Secure"},
+        {"port": 8883, "service": "MQTT SSL", "description": "MQTT Secure"},
+        {"port": 9092, "service": "Kafka", "description": "Apache Kafka"},
+        {"port": 15672, "service": "RabbitMQ", "description": "RabbitMQ Management"}
+      ],
+      "container_orchestration": [
+        {"port": 2375, "service": "Docker", "description": "Docker REST API"},
+        {"port": 2376, "service": "Docker SSL", "description": "Docker REST API Secure"},
+        {"port": 2377, "service": "Docker Swarm", "description": "Swarm Management"},
+        {"port": 4789, "service": "VXLAN", "description": "Docker Overlay Network"},
+        {"port": 6443, "service": "Kubernetes", "description": "Kubernetes API Server"},
+        {"port": 7946, "service": "Docker", "description": "Container Network Discovery"},
+        {"port": 8472, "service": "Flannel", "description": "Kubernetes Flannel VXLAN"},
+        {"port": 10250, "service": "Kubelet", "description": "Kubernetes Kubelet API"},
+        {"port": 10251, "service": "Kube-scheduler", "description": "Kubernetes Scheduler"},
+        {"port": 10252, "service": "Kube-controller", "description": "Kubernetes Controller"}
+      ]
+    },
+    "dynamic_private": {
+      "range": "49152-65535",
+      "description": "Ephemeral ports for client connections",
+      "usage": [
+        "Ephemeral client connections",
+        "Dynamic service allocation",
+        "Private applications"
+      ]
+    },
+    "port_groups": {
+      "email": {
+        "smtp": [25, 465, 587],
+        "pop3": [110, 995],
+        "imap": [143, 993]
+      },
+      "web": {
+        "http": [80, 8080, 8000, 8008, 3000, 5000],
+        "https": [443, 8443]
+      },
+      "database": {
+        "sql": [1433, 1521, 3306, 5432],
+        "nosql": [5984, 6379, 7000, 9200, 27017]
+      },
+      "remote": {
+        "ssh": [22],
+        "rdp": [3389],
+        "vnc": [5900, 5901, 5902, 5903, 5904, 5905, 5906, 5907, 5908, 5909, 5910]
+      },
+      "vpn": {
+        "openvpn": [1194],
+        "l2tp": [1701],
+        "pptp": [1723],
+        "wireguard": [51820],
+        "ipsec": [500, 4500]
+      }
+    }
+  }
+}

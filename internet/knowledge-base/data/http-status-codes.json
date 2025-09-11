@@ -1,0 +1,438 @@
+{
+  "http_status_codes": {
+    "categories": {
+      "1xx": {
+        "name": "Informational",
+        "description": "Request received, continuing process",
+        "codes": {
+          "100": {
+            "name": "Continue",
+            "description": "Client should continue request",
+            "usage": "Large POST requests",
+            "cacheable": false
+          },
+          "101": {
+            "name": "Switching Protocols",
+            "description": "Server switching protocols",
+            "usage": "WebSocket upgrade",
+            "cacheable": false
+          },
+          "102": {
+            "name": "Processing",
+            "description": "Server processing lengthy request",
+            "usage": "WebDAV",
+            "cacheable": false
+          },
+          "103": {
+            "name": "Early Hints",
+            "description": "Preload resources while preparing response",
+            "usage": "Link headers",
+            "cacheable": false
+          }
+        }
+      },
+      "2xx": {
+        "name": "Success",
+        "description": "Request successfully received, understood, and accepted",
+        "codes": {
+          "200": {
+            "name": "OK",
+            "description": "Standard successful response",
+            "usage": "GET/POST success",
+            "cacheable": true
+          },
+          "201": {
+            "name": "Created",
+            "description": "Resource successfully created",
+            "usage": "POST/PUT creating resource",
+            "cacheable": true
+          },
+          "202": {
+            "name": "Accepted",
+            "description": "Request accepted for processing",
+            "usage": "Async operations",
+            "cacheable": false
+          },
+          "203": {
+            "name": "Non-Authoritative Information",
+            "description": "Modified response from proxy",
+            "usage": "Proxy transformations",
+            "cacheable": true
+          },
+          "204": {
+            "name": "No Content",
+            "description": "Success with no response body",
+            "usage": "DELETE operations",
+            "cacheable": true
+          },
+          "205": {
+            "name": "Reset Content",
+            "description": "Client should reset document view",
+            "usage": "Form reset",
+            "cacheable": false
+          },
+          "206": {
+            "name": "Partial Content",
+            "description": "Partial resource returned",
+            "usage": "Range requests, video streaming",
+            "cacheable": true
+          },
+          "207": {
+            "name": "Multi-Status",
+            "description": "Multiple status values",
+            "usage": "WebDAV",
+            "cacheable": false
+          },
+          "208": {
+            "name": "Already Reported",
+            "description": "Members already enumerated",
+            "usage": "WebDAV",
+            "cacheable": false
+          },
+          "226": {
+            "name": "IM Used",
+            "description": "Instance manipulations applied",
+            "usage": "Delta encoding",
+            "cacheable": true
+          }
+        }
+      },
+      "3xx": {
+        "name": "Redirection",
+        "description": "Further action needed to complete request",
+        "codes": {
+          "300": {
+            "name": "Multiple Choices",
+            "description": "Multiple options available",
+            "seo_impact": "Neutral",
+            "cacheable": true
+          },
+          "301": {
+            "name": "Moved Permanently",
+            "description": "Resource permanently moved",
+            "seo_impact": "Passes link equity",
+            "cacheable": true
+          },
+          "302": {
+            "name": "Found",
+            "description": "Resource temporarily moved",
+            "seo_impact": "No link equity",
+            "cacheable": false
+          },
+          "303": {
+            "name": "See Other",
+            "description": "Redirect to different resource",
+            "seo_impact": "N/A",
+            "cacheable": false
+          },
+          "304": {
+            "name": "Not Modified",
+            "description": "Resource unchanged since last request",
+            "seo_impact": "N/A",
+            "cacheable": "Updates cache"
+          },
+          "307": {
+            "name": "Temporary Redirect",
+            "description": "Temporary redirect, maintain method",
+            "seo_impact": "No link equity",
+            "cacheable": false
+          },
+          "308": {
+            "name": "Permanent Redirect",
+            "description": "Permanent redirect, maintain method",
+            "seo_impact": "Passes link equity",
+            "cacheable": true
+          }
+        }
+      },
+      "4xx": {
+        "name": "Client Error",
+        "description": "Request contains bad syntax or cannot be fulfilled",
+        "codes": {
+          "400": {
+            "name": "Bad Request",
+            "description": "Invalid request syntax",
+            "common_causes": ["Malformed JSON", "Invalid parameters"],
+            "cacheable": false
+          },
+          "401": {
+            "name": "Unauthorized",
+            "description": "Authentication required",
+            "common_causes": ["Missing credentials", "Invalid token"],
+            "cacheable": false
+          },
+          "403": {
+            "name": "Forbidden",
+            "description": "Server refuses to authorize",
+            "common_causes": ["Insufficient permissions", "IP blocked"],
+            "cacheable": false
+          },
+          "404": {
+            "name": "Not Found",
+            "description": "Resource not found",
+            "common_causes": ["Wrong URL", "Deleted resource"],
+            "cacheable": false
+          },
+          "405": {
+            "name": "Method Not Allowed",
+            "description": "HTTP method not supported",
+            "common_causes": ["POST to read-only", "Wrong verb"],
+            "cacheable": false
+          },
+          "406": {
+            "name": "Not Acceptable",
+            "description": "Content negotiation failed",
+            "common_causes": ["Accept header mismatch"],
+            "cacheable": false
+          },
+          "407": {
+            "name": "Proxy Authentication Required",
+            "description": "Proxy authentication needed",
+            "common_causes": ["Corporate proxy"],
+            "cacheable": false
+          },
+          "408": {
+            "name": "Request Timeout",
+            "description": "Request took too long",
+            "common_causes": ["Slow connection", "Large upload"],
+            "cacheable": false
+          },
+          "409": {
+            "name": "Conflict",
+            "description": "Request conflicts with server state",
+            "common_causes": ["Version conflict", "Duplicate resource"],
+            "cacheable": false
+          },
+          "410": {
+            "name": "Gone",
+            "description": "Resource permanently deleted",
+            "common_causes": ["Intentional removal"],
+            "cacheable": true
+          },
+          "411": {
+            "name": "Length Required",
+            "description": "Content-Length header missing",
+            "common_causes": ["POST without length"],
+            "cacheable": false
+          },
+          "412": {
+            "name": "Precondition Failed",
+            "description": "Precondition headers failed",
+            "common_causes": ["If-Match failure"],
+            "cacheable": false
+          },
+          "413": {
+            "name": "Payload Too Large",
+            "description": "Request body too large",
+            "common_causes": ["File upload limits"],
+            "cacheable": false
+          },
+          "414": {
+            "name": "URI Too Long",
+            "description": "URI exceeds server limits",
+            "common_causes": ["GET with huge parameters"],
+            "cacheable": false
+          },
+          "415": {
+            "name": "Unsupported Media Type",
+            "description": "Media type not supported",
+            "common_causes": ["Wrong Content-Type"],
+            "cacheable": false
+          },
+          "416": {
+            "name": "Range Not Satisfiable",
+            "description": "Range header invalid",
+            "common_causes": ["Invalid byte range"],
+            "cacheable": false
+          },
+          "417": {
+            "name": "Expectation Failed",
+            "description": "Expect header requirements failed",
+            "common_causes": ["100-continue failure"],
+            "cacheable": false
+          },
+          "418": {
+            "name": "I'm a teapot",
+            "description": "April Fools joke (RFC 2324)",
+            "common_causes": ["Never used"],
+            "cacheable": false
+          },
+          "421": {
+            "name": "Misdirected Request",
+            "description": "Request sent to wrong server",
+            "common_causes": ["HTTP/2 connection reuse"],
+            "cacheable": false
+          },
+          "422": {
+            "name": "Unprocessable Entity",
+            "description": "Request understood but invalid",
+            "common_causes": ["Validation errors"],
+            "cacheable": false
+          },
+          "423": {
+            "name": "Locked",
+            "description": "Resource is locked",
+            "common_causes": ["WebDAV locked resources"],
+            "cacheable": false
+          },
+          "424": {
+            "name": "Failed Dependency",
+            "description": "Previous request failed",
+            "common_causes": ["WebDAV dependencies"],
+            "cacheable": false
+          },
+          "425": {
+            "name": "Too Early",
+            "description": "Server unwilling to risk replay",
+            "common_causes": ["0-RTT data"],
+            "cacheable": false
+          },
+          "426": {
+            "name": "Upgrade Required",
+            "description": "Client should switch protocols",
+            "common_causes": ["Force HTTP/2"],
+            "cacheable": false
+          },
+          "428": {
+            "name": "Precondition Required",
+            "description": "Request must be conditional",
+            "common_causes": ["Prevent lost updates"],
+            "cacheable": false
+          },
+          "429": {
+            "name": "Too Many Requests",
+            "description": "Rate limiting triggered",
+            "common_causes": ["API throttling"],
+            "cacheable": false,
+            "headers": {
+              "Retry-After": "Seconds until retry",
+              "X-RateLimit-Limit": "Request limit",
+              "X-RateLimit-Remaining": "Requests remaining",
+              "X-RateLimit-Reset": "Reset timestamp"
+            }
+          },
+          "431": {
+            "name": "Request Header Fields Too Large",
+            "description": "Headers exceed limits",
+            "common_causes": ["Cookie bombs"],
+            "cacheable": false
+          },
+          "451": {
+            "name": "Unavailable For Legal Reasons",
+            "description": "Censored content",
+            "common_causes": ["Legal compliance"],
+            "cacheable": false
+          }
+        }
+      },
+      "5xx": {
+        "name": "Server Error",
+        "description": "Server failed to fulfill valid request",
+        "codes": {
+          "500": {
+            "name": "Internal Server Error",
+            "description": "Generic server error",
+            "common_causes": ["Unhandled exception", "Configuration error"],
+            "cacheable": false
+          },
+          "501": {
+            "name": "Not Implemented",
+            "description": "Feature not supported",
+            "common_causes": ["Unsupported method"],
+            "cacheable": false
+          },
+          "502": {
+            "name": "Bad Gateway",
+            "description": "Invalid response from upstream",
+            "common_causes": ["Backend down", "Proxy error"],
+            "cacheable": false
+          },
+          "503": {
+            "name": "Service Unavailable",
+            "description": "Server temporarily unavailable",
+            "common_causes": ["Maintenance", "Overload"],
+            "cacheable": false,
+            "headers": {
+              "Retry-After": "Seconds until available"
+            }
+          },
+          "504": {
+            "name": "Gateway Timeout",
+            "description": "Upstream server timeout",
+            "common_causes": ["Slow backend", "Network issues"],
+            "cacheable": false
+          },
+          "505": {
+            "name": "HTTP Version Not Supported",
+            "description": "HTTP version not supported",
+            "common_causes": ["Ancient clients"],
+            "cacheable": false
+          },
+          "506": {
+            "name": "Variant Also Negotiates",
+            "description": "Content negotiation error",
+            "common_causes": ["Configuration error"],
+            "cacheable": false
+          },
+          "507": {
+            "name": "Insufficient Storage",
+            "description": "Server storage full",
+            "common_causes": ["WebDAV storage limits"],
+            "cacheable": false
+          },
+          "508": {
+            "name": "Loop Detected",
+            "description": "Infinite loop detected",
+            "common_causes": ["WebDAV circular reference"],
+            "cacheable": false
+          },
+          "510": {
+            "name": "Not Extended",
+            "description": "Extensions required",
+            "common_causes": ["Missing extensions"],
+            "cacheable": false
+          },
+          "511": {
+            "name": "Network Authentication Required",
+            "description": "Network auth needed",
+            "common_causes": ["Captive portal", "Wi-Fi login"],
+            "cacheable": false
+          }
+        }
+      }
+    },
+    "best_practices": {
+      "api_patterns": {
+        "GET": {
+          "success": [200],
+          "not_found": [404]
+        },
+        "POST": {
+          "success": [200, 201],
+          "validation_error": [400, 422],
+          "conflict": [409]
+        },
+        "PUT": {
+          "success": [200, 201, 204],
+          "not_found": [404],
+          "conflict": [409]
+        },
+        "DELETE": {
+          "success": [200, 204],
+          "not_found": [404]
+        },
+        "PATCH": {
+          "success": [200, 204],
+          "not_found": [404],
+          "conflict": [409]
+        }
+      },
+      "common_mistakes": {
+        "using_200_for_errors": "Use appropriate 4xx/5xx codes",
+        "using_401_for_forbidden": "401 is for authentication, 403 for authorization",
+        "using_500_for_validation": "Use 400 or 422 for validation errors",
+        "ignoring_cache_headers": "Set appropriate cache headers for each status"
+      }
+    }
+  }
+}

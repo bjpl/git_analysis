@@ -1,0 +1,332 @@
+{
+  "routing_decision_framework": {
+    "packet_forwarding_decision": {
+      "process": [
+        {
+          "step": 1,
+          "check": "Is destination local?",
+          "true_action": "Deliver directly via ARP",
+          "false_action": "Continue to step 2"
+        },
+        {
+          "step": 2,
+          "check": "Check routing table for match",
+          "method": "Longest prefix match",
+          "found_action": "Forward to next hop",
+          "not_found_action": "Continue to step 3"
+        },
+        {
+          "step": 3,
+          "check": "Default route exists?",
+          "true_action": "Forward to default gateway",
+          "false_action": "Drop packet, send ICMP unreachable"
+        }
+      ]
+    },
+    "bgp_path_selection": {
+      "algorithm": "Sequential evaluation until tie-breaker",
+      "attributes": [
+        {
+          "order": 1,
+          "name": "Weight",
+          "scope": "Local to router",
+          "range": "0-65535",
+          "preference": "Highest",
+          "cisco_specific": true
+        },
+        {
+          "order": 2,
+          "name": "Local Preference",
+          "scope": "Within AS",
+          "range": "0-4294967295",
+          "preference": "Highest",
+          "default": 100
+        },
+        {
+          "order": 3,
+          "name": "Self-originated",
+          "check": "Was route originated by this router?",
+          "preference": "Self-originated preferred"
+        },
+        {
+          "order": 4,
+          "name": "AS Path Length",
+          "scope": "Global",
+          "preference": "Shortest",
+          "manipulation": "AS path prepending"
+        },
+        {
+          "order": 5,
+          "name": "Origin Type",
+          "values": ["IGP", "EGP", "Incomplete"],
+          "preference": "IGP > EGP > Incomplete"
+        },
+        {
+          "order": 6,
+          "name": "MED (Multi-Exit Discriminator)",
+          "scope": "Between AS pairs",
+          "range": "0-4294967295",
+          "preference": "Lowest",
+          "note": "Only compared for same AS"
+        },
+        {
+          "order": 7,
+          "name": "eBGP vs iBGP",
+          "preference": "eBGP > iBGP",
+          "reason": "Prefer external routes"
+        },
+        {
+          "order": 8,
+          "name": "IGP Metric to Next Hop",
+          "preference": "Lowest",
+          "protocols": ["OSPF", "IS-IS", "EIGRP"]
+        },
+        {
+          "order": 9,
+          "name": "Oldest Route",
+          "preference": "Most stable",
+          "reason": "Reduces route flapping"
+        },
+        {
+          "order": 10,
+          "name": "Router ID",
+          "preference": "Lowest",
+          "note": "Final tie-breaker"
+        }
+      ]
+    },
+    "ospf_route_calculation": {
+      "algorithm": "Dijkstra's Shortest Path First",
+      "process": {
+        "initialization": {
+          "steps": [
+            "Set distance to self = 0",
+            "Set distance to all others = infinity",
+            "Mark all nodes unvisited"
+          ]
+        },
+        "iteration": {
+          "steps": [
+            "Calculate tentative distances to neighbors",
+            "Compare with current assigned values",
+            "Keep smaller value",
+            "Mark current as visited",
+            "Select unvisited node with smallest distance"
+          ]
+        },
+        "termination": "All nodes visited"
+      },
+      "metrics": {
+        "cost_formula": "Reference_Bandwidth / Interface_Bandwidth",
+        "default_reference": 100,
+        "unit": "Mbps",
+        "examples": {
+          "FastEthernet": {
+            "bandwidth": 100,
+            "cost": 1
+          },
+          "GigabitEthernet": {
+            "bandwidth": 1000,
+            "cost": 1,
+            "note": "Rounds up to 1"
+          },
+          "10GigabitEthernet": {
+            "bandwidth": 10000,
+            "cost": 1,
+            "note": "Need higher reference bandwidth"
+          }
+        }
+      }
+    },
+    "routing_protocol_comparison": {
+      "protocols": {
+        "RIP": {
+          "type": "Distance Vector",
+          "metric": "Hop count",
+          "max_metric": 15,
+          "convergence": "Slow (minutes)",
+          "scalability": "Small networks",
+          "use_case": "Legacy, simple networks"
+        },
+        "OSPF": {
+          "type": "Link State",
+          "metric": "Cost (bandwidth)",
+          "max_metric": 65535,
+          "convergence": "Fast (seconds)",
+          "scalability": "Large networks",
+          "use_case": "Enterprise networks"
+        },
+        "IS-IS": {
+          "type": "Link State",
+          "metric": "Configurable",
+          "max_metric": "Varies",
+          "convergence": "Fast (seconds)",
+          "scalability": "Very large networks",
+          "use_case": "Service provider networks"
+        },
+        "EIGRP": {
+          "type": "Advanced Distance Vector",
+          "metric": "Composite (BW, delay, load, reliability)",
+          "max_metric": "4294967295",
+          "convergence": "Very fast (sub-second)",
+          "scalability": "Large networks",
+          "use_case": "Cisco networks"
+        },
+        "BGP": {
+          "type": "Path Vector",
+          "metric": "Multiple attributes",
+          "max_metric": "N/A",
+          "convergence": "Slow (minutes)",
+          "scalability": "Internet scale",
+          "use_case": "Internet, WAN"
+        }
+      }
+    },
+    "administrative_distance": {
+      "purpose": "Prefer routes from more trusted sources",
+      "values": {
+        "connected": 0,
+        "static": 1,
+        "eigrp_summary": 5,
+        "ebgp": 20,
+        "eigrp_internal": 90,
+        "ospf": 110,
+        "is_is": 115,
+        "rip": 120,
+        "eigrp_external": 170,
+        "ibgp": 200,
+        "unknown": 255
+      },
+      "usage": "When multiple protocols know route to same destination"
+    },
+    "route_aggregation": {
+      "benefits": [
+        "Smaller routing tables",
+        "Faster lookups",
+        "Reduced update traffic",
+        "Better stability"
+      ],
+      "rules": {
+        "contiguous": "Networks must be sequential",
+        "power_of_2": "Aggregate size must be power of 2",
+        "alignment": "Must align on bit boundary"
+      },
+      "example": {
+        "networks": [
+          "192.168.0.0/24",
+          "192.168.1.0/24",
+          "192.168.2.0/24",
+          "192.168.3.0/24"
+        ],
+        "aggregate": "192.168.0.0/22",
+        "saves": "3 routing table entries"
+      }
+    },
+    "traffic_engineering": {
+      "load_balancing": {
+        "methods": {
+          "per_packet": {
+            "description": "Round-robin packets",
+            "pros": "Maximum distribution",
+            "cons": "Can cause reordering"
+          },
+          "per_flow": {
+            "description": "Hash-based on 5-tuple",
+            "pros": "Maintains packet order",
+            "cons": "Less even distribution"
+          }
+        },
+        "protocols": {
+          "ECMP": {
+            "name": "Equal Cost Multi-Path",
+            "requirement": "Exact same metric",
+            "max_paths": "Platform dependent (4-32 typical)"
+          },
+          "EIGRP_variance": {
+            "name": "Unequal cost load balancing",
+            "formula": "variance × best_metric",
+            "range": "1-128",
+            "unique": "Only EIGRP supports"
+          }
+        }
+      },
+      "bgp_traffic_engineering": {
+        "outbound": {
+          "local_preference": "Control exit point from AS",
+          "weight": "Cisco-specific local control",
+          "as_path_prepending": "Make path less attractive"
+        },
+        "inbound": {
+          "MED": "Suggest entry point to AS",
+          "as_path_prepending": "Make path less attractive",
+          "communities": "Signal policy to upstream",
+          "selective_advertisement": "Advertise different prefixes"
+        }
+      }
+    },
+    "troubleshooting_flow": {
+      "connectivity_issues": {
+        "steps": [
+          {
+            "test": "ping default gateway",
+            "fail": "Check local configuration",
+            "pass": "Continue"
+          },
+          {
+            "test": "ping destination",
+            "fail": "Check routing",
+            "pass": "Check application"
+          },
+          {
+            "test": "traceroute to destination",
+            "analyze": "Where does path fail?",
+            "action": "Check routing at failure point"
+          }
+        ]
+      },
+      "routing_issues": {
+        "commands": {
+          "show_ip_route": "View routing table",
+          "show_ip_bgp": "View BGP table",
+          "show_ip_ospf_neighbor": "Check OSPF adjacencies",
+          "debug_ip_routing": "Watch routing changes"
+        },
+        "common_problems": {
+          "missing_route": "Network not advertised",
+          "wrong_next_hop": "Incorrect static route",
+          "metric_too_high": "Route not preferred",
+          "flapping": "Route unstable"
+        }
+      }
+    },
+    "loop_prevention": {
+      "mechanisms": {
+        "split_horizon": {
+          "rule": "Don't advertise route back to source",
+          "protocols": ["RIP", "EIGRP"],
+          "exception": "Must disable for DMVPN"
+        },
+        "route_poisoning": {
+          "action": "Set metric to infinity",
+          "triggers": "Interface down or route lost",
+          "protocols": ["RIP", "EIGRP"]
+        },
+        "hold_down_timers": {
+          "purpose": "Ignore updates after route fails",
+          "duration": "180 seconds typical",
+          "prevents": "Accepting old information"
+        },
+        "TTL": {
+          "mechanism": "Decrement at each hop",
+          "reaches_zero": "Packet dropped",
+          "prevents": "Infinite loops"
+        },
+        "as_path": {
+          "protocol": "BGP",
+          "rule": "Reject routes containing own AS",
+          "prevents": "Routing loops between AS"
+        }
+      }
+    }
+  }
+}

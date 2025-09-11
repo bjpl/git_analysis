@@ -1,0 +1,280 @@
+{
+  "protocol_stack": {
+    "tcp_ip_model": {
+      "layers": [
+        {
+          "name": "Application",
+          "osi_layers": "5-7",
+          "function": "User applications and services",
+          "protocols": ["HTTP", "HTTPS", "FTP", "SSH", "DNS", "SMTP"]
+        },
+        {
+          "name": "Transport",
+          "osi_layers": "4",
+          "function": "End-to-end communication, reliability",
+          "protocols": ["TCP", "UDP", "QUIC", "SCTP"]
+        },
+        {
+          "name": "Internet",
+          "osi_layers": "3",
+          "function": "Routing between networks",
+          "protocols": ["IPv4", "IPv6", "ICMP", "IPSec"]
+        },
+        {
+          "name": "Link",
+          "osi_layers": "1-2",
+          "function": "Local network communication",
+          "protocols": ["Ethernet", "Wi-Fi", "PPP", "ARP"]
+        }
+      ]
+    },
+    "application_protocols": {
+      "HTTP": {
+        "port": 80,
+        "transport": "TCP",
+        "purpose": "Web browsing",
+        "features": "Stateless, request-response"
+      },
+      "HTTPS": {
+        "port": 443,
+        "transport": "TCP",
+        "purpose": "Secure web",
+        "features": "HTTP + TLS encryption"
+      },
+      "HTTP/3": {
+        "port": 443,
+        "transport": "QUIC/UDP",
+        "purpose": "Modern web",
+        "features": "Multiplexing, 0-RTT"
+      },
+      "DNS": {
+        "port": 53,
+        "transport": "UDP/TCP",
+        "purpose": "Name resolution",
+        "features": "Hierarchical, cached"
+      },
+      "SSH": {
+        "port": 22,
+        "transport": "TCP",
+        "purpose": "Secure shell",
+        "features": "Encrypted remote access"
+      },
+      "FTP": {
+        "port": "20/21",
+        "transport": "TCP",
+        "purpose": "File transfer",
+        "features": "Separate control/data"
+      },
+      "SMTP": {
+        "port": 25,
+        "transport": "TCP",
+        "purpose": "Email sending",
+        "features": "Store and forward"
+      },
+      "POP3": {
+        "port": 110,
+        "transport": "TCP",
+        "purpose": "Email retrieval",
+        "features": "Download and delete"
+      },
+      "IMAP": {
+        "port": 143,
+        "transport": "TCP",
+        "purpose": "Email access",
+        "features": "Server-side storage"
+      },
+      "NTP": {
+        "port": 123,
+        "transport": "UDP",
+        "purpose": "Time sync",
+        "features": "Stratum hierarchy"
+      },
+      "DHCP": {
+        "port": "67/68",
+        "transport": "UDP",
+        "purpose": "IP configuration",
+        "features": "Automatic network config"
+      },
+      "SNMP": {
+        "port": 161,
+        "transport": "UDP",
+        "purpose": "Network management",
+        "features": "Monitoring and control"
+      }
+    },
+    "transport_protocols": {
+      "TCP": {
+        "reliability": true,
+        "ordering": true,
+        "flow_control": true,
+        "connection_oriented": true,
+        "use_cases": ["Web", "Email", "File transfer"]
+      },
+      "UDP": {
+        "reliability": false,
+        "ordering": false,
+        "flow_control": false,
+        "connection_oriented": false,
+        "use_cases": ["DNS", "VoIP", "Gaming", "Streaming"]
+      },
+      "QUIC": {
+        "reliability": true,
+        "ordering": true,
+        "flow_control": true,
+        "connection_oriented": true,
+        "use_cases": ["HTTP/3", "Modern applications"]
+      },
+      "SCTP": {
+        "reliability": "optional",
+        "ordering": true,
+        "flow_control": true,
+        "connection_oriented": true,
+        "use_cases": ["Telephony signaling"]
+      }
+    },
+    "network_protocols": {
+      "IPv4": {
+        "version": 4,
+        "address_size": "32 bits",
+        "address_space": "4.3 billion",
+        "header_size": "20-60 bytes",
+        "notation": "Dotted decimal"
+      },
+      "IPv6": {
+        "version": 6,
+        "address_size": "128 bits",
+        "address_space": "340 undecillion",
+        "header_size": "40 bytes fixed",
+        "notation": "Hexadecimal"
+      },
+      "ICMP": {
+        "purpose": "Control messages",
+        "header_size": "8+ bytes",
+        "use_cases": ["Ping", "Traceroute", "Error reporting"]
+      },
+      "IPSec": {
+        "purpose": "Security",
+        "header_size": "Variable",
+        "use_cases": ["VPN", "Encryption", "Authentication"]
+      }
+    },
+    "encapsulation": {
+      "order": [
+        "Application Data",
+        "Transport Segment",
+        "Network Packet",
+        "Link Frame",
+        "Physical Bits"
+      ],
+      "headers_added": [
+        "Application Header",
+        "TCP/UDP Header",
+        "IP Header",
+        "Frame Header/Trailer",
+        "Physical encoding"
+      ]
+    },
+    "mtu_sizes": {
+      "Ethernet": {
+        "size": 1500,
+        "type": "Standard LAN"
+      },
+      "Jumbo_Frames": {
+        "size": 9000,
+        "type": "Data center"
+      },
+      "WiFi": {
+        "size": 2304,
+        "type": "802.11"
+      },
+      "PPPoE": {
+        "size": 1492,
+        "type": "DSL common"
+      },
+      "IPv6_Minimum": {
+        "size": 1280,
+        "type": "Required minimum"
+      },
+      "IPv4_Minimum": {
+        "size": 68,
+        "type": "Theoretical minimum"
+      }
+    },
+    "port_ranges": {
+      "well_known": {
+        "range": "0-1023",
+        "usage": "System services",
+        "permission": "Root/Admin required"
+      },
+      "registered": {
+        "range": "1024-49151",
+        "usage": "User applications",
+        "permission": "User level"
+      },
+      "dynamic": {
+        "range": "49152-65535",
+        "usage": "Ephemeral ports",
+        "permission": "OS assigned"
+      }
+    },
+    "tcp_flags": {
+      "SYN": {
+        "name": "Synchronize",
+        "purpose": "Initiate connection",
+        "handshake_position": "First"
+      },
+      "ACK": {
+        "name": "Acknowledge",
+        "purpose": "Acknowledge receipt",
+        "handshake_position": "Second and all subsequent"
+      },
+      "FIN": {
+        "name": "Finish",
+        "purpose": "Close connection",
+        "handshake_position": "Graceful close"
+      },
+      "RST": {
+        "name": "Reset",
+        "purpose": "Abort connection",
+        "handshake_position": "Error condition"
+      },
+      "PSH": {
+        "name": "Push",
+        "purpose": "Send immediately",
+        "handshake_position": "Data transfer"
+      },
+      "URG": {
+        "name": "Urgent",
+        "purpose": "Priority data",
+        "handshake_position": "Out-of-band"
+      }
+    },
+    "icmp_types": {
+      "0": {
+        "name": "Echo Reply",
+        "purpose": "Ping response",
+        "common_use": "Connectivity test"
+      },
+      "3": {
+        "name": "Destination Unreachable",
+        "purpose": "Various error codes",
+        "common_use": "Network errors"
+      },
+      "5": {
+        "name": "Redirect",
+        "purpose": "Better route available",
+        "common_use": "Path optimization"
+      },
+      "8": {
+        "name": "Echo Request",
+        "purpose": "Ping request",
+        "common_use": "Connectivity test"
+      },
+      "11": {
+        "name": "Time Exceeded",
+        "purpose": "TTL expired",
+        "common_use": "Traceroute"
+      }
+    }
+  }
+}

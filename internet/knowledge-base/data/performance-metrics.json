@@ -1,0 +1,331 @@
+{
+  "performance_metrics": {
+    "core_web_vitals": {
+      "LCP": {
+        "name": "Largest Contentful Paint",
+        "measures": "Loading performance - when main content loads",
+        "unit": "seconds",
+        "thresholds": {
+          "good": 2.5,
+          "needs_improvement": 4.0,
+          "poor": ">4.0"
+        },
+        "factors": [
+          "Server response time",
+          "CSS blocking time",
+          "Resource load time",
+          "Client-side rendering"
+        ],
+        "optimization": {
+          "server": ["Optimize TTFB", "Enable compression", "Use CDN"],
+          "resources": ["Preload critical resources", "Optimize images", "Remove unused CSS"],
+          "rendering": ["Avoid client-side rendering", "Minimize JavaScript execution"]
+        }
+      },
+      "FID": {
+        "name": "First Input Delay",
+        "measures": "Interactivity - time to respond to first interaction",
+        "unit": "milliseconds",
+        "thresholds": {
+          "good": 100,
+          "needs_improvement": 300,
+          "poor": ">300"
+        },
+        "factors": [
+          "JavaScript execution time",
+          "Main thread blocking",
+          "Third-party scripts"
+        ],
+        "optimization": {
+          "javascript": ["Code splitting", "Defer non-critical JS", "Minimize execution"],
+          "workers": ["Use Web Workers", "Offload heavy computation"],
+          "third_party": ["Lazy load third-party", "Reduce third-party impact"]
+        }
+      },
+      "CLS": {
+        "name": "Cumulative Layout Shift",
+        "measures": "Visual stability - unexpected layout shifts",
+        "unit": "score",
+        "thresholds": {
+          "good": 0.1,
+          "needs_improvement": 0.25,
+          "poor": ">0.25"
+        },
+        "calculation": "sum(impact fraction * distance fraction)",
+        "common_causes": [
+          "Images without dimensions",
+          "Ads/embeds without reserved space",
+          "Dynamically injected content",
+          "Web fonts causing FOIT/FOUT"
+        ],
+        "prevention": {
+          "images": "Always include width and height attributes",
+          "ads": "Reserve space with min-height",
+          "dynamic": "Avoid inserting content above existing content",
+          "fonts": "Use font-display: optional or swap"
+        }
+      }
+    },
+    "additional_metrics": {
+      "FCP": {
+        "name": "First Contentful Paint",
+        "measures": "When first text or image appears",
+        "unit": "seconds",
+        "good_threshold": 1.8,
+        "optimization": ["Eliminate render-blocking resources", "Inline critical CSS", "Preconnect to origins"]
+      },
+      "TTI": {
+        "name": "Time to Interactive",
+        "measures": "When page becomes fully interactive",
+        "unit": "seconds",
+        "good_threshold": 3.8,
+        "calculation": "When main thread quiet for 5 seconds after FCP"
+      },
+      "TBT": {
+        "name": "Total Blocking Time",
+        "measures": "Sum of blocking time between FCP and TTI",
+        "unit": "milliseconds",
+        "good_threshold": 200,
+        "correlation": "Strong correlation with FID"
+      },
+      "TTFB": {
+        "name": "Time to First Byte",
+        "measures": "Server response time",
+        "unit": "milliseconds",
+        "good_threshold": 200,
+        "factors": [
+          "Server processing",
+          "Network latency",
+          "CDN cache status",
+          "Database queries"
+        ]
+      }
+    },
+    "network_metrics": {
+      "latency": {
+        "RTT": {
+          "name": "Round Trip Time",
+          "unit": "milliseconds",
+          "measurement": "Time for packet to travel to destination and back",
+          "good_thresholds": {
+            "local": "<1ms",
+            "regional": "<50ms",
+            "continental": "<150ms",
+            "intercontinental": "<300ms"
+          }
+        },
+        "dns_lookup": {
+          "typical": "20-120ms",
+          "optimization": ["DNS prefetch", "DNS caching", "Fast DNS providers"]
+        },
+        "tcp_connection": {
+          "typical": "50-300ms",
+          "includes": "TCP handshake",
+          "optimization": ["Connection pooling", "TCP Fast Open", "HTTP/2"]
+        },
+        "tls_handshake": {
+          "typical": "100-500ms",
+          "optimization": ["Session resumption", "TLS 1.3", "OCSP stapling"]
+        }
+      },
+      "throughput": {
+        "bandwidth": {
+          "unit": "Mbps",
+          "measurement": "Data transfer rate",
+          "typical_requirements": {
+            "web_browsing": "1-5 Mbps",
+            "hd_video": "5-25 Mbps",
+            "4k_video": "25-50 Mbps",
+            "large_downloads": "50+ Mbps"
+          }
+        },
+        "goodput": {
+          "definition": "Useful throughput excluding protocol overhead",
+          "typical_efficiency": "85-95% of bandwidth"
+        }
+      },
+      "reliability": {
+        "packet_loss": {
+          "unit": "percentage",
+          "acceptable": "<0.1%",
+          "problematic": ">1%",
+          "impact": {
+            "tcp": "Triggers retransmission",
+            "udp": "Data lost",
+            "voip": "Audio artifacts",
+            "video": "Buffering"
+          }
+        },
+        "jitter": {
+          "definition": "Variation in latency",
+          "unit": "milliseconds",
+          "acceptable": "<30ms",
+          "impact": "Real-time application quality"
+        }
+      }
+    },
+    "application_metrics": {
+      "api_performance": {
+        "response_time": {
+          "percentiles": {
+            "p50": "Median",
+            "p95": "95th percentile",
+            "p99": "99th percentile"
+          },
+          "targets": {
+            "p50": "<100ms",
+            "p95": "<300ms",
+            "p99": "<1000ms"
+          }
+        },
+        "throughput": {
+          "unit": "requests/second",
+          "measurement": "Request handling capacity",
+          "factors": ["Server resources", "Database performance", "Caching"]
+        },
+        "error_rate": {
+          "unit": "percentage",
+          "calculation": "(failed requests / total requests) * 100",
+          "acceptable": "<0.1%",
+          "categories": {
+            "4xx": "Client errors",
+            "5xx": "Server errors",
+            "timeout": "Request timeouts"
+          }
+        }
+      },
+      "database_performance": {
+        "query_time": {
+          "unit": "milliseconds",
+          "targets": {
+            "simple_select": "<10ms",
+            "complex_join": "<100ms",
+            "aggregation": "<500ms"
+          }
+        },
+        "connection_pool": {
+          "metrics": {
+            "active_connections": "Currently in use",
+            "idle_connections": "Available",
+            "wait_time": "Time to acquire connection"
+          },
+          "efficiency": "(active / total) * 100"
+        },
+        "cache_hit_rate": {
+          "calculation": "(cache_hits / total_queries) * 100",
+          "good_threshold": ">90%",
+          "types": {
+            "query_cache": "Cached query results",
+            "buffer_pool": "Cached data pages"
+          }
+        }
+      }
+    },
+    "cdn_metrics": {
+      "cache_performance": {
+        "hit_ratio": {
+          "calculation": "(cache_hits / total_requests) * 100",
+          "good_threshold": ">90%",
+          "by_content_type": {
+            "static_assets": ">95%",
+            "api_responses": ">60%",
+            "dynamic_content": ">30%"
+          }
+        },
+        "byte_hit_ratio": {
+          "calculation": "(bytes_from_cache / total_bytes) * 100",
+          "importance": "Bandwidth savings indicator"
+        },
+        "origin_offload": {
+          "calculation": "1 - (origin_requests / total_requests)",
+          "target": ">80%"
+        }
+      },
+      "edge_performance": {
+        "edge_response_time": {
+          "unit": "milliseconds",
+          "target": "<50ms",
+          "includes": ["Edge processing", "Cache lookup", "Response generation"]
+        },
+        "origin_response_time": {
+          "unit": "milliseconds",
+          "measurement": "Time when cache miss occurs",
+          "includes": ["Origin fetch", "Network transit", "Origin processing"]
+        }
+      }
+    },
+    "mobile_specific": {
+      "network_types": {
+        "3G": {
+          "latency": "100-500ms",
+          "bandwidth": "1-3 Mbps",
+          "optimization_focus": "Reduce payload size"
+        },
+        "4G_LTE": {
+          "latency": "30-100ms",
+          "bandwidth": "10-50 Mbps",
+          "optimization_focus": "Reduce round trips"
+        },
+        "5G": {
+          "latency": "1-10ms",
+          "bandwidth": "100+ Mbps",
+          "optimization_focus": "Edge computing opportunities"
+        }
+      },
+      "mobile_vitals": {
+        "app_start_time": {
+          "cold_start": "<3 seconds",
+          "warm_start": "<1 second"
+        },
+        "battery_usage": {
+          "measurement": "mAh consumed",
+          "optimization": ["Reduce network calls", "Batch operations", "Use push instead of poll"]
+        },
+        "data_usage": {
+          "monitoring": "MB per session",
+          "optimization": ["Compression", "Image optimization", "Caching"]
+        }
+      }
+    },
+    "monitoring_strategies": {
+      "synthetic_monitoring": {
+        "description": "Automated tests from multiple locations",
+        "benefits": ["Proactive detection", "Consistent baseline", "Geographic coverage"],
+        "metrics": ["Availability", "Response time", "Transaction completion"]
+      },
+      "real_user_monitoring": {
+        "description": "Actual user experience data",
+        "collection": "JavaScript beacon or SDK",
+        "benefits": ["Real-world conditions", "User segment analysis", "Actual impact"],
+        "privacy": "Anonymize user data"
+      },
+      "application_performance_monitoring": {
+        "description": "Server-side performance tracking",
+        "metrics": ["Transaction traces", "Database queries", "External calls", "Error tracking"],
+        "benefits": ["Root cause analysis", "Dependency mapping", "Performance trends"]
+      }
+    },
+    "performance_budgets": {
+      "page_weight": {
+        "total": "< 1MB",
+        "javascript": "< 300KB",
+        "css": "< 100KB",
+        "images": "< 500KB",
+        "fonts": "< 100KB"
+      },
+      "request_counts": {
+        "total": "< 50",
+        "javascript": "< 10",
+        "css": "< 5",
+        "images": "< 20"
+      },
+      "timing_budgets": {
+        "fcp": "< 1.8s",
+        "lcp": "< 2.5s",
+        "tti": "< 3.8s",
+        "fid": "< 100ms",
+        "cls": "< 0.1"
+      }
+    }
+  }
+}

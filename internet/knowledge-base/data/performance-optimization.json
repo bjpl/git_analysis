@@ -1,0 +1,299 @@
+{
+  "performance_optimization": {
+    "web_performance": {
+      "core_web_vitals": {
+        "LCP": {
+          "name": "Largest Contentful Paint",
+          "measures": "Loading performance",
+          "good_threshold_ms": 2500,
+          "poor_threshold_ms": 4000,
+          "optimization_techniques": [
+            "Optimize server response time",
+            "Preload critical resources",
+            "Optimize images and video",
+            "Implement efficient caching",
+            "Use CDN for static assets"
+          ],
+          "common_issues": [
+            "Slow server response",
+            "Render-blocking resources",
+            "Large images above fold",
+            "Client-side rendering"
+          ]
+        },
+        "FID": {
+          "name": "First Input Delay",
+          "measures": "Interactivity",
+          "good_threshold_ms": 100,
+          "poor_threshold_ms": 300,
+          "optimization_techniques": [
+            "Break up long tasks",
+            "Optimize JavaScript execution",
+            "Use web workers",
+            "Reduce third-party impact",
+            "Minimize main thread work"
+          ]
+        },
+        "CLS": {
+          "name": "Cumulative Layout Shift",
+          "measures": "Visual stability",
+          "good_threshold": 0.1,
+          "poor_threshold": 0.25,
+          "optimization_techniques": [
+            "Set size attributes on images/video",
+            "Reserve space for ad slots",
+            "Avoid inserting content above existing content",
+            "Use transform animations",
+            "Preload fonts"
+          ]
+        }
+      },
+      "resource_optimization": {
+        "images": {
+          "formats": {
+            "WebP": {"size_reduction": "25-35%", "browser_support": "95%"},
+            "AVIF": {"size_reduction": "50%", "browser_support": "70%"},
+            "JPEG_XL": {"size_reduction": "60%", "browser_support": "Limited"}
+          },
+          "techniques": [
+            "Lazy loading",
+            "Responsive images (srcset)",
+            "Image CDN with auto-format",
+            "Progressive JPEGs",
+            "Optimal compression levels"
+          ]
+        },
+        "javascript": {
+          "techniques": [
+            "Code splitting",
+            "Tree shaking",
+            "Minification",
+            "Compression (gzip/brotli)",
+            "Defer/async loading",
+            "Dynamic imports"
+          ],
+          "bundle_optimization": {
+            "vendor_splitting": "Separate unchanging libraries",
+            "route_splitting": "Load per-route code",
+            "component_splitting": "Load on interaction"
+          }
+        },
+        "css": {
+          "techniques": [
+            "Critical CSS inlining",
+            "Remove unused CSS",
+            "Minification",
+            "CSS-in-JS optimization",
+            "PostCSS optimization"
+          ]
+        }
+      }
+    },
+    "network_optimization": {
+      "latency_reduction": {
+        "dns": {
+          "techniques": [
+            "DNS prefetch",
+            "DNS preconnect",
+            "Use fast DNS providers",
+            "Reduce DNS lookups",
+            "DNS caching"
+          ],
+          "providers": {
+            "Cloudflare": {"ip": "1.1.1.1", "avg_latency_ms": 14},
+            "Google": {"ip": "8.8.8.8", "avg_latency_ms": 20},
+            "Quad9": {"ip": "9.9.9.9", "avg_latency_ms": 22}
+          }
+        },
+        "tcp": {
+          "optimizations": {
+            "tcp_fast_open": {
+              "saves_rtt": 1,
+              "support": "Linux, macOS, Windows 10+"
+            },
+            "initial_congestion_window": {
+              "recommended": 10,
+              "impact": "Faster slow start"
+            },
+            "tcp_nodelay": {
+              "disables": "Nagle's algorithm",
+              "use_case": "Interactive applications"
+            }
+          }
+        },
+        "tls": {
+          "optimizations": {
+            "session_resumption": {
+              "saves_rtt": 1,
+              "methods": ["Session ID", "Session tickets"]
+            },
+            "ocsp_stapling": {
+              "saves": "OCSP lookup",
+              "impact_ms": 100
+            },
+            "tls_1_3": {
+              "handshake_rtt": 1,
+              "vs_tls_1_2": "50% faster"
+            },
+            "early_data": {
+              "saves_rtt": 1,
+              "risk": "Replay attacks"
+            }
+          }
+        }
+      },
+      "bandwidth_optimization": {
+        "compression": {
+          "algorithms": {
+            "gzip": {
+              "compression_ratio": "70-90%",
+              "cpu_usage": "Moderate",
+              "browser_support": "100%"
+            },
+            "brotli": {
+              "compression_ratio": "80-95%",
+              "cpu_usage": "Higher",
+              "browser_support": "95%"
+            }
+          },
+          "best_practices": [
+            "Compress text assets",
+            "Don't compress images/videos",
+            "Use static compression when possible",
+            "Set appropriate compression levels"
+          ]
+        },
+        "caching": {
+          "strategies": {
+            "browser_caching": {
+              "cache_control_headers": [
+                "max-age=31536000 for immutable",
+                "max-age=3600 for dynamic",
+                "no-cache for sensitive"
+              ]
+            },
+            "cdn_caching": {
+              "static_assets": "Long TTL (1 year)",
+              "api_responses": "Short TTL (1-5 min)",
+              "html": "Short TTL or no-cache"
+            }
+          }
+        }
+      }
+    },
+    "cdn_optimization": {
+      "strategies": {
+        "geographic_distribution": {
+          "impact": "50-80% latency reduction",
+          "implementation": "Multi-region deployment"
+        },
+        "cache_warming": {
+          "techniques": ["Predictive prefetch", "Origin push", "Synthetic traffic"],
+          "use_cases": ["New content", "Peak events", "Regional expansions"]
+        },
+        "origin_shielding": {
+          "benefits": ["Reduced origin load", "Better cache hit ratio", "DDoS protection"],
+          "implementation": "Extra caching layer"
+        }
+      },
+      "edge_computing": {
+        "use_cases": [
+          "A/B testing",
+          "Authentication",
+          "Content transformation",
+          "Bot detection",
+          "Redirects"
+        ],
+        "platforms": {
+          "Cloudflare_Workers": {
+            "limits": {"cpu_ms": 10, "memory_mb": 128},
+            "locations": 200
+          },
+          "AWS_Lambda_Edge": {
+            "limits": {"timeout_s": 30, "memory_mb": 128},
+            "trigger_points": ["Viewer request", "Origin request"]
+          }
+        }
+      }
+    },
+    "database_optimization": {
+      "query_optimization": {
+        "indexing": {
+          "strategies": [
+            "Cover frequently queried columns",
+            "Composite indexes for multiple columns",
+            "Avoid over-indexing",
+            "Regular index maintenance"
+          ],
+          "types": ["B-tree", "Hash", "GiST", "GIN", "Full-text"]
+        },
+        "query_patterns": {
+          "n_plus_1": {
+            "problem": "Multiple queries for related data",
+            "solution": "Eager loading, JOIN queries"
+          },
+          "pagination": {
+            "efficient": "Cursor-based",
+            "inefficient": "OFFSET/LIMIT for large offsets"
+          }
+        }
+      },
+      "connection_management": {
+        "pooling": {
+          "optimal_size": "(cpu_cores * 2) + disk_spindles",
+          "benefits": ["Reduced connection overhead", "Better resource utilization"],
+          "configuration": {
+            "min_connections": 5,
+            "max_connections": 20,
+            "idle_timeout_s": 300
+          }
+        }
+      },
+      "caching_layers": {
+        "levels": [
+          {
+            "name": "Application memory",
+            "latency_ms": 0.001,
+            "implementation": "In-process cache"
+          },
+          {
+            "name": "Redis/Memcached",
+            "latency_ms": 1,
+            "implementation": "Distributed cache"
+          },
+          {
+            "name": "Database query cache",
+            "latency_ms": 5,
+            "implementation": "Built-in DB cache"
+          }
+        ]
+      }
+    },
+    "monitoring_metrics": {
+      "real_user_monitoring": {
+        "metrics": [
+          "Page load time",
+          "Time to interactive",
+          "First contentful paint",
+          "User timing marks",
+          "JavaScript errors"
+        ],
+        "tools": ["Google Analytics", "New Relic", "Datadog RUM"]
+      },
+      "synthetic_monitoring": {
+        "benefits": ["Proactive detection", "Baseline performance", "Geographic testing"],
+        "tools": ["Pingdom", "GTmetrix", "WebPageTest"]
+      },
+      "application_performance_monitoring": {
+        "metrics": [
+          "Response time",
+          "Throughput",
+          "Error rate",
+          "Database query time",
+          "External service calls"
+        ],
+        "tools": ["New Relic", "AppDynamics", "Dynatrace"]
+      }
+    }
+  }
+}

@@ -1,0 +1,360 @@
+{
+  "troubleshooting_guide": {
+    "no_internet": {
+      "diagnostic_flow": [
+        {
+          "step": 1,
+          "problem": "Physical disconnection",
+          "diagnostic": "Check cable connection",
+          "command": "Visual inspection",
+          "expected": "Link lights on",
+          "if_fail": "Check cable/port",
+          "common_cause": "Loose cable"
+        },
+        {
+          "step": 2,
+          "problem": "No IP address",
+          "diagnostic": "Check DHCP",
+          "command": "ipconfig /all or ifconfig",
+          "expected": "Valid IP assigned",
+          "if_fail": "Check DHCP server",
+          "common_cause": "DHCP server down"
+        },
+        {
+          "step": 3,
+          "problem": "No gateway connectivity",
+          "diagnostic": "Ping gateway",
+          "command": "ping [gateway_ip]",
+          "expected": "Successful ping",
+          "if_fail": "Check routing",
+          "common_cause": "Gateway misconfigured"
+        },
+        {
+          "step": 4,
+          "problem": "No external connectivity",
+          "diagnostic": "Ping public IP",
+          "command": "ping 8.8.8.8",
+          "expected": "Successful ping",
+          "if_fail": "Check ISP",
+          "common_cause": "ISP issue"
+        },
+        {
+          "step": 5,
+          "problem": "DNS not working",
+          "diagnostic": "Test DNS resolution",
+          "command": "nslookup google.com",
+          "expected": "IP address returned",
+          "if_fail": "Check DNS server",
+          "common_cause": "DNS server down"
+        }
+      ]
+    },
+    "slow_performance": {
+      "diagnostics": [
+        {
+          "symptom": "High latency",
+          "test": "Measure RTT",
+          "command": "ping -t [destination]",
+          "threshold": "<50ms local, <100ms internet",
+          "investigation": "Check packet loss and routing",
+          "common_cause": "Network congestion"
+        },
+        {
+          "symptom": "Packet loss",
+          "test": "Extended ping test",
+          "command": "ping -c 100 [destination]",
+          "threshold": "<0.1% loss",
+          "investigation": "Check physical layer and congestion",
+          "common_cause": "Bad cable or interference"
+        },
+        {
+          "symptom": "DNS delays",
+          "test": "Time DNS lookup",
+          "command": "dig +stats [domain]",
+          "threshold": "<50ms response",
+          "investigation": "Try different DNS servers",
+          "common_cause": "Slow DNS server"
+        },
+        {
+          "symptom": "Bandwidth issues",
+          "test": "Test throughput",
+          "command": "iperf3 -c [server]",
+          "threshold": "80% of expected bandwidth",
+          "investigation": "Check duplex and congestion",
+          "common_cause": "Congestion or misconfiguration"
+        },
+        {
+          "symptom": "TCP problems",
+          "test": "Check retransmissions",
+          "command": "netstat -s",
+          "threshold": "Low retransmit rate",
+          "investigation": "Check window size and packet loss",
+          "common_cause": "Packet loss or small window"
+        }
+      ]
+    },
+    "connection_issues": {
+      "types": [
+        {
+          "error": "Connection refused",
+          "meaning": "Port closed or service not running",
+          "diagnostic": "telnet [host] [port]",
+          "solutions": ["Start service", "Check port number", "Verify firewall"],
+          "common_cause": "Service not running"
+        },
+        {
+          "error": "Connection timeout",
+          "meaning": "No response from host",
+          "diagnostic": "traceroute [destination]",
+          "solutions": ["Check firewall", "Verify routing", "Check host status"],
+          "common_cause": "Firewall blocking"
+        },
+        {
+          "error": "Connection reset",
+          "meaning": "Connection forcibly closed",
+          "diagnostic": "Check application logs",
+          "solutions": ["Check server logs", "Verify credentials", "Check load"],
+          "common_cause": "Application crash"
+        }
+      ]
+    },
+    "dns_issues": {
+      "problems": [
+        {
+          "error": "NXDOMAIN",
+          "meaning": "Domain does not exist",
+          "diagnostic": "dig [domain]",
+          "solution": "Verify domain spelling and registration",
+          "common_cause": "Domain doesn't exist"
+        },
+        {
+          "error": "SERVFAIL",
+          "meaning": "DNS server error",
+          "diagnostic": "dig @8.8.8.8 [domain]",
+          "solution": "Try different DNS server",
+          "common_cause": "DNS server error"
+        },
+        {
+          "error": "Slow resolution",
+          "meaning": "DNS queries taking too long",
+          "diagnostic": "time dig [domain]",
+          "solution": "Use faster DNS or enable caching",
+          "common_cause": "No caching or slow server"
+        },
+        {
+          "error": "Wrong IP returned",
+          "meaning": "DNS hijacking or cache poisoning",
+          "diagnostic": "dig @[various] [domain]",
+          "solution": "Flush DNS cache, use DNSSEC",
+          "common_cause": "Cache poisoning"
+        }
+      ]
+    },
+    "http_issues": {
+      "status_codes": [
+        {
+          "code": "404",
+          "issue": "Not Found",
+          "diagnostic": "curl -I [url]",
+          "solution": "Verify URL path",
+          "common_cause": "Wrong URL"
+        },
+        {
+          "code": "500",
+          "issue": "Server Error",
+          "diagnostic": "tail -f error.log",
+          "solution": "Check server logs for details",
+          "common_cause": "Application error"
+        },
+        {
+          "code": "SSL/TLS",
+          "issue": "Certificate errors",
+          "diagnostic": "openssl s_client -connect [host]:443",
+          "solution": "Update or fix certificate",
+          "common_cause": "Expired certificate"
+        },
+        {
+          "code": "Timeout",
+          "issue": "Request timeout",
+          "diagnostic": "curl -w \"%{time_total}\" [url]",
+          "solution": "Check server load and network",
+          "common_cause": "Server overload"
+        }
+      ]
+    },
+    "tcp_states": {
+      "problematic_states": [
+        {
+          "state": "TIME_WAIT",
+          "normal_count": "<1000",
+          "diagnostic": "netstat -tan | grep TIME_WAIT | wc -l",
+          "if_excessive": "Tune TCP timers or connection pooling",
+          "cause": "Rapid connection turnover"
+        },
+        {
+          "state": "CLOSE_WAIT",
+          "normal_count": "<100",
+          "diagnostic": "netstat -tan | grep CLOSE_WAIT | wc -l",
+          "if_excessive": "Application not closing connections",
+          "cause": "Application bug"
+        },
+        {
+          "state": "SYN_SENT",
+          "normal_count": "<50",
+          "diagnostic": "netstat -tan | grep SYN_SENT | wc -l",
+          "if_excessive": "Firewall blocking or host down",
+          "cause": "Connection attempts failing"
+        }
+      ]
+    },
+    "packet_loss": {
+      "layers": [
+        {
+          "layer": "Physical",
+          "diagnostic": "ip -s link show",
+          "indicators": "RX/TX errors, drops",
+          "solution": "Replace cable or hardware",
+          "common_cause": "Bad cable"
+        },
+        {
+          "layer": "Network congestion",
+          "diagnostic": "netstat -i",
+          "indicators": "Interface drops",
+          "solution": "Increase bandwidth or QoS",
+          "common_cause": "Buffer overflow"
+        },
+        {
+          "layer": "MTU issues",
+          "diagnostic": "ping -M do -s 1472 [destination]",
+          "indicators": "Large packets fail",
+          "solution": "Adjust MTU size",
+          "common_cause": "MTU mismatch"
+        }
+      ]
+    },
+    "security": {
+      "common_issues": [
+        {
+          "issue": "Firewall blocking",
+          "diagnostic": "nc -zv [host] [port]",
+          "solution": "Add firewall rule",
+          "verification": "Test connection after change"
+        },
+        {
+          "issue": "Certificate issues",
+          "diagnostic": "openssl s_client -connect [host]:443",
+          "solution": "Update or replace certificate",
+          "verification": "Check expiry and chain"
+        },
+        {
+          "issue": "Authentication failure",
+          "diagnostic": "Check auth logs",
+          "solution": "Reset credentials or check configuration",
+          "verification": "Test login"
+        }
+      ]
+    },
+    "routing": {
+      "issues": [
+        {
+          "problem": "No route to host",
+          "diagnostic": "ip route show or route -n",
+          "solution": "Add missing route",
+          "command": "ip route add [network] via [gateway]"
+        },
+        {
+          "problem": "Wrong gateway",
+          "diagnostic": "ip route | grep default",
+          "solution": "Update default route",
+          "command": "ip route del default; ip route add default via [gateway]"
+        },
+        {
+          "problem": "Asymmetric routing",
+          "diagnostic": "traceroute both directions",
+          "solution": "Check routing policies",
+          "impact": "Can cause stateful firewall issues"
+        }
+      ]
+    },
+    "application": {
+      "diagnostics": [
+        {
+          "issue": "Service not responding",
+          "check": "ps aux | grep [service]",
+          "solution": "Restart service",
+          "logs": "Check service logs for errors"
+        },
+        {
+          "issue": "High CPU usage",
+          "check": "top",
+          "solution": "Optimize code or add resources",
+          "investigation": "Profile application"
+        },
+        {
+          "issue": "Memory issues",
+          "check": "free -h",
+          "solution": "Fix memory leaks or add RAM",
+          "investigation": "Check for memory leaks"
+        },
+        {
+          "issue": "Disk full",
+          "check": "df -h",
+          "solution": "Clean up disk space",
+          "common_files": "Logs, temp files, old backups"
+        }
+      ]
+    },
+    "tools": {
+      "essential": [
+        {
+          "tool": "ping",
+          "purpose": "Basic connectivity test",
+          "usage": "ping [host]",
+          "alternatives": ["fping", "hping3"]
+        },
+        {
+          "tool": "traceroute",
+          "purpose": "Show network path",
+          "usage": "traceroute [host]",
+          "alternatives": ["mtr", "pathping"]
+        },
+        {
+          "tool": "netstat",
+          "purpose": "Show network connections",
+          "usage": "netstat -tan",
+          "alternatives": ["ss", "lsof -i"]
+        },
+        {
+          "tool": "tcpdump",
+          "purpose": "Packet capture",
+          "usage": "tcpdump -i any",
+          "alternatives": ["wireshark", "tshark"]
+        },
+        {
+          "tool": "dig",
+          "purpose": "DNS troubleshooting",
+          "usage": "dig [domain]",
+          "alternatives": ["nslookup", "host"]
+        },
+        {
+          "tool": "curl",
+          "purpose": "HTTP testing",
+          "usage": "curl -I [url]",
+          "alternatives": ["wget", "httpie"]
+        },
+        {
+          "tool": "nmap",
+          "purpose": "Port scanning",
+          "usage": "nmap -p [ports] [host]",
+          "alternatives": ["masscan", "zmap"]
+        },
+        {
+          "tool": "iperf3",
+          "purpose": "Bandwidth testing",
+          "usage": "iperf3 -c [server]",
+          "alternatives": ["netperf", "ttcp"]
+        }
+      ]
+    }
+  }
+}

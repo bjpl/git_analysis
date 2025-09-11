@@ -1,0 +1,52 @@
+category,optimization_type,technique,description,performance_impact,implementation_complexity,best_for,metrics_affected
+Web Performance,Resource Loading,Critical CSS Inline,Inline above-fold CSS in HTML head,200-500ms FCP improvement,Medium,Landing pages,FCP/LCP
+Web Performance,Resource Loading,Preload Critical Resources,Tell browser to fetch important resources early,100-300ms improvement,Low,Fonts and hero images,LCP
+Web Performance,Resource Loading,Lazy Loading,Load images/iframes only when visible,50-70% bandwidth savings,Low,Image-heavy sites,Data usage/LCP
+Web Performance,JavaScript,Code Splitting,Load only required code for each route,30-60% JS reduction,Medium,Single-page apps,TTI/FID
+Web Performance,JavaScript,Tree Shaking,Remove unused code from bundles,20-40% bundle reduction,Low,All applications,Download size
+Web Performance,JavaScript,Web Workers,Offload heavy computation from main thread,Prevents UI blocking,High,Computation-heavy apps,FID/TBT
+Web Performance,Images,Modern Formats,Use WebP/AVIF instead of JPEG/PNG,30-50% size reduction,Low,All websites,LCP/Bandwidth
+Web Performance,Images,Responsive Images,Serve appropriate size for device,40-80% bandwidth savings,Medium,Mobile-optimized sites,LCP/Data usage
+Web Performance,Images,Progressive JPEG,Load low quality first then enhance,Perceived 20% faster,Low,Large images,Perceived performance
+Web Performance,Caching,Browser Caching,Cache static assets locally,100% improvement on repeat,Low,All websites,Repeat visit performance
+Web Performance,Caching,Service Workers,Programmable cache with offline support,Instant loads when cached,High,Progressive web apps,Offline functionality
+Web Performance,Caching,CDN Caching,Cache at edge locations globally,50-80% latency reduction,Medium,Global audience,TTFB/LCP
+Network,Latency,TCP Fast Open,Send data with SYN packet,1 RTT saved,Medium,High-latency connections,Connection time
+Network,Latency,QUIC/HTTP3,Eliminate head-of-line blocking,15-25% faster,High,Mobile/lossy networks,Page load time
+Network,Latency,Connection Pooling,Reuse existing connections,100-300ms per request saved,Low,API-heavy applications,API response time
+Network,DNS,DNS Prefetch,Resolve DNS before needed,50-300ms saved,Low,External resources,DNS lookup time
+Network,DNS,DNS Caching,Cache DNS responses locally,20-120ms saved,Low,All applications,DNS lookup time
+Network,DNS,Fast DNS Providers,Use 1.1.1.1 or 8.8.8.8,10-50ms improvement,Low,End users,DNS resolution
+Network,TLS,Session Resumption,Skip full handshake for known clients,100-250ms saved,Medium,Repeat visitors,TLS handshake time
+Network,TLS,OCSP Stapling,Server provides OCSP response,100-300ms saved,Medium,HTTPS sites,TLS handshake time
+Network,TLS,TLS 1.3,Reduced handshake rounds,1 RTT saved,Medium,Modern browsers,Connection time
+CDN,Geographic,Edge Servers,Serve from locations near users,50-90% latency reduction,Medium,Global audience,TTFB
+CDN,Geographic,Anycast Routing,Route to nearest server automatically,Automatic optimization,High,Large scale,Routing efficiency
+CDN,Caching,Cache Warming,Preload popular content,Eliminate cold cache,Medium,Product launches,First request time
+CDN,Caching,Tiered Caching,Multiple cache levels,95%+ cache hit rate,High,High traffic,Origin load
+CDN,Performance,HTTP/2 Server Push,Send resources before requested,200-500ms saved,Medium,Critical resources,Resource loading
+CDN,Performance,Edge Computing,Process at edge instead of origin,50-200ms saved,High,Dynamic content,Processing time
+Database,Query,Indexing,Add indexes to frequent queries,10-1000x faster queries,Medium,Read-heavy apps,Query time
+Database,Query,Query Optimization,Rewrite inefficient queries,2-100x improvement,High,Complex queries,Query time
+Database,Query,Denormalization,Trade space for query speed,5-50x faster reads,Medium,Read-heavy apps,Query complexity
+Database,Caching,Query Cache,Cache query results,100% improvement on hit,Low,Repeated queries,Database load
+Database,Caching,Redis/Memcached,In-memory cache layer,Sub-ms response times,Medium,High-traffic apps,Response time
+Database,Connection,Connection Pooling,Reuse database connections,50-200ms per request saved,Low,All applications,Connection overhead
+Database,Architecture,Read Replicas,Distribute read load,Linear scaling,High,Read-heavy apps,Throughput
+Database,Architecture,Sharding,Horizontal partitioning,Linear scaling,High,Large datasets,Scalability
+Server,Compression,Gzip/Brotli,Compress text responses,60-80% size reduction,Low,All text content,Bandwidth
+Server,Compression,Static Compression,Pre-compress static files,CPU savings,Low,Static sites,Server CPU
+Server,Caching,Page Caching,Cache rendered pages,100% improvement,Medium,Content sites,Server load
+Server,Caching,Object Caching,Cache expensive computations,Varies widely,Medium,Dynamic apps,CPU usage
+Server,Configuration,Keep-Alive,Maintain persistent connections,100-300ms per request,Low,All servers,Connection overhead
+Server,Configuration,Buffer Tuning,Optimize TCP buffers,10-30% throughput increase,Medium,High-bandwidth apps,Throughput
+Mobile,Data,Adaptive Loading,Adjust quality based on connection,30-70% data savings,High,Media apps,Data usage
+Mobile,Performance,AMP,Simplified mobile pages,50-85% faster,High,Content sites,Mobile page speed
+Mobile,Performance,Progressive Enhancement,Core functionality first,Graceful degradation,Medium,All mobile sites,Accessibility
+Mobile,Offline,Service Workers,Work offline,100% availability offline,High,Progressive web apps,Offline access
+Application,Architecture,Microservices,Distributed services,Independent scaling,High,Large applications,Scalability
+Application,Architecture,Serverless,No server management,Automatic scaling,Medium,Variable load,Operational overhead
+Application,Architecture,Event-Driven,Asynchronous processing,Better resource usage,High,High-throughput apps,Throughput
+Application,Monitoring,APM Tools,Application performance monitoring,Identify bottlenecks,Medium,Production apps,Visibility
+Application,Monitoring,Real User Monitoring,Actual user metrics,True user experience,Medium,User-facing apps,User satisfaction
+Application,Monitoring,Synthetic Monitoring,Proactive testing,Catch issues early,Low,Critical paths,Availability

@@ -1,0 +1,209 @@
+{
+  "routing_protocols": {
+    "categories": {
+      "interior_gateway_protocols": {
+        "distance_vector": {
+          "RIP": {
+            "version": 2,
+            "algorithm": "Bellman-Ford",
+            "metric": "Hop count",
+            "max_hops": 15,
+            "update_interval_seconds": 30,
+            "convergence_time_seconds": 180,
+            "administrative_distance": 120,
+            "port": 520,
+            "transport": "UDP",
+            "features": ["Simple", "Slow convergence", "Loop prone"],
+            "use_cases": ["Small networks", "Lab environments"],
+            "limitations": ["15 hop limit", "No VLSM in v1", "Slow convergence"]
+          },
+          "EIGRP": {
+            "type": "Advanced distance vector",
+            "algorithm": "DUAL",
+            "metric": {
+              "components": ["Bandwidth", "Delay", "Load", "Reliability", "MTU"],
+              "default": ["Bandwidth", "Delay"]
+            },
+            "max_hops": 100,
+            "convergence_time_seconds": 5,
+            "administrative_distance": {
+              "internal": 90,
+              "external": 170
+            },
+            "protocol_number": 88,
+            "features": [
+              "Fast convergence",
+              "Loop-free",
+              "Unequal cost load balancing",
+              "Feasible successors"
+            ],
+            "vendor": "Cisco",
+            "use_cases": ["Enterprise networks", "Cisco environments"]
+          }
+        },
+        "link_state": {
+          "OSPF": {
+            "version": 2,
+            "algorithm": "Dijkstra SPF",
+            "metric": "Cost (bandwidth-based)",
+            "areas": {
+              "backbone": 0,
+              "regular": "1-65535",
+              "types": ["Standard", "Stub", "Totally stubby", "NSSA"]
+            },
+            "convergence_time_seconds": 5,
+            "administrative_distance": 110,
+            "protocol_number": 89,
+            "hello_interval_seconds": 10,
+            "dead_interval_seconds": 40,
+            "features": [
+              "Hierarchical design",
+              "Fast convergence",
+              "VLSM support",
+              "Authentication",
+              "Multicast updates"
+            ],
+            "lsa_types": {
+              "1": "Router LSA",
+              "2": "Network LSA",
+              "3": "Summary LSA",
+              "4": "ASBR Summary",
+              "5": "External LSA",
+              "7": "NSSA External"
+            },
+            "use_cases": ["Enterprise networks", "ISP networks"]
+          },
+          "IS-IS": {
+            "algorithm": "Dijkstra SPF",
+            "metric": "Default 10, configurable",
+            "levels": {
+              "1": "Intra-area",
+              "2": "Inter-area"
+            },
+            "convergence_time_seconds": 5,
+            "administrative_distance": 115,
+            "transport": "Layer 2 (directly over data link)",
+            "features": [
+              "Protocol independent",
+              "Scalable",
+              "Fast convergence",
+              "Efficient in large networks"
+            ],
+            "use_cases": ["Large ISP networks", "Service provider backbones"]
+          }
+        }
+      },
+      "exterior_gateway_protocols": {
+        "BGP": {
+          "version": 4,
+          "type": "Path vector",
+          "algorithm": "Best path selection",
+          "convergence_time_seconds": 180,
+          "administrative_distance": {
+            "eBGP": 20,
+            "iBGP": 200
+          },
+          "port": 179,
+          "transport": "TCP",
+          "path_selection_attributes": [
+            {"order": 1, "attribute": "Weight", "direction": "Highest", "scope": "Local"},
+            {"order": 2, "attribute": "Local Preference", "direction": "Highest", "scope": "AS"},
+            {"order": 3, "attribute": "Originate", "direction": "Self originated", "scope": "Local"},
+            {"order": 4, "attribute": "AS Path", "direction": "Shortest", "scope": "Global"},
+            {"order": 5, "attribute": "Origin", "direction": "IGP > EGP > Incomplete", "scope": "Global"},
+            {"order": 6, "attribute": "MED", "direction": "Lowest", "scope": "Between AS"},
+            {"order": 7, "attribute": "Paths", "direction": "eBGP > iBGP", "scope": "Local"},
+            {"order": 8, "attribute": "Router ID", "direction": "Lowest", "scope": "Tiebreaker"}
+          ],
+          "features": [
+            "Policy-based routing",
+            "Scalable to Internet size",
+            "Loop prevention via AS path",
+            "Rich attribute set"
+          ],
+          "security_mechanisms": {
+            "RPKI": "Route origin validation",
+            "BGPsec": "Path validation",
+            "MD5": "TCP MD5 authentication",
+            "TTL_Security": "GTSM"
+          },
+          "use_cases": ["Internet routing", "Inter-AS routing", "MPLS VPNs"]
+        }
+      },
+      "multicast_routing": {
+        "PIM": {
+          "modes": {
+            "sparse_mode": {
+              "description": "Explicit join",
+              "use_case": "Most multicast deployments"
+            },
+            "dense_mode": {
+              "description": "Flood and prune",
+              "use_case": "Small, dense groups"
+            },
+            "sparse_dense_mode": {
+              "description": "Auto-select based on RP",
+              "use_case": "Flexible deployments"
+            }
+          },
+          "protocol_number": 103,
+          "features": ["RP (Rendezvous Point)", "Source trees", "Shared trees"]
+        }
+      }
+    },
+    "comparison": {
+      "convergence_speed": {
+        "fastest": ["EIGRP", "BFD"],
+        "fast": ["OSPF", "IS-IS"],
+        "slow": ["RIP", "BGP"]
+      },
+      "scalability": {
+        "internet_scale": ["BGP"],
+        "large_enterprise": ["OSPF", "IS-IS", "EIGRP"],
+        "small_network": ["RIP", "Static"]
+      },
+      "complexity": {
+        "simple": ["RIP", "Static"],
+        "moderate": ["EIGRP", "OSPF"],
+        "complex": ["IS-IS", "BGP"]
+      }
+    },
+    "selection_criteria": {
+      "small_network": {
+        "protocols": ["Static", "RIP"],
+        "reasons": ["Simple configuration", "Low overhead"]
+      },
+      "enterprise": {
+        "protocols": ["OSPF", "EIGRP"],
+        "reasons": ["Fast convergence", "Scalability", "Features"]
+      },
+      "service_provider": {
+        "protocols": ["IS-IS", "BGP"],
+        "reasons": ["Massive scale", "Traffic engineering", "Stability"]
+      },
+      "internet": {
+        "protocols": ["BGP"],
+        "reasons": ["Only EGP", "Policy control", "AS-level routing"]
+      }
+    },
+    "troubleshooting": {
+      "common_issues": {
+        "routing_loops": {
+          "causes": ["Redistribution", "Summarization errors", "Split horizon disabled"],
+          "detection": ["TTL expiration", "Traceroute loops", "High CPU"],
+          "prevention": ["Route tags", "Distribute lists", "Route maps"]
+        },
+        "convergence_problems": {
+          "causes": ["Timer mismatches", "MTU issues", "Unstable links"],
+          "detection": ["Route flapping", "Inconsistent routing tables"],
+          "solutions": ["Timer tuning", "BFD", "Route dampening"]
+        },
+        "neighbor_issues": {
+          "causes": ["Authentication", "AS mismatch", "Network statement"],
+          "detection": ["No adjacency", "Stuck states"],
+          "solutions": ["Verify configuration", "Check connectivity", "Debug commands"]
+        }
+      }
+    }
+  }
+}

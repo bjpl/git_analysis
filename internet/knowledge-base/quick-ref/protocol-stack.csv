@@ -1,0 +1,60 @@
+category,layer,protocol,port,transport,purpose,key_features,details
+TCP/IP Model,Application,HTTP,80,TCP,Web browsing,Stateless request-response,Application Layer (OSI 5-7)
+TCP/IP Model,Application,HTTPS,443,TCP,Secure web,HTTP + TLS encryption,Application Layer (OSI 5-7)
+TCP/IP Model,Application,HTTP/3,443,QUIC/UDP,Modern web,Multiplexing 0-RTT,Application Layer (OSI 5-7)
+TCP/IP Model,Application,DNS,53,UDP/TCP,Name resolution,Hierarchical cached,Application Layer (OSI 5-7)
+TCP/IP Model,Application,SSH,22,TCP,Secure shell,Encrypted remote access,Application Layer (OSI 5-7)
+TCP/IP Model,Application,FTP,20/21,TCP,File transfer,Separate control/data,Application Layer (OSI 5-7)
+TCP/IP Model,Application,SMTP,25,TCP,Email sending,Store and forward,Application Layer (OSI 5-7)
+TCP/IP Model,Application,POP3,110,TCP,Email retrieval,Download and delete,Application Layer (OSI 5-7)
+TCP/IP Model,Application,IMAP,143,TCP,Email access,Server-side storage,Application Layer (OSI 5-7)
+TCP/IP Model,Application,NTP,123,UDP,Time sync,Stratum hierarchy,Application Layer (OSI 5-7)
+TCP/IP Model,Application,DHCP,67/68,UDP,IP configuration,Automatic network config,Application Layer (OSI 5-7)
+TCP/IP Model,Application,SNMP,161,UDP,Network management,Monitoring and control,Application Layer (OSI 5-7)
+TCP/IP Model,Transport,TCP,N/A,N/A,Reliable delivery,Connection-oriented flow control,Transport Layer (OSI 4)
+TCP/IP Model,Transport,UDP,N/A,N/A,Fast delivery,Connectionless no guarantees,Transport Layer (OSI 4)
+TCP/IP Model,Transport,QUIC,N/A,N/A,Modern transport,Multiplexed encrypted,Transport Layer (OSI 4)
+TCP/IP Model,Transport,SCTP,N/A,N/A,Telephony,Multi-streaming,Transport Layer (OSI 4)
+TCP/IP Model,Internet,IPv4,N/A,N/A,Network routing,32-bit addresses,Network Layer (OSI 3)
+TCP/IP Model,Internet,IPv6,N/A,N/A,Network routing,128-bit addresses,Network Layer (OSI 3)
+TCP/IP Model,Internet,ICMP,N/A,N/A,Control messages,Error reporting,Network Layer (OSI 3)
+TCP/IP Model,Internet,IPSec,N/A,N/A,Security,Encryption and authentication,Network Layer (OSI 3)
+TCP/IP Model,Link,Ethernet,N/A,N/A,LAN communication,CSMA/CD,Data Link & Physical (OSI 1-2)
+TCP/IP Model,Link,Wi-Fi,N/A,N/A,Wireless LAN,802.11 standards,Data Link & Physical (OSI 1-2)
+TCP/IP Model,Link,PPP,N/A,N/A,Point-to-point,Dial-up and serial,Data Link & Physical (OSI 1-2)
+TCP/IP Model,Link,ARP,N/A,N/A,Address resolution,IP to MAC mapping,Data Link & Physical (OSI 1-2)
+Transport Features,TCP,Reliability,N/A,N/A,Yes,Retransmission on loss,Guaranteed delivery
+Transport Features,TCP,Ordering,N/A,N/A,Yes,Sequence numbers,In-order delivery
+Transport Features,TCP,Flow Control,N/A,N/A,Yes,Window size,Prevent overflow
+Transport Features,UDP,Reliability,N/A,N/A,No,Best effort,No guarantees
+Transport Features,UDP,Ordering,N/A,N/A,No,No sequence,May arrive out of order
+Transport Features,UDP,Flow Control,N/A,N/A,No,No throttling,Application responsibility
+Transport Features,QUIC,Reliability,N/A,N/A,Yes,Stream-based,Per-stream reliability
+Transport Features,QUIC,Ordering,N/A,N/A,Yes,Per-stream,Independent streams
+Transport Features,QUIC,Flow Control,N/A,N/A,Yes,Credit-based,Stream and connection level
+Network Protocols,IPv4,Address Size,N/A,N/A,32 bits,4.3 billion addresses,Dotted decimal notation
+Network Protocols,IPv4,Header Size,N/A,N/A,20-60 bytes,Variable with options,Minimum 20 bytes
+Network Protocols,IPv6,Address Size,N/A,N/A,128 bits,340 undecillion addresses,Hexadecimal notation
+Network Protocols,IPv6,Header Size,N/A,N/A,40 bytes,Fixed size,Simplified header
+Network Protocols,ICMP,Purpose,N/A,N/A,Control,Error and diagnostic,Ping and traceroute
+Network Protocols,IPSec,Purpose,N/A,N/A,Security,VPN and encryption,AH and ESP protocols
+MTU Sizes,Ethernet,Standard,N/A,N/A,1500 bytes,Most common,LAN standard
+MTU Sizes,Jumbo Frames,Data Center,N/A,N/A,9000 bytes,High performance,Reduced overhead
+MTU Sizes,Wi-Fi,802.11,N/A,N/A,2304 bytes,Wireless,Includes encryption overhead
+MTU Sizes,PPPoE,DSL,N/A,N/A,1492 bytes,8 byte overhead,Common broadband
+MTU Sizes,IPv6,Minimum,N/A,N/A,1280 bytes,Required minimum,All IPv6 must support
+MTU Sizes,IPv4,Minimum,N/A,N/A,68 bytes,Theoretical minimum,Rarely used
+Port Ranges,Well-known,System,0-1023,N/A,System services,Privileged ports,Root/admin required
+Port Ranges,Registered,User,1024-49151,N/A,User applications,IANA registered,Application specific
+Port Ranges,Dynamic,Ephemeral,49152-65535,N/A,Temporary,Client-side ports,OS assigned
+TCP Flags,SYN,Synchronize,N/A,N/A,Connection init,Start handshake,First packet
+TCP Flags,ACK,Acknowledge,N/A,N/A,Confirm receipt,Every packet after SYN,Acknowledgment number
+TCP Flags,FIN,Finish,N/A,N/A,Close connection,Graceful close,No more data
+TCP Flags,RST,Reset,N/A,N/A,Abort connection,Immediate termination,Error condition
+TCP Flags,PSH,Push,N/A,N/A,Send immediately,No buffering,Interactive apps
+TCP Flags,URG,Urgent,N/A,N/A,Priority data,Out-of-band,Rarely used
+ICMP Types,0,Echo Reply,N/A,N/A,Ping response,Reply to type 8,Connectivity test
+ICMP Types,3,Dest Unreachable,N/A,N/A,Error codes,Multiple subcodes,Network errors
+ICMP Types,5,Redirect,N/A,N/A,Better route,Router suggestion,Path optimization
+ICMP Types,8,Echo Request,N/A,N/A,Ping request,Connectivity test,Most common ICMP
+ICMP Types,11,Time Exceeded,N/A,N/A,TTL expired,Traceroute uses,Hop limit reached
