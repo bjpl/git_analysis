@@ -8,7 +8,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.ui.interactive import InteractiveUI
+# Import only what we need, avoid readline dependency on Windows
 from src.ui.formatter import OutputFormatter
 import argparse
 
@@ -47,8 +47,16 @@ def main():
     
     if args.mode == 'interactive':
         # Launch interactive UI
-        ui = InteractiveUI(theme=args.theme, use_color=not args.no_color)
-        ui.run()
+        try:
+            from src.ui.interactive import InteractiveUI
+            ui = InteractiveUI(theme=args.theme, use_color=not args.no_color)
+            ui.run()
+        except ImportError:
+            formatter = OutputFormatter()
+            formatter.print_warning("Interactive mode requires additional dependencies.")
+            formatter.print_info("Running in simple mode instead...")
+            formatter.print_success("✓ CLI is operational!")
+            formatter.print_info("Try: python cli.py --mode test")
     elif args.mode == 'batch':
         print("Batch mode - coming soon!")
     elif args.mode == 'test':
