@@ -1,0 +1,551 @@
+name: Deployment Automation Workflow
+version: "1.0.0"
+description: Complete deployment workflow with blue-green deployment, rollback capability, and monitoring
+variables:
+  environment: "production"
+  deploymentStrategy: "blue-green"
+  healthCheckUrl: "https://api.example.com/health"
+  maxRollbackTime: 600000  # 10 minutes
+  monitoringDuration: 1800000  # 30 minutes
+  slackChannel: "#deployments"
+
+triggers:
+  - type: webhook
+    config:
+      path: "/webhook/deploy"
+      method: POST
+      secret: "${DEPLOY_WEBHOOK_SECRET}"
+      
+  - type: api
+    config:
+      endpoint: "/api/deploy"
+      method: POST
+      auth:
+        type: bearer_token
+        token: "${DEPLOY_API_TOKEN}"
+
+tasks:
+  # 1. Pre-deployment validation
+  - id: validate-deployment
+    name: Validate Deployment Prerequisites
+    type: shell:exec
+    config:
+      command: |
+        echo "Validating deployment prerequisites..."
+        
+        # Check required environment variables
+        [ -z "$DEPLOY_KEY" ] && echo "DEPLOY_KEY not set" && exit 1
+        [ -z "$DB_PASSWORD" ] && echo "DB_PASSWORD not set" && exit 1
+        [ -z "$API_SECRET" ] && echo "API_SECRET not set" && exit 1
+        
+        # Validate deployment target
+        [ "{{environment}}" != "staging" ] && [ "{{environment}}" != "production" ] && echo "Invalid environment" && exit 1
+        
+        # Check if build artifacts exist
+        [ ! -d "dist" ] && echo "Build artifacts not found" && exit 1
+        
+        echo "All prerequisites validated ✓"
+    timeout: 30000
+
+  # 2. Backup current deployment
+  - id: backup-current-deployment
+    name: Backup Current Deployment
+    type: shell:exec
+    config:
+      command: |
+        echo "Creating backup of current deployment..."
+        BACKUP_DIR="backups/{{environment}}/$(date +%Y%m%d_%H%M%S)"
+        mkdir -p "$BACKUP_DIR"
+        
+        # Backup application files
+        if [ -d "/app/current" ]; then
+          cp -r /app/current "$BACKUP_DIR/app"
+        fi
+        
+        # Backup database
+        if command -v pg_dump &> /dev/null; then
+          pg_dump $DATABASE_URL > "$BACKUP_DIR/database.sql"
+        fi
+        
+        # Save backup location
+        echo "$BACKUP_DIR" > backup_location.txt
+        echo "Backup created at $BACKUP_DIR ✓"
+      env:
+        DATABASE_URL: "{{DATABASE_URL}}"
+    dependsOn: ["validate-deployment"]
+    timeout: 300000
+
+  # 3. Database migration (if needed)
+  - id: database-migration
+    name: Run Database Migrations
+    type: shell:exec
+    config:
+      command: |
+        echo "Running database migrations..."
+        
+        # Check if migrations are needed
+        if [ -d "migrations" ]; then
+          npm run migrate:{{environment}}
+          echo "Database migrations completed ✓"
+        else
+          echo "No migrations to run ✓"
+        fi
+      env:
+        DATABASE_URL: "{{DATABASE_URL}}"
+    dependsOn: ["backup-current-deployment"]
+    timeout: 300000
+
+  # 4. Deploy to blue environment (blue-green deployment)
+  - id: deploy-blue-environment
+    name: Deploy to Blue Environment
+    type: shell:exec
+    config:
+      command: |
+        echo "Deploying to blue environment..."
+        
+        case "{{deploymentStrategy}}" in
+          "blue-green")
+            # Deploy to inactive environment
+            ACTIVE_ENV=$(kubectl get service app-service -o jsonpath='{.spec.selector.version}' 2>/dev/null || echo "green")
+            DEPLOY_ENV=$([ "$ACTIVE_ENV" = "blue" ] && echo "green" || echo "blue")
+            echo "Active: $ACTIVE_ENV, Deploying to: $DEPLOY_ENV"
+            
+            # Update deployment
+            kubectl set image deployment/app-$DEPLOY_ENV app=myapp:{{BUILD_NUMBER || 'latest'}}
+            kubectl rollout status deployment/app-$DEPLOY_ENV --timeout=600s
+            
+            echo "DEPLOY_ENV=$DEPLOY_ENV" >> deployment_vars.env
+            ;;
+          "rolling")
+            kubectl set image deployment/app app=myapp:{{BUILD_NUMBER || 'latest'}}
+            kubectl rollout status deployment/app --timeout=600s
+            ;;
+          *)
+            echo "Unknown deployment strategy: {{deploymentStrategy}}"
+            exit 1
+            ;;
+        esac
+        
+        echo "Deployment completed ✓"
+    dependsOn: ["database-migration"]
+    timeout: 900000
+
+  # 5. Health check on blue environment
+  - id: health-check-blue
+    name: Health Check - Blue Environment
+    type: http:request
+    config:
+      url: "{{healthCheckUrl}}"
+      method: GET
+      timeout: 30000
+    dependsOn: ["deploy-blue-environment"]
+    retries: 5
+
+  # 6. Smoke tests on blue environment
+  - id: smoke-tests-blue
+    name: Smoke Tests - Blue Environment
+    type: shell:exec
+    config:
+      command: |
+        echo "Running smoke tests on blue environment..."
+        
+        # Basic connectivity test
+        curl -f "{{healthCheckUrl}}" || exit 1
+        
+        # API endpoint tests
+        curl -f "{{healthCheckUrl}}/api/status" || exit 1
+        curl -f "{{healthCheckUrl}}/api/version" || exit 1
+        
+        # Database connectivity
+        npm run test:db-connection || exit 1
+        
+        echo "Smoke tests passed ✓"
+    dependsOn: ["health-check-blue"]
+    timeout: 300000
+
+  # 7. Performance validation
+  - id: performance-validation
+    name: Performance Validation
+    type: shell:exec
+    config:
+      command: |
+        echo "Running performance validation..."
+        
+        # Load test with small load
+        curl -s "{{healthCheckUrl}}" -w "@curl-format.txt" || exit 1
+        
+        # Check response time
+        RESPONSE_TIME=$(curl -o /dev/null -s -w '%{time_total}' "{{healthCheckUrl}}")
+        if (( $(echo "$RESPONSE_TIME > 2.0" | bc -l) )); then
+          echo "Response time too high: ${RESPONSE_TIME}s"
+          exit 1
+        fi
+        
+        echo "Performance validation passed ✓"
+    dependsOn: ["smoke-tests-blue"]
+    parallel: true
+    timeout: 180000
+
+  # 8. Security validation
+  - id: security-validation
+    name: Security Validation
+    type: shell:exec
+    config:
+      command: |
+        echo "Running security validation..."
+        
+        # Check SSL certificate
+        echo | openssl s_client -connect $(echo "{{healthCheckUrl}}" | cut -d'/' -f3):443 -servername $(echo "{{healthCheckUrl}}" | cut -d'/' -f3) 2>/dev/null | openssl x509 -noout -dates
+        
+        # Check security headers
+        HEADERS=$(curl -I "{{healthCheckUrl}}" 2>/dev/null)
+        echo "$HEADERS" | grep -i "x-frame-options" || echo "Warning: X-Frame-Options header missing"
+        echo "$HEADERS" | grep -i "x-content-type-options" || echo "Warning: X-Content-Type-Options header missing"
+        
+        # Basic vulnerability scan
+        nmap -sV --script=vuln $(echo "{{healthCheckUrl}}" | cut -d'/' -f3) || echo "Nmap scan completed"
+        
+        echo "Security validation completed ✓"
+    dependsOn: ["smoke-tests-blue"]
+    parallel: true
+    timeout: 300000
+    continueOnError: true
+
+  # 9. Switch traffic to blue environment
+  - id: switch-traffic
+    name: Switch Traffic to Blue Environment
+    type: shell:exec
+    config:
+      command: |
+        echo "Switching traffic to blue environment..."
+        
+        case "{{deploymentStrategy}}" in
+          "blue-green")
+            source deployment_vars.env
+            
+            # Update service selector to point to new environment
+            kubectl patch service app-service -p '{"spec":{"selector":{"version":"'$DEPLOY_ENV'"}}}'
+            
+            # Wait for traffic switch
+            sleep 10
+            
+            # Verify traffic is going to new environment
+            curl -f "{{healthCheckUrl}}" || exit 1
+            
+            echo "Traffic switched to $DEPLOY_ENV environment ✓"
+            ;;
+          "rolling")
+            echo "Rolling deployment - traffic already switched ✓"
+            ;;
+        esac
+    dependsOn: ["performance-validation", "security-validation"]
+    timeout: 120000
+
+  # 10. Post-deployment health check
+  - id: post-deployment-health-check
+    name: Post-Deployment Health Check
+    type: http:request
+    config:
+      url: "{{healthCheckUrl}}"
+      method: GET
+      timeout: 30000
+    dependsOn: ["switch-traffic"]
+    retries: 3
+
+  # 11. Monitoring and alerting setup
+  - id: setup-monitoring
+    name: Setup Monitoring and Alerting
+    type: shell:exec
+    config:
+      command: |
+        echo "Setting up monitoring for new deployment..."
+        
+        # Update monitoring configuration
+        kubectl apply -f monitoring/{{environment}}-monitors.yaml
+        
+        # Create deployment alert
+        cat << EOF | kubectl apply -f -
+        apiVersion: monitoring.coreos.com/v1
+        kind: PrometheusRule
+        metadata:
+          name: app-deployment-{{BUILD_NUMBER || 'latest'}}
+        spec:
+          groups:
+          - name: deployment
+            rules:
+            - alert: DeploymentHighErrorRate
+              expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+              for: 5m
+        EOF
+        
+        echo "Monitoring setup completed ✓"
+    dependsOn: ["post-deployment-health-check"]
+    timeout: 120000
+    continueOnError: true
+
+  # 12. Warm up caches and services
+  - id: warmup-services
+    name: Warm Up Caches and Services
+    type: shell:exec
+    config:
+      command: |
+        echo "Warming up caches and services..."
+        
+        # Warm up application cache
+        curl -s "{{healthCheckUrl}}/api/warmup" || echo "Warmup endpoint not available"
+        
+        # Pre-load critical data
+        curl -s "{{healthCheckUrl}}/api/preload" || echo "Preload endpoint not available"
+        
+        # Test key user flows
+        for endpoint in "/api/users" "/api/products" "/api/orders"; do
+          curl -s "{{healthCheckUrl}}$endpoint" > /dev/null || echo "Warning: $endpoint not responding"
+        done
+        
+        echo "Service warmup completed ✓"
+    dependsOn: ["switch-traffic"]
+    parallel: true
+    timeout: 300000
+
+  # 13. Integration tests in production
+  - id: production-integration-tests
+    name: Production Integration Tests
+    type: npm:script
+    config:
+      script: "test:production"
+      args: ["--env={{environment}}"]
+    dependsOn: ["warmup-services"]
+    timeout: 600000
+    condition:
+      expression: "environment !== 'production' || SKIP_PROD_TESTS !== 'true'"
+
+  # 14. Monitor deployment for specified duration
+  - id: monitor-deployment
+    name: Monitor Deployment
+    type: shell:exec
+    config:
+      command: |
+        echo "Monitoring deployment for {{monitoringDuration / 60000}} minutes..."
+        
+        START_TIME=$(date +%s)
+        END_TIME=$((START_TIME + {{monitoringDuration}} / 1000))
+        
+        while [ $(date +%s) -lt $END_TIME ]; do
+          # Check health
+          if ! curl -sf "{{healthCheckUrl}}" > /dev/null; then
+            echo "Health check failed during monitoring"
+            exit 1
+          fi
+          
+          # Check error rate
+          ERROR_RATE=$(kubectl exec deployment/prometheus -- promtool query instant 'rate(http_requests_total{status=~"5.."}[5m])' | tail -1 | awk '{print $2}')
+          if (( $(echo "$ERROR_RATE > 0.05" | bc -l 2>/dev/null || echo 0) )); then
+            echo "High error rate detected: $ERROR_RATE"
+            exit 1
+          fi
+          
+          sleep 60  # Check every minute
+        done
+        
+        echo "Deployment monitoring completed successfully ✓"
+    dependsOn: ["production-integration-tests", "setup-monitoring"]
+    timeout: "{{monitoringDuration + 60000}}"
+
+  # 15. Clean up old deployment
+  - id: cleanup-old-deployment
+    name: Clean Up Old Deployment
+    type: shell:exec
+    config:
+      command: |
+        echo "Cleaning up old deployment..."
+        
+        case "{{deploymentStrategy}}" in
+          "blue-green")
+            source deployment_vars.env
+            OLD_ENV=$([ "$DEPLOY_ENV" = "blue" ] && echo "green" || echo "blue")
+            
+            # Scale down old environment
+            kubectl scale deployment app-$OLD_ENV --replicas=0
+            
+            # Clean up old resources (keep for quick rollback)
+            echo "Old environment ($OLD_ENV) scaled down ✓"
+            ;;
+          "rolling")
+            # Clean up old replica sets
+            kubectl delete replicaset $(kubectl get rs -o jsonpath='{.items[?(@.spec.replicas==0)].metadata.name}') 2>/dev/null || true
+            echo "Old replica sets cleaned up ✓"
+            ;;
+        esac
+        
+        # Clean up build artifacts older than 7 days
+        find builds/ -type f -mtime +7 -delete 2>/dev/null || true
+        
+        echo "Cleanup completed ✓"
+    dependsOn: ["monitor-deployment"]
+    timeout: 120000
+    continueOnError: true
+
+  # 16. Update deployment registry
+  - id: update-deployment-registry
+    name: Update Deployment Registry
+    type: data:transform
+    config:
+      data:
+        timestamp: "{{new Date().toISOString()}}"
+        environment: "{{environment}}"
+        version: "{{BUILD_NUMBER || 'latest'}}"
+        strategy: "{{deploymentStrategy}}"
+        success: true
+        duration: "{{(new Date() - new Date(WORKFLOW_START_TIME)) / 1000}}s"
+        healthCheckUrl: "{{healthCheckUrl}}"
+        backupLocation: "{{backup-current-deployment.backupLocation}}"
+      expression: "JSON.stringify(data, null, 2)"
+    dependsOn: ["cleanup-old-deployment"]
+
+# Success handlers
+onSuccess:
+  - id: notify-deployment-success
+    name: Notify Deployment Success
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      data:
+        channel: "{{slackChannel}}"
+        text: |
+          🚀 Deployment to {{environment}} completed successfully!
+          
+          **Details:**
+          • Environment: {{environment}}
+          • Version: {{BUILD_NUMBER || 'latest'}}
+          • Strategy: {{deploymentStrategy}}
+          • Duration: {{(Date.now() - WORKFLOW_START_TIME) / 1000}}s
+          • Health Check: {{healthCheckUrl}}
+          
+          **Validation Results:**
+          • Health Check: ✅ Passed
+          • Smoke Tests: ✅ Passed  
+          • Performance: ✅ Passed
+          • Security: ✅ Passed
+          • Integration Tests: ✅ Passed
+          • Monitoring: ✅ Active
+          
+          Application is live and healthy! 🎉
+        username: "Deploy Bot"
+        icon_emoji: ":rocket:"
+
+  - id: create-deployment-tag
+    name: Create Deployment Tag
+    type: shell:exec
+    config:
+      command: |
+        echo "Creating deployment tag..."
+        
+        TAG="deploy-{{environment}}-$(date +%Y%m%d-%H%M%S)"
+        git tag -a "$TAG" -m "Deployment to {{environment}} - {{BUILD_NUMBER || 'latest'}}"
+        git push origin "$TAG" || echo "Failed to push tag (non-critical)"
+        
+        echo "Deployment tag created: $TAG ✓"
+    continueOnError: true
+
+# Failure handlers
+onFailure:
+  - id: notify-deployment-failure
+    name: Notify Deployment Failure
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      data:
+        channel: "{{slackChannel}}"
+        text: |
+          ❌ Deployment to {{environment}} failed!
+          
+          **Details:**
+          • Environment: {{environment}}
+          • Version: {{BUILD_NUMBER || 'latest'}}
+          • Strategy: {{deploymentStrategy}}
+          • Failed at: {{FAILED_TASK || 'Unknown'}}
+          
+          **Immediate Actions Needed:**
+          1. Check deployment logs
+          2. Verify rollback status
+          3. Monitor system health
+          
+          @channel Deployment failure requires attention!
+        username: "Deploy Bot"
+        icon_emoji: ":warning:"
+
+  - id: create-incident
+    name: Create Incident Record
+    type: data:transform
+    config:
+      data:
+        id: "INC-{{Date.now()}}"
+        title: "Deployment Failure - {{environment}}"
+        description: "Deployment to {{environment}} failed during {{FAILED_TASK || 'unknown'}} task"
+        environment: "{{environment}}"
+        severity: "high"
+        timestamp: "{{new Date().toISOString()}}"
+        assignee: "{{ONCALL_ENGINEER || 'ops-team'}}"
+        tags: ["deployment", "{{environment}}", "failure"]
+      expression: "JSON.stringify(data, null, 2)"
+
+# Rollback tasks (executed on failure)
+rollback:
+  - id: automatic-rollback
+    name: Automatic Rollback
+    type: shell:exec
+    config:
+      command: |
+        echo "Initiating automatic rollback..."
+        
+        case "{{deploymentStrategy}}" in
+          "blue-green")
+            # Switch traffic back to old environment
+            source deployment_vars.env 2>/dev/null || true
+            OLD_ENV=$([ "$DEPLOY_ENV" = "blue" ] && echo "green" || echo "blue")
+            
+            # Restore service to old environment
+            kubectl patch service app-service -p '{"spec":{"selector":{"version":"'$OLD_ENV'"}}}'
+            
+            # Scale up old environment if needed
+            kubectl scale deployment app-$OLD_ENV --replicas=3
+            kubectl rollout status deployment/app-$OLD_ENV --timeout=300s
+            
+            echo "Traffic switched back to $OLD_ENV ✓"
+            ;;
+          "rolling")
+            # Rollback to previous version
+            kubectl rollout undo deployment/app
+            kubectl rollout status deployment/app --timeout=300s
+            echo "Rolled back to previous version ✓"
+            ;;
+        esac
+        
+        # Verify rollback
+        sleep 10
+        curl -f "{{healthCheckUrl}}" || echo "Warning: Health check still failing after rollback"
+    timeout: "{{maxRollbackTime}}"
+
+  - id: restore-database
+    name: Restore Database
+    type: shell:exec
+    config:
+      command: |
+        echo "Checking if database restore is needed..."
+        
+        BACKUP_DIR=$(cat backup_location.txt 2>/dev/null || echo "")
+        if [ -n "$BACKUP_DIR" ] && [ -f "$BACKUP_DIR/database.sql" ]; then
+          echo "Restoring database from backup..."
+          psql $DATABASE_URL < "$BACKUP_DIR/database.sql"
+          echo "Database restored ✓"
+        else
+          echo "No database backup found - skipping restore"
+        fi
+      env:
+        DATABASE_URL: "{{DATABASE_URL}}"
+    continueOnError: true
+
+timeout: 5400000  # 90 minutes total timeout
+retries: 0  # No retries for deployment - manual intervention required

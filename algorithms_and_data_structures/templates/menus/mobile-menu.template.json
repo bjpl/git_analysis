@@ -1,0 +1,672 @@
+{
+  "name": "Mobile-Optimized Menu",
+  "version": "1.0.0",
+  "description": "Touch-friendly mobile menu template with swipe gestures and responsive design",
+  "theme": "mobile",
+  "type": "mobile",
+  "settings": {
+    "searchable": true,
+    "showIcons": true,
+    "showShortcuts": false,
+    "animationsEnabled": true,
+    "maxDisplayItems": 20,
+    "touchOptimized": true,
+    "swipeGestures": true,
+    "pullToRefresh": true,
+    "hapticFeedback": true,
+    "responsiveDesign": true
+  },
+  "mobile": {
+    "orientation": {
+      "supportPortrait": true,
+      "supportLandscape": true,
+      "autoRotate": true
+    },
+    "gestures": {
+      "swipeLeft": "goBack",
+      "swipeRight": "openSidebar",
+      "swipeUp": "showMore",
+      "swipeDown": "refresh",
+      "longPress": "showContextMenu",
+      "doubleTap": "quickAction"
+    },
+    "haptics": {
+      "enabled": true,
+      "patterns": {
+        "tap": "light",
+        "select": "medium",
+        "error": "heavy",
+        "success": "light"
+      }
+    },
+    "bottomSheet": {
+      "enabled": true,
+      "snapPoints": [0.25, 0.5, 0.9],
+      "handleVisible": true,
+      "backdrop": true
+    }
+  },
+  "layout": {
+    "type": "stack",
+    "spacing": "compact",
+    "margins": {
+      "top": 20,
+      "bottom": 20,
+      "left": 16,
+      "right": 16
+    },
+    "itemHeight": {
+      "small": 44,
+      "medium": 56,
+      "large": 72
+    },
+    "sections": {
+      "showHeaders": true,
+      "collapsible": true,
+      "defaultExpanded": true
+    }
+  },
+  "navigation": {
+    "type": "stack",
+    "backButton": {
+      "show": true,
+      "position": "top-left",
+      "icon": "←",
+      "label": "Back"
+    },
+    "breadcrumb": {
+      "show": false,
+      "maxItems": 3
+    },
+    "tabBar": {
+      "show": true,
+      "position": "bottom",
+      "items": 5,
+      "badges": true
+    }
+  },
+  "items": [
+    {
+      "id": "dashboard",
+      "label": "Dashboard",
+      "description": "Overview of your activity",
+      "icon": "📊",
+      "category": "main",
+      "priority": 10,
+      "size": "large",
+      "badge": {
+        "count": 3,
+        "color": "red",
+        "position": "top-right"
+      },
+      "accessibility": {
+        "ariaLabel": "Dashboard overview with 3 new items",
+        "role": "button",
+        "hint": "Double tap to open dashboard"
+      },
+      "mobile": {
+        "vibration": "light",
+        "soundEffect": "tap",
+        "longPressActions": [
+          {
+            "label": "Quick View",
+            "icon": "👁️",
+            "action": "dashboard.quickView"
+          },
+          {
+            "label": "Refresh Data",
+            "icon": "🔄",
+            "action": "dashboard.refresh"
+          }
+        ]
+      },
+      "action": "showDashboard"
+    },
+    {
+      "id": "profile",
+      "label": "Profile",
+      "description": "Manage your account settings",
+      "icon": "👤",
+      "category": "main",
+      "priority": 9,
+      "size": "medium",
+      "accessibility": {
+        "ariaLabel": "User profile and account settings",
+        "hint": "Tap to view profile"
+      },
+      "mobile": {
+        "vibration": "light",
+        "avatar": {
+          "show": true,
+          "source": "user.avatar",
+          "fallback": "👤"
+        }
+      },
+      "submenu": [
+        {
+          "id": "profile-edit",
+          "label": "Edit Profile",
+          "description": "Update your personal information",
+          "icon": "✏️",
+          "action": "profile.edit"
+        },
+        {
+          "id": "profile-photo",
+          "label": "Change Photo",
+          "description": "Update your profile picture",
+          "icon": "📷",
+          "mobile": {
+            "camera": {
+              "enabled": true,
+              "allowGallery": true,
+              "allowCamera": true
+            }
+          },
+          "action": "profile.changePhoto"
+        },
+        {
+          "id": "profile-privacy",
+          "label": "Privacy Settings",
+          "description": "Control your privacy preferences",
+          "icon": "🔒",
+          "action": "profile.privacy"
+        }
+      ],
+      "action": "showProfile"
+    },
+    {
+      "id": "notifications",
+      "label": "Notifications",
+      "description": "View your messages and alerts",
+      "icon": "🔔",
+      "category": "main",
+      "priority": 8,
+      "size": "medium",
+      "badge": {
+        "count": 12,
+        "color": "blue"
+      },
+      "accessibility": {
+        "ariaLabel": "Notifications with 12 unread messages"
+      },
+      "mobile": {
+        "vibration": "medium",
+        "pullToRefresh": true,
+        "infiniteScroll": true
+      },
+      "action": "showNotifications"
+    },
+    {
+      "id": "search",
+      "label": "Search",
+      "description": "Find content quickly",
+      "icon": "🔍",
+      "category": "tools",
+      "priority": 7,
+      "size": "medium",
+      "accessibility": {
+        "ariaLabel": "Search for content"
+      },
+      "mobile": {
+        "keyboard": {
+          "type": "default",
+          "autocomplete": true,
+          "suggestions": true,
+          "voiceInput": true
+        },
+        "recentSearches": {
+          "enabled": true,
+          "maxItems": 10
+        }
+      },
+      "action": "showSearch"
+    },
+    {
+      "id": "favorites",
+      "label": "Favorites",
+      "description": "Your bookmarked items",
+      "icon": "⭐",
+      "category": "tools",
+      "priority": 6,
+      "size": "medium",
+      "accessibility": {
+        "ariaLabel": "Favorite items and bookmarks"
+      },
+      "mobile": {
+        "swipeActions": {
+          "left": [
+            {
+              "label": "Remove",
+              "icon": "🗑️",
+              "color": "red",
+              "action": "favorites.remove"
+            }
+          ],
+          "right": [
+            {
+              "label": "Share",
+              "icon": "📤",
+              "color": "blue",
+              "action": "favorites.share"
+            },
+            {
+              "label": "Edit",
+              "icon": "✏️",
+              "color": "orange",
+              "action": "favorites.edit"
+            }
+          ]
+        }
+      },
+      "action": "showFavorites"
+    },
+    {
+      "id": "camera",
+      "label": "Camera",
+      "description": "Take photos and videos",
+      "icon": "📷",
+      "category": "media",
+      "priority": 5,
+      "size": "large",
+      "accessibility": {
+        "ariaLabel": "Camera for photos and videos"
+      },
+      "mobile": {
+        "vibration": "heavy",
+        "camera": {
+          "enabled": true,
+          "modes": ["photo", "video", "panorama"],
+          "flash": true,
+          "frontCamera": true,
+          "zoom": true
+        },
+        "quickActions": [
+          {
+            "label": "Photo",
+            "icon": "📸",
+            "action": "camera.photo"
+          },
+          {
+            "label": "Video",
+            "icon": "🎥",
+            "action": "camera.video"
+          },
+          {
+            "label": "Selfie",
+            "icon": "🤳",
+            "action": "camera.selfie"
+          }
+        ]
+      },
+      "action": "openCamera"
+    },
+    {
+      "id": "gallery",
+      "label": "Gallery",
+      "description": "View your photos and videos",
+      "icon": "🖼️",
+      "category": "media",
+      "priority": 4,
+      "size": "medium",
+      "accessibility": {
+        "ariaLabel": "Photo and video gallery"
+      },
+      "mobile": {
+        "gridView": {
+          "enabled": true,
+          "columns": {
+            "portrait": 3,
+            "landscape": 4
+          }
+        },
+        "pinchZoom": true,
+        "slideshow": true
+      },
+      "action": "showGallery"
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "description": "Find places and get directions",
+      "icon": "📍",
+      "category": "tools",
+      "priority": 3,
+      "size": "medium",
+      "accessibility": {
+        "ariaLabel": "Location services and maps"
+      },
+      "mobile": {
+        "gps": {
+          "enabled": true,
+          "accuracy": "high",
+          "background": false
+        },
+        "maps": {
+          "provider": "default",
+          "offline": true,
+          "directions": true
+        }
+      },
+      "permissions": {
+        "required": ["location"],
+        "rationale": "We need location access to provide directions and nearby places."
+      },
+      "action": "showLocation"
+    },
+    {
+      "id": "contacts",
+      "label": "Contacts",
+      "description": "Manage your contact list",
+      "icon": "📞",
+      "category": "communication",
+      "priority": 2,
+      "size": "medium",
+      "accessibility": {
+        "ariaLabel": "Contact list and phonebook"
+      },
+      "mobile": {
+        "quickActions": [
+          {
+            "label": "Call",
+            "icon": "📞",
+            "action": "contacts.call"
+          },
+          {
+            "label": "Message",
+            "icon": "💬",
+            "action": "contacts.message"
+          },
+          {
+            "label": "Email",
+            "icon": "📧",
+            "action": "contacts.email"
+          }
+        ],
+        "alphabetIndex": true,
+        "fastScroll": true
+      },
+      "permissions": {
+        "required": ["contacts"],
+        "rationale": "We need access to contacts to display your contact list."
+      },
+      "action": "showContacts"
+    },
+    {
+      "id": "settings",
+      "label": "Settings",
+      "description": "App preferences and configuration",
+      "icon": "⚙️",
+      "category": "system",
+      "priority": 1,
+      "size": "medium",
+      "accessibility": {
+        "ariaLabel": "Application settings and preferences"
+      },
+      "submenu": [
+        {
+          "id": "settings-account",
+          "label": "Account Settings",
+          "icon": "👤",
+          "action": "settings.account"
+        },
+        {
+          "id": "settings-notifications",
+          "label": "Notification Settings",
+          "icon": "🔔",
+          "badge": {
+            "text": "3",
+            "color": "orange"
+          },
+          "action": "settings.notifications"
+        },
+        {
+          "id": "settings-privacy",
+          "label": "Privacy & Security",
+          "icon": "🔒",
+          "action": "settings.privacy"
+        },
+        {
+          "id": "settings-appearance",
+          "label": "Appearance",
+          "icon": "🎨",
+          "action": "settings.appearance"
+        },
+        {
+          "id": "settings-storage",
+          "label": "Storage",
+          "icon": "💾",
+          "description": "Manage app storage and cache",
+          "action": "settings.storage"
+        },
+        {
+          "id": "settings-help",
+          "label": "Help & Support",
+          "icon": "❓",
+          "action": "settings.help"
+        },
+        {
+          "id": "settings-about",
+          "label": "About",
+          "icon": "ℹ️",
+          "action": "settings.about"
+        }
+      ],
+      "action": "showSettings"
+    }
+  ],
+  "sections": [
+    {
+      "id": "main",
+      "label": "Main",
+      "order": 1,
+      "collapsible": false,
+      "icon": "⭐"
+    },
+    {
+      "id": "tools",
+      "label": "Tools",
+      "order": 2,
+      "collapsible": true,
+      "icon": "🔧"
+    },
+    {
+      "id": "media",
+      "label": "Media",
+      "order": 3,
+      "collapsible": true,
+      "icon": "🎨"
+    },
+    {
+      "id": "communication",
+      "label": "Communication",
+      "order": 4,
+      "collapsible": true,
+      "icon": "💬"
+    },
+    {
+      "id": "system",
+      "label": "System",
+      "order": 5,
+      "collapsible": true,
+      "icon": "⚙️"
+    }
+  ],
+  "tabBar": {
+    "enabled": true,
+    "position": "bottom",
+    "height": 60,
+    "safeArea": true,
+    "tabs": [
+      {
+        "id": "home",
+        "label": "Home",
+        "icon": "🏠",
+        "selectedIcon": "🏠",
+        "badge": null,
+        "route": "/home"
+      },
+      {
+        "id": "search",
+        "label": "Search",
+        "icon": "🔍",
+        "selectedIcon": "🔍",
+        "badge": null,
+        "route": "/search"
+      },
+      {
+        "id": "notifications",
+        "label": "Alerts",
+        "icon": "🔔",
+        "selectedIcon": "🔔",
+        "badge": {
+          "count": 12,
+          "maxCount": 99
+        },
+        "route": "/notifications"
+      },
+      {
+        "id": "profile",
+        "label": "Profile",
+        "icon": "👤",
+        "selectedIcon": "👤",
+        "badge": null,
+        "route": "/profile"
+      },
+      {
+        "id": "more",
+        "label": "More",
+        "icon": "⋯",
+        "selectedIcon": "⋯",
+        "badge": null,
+        "route": "/more"
+      }
+    ]
+  },
+  "contextMenu": {
+    "enabled": true,
+    "trigger": "longPress",
+    "hapticFeedback": true,
+    "actions": [
+      {
+        "id": "share",
+        "label": "Share",
+        "icon": "📤",
+        "action": "share"
+      },
+      {
+        "id": "copy",
+        "label": "Copy",
+        "icon": "📋",
+        "action": "copy"
+      },
+      {
+        "id": "edit",
+        "label": "Edit",
+        "icon": "✏️",
+        "action": "edit"
+      },
+      {
+        "id": "delete",
+        "label": "Delete",
+        "icon": "🗑️",
+        "color": "destructive",
+        "confirmationRequired": true,
+        "action": "delete"
+      }
+    ]
+  },
+  "animations": {
+    "pageTransitions": {
+      "enabled": true,
+      "type": "slide",
+      "duration": 300,
+      "easing": "ease-out"
+    },
+    "itemAnimations": {
+      "enabled": true,
+      "stagger": 50,
+      "fadeIn": 200,
+      "slideUp": 250
+    },
+    "gestures": {
+      "springAnimation": true,
+      "dampening": 0.8,
+      "tension": 120
+    }
+  },
+  "darkMode": {
+    "enabled": true,
+    "automatic": true,
+    "schedule": {
+      "sunset": true,
+      "customTime": {
+        "start": "22:00",
+        "end": "06:00"
+      }
+    },
+    "colors": {
+      "background": "#000000",
+      "surface": "#1c1c1e",
+      "text": "#ffffff",
+      "textSecondary": "#99999c",
+      "accent": "#007aff",
+      "border": "#38383a"
+    }
+  },
+  "accessibility": {
+    "voiceOver": {
+      "enabled": true,
+      "navigationHints": true,
+      "customLabels": true
+    },
+    "dynamicType": {
+      "enabled": true,
+      "maxSize": "xxxLarge"
+    },
+    "reduceMotion": {
+      "respectSystemSetting": true,
+      "alternativeAnimations": true
+    },
+    "highContrast": {
+      "enabled": true,
+      "adaptiveColors": true
+    }
+  },
+  "performance": {
+    "lazyLoading": true,
+    "imageOptimization": true,
+    "memoryManagement": {
+      "autoCleanup": true,
+      "cacheLimit": "50MB"
+    },
+    "batteryOptimization": {
+      "enabled": true,
+      "reducedRefresh": true,
+      "backgroundLimits": true
+    }
+  },
+  "offline": {
+    "enabled": true,
+    "caching": {
+      "strategy": "networkFirst",
+      "maxAge": "7d",
+      "maxEntries": 100
+    },
+    "fallback": {
+      "showOfflineIndicator": true,
+      "offlineMessage": "You're currently offline. Some features may be limited."
+    }
+  },
+  "metadata": {
+    "created": "2025-01-12T20:00:00Z",
+    "author": "Menu Builder CLI",
+    "tags": ["mobile", "touch", "responsive", "gestures", "native"],
+    "version": "1.0.0",
+    "compatibility": {
+      "minVersion": "1.0.0",
+      "platforms": ["ios", "android", "mobile-web"],
+      "touchRequired": true,
+      "screenSizes": ["phone", "tablet"]
+    }
+  }
+}

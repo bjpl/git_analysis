@@ -1,0 +1,340 @@
+{
+  "lessonPack": {
+    "id": "graph-algorithms",
+    "title": "Graph Algorithms",
+    "description": "Essential graph algorithms including traversal, shortest path, and connectivity",
+    "version": "1.0.0",
+    "difficulty": "intermediate-to-advanced",
+    "estimatedHours": 20,
+    "category": "algorithms",
+    "tags": ["graphs", "traversal", "shortest-path", "connectivity", "trees"],
+    "prerequisites": ["data-structures", "recursion", "queues"],
+    "learningObjectives": [
+      "Master fundamental graph traversal algorithms",
+      "Implement shortest path algorithms efficiently",
+      "Understand graph connectivity and spanning trees",
+      "Apply graph algorithms to real-world problems",
+      "Analyze time and space complexity of graph algorithms"
+    ],
+    "lessons": [
+      {
+        "id": "graph-representations",
+        "title": "Graph Representations",
+        "description": "Different ways to represent graphs in memory",
+        "order": 1,
+        "difficulty": "intermediate",
+        "estimatedMinutes": 75,
+        "learningObjectives": [
+          "Understand adjacency matrix representation",
+          "Implement adjacency list representation",
+          "Compare space and time trade-offs of different representations",
+          "Choose appropriate representation for specific algorithms"
+        ],
+        "content": {
+          "theory": {
+            "graphBasics": {
+              "definition": "A graph G = (V, E) consists of vertices V and edges E",
+              "types": [
+                "Directed vs Undirected",
+                "Weighted vs Unweighted",
+                "Dense vs Sparse",
+                "Connected vs Disconnected",
+                "Cyclic vs Acyclic"
+              ]
+            },
+            "representations": {
+              "adjacencyMatrix": {
+                "description": "2D array where matrix[i][j] indicates edge between vertex i and j",
+                "spaceComplexity": "O(V²)",
+                "edgeCheckTime": "O(1)",
+                "addEdgeTime": "O(1)",
+                "advantages": ["Fast edge lookup", "Simple implementation", "Good for dense graphs"],
+                "disadvantages": ["High space usage", "Slow iteration over edges", "Inefficient for sparse graphs"]
+              },
+              "adjacencyList": {
+                "description": "Array of lists where each vertex stores list of adjacent vertices",
+                "spaceComplexity": "O(V + E)",
+                "edgeCheckTime": "O(degree)",
+                "addEdgeTime": "O(1)",
+                "advantages": ["Space efficient for sparse graphs", "Fast iteration over neighbors"],
+                "disadvantages": ["Slower edge lookup", "More complex for some operations"]
+              },
+              "edgeList": {
+                "description": "Simple list of all edges in the graph",
+                "spaceComplexity": "O(E)",
+                "advantages": ["Simple implementation", "Good for algorithms that process all edges"],
+                "disadvantages": ["Slow neighbor lookup", "Inefficient for most graph algorithms"]
+              }
+            }
+          },
+          "implementation": {
+            "language": "python",
+            "code": "class GraphMatrix:\n    \"\"\"\n    Graph implementation using adjacency matrix\n    Good for dense graphs, O(V²) space\n    \"\"\"\n    def __init__(self, num_vertices, directed=False):\n        self.num_vertices = num_vertices\n        self.directed = directed\n        self.matrix = [[0] * num_vertices for _ in range(num_vertices)]\n    \n    def add_edge(self, u, v, weight=1):\n        \"\"\"Add edge between vertices u and v - O(1)\"\"\"\n        if 0 <= u < self.num_vertices and 0 <= v < self.num_vertices:\n            self.matrix[u][v] = weight\n            if not self.directed:\n                self.matrix[v][u] = weight\n    \n    def has_edge(self, u, v):\n        \"\"\"Check if edge exists - O(1)\"\"\"\n        if 0 <= u < self.num_vertices and 0 <= v < self.num_vertices:\n            return self.matrix[u][v] != 0\n        return False\n    \n    def get_neighbors(self, u):\n        \"\"\"Get all neighbors of vertex u - O(V)\"\"\"\n        neighbors = []\n        for v in range(self.num_vertices):\n            if self.matrix[u][v] != 0:\n                neighbors.append((v, self.matrix[u][v]))\n        return neighbors\n    \n    def remove_edge(self, u, v):\n        \"\"\"Remove edge between u and v - O(1)\"\"\"\n        if self.has_edge(u, v):\n            self.matrix[u][v] = 0\n            if not self.directed:\n                self.matrix[v][u] = 0\n    \n    def get_degree(self, u):\n        \"\"\"Get degree of vertex u - O(V)\"\"\"\n        return sum(1 for v in range(self.num_vertices) if self.matrix[u][v] != 0)\n    \n    def display(self):\n        \"\"\"Display adjacency matrix\"\"\"\n        for row in self.matrix:\n            print(' '.join(f'{cell:3}' for cell in row))\n\nclass GraphList:\n    \"\"\"\n    Graph implementation using adjacency list\n    Good for sparse graphs, O(V + E) space\n    \"\"\"\n    def __init__(self, num_vertices, directed=False):\n        self.num_vertices = num_vertices\n        self.directed = directed\n        self.adj_list = [[] for _ in range(num_vertices)]\n    \n    def add_edge(self, u, v, weight=1):\n        \"\"\"Add edge between vertices u and v - O(1)\"\"\"\n        if 0 <= u < self.num_vertices and 0 <= v < self.num_vertices:\n            self.adj_list[u].append((v, weight))\n            if not self.directed:\n                self.adj_list[v].append((u, weight))\n    \n    def has_edge(self, u, v):\n        \"\"\"Check if edge exists - O(degree)\"\"\"\n        if 0 <= u < self.num_vertices:\n            return any(neighbor == v for neighbor, _ in self.adj_list[u])\n        return False\n    \n    def get_neighbors(self, u):\n        \"\"\"Get all neighbors of vertex u - O(1)\"\"\"\n        if 0 <= u < self.num_vertices:\n            return self.adj_list[u]\n        return []\n    \n    def remove_edge(self, u, v):\n        \"\"\"Remove edge between u and v - O(degree)\"\"\"\n        if 0 <= u < self.num_vertices:\n            self.adj_list[u] = [(neighbor, weight) for neighbor, weight in self.adj_list[u] if neighbor != v]\n            if not self.directed and 0 <= v < self.num_vertices:\n                self.adj_list[v] = [(neighbor, weight) for neighbor, weight in self.adj_list[v] if neighbor != u]\n    \n    def get_degree(self, u):\n        \"\"\"Get degree of vertex u - O(1)\"\"\"\n        if 0 <= u < self.num_vertices:\n            return len(self.adj_list[u])\n        return 0\n    \n    def display(self):\n        \"\"\"Display adjacency list\"\"\"\n        for u in range(self.num_vertices):\n            neighbors = ', '.join(f'{v}({w})' for v, w in self.adj_list[u])\n            print(f'{u}: [{neighbors}]')\n\nclass WeightedGraph:\n    \"\"\"\n    Weighted graph optimized for shortest path algorithms\n    \"\"\"\n    def __init__(self, num_vertices, directed=True):\n        self.num_vertices = num_vertices\n        self.directed = directed\n        self.edges = {}  # (u,v) -> weight\n        self.adj_list = [[] for _ in range(num_vertices)]\n    \n    def add_edge(self, u, v, weight):\n        \"\"\"Add weighted edge\"\"\"\n        self.edges[(u, v)] = weight\n        self.adj_list[u].append((v, weight))\n        \n        if not self.directed:\n            self.edges[(v, u)] = weight\n            self.adj_list[v].append((u, weight))\n    \n    def get_weight(self, u, v):\n        \"\"\"Get weight of edge (u, v)\"\"\"\n        return self.edges.get((u, v), float('inf'))\n    \n    def get_all_edges(self):\n        \"\"\"Get all edges for algorithms like Bellman-Ford\"\"\"\n        return [(u, v, weight) for (u, v), weight in self.edges.items()]\n\n# Example usage and comparison\ndef compare_representations():\n    \"\"\"Compare different graph representations\"\"\"\n    import time\n    import random\n    \n    # Create graphs with same structure\n    num_vertices = 1000\n    num_edges = 5000\n    \n    # Test adjacency matrix\n    start_time = time.time()\n    matrix_graph = GraphMatrix(num_vertices)\n    \n    # Add random edges\n    edges = [(random.randint(0, num_vertices-1), random.randint(0, num_vertices-1)) for _ in range(num_edges)]\n    \n    for u, v in edges:\n        matrix_graph.add_edge(u, v)\n    \n    matrix_time = time.time() - start_time\n    \n    # Test adjacency list\n    start_time = time.time()\n    list_graph = GraphList(num_vertices)\n    \n    for u, v in edges:\n        list_graph.add_edge(u, v)\n    \n    list_time = time.time() - start_time\n    \n    print(f\"Matrix creation time: {matrix_time:.4f}s\")\n    print(f\"List creation time: {list_time:.4f}s\")\n    \n    # Test edge lookup performance\n    test_edges = edges[:100]\n    \n    # Matrix lookup\n    start_time = time.time()\n    for u, v in test_edges:\n        matrix_graph.has_edge(u, v)\n    matrix_lookup_time = time.time() - start_time\n    \n    # List lookup\n    start_time = time.time()\n    for u, v in test_edges:\n        list_graph.has_edge(u, v)\n    list_lookup_time = time.time() - start_time\n    \n    print(f\"Matrix lookup time: {matrix_lookup_time:.6f}s\")\n    print(f\"List lookup time: {list_lookup_time:.6f}s\")\n\nif __name__ == \"__main__\":\n    # Simple example\n    print(\"Adjacency Matrix Representation:\")\n    graph_matrix = GraphMatrix(5)\n    graph_matrix.add_edge(0, 1)\n    graph_matrix.add_edge(0, 4)\n    graph_matrix.add_edge(1, 2)\n    graph_matrix.add_edge(1, 3)\n    graph_matrix.add_edge(1, 4)\n    graph_matrix.add_edge(2, 3)\n    graph_matrix.add_edge(3, 4)\n    graph_matrix.display()\n    \n    print(\"\\nAdjacency List Representation:\")\n    graph_list = GraphList(5)\n    graph_list.add_edge(0, 1)\n    graph_list.add_edge(0, 4)\n    graph_list.add_edge(1, 2)\n    graph_list.add_edge(1, 3)\n    graph_list.add_edge(1, 4)\n    graph_list.add_edge(2, 3)\n    graph_list.add_edge(3, 4)\n    graph_list.display()\n    \n    print(\"\\nPerformance Comparison:\")\n    compare_representations()"
+          }
+        },
+        "exercises": [
+          {
+            "id": "graph-rep-ex-001",
+            "title": "Graph Conversion",
+            "description": "Convert between different graph representations",
+            "type": "coding",
+            "problems": [
+              {
+                "title": "Matrix to List Conversion",
+                "description": "Write a function to convert adjacency matrix to adjacency list",
+                "difficulty": "intermediate"
+              },
+              {
+                "title": "Edge List to Matrix",
+                "description": "Convert list of edges to adjacency matrix representation",
+                "difficulty": "beginner"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dfs-algorithm",
+        "title": "Depth-First Search (DFS)",
+        "description": "Recursive graph traversal exploring as far as possible before backtracking",
+        "order": 2,
+        "difficulty": "intermediate",
+        "estimatedMinutes": 90,
+        "learningObjectives": [
+          "Implement recursive and iterative DFS",
+          "Understand DFS applications and properties",
+          "Analyze DFS time and space complexity",
+          "Apply DFS to solve connectivity problems"
+        ],
+        "content": {
+          "theory": {
+            "algorithm": "Explores graph by going as deep as possible before backtracking",
+            "properties": [
+              "Visits each vertex exactly once",
+              "Uses implicit stack (recursion) or explicit stack",
+              "Produces DFS tree/forest",
+              "Can detect cycles in directed graphs"
+            ],
+            "complexity": {
+              "time": "O(V + E) where V = vertices, E = edges",
+              "space": "O(V) for visited array and recursion stack"
+            },
+            "applications": [
+              "Cycle detection",
+              "Topological sorting",
+              "Connected components",
+              "Path finding",
+              "Maze solving"
+            ]
+          },
+          "implementation": {
+            "language": "python",
+            "code": "from collections import defaultdict\n\nclass DFSGraph:\n    def __init__(self, vertices):\n        self.V = vertices\n        self.graph = defaultdict(list)\n    \n    def add_edge(self, u, v):\n        \"\"\"Add edge to graph\"\"\"\n        self.graph[u].append(v)\n    \n    def dfs_recursive(self, start_vertex, visited=None):\n        \"\"\"\n        Recursive DFS implementation\n        Time: O(V + E), Space: O(V)\n        \"\"\"\n        if visited is None:\n            visited = set()\n        \n        # Mark current vertex as visited\n        visited.add(start_vertex)\n        print(f\"Visiting: {start_vertex}\")\n        \n        # Recursively visit all unvisited neighbors\n        for neighbor in self.graph[start_vertex]:\n            if neighbor not in visited:\n                self.dfs_recursive(neighbor, visited)\n        \n        return visited\n    \n    def dfs_iterative(self, start_vertex):\n        \"\"\"\n        Iterative DFS using explicit stack\n        Time: O(V + E), Space: O(V)\n        \"\"\"\n        visited = set()\n        stack = [start_vertex]\n        \n        while stack:\n            vertex = stack.pop()\n            \n            if vertex not in visited:\n                visited.add(vertex)\n                print(f\"Visiting: {vertex}\")\n                \n                # Add neighbors to stack (reverse order for same traversal as recursive)\n                for neighbor in reversed(self.graph[vertex]):\n                    if neighbor not in visited:\n                        stack.append(neighbor)\n        \n        return visited\n    \n    def dfs_with_timestamps(self, start_vertex):\n        \"\"\"\n        DFS with discovery and finish timestamps\n        Useful for cycle detection and topological sorting\n        \"\"\"\n        visited = set()\n        discovery_time = {}\n        finish_time = {}\n        time = [0]  # Use list to make it mutable in nested function\n        \n        def dfs_visit(vertex):\n            time[0] += 1\n            discovery_time[vertex] = time[0]\n            visited.add(vertex)\n            print(f\"Discovered {vertex} at time {time[0]}\")\n            \n            for neighbor in self.graph[vertex]:\n                if neighbor not in visited:\n                    dfs_visit(neighbor)\n            \n            time[0] += 1\n            finish_time[vertex] = time[0]\n            print(f\"Finished {vertex} at time {time[0]}\")\n        \n        dfs_visit(start_vertex)\n        return discovery_time, finish_time\n    \n    def find_connected_components(self):\n        \"\"\"\n        Find all connected components in undirected graph\n        \"\"\"\n        visited = set()\n        components = []\n        \n        for vertex in range(self.V):\n            if vertex not in visited:\n                component = []\n                self._dfs_component(vertex, visited, component)\n                components.append(component)\n        \n        return components\n    \n    def _dfs_component(self, vertex, visited, component):\n        \"\"\"Helper function to find vertices in current component\"\"\"\n        visited.add(vertex)\n        component.append(vertex)\n        \n        for neighbor in self.graph[vertex]:\n            if neighbor not in visited:\n                self._dfs_component(neighbor, visited, component)\n    \n    def has_cycle_directed(self):\n        \"\"\"\n        Detect cycle in directed graph using DFS\n        Uses three colors: white (unvisited), gray (processing), black (finished)\n        \"\"\"\n        WHITE, GRAY, BLACK = 0, 1, 2\n        color = [WHITE] * self.V\n        \n        def has_cycle_util(vertex):\n            color[vertex] = GRAY  # Mark as processing\n            \n            for neighbor in self.graph[vertex]:\n                if color[neighbor] == GRAY:  # Back edge found - cycle detected\n                    return True\n                elif color[neighbor] == WHITE and has_cycle_util(neighbor):\n                    return True\n            \n            color[vertex] = BLACK  # Mark as finished\n            return False\n        \n        # Check each unvisited vertex\n        for vertex in range(self.V):\n            if color[vertex] == WHITE:\n                if has_cycle_util(vertex):\n                    return True\n        \n        return False\n    \n    def topological_sort(self):\n        \"\"\"\n        Topological sorting using DFS\n        Only works for Directed Acyclic Graphs (DAGs)\n        \"\"\"\n        if self.has_cycle_directed():\n            return None  # Cannot topologically sort graph with cycles\n        \n        visited = [False] * self.V\n        stack = []\n        \n        def topological_sort_util(vertex):\n            visited[vertex] = True\n            \n            # Visit all neighbors first\n            for neighbor in self.graph[vertex]:\n                if not visited[neighbor]:\n                    topological_sort_util(neighbor)\n            \n            # Add current vertex to stack after visiting all neighbors\n            stack.append(vertex)\n        \n        # Perform DFS from all unvisited vertices\n        for vertex in range(self.V):\n            if not visited[vertex]:\n                topological_sort_util(vertex)\n        \n        # Return vertices in topologically sorted order\n        return stack[::-1]\n    \n    def find_path(self, start, end):\n        \"\"\"\n        Find path between two vertices using DFS\n        Returns path if exists, None otherwise\n        \"\"\"\n        visited = set()\n        path = []\n        \n        def find_path_util(current, target, current_path):\n            visited.add(current)\n            current_path.append(current)\n            \n            if current == target:\n                return True\n            \n            for neighbor in self.graph[current]:\n                if neighbor not in visited:\n                    if find_path_util(neighbor, target, current_path):\n                        return True\n            \n            current_path.pop()  # Backtrack\n            return False\n        \n        if find_path_util(start, end, path):\n            return path\n        return None\n\n# Applications and examples\ndef maze_solver():\n    \"\"\"\n    Example: Using DFS to solve a maze\n    \"\"\"\n    class MazeSolver:\n        def __init__(self, maze):\n            self.maze = maze\n            self.rows = len(maze)\n            self.cols = len(maze[0])\n            self.directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # right, down, left, up\n        \n        def is_valid(self, row, col, visited):\n            \"\"\"Check if cell is valid and unvisited\"\"\"\n            return (0 <= row < self.rows and \n                    0 <= col < self.cols and \n                    self.maze[row][col] == 0 and \n                    (row, col) not in visited)\n        \n        def solve(self, start, end):\n            \"\"\"Solve maze using DFS\"\"\"\n            visited = set()\n            path = []\n            \n            def dfs_maze(row, col, target_row, target_col):\n                visited.add((row, col))\n                path.append((row, col))\n                \n                # Check if we reached the target\n                if row == target_row and col == target_col:\n                    return True\n                \n                # Explore all four directions\n                for dr, dc in self.directions:\n                    new_row, new_col = row + dr, col + dc\n                    \n                    if self.is_valid(new_row, new_col, visited):\n                        if dfs_maze(new_row, new_col, target_row, target_col):\n                            return True\n                \n                path.pop()  # Backtrack\n                return False\n            \n            start_row, start_col = start\n            end_row, end_col = end\n            \n            if dfs_maze(start_row, start_col, end_row, end_col):\n                return path\n            return None\n    \n    # Example maze (0 = path, 1 = wall)\n    maze = [\n        [0, 1, 0, 0, 0],\n        [0, 1, 0, 1, 0],\n        [0, 0, 0, 1, 0],\n        [0, 1, 1, 1, 0],\n        [0, 0, 0, 0, 0]\n    ]\n    \n    solver = MazeSolver(maze)\n    path = solver.solve((0, 0), (4, 4))\n    \n    if path:\n        print(\"Path found:\", path)\n    else:\n        print(\"No path exists\")\n\n# Example usage\nif __name__ == \"__main__\":\n    # Create and test DFS graph\n    g = DFSGraph(6)\n    g.add_edge(0, 1)\n    g.add_edge(0, 2)\n    g.add_edge(1, 3)\n    g.add_edge(2, 4)\n    g.add_edge(3, 5)\n    g.add_edge(4, 5)\n    \n    print(\"Recursive DFS:\")\n    g.dfs_recursive(0)\n    \n    print(\"\\nIterative DFS:\")\n    g.dfs_iterative(0)\n    \n    print(\"\\nDFS with timestamps:\")\n    discovery, finish = g.dfs_with_timestamps(0)\n    \n    print(\"\\nTopological Sort:\")\n    topo_order = g.topological_sort()\n    if topo_order:\n        print(\"Topological order:\", topo_order)\n    \n    print(\"\\nMaze solving example:\")\n    maze_solver()"
+          }
+        },
+        "exercises": [
+          {
+            "id": "dfs-ex-001",
+            "title": "DFS Applications",
+            "description": "Implement DFS-based algorithms",
+            "type": "coding",
+            "problems": [
+              {
+                "title": "Islands Counter",
+                "description": "Count number of islands in 2D grid using DFS",
+                "difficulty": "intermediate"
+              },
+              {
+                "title": "Course Schedule",
+                "description": "Determine if courses can be completed given prerequisites (cycle detection)",
+                "difficulty": "intermediate"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "bfs-algorithm",
+        "title": "Breadth-First Search (BFS)",
+        "description": "Level-by-level graph traversal using queue data structure",
+        "order": 3,
+        "difficulty": "intermediate",
+        "estimatedMinutes": 75,
+        "content": {
+          "theory": {
+            "algorithm": "Explores graph level by level, visiting all neighbors before moving to next level",
+            "properties": [
+              "Uses queue data structure",
+              "Finds shortest path in unweighted graphs",
+              "Visits vertices in order of distance from source",
+              "Good for finding minimum spanning tree"
+            ],
+            "complexity": {
+              "time": "O(V + E)",
+              "space": "O(V) for queue and visited array"
+            }
+          }
+        }
+      },
+      {
+        "id": "dijkstra-algorithm",
+        "title": "Dijkstra's Shortest Path Algorithm",
+        "description": "Find shortest paths from single source to all vertices in weighted graph",
+        "order": 4,
+        "difficulty": "advanced",
+        "estimatedMinutes": 105,
+        "content": {
+          "theory": {
+            "algorithm": "Greedy algorithm that maintains shortest distances and relaxes edges",
+            "requirements": ["Non-negative edge weights", "Connected graph"],
+            "complexity": {
+              "time": "O((V + E) log V) with binary heap",
+              "space": "O(V)"
+            }
+          }
+        }
+      },
+      {
+        "id": "bellman-ford",
+        "title": "Bellman-Ford Algorithm",
+        "description": "Single-source shortest path algorithm that handles negative weights",
+        "order": 5,
+        "difficulty": "advanced",
+        "estimatedMinutes": 90,
+        "content": {
+          "theory": {
+            "algorithm": "Dynamic programming approach that relaxes all edges V-1 times",
+            "advantages": ["Handles negative weights", "Detects negative cycles"],
+            "complexity": {
+              "time": "O(VE)",
+              "space": "O(V)"
+            }
+          }
+        }
+      },
+      {
+        "id": "floyd-warshall",
+        "title": "Floyd-Warshall Algorithm",
+        "description": "All-pairs shortest path algorithm using dynamic programming",
+        "order": 6,
+        "difficulty": "advanced",
+        "estimatedMinutes": 75,
+        "content": {
+          "theory": {
+            "algorithm": "Considers all vertices as intermediate points to find shortest paths",
+            "complexity": {
+              "time": "O(V³)",
+              "space": "O(V²)"
+            }
+          }
+        }
+      },
+      {
+        "id": "mst-algorithms",
+        "title": "Minimum Spanning Tree Algorithms",
+        "description": "Kruskal's and Prim's algorithms for finding minimum spanning trees",
+        "order": 7,
+        "difficulty": "advanced",
+        "estimatedMinutes": 105,
+        "content": {
+          "theory": {
+            "minimumSpanningTree": "Subgraph that connects all vertices with minimum total edge weight",
+            "applications": ["Network design", "Clustering", "Circuit design"],
+            "algorithms": {
+              "kruskals": {
+                "approach": "Edge-based greedy algorithm",
+                "dataStructure": "Union-Find/Disjoint Set",
+                "complexity": "O(E log E)"
+              },
+              "prims": {
+                "approach": "Vertex-based greedy algorithm",
+                "dataStructure": "Priority queue",
+                "complexity": "O(E log V)"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "graph-coloring",
+        "title": "Graph Coloring",
+        "description": "Assign colors to vertices such that no adjacent vertices have same color",
+        "order": 8,
+        "difficulty": "advanced",
+        "estimatedMinutes": 60,
+        "content": {
+          "theory": {
+            "problem": "NP-hard problem with many practical applications",
+            "applications": ["Map coloring", "Register allocation", "Scheduling"],
+            "approaches": ["Greedy coloring", "Backtracking", "Heuristic methods"]
+          }
+        }
+      }
+    ],
+    "practiceProblems": [
+      {
+        "id": "graph-prob-001",
+        "title": "Social Network Analysis",
+        "description": "Use graph algorithms to analyze social network connections",
+        "difficulty": "intermediate",
+        "applications": ["Find mutual friends", "Suggest connections", "Detect communities"]
+      },
+      {
+        "id": "graph-prob-002",
+        "title": "Navigation System",
+        "description": "Implement GPS-like shortest path finding",
+        "difficulty": "advanced",
+        "applications": ["Route planning", "Traffic optimization", "Alternative paths"]
+      },
+      {
+        "id": "graph-prob-003",
+        "title": "Dependency Resolution",
+        "description": "Solve package dependency conflicts using topological sorting",
+        "difficulty": "intermediate",
+        "applications": ["Package managers", "Build systems", "Task scheduling"]
+      }
+    ],
+    "assessments": [
+      {
+        "id": "graph-quiz-basic",
+        "title": "Basic Graph Concepts",
+        "type": "quiz",
+        "questions": [
+          {
+            "id": "q1",
+            "question": "What is the time complexity of DFS for a graph with V vertices and E edges?",
+            "type": "multiple-choice",
+            "options": ["O(V)", "O(E)", "O(V + E)", "O(V * E)"],
+            "correct": 2,
+            "explanation": "DFS visits each vertex once O(V) and examines each edge once O(E)"
+          },
+          {
+            "id": "q2",
+            "question": "Which algorithm is best for finding shortest path in unweighted graph?",
+            "type": "multiple-choice",
+            "options": ["DFS", "BFS", "Dijkstra's", "Bellman-Ford"],
+            "correct": 1,
+            "explanation": "BFS finds shortest path in unweighted graphs in O(V + E) time"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "visualization",
+        "title": "Graph Algorithm Visualizations",
+        "url": "https://visualgo.net/en/graphds"
+      },
+      {
+        "type": "interactive",
+        "title": "Graph Theory Playground",
+        "url": "https://csacademy.com/app/graph_editor/"
+      },
+      {
+        "type": "reference",
+        "title": "Graph Algorithms Cheat Sheet",
+        "description": "Quick reference for common graph algorithms and their complexities"
+      }
+    ]
+  }
+}

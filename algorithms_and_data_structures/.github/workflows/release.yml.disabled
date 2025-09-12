@@ -1,0 +1,545 @@
+name: Release and Distribution
+
+on:
+  push:
+    tags:
+      - 'v*'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Release type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+      create_release:
+        description: 'Create GitHub release'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '18'
+
+jobs:
+  # Version Management
+  version:
+    name: Determine Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+      is_prerelease: ${{ steps.version.outputs.is_prerelease }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install version tools
+        run: |
+          pip install bump2version setuptools-scm[toml]
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref_type }}" == "tag" ]]; then
+            # Release from tag
+            VERSION=${GITHUB_REF#refs/tags/v}
+            TAG=${GITHUB_REF#refs/tags/}
+            IS_PRERELEASE=false
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # Manual release
+            CURRENT_VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version())")
+            if [[ "${{ github.event.inputs.release_type }}" == "major" ]]; then
+              NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{printf "%d.0.0", $1+1}')
+            elif [[ "${{ github.event.inputs.release_type }}" == "minor" ]]; then
+              NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{printf "%d.%d.0", $1, $2+1}')
+            else
+              NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{printf "%d.%d.%d", $1, $2, $3+1}')
+            fi
+            VERSION=$NEW_VERSION
+            TAG="v$NEW_VERSION"
+            IS_PRERELEASE=false
+          else
+            # Development build
+            VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version())")
+            TAG="dev-$(date +'%Y%m%d-%H%M%S')"
+            IS_PRERELEASE=true
+          fi
+          
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+          
+          echo "Version: $VERSION"
+          echo "Tag: $TAG" 
+          echo "Pre-release: $IS_PRERELEASE"
+
+  # Quality Gates
+  quality:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Lint with flake8
+        run: |
+          flake8 src/ tests/ scripts/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src/ tests/ scripts/ --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
+
+      - name: Type check with mypy
+        run: mypy src/ --ignore-missing-imports
+
+      - name: Format check with black
+        run: black --check src/ tests/ scripts/
+
+      - name: Import sort check
+        run: isort --check-only src/ tests/ scripts/
+
+      - name: Security scan with bandit
+        run: bandit -r src/ -f json -o bandit-report.json || true
+
+      - name: Dependency vulnerability check
+        run: safety check --json --output safety-report.json || true
+
+      - name: Run tests with coverage
+        run: |
+          pytest tests/ \
+            --cov=src \
+            --cov-report=xml \
+            --cov-report=html \
+            --cov-report=term \
+            --cov-fail-under=80 \
+            --junitxml=pytest-report.xml
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-${{ matrix.python-version }}
+
+  # Cross-platform Testing
+  test-installers:
+    name: Test Installation Scripts
+    needs: [version]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            installer: install.sh
+            shell: bash
+          - os: windows-latest  
+            installer: install.ps1
+            shell: pwsh
+          - os: macos-latest
+            installer: install.sh  
+            shell: bash
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Test installer (Unix)
+        if: matrix.os != 'windows-latest'
+        run: |
+          chmod +x ${{ matrix.installer }}
+          # Test dry run (would need modifications to installers for this)
+          echo "Testing installer syntax..."
+          bash -n ${{ matrix.installer }}
+
+      - name: Test installer (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          # Test PowerShell syntax
+          powershell -NoProfile -NonInteractive -Command "& { Get-Command -Syntax .\${{ matrix.installer }} }"
+
+      - name: Test Python setup
+        run: |
+          python scripts/setup.py --help
+
+      - name: Test quickstart wizard
+        run: |
+          # Test non-interactive mode (would need modifications)
+          python scripts/quickstart.py --help || echo "Quickstart requires interactive mode"
+
+  # Build Distribution Packages
+  build:
+    name: Build Distributions
+    needs: [version, quality]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install build tools
+        run: |
+          pip install build wheel setuptools-scm[toml] twine
+
+      - name: Build source and wheel distributions
+        env:
+          SETUPTOOLS_SCM_PRETEND_VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          python -m build
+
+      - name: Verify distributions
+        run: |
+          twine check dist/*
+          
+      - name: List distribution contents
+        run: |
+          echo "Built distributions:"
+          ls -la dist/
+          
+          echo "Wheel contents:"
+          python -m zipfile -l dist/*.whl
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: distributions
+          path: dist/
+
+  # Create Installation Archives
+  package-installers:
+    name: Package Installation Scripts
+    needs: [version, test-installers]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create installation package
+        run: |
+          mkdir -p release-package
+          
+          # Copy installation scripts
+          cp install.sh install.ps1 release-package/
+          cp -r scripts/ release-package/
+          cp README.md LICENSE release-package/ 2>/dev/null || true
+          
+          # Create installer info
+          cat > release-package/INSTALL.md << 'EOF'
+          # Installation Guide
+          
+          ## Quick Install
+          
+          ### Unix/Linux/macOS
+          ```bash
+          curl -sSL https://github.com/${{ github.repository }}/releases/latest/download/install.sh | bash
+          ```
+          
+          ### Windows PowerShell
+          ```powershell
+          Invoke-WebRequest -Uri "https://github.com/${{ github.repository }}/releases/latest/download/install.ps1" | Invoke-Expression
+          ```
+          
+          ## Manual Installation
+          
+          ### Unix/Linux/macOS
+          1. Download `install.sh`
+          2. Make executable: `chmod +x install.sh`
+          3. Run: `./install.sh`
+          4. For development: `./install.sh --dev`
+          
+          ### Windows
+          1. Download `install.ps1`
+          2. Open PowerShell as Administrator
+          3. Run: `powershell -ExecutionPolicy Bypass -File install.ps1`
+          4. For development: Add `-Dev` flag
+          
+          ## Python Setup
+          
+          ### Direct Python Installation
+          ```bash
+          python scripts/setup.py --dev
+          ```
+          
+          ### Interactive Quickstart
+          ```bash
+          python scripts/quickstart.py
+          ```
+          
+          ## Verification
+          
+          After installation, verify with:
+          ```bash
+          algorithms-cli --version
+          algorithms-cli help
+          ```
+          
+          ## Uninstallation
+          
+          Run the generated uninstaller:
+          - Unix/Linux/macOS: `algorithms-cli-uninstall`
+          - Windows: `algorithms-cli-uninstall.bat`
+          EOF
+          
+          # Create version info
+          echo "VERSION=${{ needs.version.outputs.version }}" > release-package/VERSION
+          echo "TAG=${{ needs.version.outputs.tag }}" >> release-package/VERSION
+          echo "BUILT=$(date -Iseconds)" >> release-package/VERSION
+          
+          # Create archive
+          tar -czf algorithms-cli-installers-${{ needs.version.outputs.version }}.tar.gz -C release-package .
+          zip -r algorithms-cli-installers-${{ needs.version.outputs.version }}.zip release-package/
+
+      - name: Upload installer packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: installer-packages
+          path: |
+            *.tar.gz
+            *.zip
+
+  # Create GitHub Release
+  release:
+    name: Create GitHub Release
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.create_release == 'true'
+    needs: [version, build, package-installers]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts/
+
+      - name: Prepare release assets
+        run: |
+          mkdir -p release-assets
+          
+          # Copy distribution packages
+          cp artifacts/distributions/* release-assets/ 2>/dev/null || true
+          
+          # Copy installer packages
+          cp artifacts/installer-packages/* release-assets/ 2>/dev/null || true
+          
+          # Copy individual installer files for direct download
+          cp install.sh release-assets/
+          cp install.ps1 release-assets/
+          
+          ls -la release-assets/
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          cat > release_notes.md << 'EOF'
+          ## 🚀 Algorithms & Data Structures CLI ${{ needs.version.outputs.version }}
+          
+          ### Quick Installation
+          
+          **Unix/Linux/macOS:**
+          ```bash
+          curl -sSL https://github.com/${{ github.repository }}/releases/latest/download/install.sh | bash
+          ```
+          
+          **Windows PowerShell:**
+          ```powershell
+          iwr "https://github.com/${{ github.repository }}/releases/latest/download/install.ps1" | iex
+          ```
+          
+          ### What's New
+          
+          - 🔧 Enhanced installation scripts with better error handling
+          - 🎯 Interactive quickstart wizard for new users
+          - 🐍 Improved Python environment management  
+          - 📦 Cross-platform distribution packages
+          - ⚡ Claude Flow integration for SPARC methodology
+          - 🧪 Comprehensive test suite with 80%+ coverage
+          
+          ### Installation Options
+          
+          1. **Quick Install** (recommended): Use the commands above
+          2. **Manual Install**: Download `install.sh` or `install.ps1` and run
+          3. **Python Setup**: Download and run `python scripts/setup.py`
+          4. **Development Mode**: Add `--dev` flag to any installer
+          
+          ### Distribution Files
+          
+          - `algorithms-cli-*.whl`: Python wheel package
+          - `algorithms-cli-*.tar.gz`: Source distribution
+          - `algorithms-cli-installers-*.tar.gz`: Complete installer package (Unix)
+          - `algorithms-cli-installers-*.zip`: Complete installer package (Windows)
+          - `install.sh`: Unix/Linux/macOS installer
+          - `install.ps1`: Windows PowerShell installer
+          
+          ### Requirements
+          
+          - Python 3.8+
+          - Git (recommended)
+          - Node.js 16+ (for Claude Flow features)
+          
+          ### Getting Started
+          
+          After installation:
+          1. Run `algorithms-cli --version` to verify
+          2. Use `python scripts/quickstart.py` for guided setup
+          3. Create your first project: `algorithms-cli init my-algorithms`
+          4. Try SPARC workflow: `algorithms-cli sparc tdd "implement binary search"`
+          
+          ### Support
+          
+          - 📖 Documentation: [README](https://github.com/${{ github.repository }})
+          - 🐛 Issues: [GitHub Issues](https://github.com/${{ github.repository }}/issues)
+          - 💬 Discussions: [GitHub Discussions](https://github.com/${{ github.repository }}/discussions)
+          EOF
+          
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          cat release_notes.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.version.outputs.tag }}
+          name: "Release ${{ needs.version.outputs.version }}"
+          body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
+          prerelease: ${{ needs.version.outputs.is_prerelease }}
+          files: |
+            release-assets/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Publish to PyPI
+  publish-pypi:
+    name: Publish to PyPI
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [version, build, quality]
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v3
+        with:
+          name: distributions
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+          print-hash: true
+
+  # Update Documentation
+  docs:
+    name: Update Documentation
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [version, release]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install documentation dependencies
+        run: |
+          pip install sphinx sphinx-rtd-theme myst-parser
+
+      - name: Build documentation
+        run: |
+          # Create docs if not exists
+          if [ ! -d "docs" ]; then
+            mkdir -p docs
+            echo "# Documentation" > docs/index.md
+            echo "Documentation site coming soon!" >> docs/index.md
+          fi
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          commit_message: "docs: update documentation for ${{ needs.version.outputs.version }}"
+
+  # Notification and Cleanup
+  notify:
+    name: Post-Release Notifications
+    if: always()
+    needs: [version, release, publish-pypi]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify success
+        if: needs.release.result == 'success'
+        run: |
+          echo "✅ Release ${{ needs.version.outputs.version }} completed successfully!"
+          echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/${{ needs.version.outputs.tag }}"
+
+      - name: Notify failure
+        if: needs.release.result == 'failure'
+        run: |
+          echo "❌ Release ${{ needs.version.outputs.version }} failed!"
+          echo "Check the workflow logs for details."
+
+      - name: Store release info in memory
+        if: needs.release.result == 'success'
+        run: |
+          # This would be used by Claude Flow if available
+          echo "Release ${{ needs.version.outputs.version }} completed" || true
+
+# Security: Dependabot and CodeQL will run automatically
+# Additional security scans can be added in separate workflows

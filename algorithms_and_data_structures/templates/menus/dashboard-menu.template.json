@@ -1,0 +1,611 @@
+{
+  "name": "Dashboard Navigation Menu",
+  "version": "1.0.0",
+  "description": "Professional dashboard-style menu template with widgets and quick actions",
+  "theme": "dashboard",
+  "type": "dashboard",
+  "settings": {
+    "searchable": true,
+    "showIcons": true,
+    "showShortcuts": true,
+    "animationsEnabled": true,
+    "maxDisplayItems": 15,
+    "gridLayout": true,
+    "responsiveColumns": true,
+    "showWidgets": true,
+    "allowCustomization": true
+  },
+  "layout": {
+    "type": "grid",
+    "columns": {
+      "desktop": 4,
+      "tablet": 3,
+      "mobile": 2
+    },
+    "spacing": "medium",
+    "cardStyle": "elevated"
+  },
+  "items": [
+    {
+      "id": "overview-widget",
+      "label": "Overview",
+      "description": "System overview and key metrics",
+      "icon": "📊",
+      "category": "core",
+      "priority": 10,
+      "size": "large",
+      "position": { "row": 1, "col": 1, "colspan": 2 },
+      "accessibility": {
+        "ariaLabel": "System overview dashboard widget",
+        "role": "region",
+        "keyboardShortcut": "Ctrl+1"
+      },
+      "widget": {
+        "type": "metrics",
+        "refreshInterval": 30000,
+        "data": {
+          "metrics": [
+            {
+              "label": "Active Users",
+              "value": "1,247",
+              "change": "+12%",
+              "trend": "up",
+              "icon": "👥"
+            },
+            {
+              "label": "Revenue",
+              "value": "$45,892",
+              "change": "+8.3%",
+              "trend": "up",
+              "icon": "💰"
+            },
+            {
+              "label": "Conversion Rate",
+              "value": "3.4%",
+              "change": "-0.2%",
+              "trend": "down",
+              "icon": "📈"
+            },
+            {
+              "label": "Support Tickets",
+              "value": "23",
+              "change": "-15%",
+              "trend": "up",
+              "icon": "🎫"
+            }
+          ]
+        }
+      },
+      "action": "showOverviewDashboard"
+    },
+    {
+      "id": "quick-actions",
+      "label": "Quick Actions",
+      "description": "Frequently used actions and shortcuts",
+      "icon": "⚡",
+      "category": "actions",
+      "priority": 9,
+      "size": "medium",
+      "position": { "row": 1, "col": 3 },
+      "accessibility": {
+        "ariaLabel": "Quick actions panel",
+        "keyboardShortcut": "Ctrl+Q"
+      },
+      "widget": {
+        "type": "actions",
+        "layout": "grid",
+        "actions": [
+          {
+            "id": "new-user",
+            "label": "Add User",
+            "icon": "👤",
+            "shortcut": "Ctrl+N",
+            "color": "blue",
+            "action": "addNewUser"
+          },
+          {
+            "id": "generate-report",
+            "label": "Generate Report",
+            "icon": "📄",
+            "shortcut": "Ctrl+R",
+            "color": "green",
+            "action": "generateReport"
+          },
+          {
+            "id": "send-notification",
+            "label": "Send Alert",
+            "icon": "📢",
+            "shortcut": "Ctrl+A",
+            "color": "orange",
+            "action": "sendNotification"
+          },
+          {
+            "id": "backup-data",
+            "label": "Backup",
+            "icon": "💾",
+            "shortcut": "Ctrl+B",
+            "color": "purple",
+            "action": "initiateBackup"
+          }
+        ]
+      },
+      "action": "showQuickActions"
+    },
+    {
+      "id": "notifications",
+      "label": "Notifications",
+      "description": "Recent alerts and system messages",
+      "icon": "🔔",
+      "category": "alerts",
+      "priority": 8,
+      "size": "medium",
+      "position": { "row": 1, "col": 4 },
+      "accessibility": {
+        "ariaLabel": "Notifications and alerts panel",
+        "keyboardShortcut": "Ctrl+2"
+      },
+      "widget": {
+        "type": "notifications",
+        "maxItems": 5,
+        "autoRefresh": true,
+        "showBadge": true,
+        "data": {
+          "unreadCount": 3,
+          "items": [
+            {
+              "id": "notif-1",
+              "type": "warning",
+              "title": "Server Load High",
+              "message": "CPU usage at 85%",
+              "timestamp": "2 minutes ago",
+              "read": false,
+              "action": "viewServerMetrics"
+            },
+            {
+              "id": "notif-2",
+              "type": "info",
+              "title": "Backup Complete",
+              "message": "Daily backup finished successfully",
+              "timestamp": "1 hour ago",
+              "read": false,
+              "action": "viewBackupDetails"
+            },
+            {
+              "id": "notif-3",
+              "type": "success",
+              "title": "New User Registered",
+              "message": "john.doe@example.com joined",
+              "timestamp": "2 hours ago",
+              "read": false,
+              "action": "viewUserProfile"
+            }
+          ]
+        }
+      },
+      "action": "showNotifications"
+    },
+    {
+      "id": "analytics",
+      "label": "Analytics",
+      "description": "Data insights and performance metrics",
+      "icon": "📈",
+      "category": "data",
+      "priority": 9,
+      "size": "large",
+      "position": { "row": 2, "col": 1, "colspan": 2 },
+      "accessibility": {
+        "ariaLabel": "Analytics and insights dashboard",
+        "keyboardShortcut": "Ctrl+3"
+      },
+      "widget": {
+        "type": "chart",
+        "chartType": "line",
+        "refreshInterval": 60000,
+        "data": {
+          "title": "User Activity (Last 7 Days)",
+          "datasets": [
+            {
+              "label": "Active Users",
+              "data": [1200, 1350, 1180, 1420, 1380, 1250, 1400],
+              "color": "#3b82f6"
+            },
+            {
+              "label": "New Registrations",
+              "data": [45, 52, 38, 61, 48, 43, 67],
+              "color": "#10b981"
+            }
+          ],
+          "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        }
+      },
+      "submenu": [
+        {
+          "id": "user-analytics",
+          "label": "User Analytics",
+          "description": "Detailed user behavior analysis",
+          "icon": "👥",
+          "action": "showUserAnalytics"
+        },
+        {
+          "id": "performance-metrics",
+          "label": "Performance Metrics",
+          "description": "System performance indicators",
+          "icon": "⚡",
+          "action": "showPerformanceMetrics"
+        },
+        {
+          "id": "revenue-analysis",
+          "label": "Revenue Analysis",
+          "description": "Financial performance tracking",
+          "icon": "💰",
+          "action": "showRevenueAnalysis"
+        }
+      ],
+      "action": "showAnalyticsDashboard"
+    },
+    {
+      "id": "user-management",
+      "label": "User Management",
+      "description": "Manage users, roles, and permissions",
+      "icon": "👥",
+      "category": "management",
+      "priority": 8,
+      "size": "medium",
+      "position": { "row": 2, "col": 3 },
+      "accessibility": {
+        "ariaLabel": "User management panel",
+        "keyboardShortcut": "Ctrl+U"
+      },
+      "widget": {
+        "type": "list",
+        "showSearch": true,
+        "showFilters": true,
+        "data": {
+          "totalUsers": 1247,
+          "activeUsers": 1089,
+          "recentUsers": [
+            {
+              "id": "user-1",
+              "name": "Alice Johnson",
+              "email": "alice@example.com",
+              "role": "Admin",
+              "status": "active",
+              "lastSeen": "2 minutes ago",
+              "avatar": "👩‍💼"
+            },
+            {
+              "id": "user-2",
+              "name": "Bob Smith",
+              "email": "bob@example.com",
+              "role": "User",
+              "status": "active",
+              "lastSeen": "15 minutes ago",
+              "avatar": "👨‍💻"
+            },
+            {
+              "id": "user-3",
+              "name": "Carol Davis",
+              "email": "carol@example.com",
+              "role": "Manager",
+              "status": "away",
+              "lastSeen": "1 hour ago",
+              "avatar": "👩‍🏫"
+            }
+          ]
+        }
+      },
+      "submenu": [
+        {
+          "id": "add-user",
+          "label": "Add New User",
+          "icon": "➕",
+          "action": "addUser"
+        },
+        {
+          "id": "manage-roles",
+          "label": "Manage Roles",
+          "icon": "🎭",
+          "action": "manageRoles"
+        },
+        {
+          "id": "bulk-actions",
+          "label": "Bulk Actions",
+          "icon": "⚡",
+          "action": "showBulkActions"
+        }
+      ],
+      "action": "showUserManagement"
+    },
+    {
+      "id": "system-health",
+      "label": "System Health",
+      "description": "Monitor system status and performance",
+      "icon": "🏥",
+      "category": "monitoring",
+      "priority": 7,
+      "size": "medium",
+      "position": { "row": 2, "col": 4 },
+      "accessibility": {
+        "ariaLabel": "System health monitoring panel",
+        "keyboardShortcut": "Ctrl+H"
+      },
+      "widget": {
+        "type": "status",
+        "autoRefresh": true,
+        "refreshInterval": 15000,
+        "data": {
+          "overallStatus": "healthy",
+          "components": [
+            {
+              "name": "Database",
+              "status": "healthy",
+              "uptime": "99.9%",
+              "responseTime": "12ms",
+              "icon": "🗄️"
+            },
+            {
+              "name": "API Server",
+              "status": "healthy",
+              "uptime": "99.8%",
+              "responseTime": "45ms",
+              "icon": "🌐"
+            },
+            {
+              "name": "Cache",
+              "status": "warning",
+              "uptime": "98.2%",
+              "responseTime": "8ms",
+              "icon": "💾"
+            },
+            {
+              "name": "Background Jobs",
+              "status": "healthy",
+              "uptime": "100%",
+              "responseTime": "N/A",
+              "icon": "⚙️"
+            }
+          ]
+        }
+      },
+      "action": "showSystemHealth"
+    },
+    {
+      "id": "recent-activity",
+      "label": "Recent Activity",
+      "description": "Latest system activities and user actions",
+      "icon": "📝",
+      "category": "activity",
+      "priority": 6,
+      "size": "large",
+      "position": { "row": 3, "col": 1, "colspan": 2 },
+      "accessibility": {
+        "ariaLabel": "Recent activity feed",
+        "keyboardShortcut": "Ctrl+4"
+      },
+      "widget": {
+        "type": "activity-feed",
+        "maxItems": 8,
+        "showTimestamps": true,
+        "showAvatars": true,
+        "data": {
+          "activities": [
+            {
+              "id": "act-1",
+              "user": "Alice Johnson",
+              "action": "created",
+              "target": "user account for john.doe@example.com",
+              "timestamp": "5 minutes ago",
+              "type": "user-management",
+              "avatar": "👩‍💼"
+            },
+            {
+              "id": "act-2",
+              "user": "System",
+              "action": "completed",
+              "target": "daily backup process",
+              "timestamp": "1 hour ago",
+              "type": "system",
+              "avatar": "🤖"
+            },
+            {
+              "id": "act-3",
+              "user": "Bob Smith",
+              "action": "updated",
+              "target": "analytics dashboard configuration",
+              "timestamp": "2 hours ago",
+              "type": "configuration",
+              "avatar": "👨‍💻"
+            },
+            {
+              "id": "act-4",
+              "user": "Carol Davis",
+              "action": "generated",
+              "target": "monthly performance report",
+              "timestamp": "3 hours ago",
+              "type": "reporting",
+              "avatar": "👩‍🏫"
+            }
+          ]
+        }
+      },
+      "action": "showRecentActivity"
+    },
+    {
+      "id": "settings",
+      "label": "Settings",
+      "description": "System configuration and preferences",
+      "icon": "⚙️",
+      "category": "configuration",
+      "priority": 5,
+      "size": "medium",
+      "position": { "row": 3, "col": 3 },
+      "accessibility": {
+        "ariaLabel": "System settings and configuration",
+        "keyboardShortcut": "Ctrl+S"
+      },
+      "submenu": [
+        {
+          "id": "general-settings",
+          "label": "General Settings",
+          "description": "Basic system configuration",
+          "icon": "🔧",
+          "action": "showGeneralSettings"
+        },
+        {
+          "id": "security-settings",
+          "label": "Security Settings",
+          "description": "Authentication and security options",
+          "icon": "🔒",
+          "action": "showSecuritySettings"
+        },
+        {
+          "id": "notification-settings",
+          "label": "Notifications",
+          "description": "Configure alerts and notifications",
+          "icon": "📢",
+          "action": "showNotificationSettings"
+        },
+        {
+          "id": "integration-settings",
+          "label": "Integrations",
+          "description": "Third-party service integrations",
+          "icon": "🔗",
+          "action": "showIntegrationSettings"
+        },
+        {
+          "id": "backup-settings",
+          "label": "Backup & Recovery",
+          "description": "Data backup configuration",
+          "icon": "💾",
+          "action": "showBackupSettings"
+        }
+      ],
+      "action": "showSettings"
+    },
+    {
+      "id": "help-support",
+      "label": "Help & Support",
+      "description": "Documentation, tutorials, and support",
+      "icon": "❓",
+      "category": "support",
+      "priority": 4,
+      "size": "medium",
+      "position": { "row": 3, "col": 4 },
+      "accessibility": {
+        "ariaLabel": "Help and support resources",
+        "keyboardShortcut": "F1"
+      },
+      "widget": {
+        "type": "help",
+        "showSearch": true,
+        "data": {
+          "popularTopics": [
+            {
+              "title": "Getting Started Guide",
+              "views": 1250,
+              "icon": "🚀",
+              "action": "showGettingStarted"
+            },
+            {
+              "title": "User Management",
+              "views": 890,
+              "icon": "👥",
+              "action": "showUserManagementHelp"
+            },
+            {
+              "title": "API Documentation",
+              "views": 675,
+              "icon": "📚",
+              "action": "showAPIDocumentation"
+            }
+          ],
+          "supportStats": {
+            "avgResponseTime": "2.5 hours",
+            "ticketsToday": 12,
+            "satisfaction": "98.5%"
+          }
+        }
+      },
+      "submenu": [
+        {
+          "id": "documentation",
+          "label": "Documentation",
+          "icon": "📚",
+          "action": "showDocumentation"
+        },
+        {
+          "id": "video-tutorials",
+          "label": "Video Tutorials",
+          "icon": "🎥",
+          "action": "showVideoTutorials"
+        },
+        {
+          "id": "contact-support",
+          "label": "Contact Support",
+          "icon": "💬",
+          "action": "contactSupport"
+        },
+        {
+          "id": "system-status",
+          "label": "System Status",
+          "icon": "🟢",
+          "action": "showSystemStatus"
+        }
+      ],
+      "action": "showHelpSupport"
+    }
+  ],
+  "customization": {
+    "allowReorder": true,
+    "allowResize": true,
+    "allowHide": true,
+    "savedLayouts": [],
+    "themes": {
+      "light": {
+        "background": "#ffffff",
+        "cardBackground": "#f8fafc",
+        "text": "#1f2937",
+        "border": "#e5e7eb"
+      },
+      "dark": {
+        "background": "#111827",
+        "cardBackground": "#1f2937",
+        "text": "#f9fafb",
+        "border": "#374151"
+      }
+    }
+  },
+  "shortcuts": [
+    {
+      "key": "Ctrl+/",
+      "action": "toggleSearch",
+      "description": "Toggle search"
+    },
+    {
+      "key": "Ctrl+K",
+      "action": "openCommandPalette",
+      "description": "Open command palette"
+    },
+    {
+      "key": "Alt+1",
+      "action": "focusFirstWidget",
+      "description": "Focus first widget"
+    },
+    {
+      "key": "Tab",
+      "action": "navigateWidgets",
+      "description": "Navigate between widgets"
+    }
+  ],
+  "metadata": {
+    "created": "2025-01-12T20:00:00Z",
+    "author": "Menu Builder CLI",
+    "tags": ["dashboard", "admin", "widgets", "analytics", "management"],
+    "version": "1.0.0",
+    "compatibility": {
+      "minVersion": "1.0.0",
+      "platforms": ["web", "desktop"],
+      "responsive": true
+    }
+  }
+}

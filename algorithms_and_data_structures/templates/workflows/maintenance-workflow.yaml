@@ -1,0 +1,679 @@
+name: System Maintenance Workflow
+version: "1.0.0"
+description: Comprehensive system maintenance including cleanup, updates, monitoring, and health checks
+variables:
+  maintenanceWindow: "02:00-04:00"
+  logRetentionDays: 30
+  backupRetentionDays: 90
+  diskUsageThreshold: 85
+  memoryUsageThreshold: 80
+  cpuUsageThreshold: 85
+  alertChannel: "#maintenance"
+
+triggers:
+  - type: cron
+    config:
+      schedule: "0 2 * * 0"  # Every Sunday at 2 AM
+      timezone: "UTC"
+      variables:
+        maintenanceType: "weekly"
+        
+  - type: cron
+    config:
+      schedule: "0 3 1 * *"  # First day of every month at 3 AM
+      timezone: "UTC"
+      variables:
+        maintenanceType: "monthly"
+
+tasks:
+  # 1. Pre-maintenance checks
+  - id: pre-maintenance-checks
+    name: Pre-Maintenance System Checks
+    type: shell:exec
+    config:
+      command: |
+        echo "Starting pre-maintenance system checks..."
+        
+        # Check system resources
+        DISK_USAGE=$(df / | tail -1 | awk '{print $5}' | sed 's/%//')
+        MEMORY_USAGE=$(free | grep Mem | awk '{printf "%.0f", $3/$2 * 100.0}')
+        CPU_LOAD=$(uptime | awk -F'load average:' '{print $2}' | awk '{print $1}' | sed 's/,//')
+        
+        echo "System Status:"
+        echo "- Disk Usage: ${DISK_USAGE}%"
+        echo "- Memory Usage: ${MEMORY_USAGE}%"
+        echo "- CPU Load: ${CPU_LOAD}"
+        
+        # Check critical services
+        systemctl is-active docker || echo "Warning: Docker not running"
+        systemctl is-active nginx || echo "Warning: Nginx not running"
+        
+        # Check database connectivity
+        if command -v psql &> /dev/null; then
+          pg_isready -h localhost || echo "Warning: PostgreSQL not responding"
+        fi
+        
+        # Store metrics for later comparison
+        echo "DISK_USAGE=$DISK_USAGE" >> pre_maintenance_metrics.env
+        echo "MEMORY_USAGE=$MEMORY_USAGE" >> pre_maintenance_metrics.env
+        echo "CPU_LOAD=$CPU_LOAD" >> pre_maintenance_metrics.env
+        
+        echo "Pre-maintenance checks completed ✓"
+    timeout: 180000
+
+  # 2. Create maintenance backup
+  - id: create-maintenance-backup
+    name: Create Maintenance Backup
+    type: shell:exec
+    config:
+      command: |
+        echo "Creating maintenance backup..."
+        
+        BACKUP_DIR="maintenance-backups/$(date +%Y%m%d_%H%M%S)"
+        mkdir -p "$BACKUP_DIR"
+        
+        # Backup configuration files
+        tar -czf "$BACKUP_DIR/configs.tar.gz" /etc/nginx /etc/ssl /app/config 2>/dev/null || true
+        
+        # Backup databases
+        if command -v pg_dumpall &> /dev/null; then
+          pg_dumpall > "$BACKUP_DIR/databases.sql"
+        fi
+        
+        # Backup application data
+        if [ -d "/var/lib/app/data" ]; then
+          tar -czf "$BACKUP_DIR/app_data.tar.gz" /var/lib/app/data
+        fi
+        
+        # Create backup manifest
+        cat << EOF > "$BACKUP_DIR/manifest.json"
+        {
+          "timestamp": "$(date -Iseconds)",
+          "type": "maintenance",
+          "retention_days": {{backupRetentionDays}},
+          "files": $(ls -la "$BACKUP_DIR" | wc -l)
+        }
+        EOF
+        
+        echo "BACKUP_DIR=$BACKUP_DIR" >> maintenance_vars.env
+        echo "Maintenance backup created at $BACKUP_DIR ✓"
+    dependsOn: ["pre-maintenance-checks"]
+    timeout: 1800000  # 30 minutes
+
+  # 3. Log cleanup
+  - id: cleanup-logs
+    name: Clean Up Old Logs
+    type: shell:exec
+    config:
+      command: |
+        echo "Cleaning up old log files..."
+        
+        CLEANED_SIZE=0
+        
+        # Application logs
+        find /var/log/app -name "*.log" -mtime +{{logRetentionDays}} -type f -exec du -k {} + | awk '{sum += $1} END {print sum}' | read size
+        CLEANED_SIZE=$((CLEANED_SIZE + ${size:-0}))
+        find /var/log/app -name "*.log" -mtime +{{logRetentionDays}} -type f -delete
+        
+        # System logs (be careful with these)
+        find /var/log -name "*.log.*" -mtime +{{logRetentionDays}} -type f -exec du -k {} + | awk '{sum += $1} END {print sum}' | read size
+        CLEANED_SIZE=$((CLEANED_SIZE + ${size:-0}))
+        find /var/log -name "*.log.*" -mtime +{{logRetentionDays}} -type f -delete
+        
+        # Nginx logs
+        find /var/log/nginx -name "*.log.*" -mtime +{{logRetentionDays}} -type f -exec du -k {} + | awk '{sum += $1} END {print sum}' | read size
+        CLEANED_SIZE=$((CLEANED_SIZE + ${size:-0}))
+        find /var/log/nginx -name "*.log.*" -mtime +{{logRetentionDays}} -type f -delete
+        
+        # Docker logs
+        docker system prune -f --volumes --filter "until=720h" || true
+        
+        echo "LOG_CLEANUP_SIZE=${CLEANED_SIZE}KB" >> maintenance_vars.env
+        echo "Log cleanup completed - freed ${CLEANED_SIZE}KB ✓"
+    dependsOn: ["create-maintenance-backup"]
+    timeout: 600000
+
+  # 4. Temporary file cleanup
+  - id: cleanup-temp-files
+    name: Clean Up Temporary Files
+    type: shell:exec
+    config:
+      command: |
+        echo "Cleaning up temporary files..."
+        
+        TEMP_CLEANUP_SIZE=0
+        
+        # System temp files
+        find /tmp -type f -mtime +7 -exec du -k {} + | awk '{sum += $1} END {print sum}' | read size
+        TEMP_CLEANUP_SIZE=$((TEMP_CLEANUP_SIZE + ${size:-0}))
+        find /tmp -type f -mtime +7 -delete 2>/dev/null || true
+        
+        # Application temp files
+        find /var/tmp -type f -mtime +7 -exec du -k {} + | awk '{sum += $1} END {print sum}' | read size
+        TEMP_CLEANUP_SIZE=$((TEMP_CLEANUP_SIZE + ${size:-0}))
+        find /var/tmp -type f -mtime +7 -delete 2>/dev/null || true
+        
+        # Node.js cache
+        npm cache clean --force 2>/dev/null || true
+        
+        # Package manager caches
+        apt-get clean 2>/dev/null || true
+        yum clean all 2>/dev/null || true
+        
+        echo "TEMP_CLEANUP_SIZE=${TEMP_CLEANUP_SIZE}KB" >> maintenance_vars.env
+        echo "Temporary file cleanup completed - freed ${TEMP_CLEANUP_SIZE}KB ✓"
+    dependsOn: ["create-maintenance-backup"]
+    parallel: true
+    timeout: 300000
+
+  # 5. Database maintenance
+  - id: database-maintenance
+    name: Database Maintenance
+    type: shell:exec
+    config:
+      command: |
+        echo "Starting database maintenance..."
+        
+        if command -v psql &> /dev/null; then
+          # PostgreSQL maintenance
+          echo "Running PostgreSQL maintenance..."
+          
+          # Vacuum and analyze all databases
+          psql -c "VACUUM ANALYZE;" 2>/dev/null || true
+          
+          # Update statistics
+          psql -c "ANALYZE;" 2>/dev/null || true
+          
+          # Check for bloated tables
+          psql -c "
+            SELECT schemaname, tablename, 
+                   pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as size
+            FROM pg_tables 
+            WHERE schemaname NOT IN ('information_schema', 'pg_catalog')
+            ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC
+            LIMIT 10;
+          " || true
+          
+          # Reindex if needed (monthly only)
+          if [ "{{maintenanceType}}" = "monthly" ]; then
+            echo "Running monthly database reindex..."
+            psql -c "REINDEX DATABASE $(psql -t -c 'SELECT current_database();');" 2>/dev/null || true
+          fi
+          
+          echo "PostgreSQL maintenance completed ✓"
+        fi
+        
+        if command -v mysql &> /dev/null; then
+          # MySQL maintenance
+          echo "Running MySQL maintenance..."
+          
+          # Optimize tables
+          mysql -e "
+            SELECT CONCAT('OPTIMIZE TABLE ', table_schema, '.', table_name, ';') 
+            FROM information_schema.tables 
+            WHERE table_schema NOT IN ('information_schema', 'performance_schema', 'mysql', 'sys')
+          " | grep -v CONCAT | mysql || true
+          
+          echo "MySQL maintenance completed ✓"
+        fi
+        
+        echo "Database maintenance completed ✓"
+    dependsOn: ["create-maintenance-backup"]
+    parallel: true
+    timeout: 3600000  # 1 hour
+
+  # 6. System updates (monthly only)
+  - id: system-updates
+    name: System Updates
+    type: shell:exec
+    config:
+      command: |
+        if [ "{{maintenanceType}}" != "monthly" ]; then
+          echo "Skipping system updates (not monthly maintenance)"
+          exit 0
+        fi
+        
+        echo "Starting system updates..."
+        
+        # Update package lists
+        if command -v apt-get &> /dev/null; then
+          apt-get update -y
+          
+          # List available updates
+          apt list --upgradable > available_updates.txt 2>/dev/null || true
+          UPDATE_COUNT=$(wc -l < available_updates.txt)
+          
+          # Install security updates only
+          apt-get -y upgrade -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold"
+          
+          # Clean up
+          apt-get autoremove -y
+          apt-get autoclean
+          
+        elif command -v yum &> /dev/null; then
+          yum check-update > available_updates.txt || true
+          UPDATE_COUNT=$(wc -l < available_updates.txt)
+          
+          # Install security updates only
+          yum update -y --security
+          
+          # Clean up
+          yum autoremove -y
+          yum clean all
+        fi
+        
+        echo "SYSTEM_UPDATES=$UPDATE_COUNT" >> maintenance_vars.env
+        echo "System updates completed - $UPDATE_COUNT updates applied ✓"
+    dependsOn: ["create-maintenance-backup"]
+    condition:
+      expression: "maintenanceType === 'monthly'"
+    timeout: 3600000  # 1 hour
+
+  # 7. SSL certificate check
+  - id: ssl-certificate-check
+    name: SSL Certificate Check
+    type: shell:exec
+    config:
+      command: |
+        echo "Checking SSL certificates..."
+        
+        CERT_WARNINGS=""
+        
+        # Check certificates for main domains
+        for domain in "example.com" "api.example.com" "www.example.com"; do
+          echo "Checking certificate for $domain..."
+          
+          EXPIRY=$(echo | openssl s_client -connect $domain:443 -servername $domain 2>/dev/null | openssl x509 -noout -dates | grep notAfter | cut -d= -f2)
+          
+          if [ -n "$EXPIRY" ]; then
+            EXPIRY_EPOCH=$(date -d "$EXPIRY" +%s)
+            NOW_EPOCH=$(date +%s)
+            DAYS_LEFT=$(( (EXPIRY_EPOCH - NOW_EPOCH) / 86400 ))
+            
+            echo "Certificate for $domain expires in $DAYS_LEFT days"
+            
+            if [ $DAYS_LEFT -lt 30 ]; then
+              CERT_WARNINGS="$CERT_WARNINGS\n- $domain expires in $DAYS_LEFT days"
+            fi
+          else
+            CERT_WARNINGS="$CERT_WARNINGS\n- Failed to check $domain certificate"
+          fi
+        done
+        
+        if [ -n "$CERT_WARNINGS" ]; then
+          echo "CERT_WARNINGS=$CERT_WARNINGS" >> maintenance_vars.env
+          echo "Certificate warnings found:$CERT_WARNINGS"
+        else
+          echo "All certificates are valid ✓"
+        fi
+    dependsOn: ["create-maintenance-backup"]
+    parallel: true
+    timeout: 300000
+
+  # 8. Backup cleanup
+  - id: cleanup-old-backups
+    name: Clean Up Old Backups
+    type: shell:exec
+    config:
+      command: |
+        echo "Cleaning up old backups..."
+        
+        BACKUP_CLEANUP_SIZE=0
+        
+        # Clean up old maintenance backups
+        find maintenance-backups -type d -mtime +{{backupRetentionDays}} -exec du -sk {} + | awk '{sum += $1} END {print sum}' | read size
+        BACKUP_CLEANUP_SIZE=$((BACKUP_CLEANUP_SIZE + ${size:-0}))
+        find maintenance-backups -type d -mtime +{{backupRetentionDays}} -exec rm -rf {} + 2>/dev/null || true
+        
+        # Clean up old database backups
+        find db-backups -name "*.sql" -mtime +{{backupRetentionDays}} -exec du -k {} + | awk '{sum += $1} END {print sum}' | read size
+        BACKUP_CLEANUP_SIZE=$((BACKUP_CLEANUP_SIZE + ${size:-0}))
+        find db-backups -name "*.sql" -mtime +{{backupRetentionDays}} -delete 2>/dev/null || true
+        
+        # Clean up old log backups
+        find log-backups -name "*.tar.gz" -mtime +{{backupRetentionDays}} -exec du -k {} + | awk '{sum += $1} END {print sum}' | read size
+        BACKUP_CLEANUP_SIZE=$((BACKUP_CLEANUP_SIZE + ${size:-0}))
+        find log-backups -name "*.tar.gz" -mtime +{{backupRetentionDays}} -delete 2>/dev/null || true
+        
+        echo "BACKUP_CLEANUP_SIZE=${BACKUP_CLEANUP_SIZE}KB" >> maintenance_vars.env
+        echo "Backup cleanup completed - freed ${BACKUP_CLEANUP_SIZE}KB ✓"
+    dependsOn: ["database-maintenance"]
+    timeout: 600000
+
+  # 9. Security scans
+  - id: security-scans
+    name: Security Scans
+    type: shell:exec
+    config:
+      command: |
+        echo "Running security scans..."
+        
+        SECURITY_ISSUES=""
+        
+        # Check for failed login attempts
+        FAILED_LOGINS=$(grep "Failed password" /var/log/auth.log 2>/dev/null | wc -l || echo 0)
+        if [ $FAILED_LOGINS -gt 100 ]; then
+          SECURITY_ISSUES="$SECURITY_ISSUES\n- High number of failed login attempts: $FAILED_LOGINS"
+        fi
+        
+        # Check for listening services
+        netstat -tlnp | grep LISTEN > listening_services.txt
+        
+        # Check for world-writable files
+        WORLD_WRITABLE=$(find /home /var /opt -type f -perm -002 2>/dev/null | wc -l || echo 0)
+        if [ $WORLD_WRITABLE -gt 0 ]; then
+          SECURITY_ISSUES="$SECURITY_ISSUES\n- World-writable files found: $WORLD_WRITABLE"
+        fi
+        
+        # Check for SUID files
+        find /usr /bin /sbin -perm -4000 -type f > suid_files.txt 2>/dev/null || true
+        
+        # Run basic vulnerability scan
+        if command -v nmap &> /dev/null; then
+          nmap -sV localhost > vulnerability_scan.txt 2>&1 || true
+        fi
+        
+        if [ -n "$SECURITY_ISSUES" ]; then
+          echo "SECURITY_ISSUES=$SECURITY_ISSUES" >> maintenance_vars.env
+          echo "Security issues found:$SECURITY_ISSUES"
+        else
+          echo "No security issues detected ✓"
+        fi
+    dependsOn: ["create-maintenance-backup"]
+    parallel: true
+    timeout: 900000
+
+  # 10. Performance monitoring
+  - id: performance-monitoring
+    name: Performance Monitoring
+    type: shell:exec
+    config:
+      command: |
+        echo "Running performance monitoring..."
+        
+        # CPU and memory monitoring
+        echo "=== System Performance ===" > performance_report.txt
+        echo "Date: $(date)" >> performance_report.txt
+        echo "" >> performance_report.txt
+        
+        # Current resource usage
+        echo "Current Resource Usage:" >> performance_report.txt
+        free -h >> performance_report.txt
+        echo "" >> performance_report.txt
+        df -h >> performance_report.txt
+        echo "" >> performance_report.txt
+        
+        # Process information
+        echo "Top processes by CPU:" >> performance_report.txt
+        ps aux --sort=-pcpu | head -10 >> performance_report.txt
+        echo "" >> performance_report.txt
+        
+        echo "Top processes by Memory:" >> performance_report.txt
+        ps aux --sort=-pmem | head -10 >> performance_report.txt
+        echo "" >> performance_report.txt
+        
+        # Network statistics
+        echo "Network Statistics:" >> performance_report.txt
+        netstat -i >> performance_report.txt
+        echo "" >> performance_report.txt
+        
+        # Disk I/O statistics
+        if command -v iostat &> /dev/null; then
+          echo "Disk I/O Statistics:" >> performance_report.txt
+          iostat -x 1 5 >> performance_report.txt
+        fi
+        
+        # Check for performance thresholds
+        DISK_USAGE=$(df / | tail -1 | awk '{print $5}' | sed 's/%//')
+        MEMORY_USAGE=$(free | grep Mem | awk '{printf "%.0f", $3/$2 * 100.0}')
+        
+        PERFORMANCE_ALERTS=""
+        if [ $DISK_USAGE -gt {{diskUsageThreshold}} ]; then
+          PERFORMANCE_ALERTS="$PERFORMANCE_ALERTS\n- Disk usage high: ${DISK_USAGE}%"
+        fi
+        if [ $MEMORY_USAGE -gt {{memoryUsageThreshold}} ]; then
+          PERFORMANCE_ALERTS="$PERFORMANCE_ALERTS\n- Memory usage high: ${MEMORY_USAGE}%"
+        fi
+        
+        echo "PERFORMANCE_ALERTS=$PERFORMANCE_ALERTS" >> maintenance_vars.env
+        echo "Performance monitoring completed ✓"
+    dependsOn: ["cleanup-logs", "cleanup-temp-files", "database-maintenance"]
+    timeout: 300000
+
+  # 11. Service health checks
+  - id: service-health-checks
+    name: Service Health Checks
+    type: shell:exec
+    config:
+      command: |
+        echo "Running service health checks..."
+        
+        UNHEALTHY_SERVICES=""
+        
+        # Check critical services
+        SERVICES=("nginx" "docker" "postgresql" "redis")
+        
+        for service in "${SERVICES[@]}"; do
+          if systemctl is-active --quiet $service; then
+            echo "$service: ✅ Running"
+          else
+            echo "$service: ❌ Not running"
+            UNHEALTHY_SERVICES="$UNHEALTHY_SERVICES\n- $service is not running"
+          fi
+        done
+        
+        # Check application endpoints
+        ENDPOINTS=("http://localhost/health" "http://localhost/api/status")
+        
+        for endpoint in "${ENDPOINTS[@]}"; do
+          if curl -f -s $endpoint > /dev/null; then
+            echo "$endpoint: ✅ Responding"
+          else
+            echo "$endpoint: ❌ Not responding"
+            UNHEALTHY_SERVICES="$UNHEALTHY_SERVICES\n- $endpoint is not responding"
+          fi
+        done
+        
+        # Check database connections
+        if command -v pg_isready &> /dev/null; then
+          if pg_isready -h localhost; then
+            echo "PostgreSQL: ✅ Ready"
+          else
+            echo "PostgreSQL: ❌ Not ready"
+            UNHEALTHY_SERVICES="$UNHEALTHY_SERVICES\n- PostgreSQL is not ready"
+          fi
+        fi
+        
+        echo "UNHEALTHY_SERVICES=$UNHEALTHY_SERVICES" >> maintenance_vars.env
+        
+        if [ -n "$UNHEALTHY_SERVICES" ]; then
+          echo "Unhealthy services found:$UNHEALTHY_SERVICES"
+        else
+          echo "All services are healthy ✓"
+        fi
+    dependsOn: ["performance-monitoring"]
+    timeout: 300000
+
+  # 12. Generate maintenance report
+  - id: generate-maintenance-report
+    name: Generate Maintenance Report
+    type: data:transform
+    config:
+      data:
+        timestamp: "{{new Date().toISOString()}}"
+        maintenanceType: "{{maintenanceType}}"
+        window: "{{maintenanceWindow}}"
+        duration: "{{(Date.now() - WORKFLOW_START_TIME) / 1000}}s"
+        cleanupResults:
+          logsCleaned: "{{LOG_CLEANUP_SIZE || '0'}}KB"
+          tempFilesCleaned: "{{TEMP_CLEANUP_SIZE || '0'}}KB"  
+          backupsCleaned: "{{BACKUP_CLEANUP_SIZE || '0'}}KB"
+        systemUpdates: "{{SYSTEM_UPDATES || '0'}}"
+        backupLocation: "{{BACKUP_DIR || 'N/A'}}"
+        securityIssues: "{{SECURITY_ISSUES || 'None'}}"
+        performanceAlerts: "{{PERFORMANCE_ALERTS || 'None'}}"
+        unhealthyServices: "{{UNHEALTHY_SERVICES || 'None'}}"
+        certificateWarnings: "{{CERT_WARNINGS || 'None'}}"
+      expression: |
+        const report = {
+          ...data,
+          summary: {
+            totalSpaceFreed: (
+              parseInt(data.cleanupResults.logsCleaned) + 
+              parseInt(data.cleanupResults.tempFilesCleaned) + 
+              parseInt(data.cleanupResults.backupsCleaned)
+            ) + "KB",
+            issuesFound: [
+              data.securityIssues !== 'None' ? 'Security' : null,
+              data.performanceAlerts !== 'None' ? 'Performance' : null,
+              data.unhealthyServices !== 'None' ? 'Service Health' : null,
+              data.certificateWarnings !== 'None' ? 'SSL Certificates' : null
+            ].filter(Boolean),
+            overallStatus: (
+              data.securityIssues === 'None' &&
+              data.performanceAlerts === 'None' &&
+              data.unhealthyServices === 'None'
+            ) ? 'Healthy' : 'Attention Required'
+          }
+        };
+        JSON.stringify(report, null, 2)
+    dependsOn: ["service-health-checks", "security-scans", "ssl-certificate-check", "cleanup-old-backups"]
+
+  # 13. Save maintenance report
+  - id: save-maintenance-report
+    name: Save Maintenance Report
+    type: file:write
+    config:
+      path: "maintenance-reports/maintenance-{{maintenanceType}}-$(date +%Y%m%d).json"
+      content: "{{generate-maintenance-report.result}}"
+    dependsOn: ["generate-maintenance-report"]
+
+  # 14. Post-maintenance verification
+  - id: post-maintenance-verification
+    name: Post-Maintenance Verification
+    type: shell:exec
+    config:
+      command: |
+        echo "Running post-maintenance verification..."
+        
+        # Compare system metrics
+        source pre_maintenance_metrics.env
+        source maintenance_vars.env
+        
+        # Current metrics
+        CURRENT_DISK_USAGE=$(df / | tail -1 | awk '{print $5}' | sed 's/%//')
+        CURRENT_MEMORY_USAGE=$(free | grep Mem | awk '{printf "%.0f", $3/$2 * 100.0}')
+        
+        echo "=== Maintenance Impact ===" > maintenance_impact.txt
+        echo "Disk Usage: $DISK_USAGE% -> $CURRENT_DISK_USAGE%" >> maintenance_impact.txt
+        echo "Memory Usage: $MEMORY_USAGE% -> $CURRENT_MEMORY_USAGE%" >> maintenance_impact.txt
+        echo "Space Freed: $(( (LOG_CLEANUP_SIZE + TEMP_CLEANUP_SIZE + BACKUP_CLEANUP_SIZE) ))KB" >> maintenance_impact.txt
+        
+        # Verify critical services are still running
+        systemctl is-active nginx docker postgresql redis > /dev/null && echo "All critical services verified ✓" || echo "Warning: Some services may need attention"
+        
+        # Quick health check
+        curl -f http://localhost/health > /dev/null && echo "Application health check passed ✓" || echo "Warning: Application health check failed"
+        
+        echo "Post-maintenance verification completed ✓"
+    dependsOn: ["save-maintenance-report"]
+    timeout: 120000
+
+# Success handlers
+onSuccess:
+  - id: notify-maintenance-success
+    name: Notify Maintenance Success
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      data:
+        channel: "{{alertChannel}}"
+        text: |
+          ✅ {{maintenanceType | title}} maintenance completed successfully!
+          
+          **Summary:**
+          • Duration: {{(Date.now() - WORKFLOW_START_TIME) / 1000}}s
+          • Maintenance Type: {{maintenanceType}}
+          • Window: {{maintenanceWindow}}
+          
+          **Cleanup Results:**
+          • Logs cleaned: {{LOG_CLEANUP_SIZE || '0'}}KB
+          • Temp files: {{TEMP_CLEANUP_SIZE || '0'}}KB  
+          • Old backups: {{BACKUP_CLEANUP_SIZE || '0'}}KB
+          • Total space freed: {{(LOG_CLEANUP_SIZE + TEMP_CLEANUP_SIZE + BACKUP_CLEANUP_SIZE) || 0}}KB
+          
+          **System Status:**
+          • Database: ✅ Optimized
+          • Security: {{SECURITY_ISSUES ? '⚠️ Issues found' : '✅ No issues'}}
+          • Performance: {{PERFORMANCE_ALERTS ? '⚠️ Alerts' : '✅ Normal'}}
+          • Services: {{UNHEALTHY_SERVICES ? '❌ Issues' : '✅ Healthy'}}
+          • SSL Certificates: {{CERT_WARNINGS ? '⚠️ Expiring soon' : '✅ Valid'}}
+          
+          System maintenance completed successfully! 🧹
+        username: "Maintenance Bot"
+        icon_emoji: ":wrench:"
+
+  - id: schedule-next-maintenance
+    name: Schedule Next Maintenance
+    type: data:transform
+    config:
+      data:
+        currentMaintenance: "{{maintenanceType}}"
+        completedAt: "{{new Date().toISOString()}}"
+        nextWeekly: "{{new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()}}"
+        nextMonthly: "{{new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1, 3, 0, 0).toISOString()}}"
+        status: "scheduled"
+      expression: "JSON.stringify(data, null, 2)"
+
+# Failure handlers  
+onFailure:
+  - id: notify-maintenance-failure
+    name: Notify Maintenance Failure
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      data:
+        channel: "{{alertChannel}}"
+        text: |
+          ❌ {{maintenanceType | title}} maintenance failed!
+          
+          **Details:**
+          • Failed at: {{FAILED_TASK || 'Unknown'}}
+          • Duration: {{(Date.now() - WORKFLOW_START_TIME) / 1000}}s
+          • Maintenance Type: {{maintenanceType}}
+          
+          **Immediate Actions:**
+          1. Check system status
+          2. Verify critical services
+          3. Review maintenance logs
+          4. Consider manual intervention
+          
+          @oncall Maintenance failure requires attention!
+        username: "Maintenance Bot"
+        icon_emoji: ":warning:"
+
+  - id: emergency-health-check
+    name: Emergency Health Check
+    type: shell:exec
+    config:
+      command: |
+        echo "Running emergency health check after maintenance failure..."
+        
+        # Check critical services immediately
+        systemctl status nginx docker postgresql redis || true
+        
+        # Quick application check
+        curl -f http://localhost/health || echo "Application health check failed"
+        
+        # Check system resources
+        df -h
+        free -h
+        
+        echo "Emergency health check completed"
+    continueOnError: true
+
+# No rollback for maintenance - manual intervention required
+timeout: 14400000  # 4 hours total timeout
+retries: 0

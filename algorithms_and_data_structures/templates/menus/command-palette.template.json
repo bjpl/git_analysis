@@ -1,0 +1,562 @@
+{
+  "name": "Command Palette Menu",
+  "version": "1.0.0",
+  "description": "VS Code style command palette with fuzzy search and keyboard-first navigation",
+  "theme": "command-palette",
+  "type": "command-palette",
+  "settings": {
+    "searchable": true,
+    "showIcons": true,
+    "showShortcuts": true,
+    "animationsEnabled": true,
+    "maxDisplayItems": 50,
+    "fuzzySearch": true,
+    "instantSearch": true,
+    "showCategories": true,
+    "keyboardFirst": true,
+    "showRecent": true,
+    "showPopular": true
+  },
+  "search": {
+    "placeholder": "Type a command or search...",
+    "fuzzyMatch": true,
+    "highlightMatches": true,
+    "searchFields": ["label", "description", "keywords", "category"],
+    "maxResults": 50,
+    "groupByCategory": true,
+    "showResultCount": true
+  },
+  "keyboard": {
+    "trigger": "Ctrl+Shift+P",
+    "alternativeTrigger": "F1",
+    "navigation": {
+      "up": "ArrowUp",
+      "down": "ArrowDown",
+      "select": "Enter",
+      "escape": "Escape",
+      "tab": "Tab"
+    },
+    "quickSelect": {
+      "enabled": true,
+      "keys": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    }
+  },
+  "categories": [
+    {
+      "id": "file",
+      "label": "File Operations",
+      "icon": "📁",
+      "color": "#3b82f6",
+      "priority": 10
+    },
+    {
+      "id": "edit",
+      "label": "Edit Commands",
+      "icon": "✏️",
+      "color": "#10b981",
+      "priority": 9
+    },
+    {
+      "id": "view",
+      "label": "View Controls",
+      "icon": "👁️",
+      "color": "#8b5cf6",
+      "priority": 8
+    },
+    {
+      "id": "search",
+      "label": "Search & Replace",
+      "icon": "🔍",
+      "color": "#f59e0b",
+      "priority": 7
+    },
+    {
+      "id": "debug",
+      "label": "Debug & Run",
+      "icon": "🐛",
+      "color": "#ef4444",
+      "priority": 6
+    },
+    {
+      "id": "git",
+      "label": "Source Control",
+      "icon": "🌿",
+      "color": "#06b6d4",
+      "priority": 5
+    },
+    {
+      "id": "terminal",
+      "label": "Terminal",
+      "icon": "💻",
+      "color": "#374151",
+      "priority": 4
+    },
+    {
+      "id": "settings",
+      "label": "Settings",
+      "icon": "⚙️",
+      "color": "#6b7280",
+      "priority": 3
+    },
+    {
+      "id": "extensions",
+      "label": "Extensions",
+      "icon": "🧩",
+      "color": "#ec4899",
+      "priority": 2
+    },
+    {
+      "id": "help",
+      "label": "Help",
+      "icon": "❓",
+      "color": "#84cc16",
+      "priority": 1
+    }
+  ],
+  "items": [
+    {
+      "id": "file-new",
+      "label": "New File",
+      "description": "Create a new empty file",
+      "icon": "📄",
+      "category": "file",
+      "keywords": ["create", "new", "document"],
+      "shortcut": "Ctrl+N",
+      "popularity": 95,
+      "action": "file.new",
+      "accessibility": {
+        "ariaLabel": "Create new file"
+      }
+    },
+    {
+      "id": "file-open",
+      "label": "Open File...",
+      "description": "Open an existing file",
+      "icon": "📂",
+      "category": "file",
+      "keywords": ["open", "browse", "select"],
+      "shortcut": "Ctrl+O",
+      "popularity": 90,
+      "action": "file.open"
+    },
+    {
+      "id": "file-save",
+      "label": "Save",
+      "description": "Save the current file",
+      "icon": "💾",
+      "category": "file",
+      "keywords": ["save", "store"],
+      "shortcut": "Ctrl+S",
+      "popularity": 98,
+      "action": "file.save"
+    },
+    {
+      "id": "file-save-as",
+      "label": "Save As...",
+      "description": "Save with a new name or location",
+      "icon": "💾",
+      "category": "file",
+      "keywords": ["save as", "rename", "copy"],
+      "shortcut": "Ctrl+Shift+S",
+      "popularity": 75,
+      "action": "file.saveAs"
+    },
+    {
+      "id": "edit-undo",
+      "label": "Undo",
+      "description": "Undo the last action",
+      "icon": "↶",
+      "category": "edit",
+      "keywords": ["undo", "revert"],
+      "shortcut": "Ctrl+Z",
+      "popularity": 88,
+      "action": "edit.undo"
+    },
+    {
+      "id": "edit-redo",
+      "label": "Redo",
+      "description": "Redo the last undone action",
+      "icon": "↷",
+      "category": "edit",
+      "keywords": ["redo", "repeat"],
+      "shortcut": "Ctrl+Y",
+      "popularity": 82,
+      "action": "edit.redo"
+    },
+    {
+      "id": "edit-cut",
+      "label": "Cut",
+      "description": "Cut selected content to clipboard",
+      "icon": "✂️",
+      "category": "edit",
+      "keywords": ["cut", "clipboard", "move"],
+      "shortcut": "Ctrl+X",
+      "popularity": 85,
+      "action": "edit.cut"
+    },
+    {
+      "id": "edit-copy",
+      "label": "Copy",
+      "description": "Copy selected content to clipboard",
+      "icon": "📋",
+      "category": "edit",
+      "keywords": ["copy", "clipboard", "duplicate"],
+      "shortcut": "Ctrl+C",
+      "popularity": 92,
+      "action": "edit.copy"
+    },
+    {
+      "id": "edit-paste",
+      "label": "Paste",
+      "description": "Paste content from clipboard",
+      "icon": "📄",
+      "category": "edit",
+      "keywords": ["paste", "insert", "clipboard"],
+      "shortcut": "Ctrl+V",
+      "popularity": 90,
+      "action": "edit.paste"
+    },
+    {
+      "id": "edit-select-all",
+      "label": "Select All",
+      "description": "Select all content in the current view",
+      "icon": "🔘",
+      "category": "edit",
+      "keywords": ["select", "all", "everything"],
+      "shortcut": "Ctrl+A",
+      "popularity": 78,
+      "action": "edit.selectAll"
+    },
+    {
+      "id": "search-find",
+      "label": "Find",
+      "description": "Search for text in the current file",
+      "icon": "🔍",
+      "category": "search",
+      "keywords": ["find", "search", "locate"],
+      "shortcut": "Ctrl+F",
+      "popularity": 87,
+      "action": "search.find"
+    },
+    {
+      "id": "search-replace",
+      "label": "Replace",
+      "description": "Find and replace text",
+      "icon": "🔄",
+      "category": "search",
+      "keywords": ["replace", "substitute", "change"],
+      "shortcut": "Ctrl+H",
+      "popularity": 72,
+      "action": "search.replace"
+    },
+    {
+      "id": "search-find-in-files",
+      "label": "Find in Files",
+      "description": "Search across all files in the workspace",
+      "icon": "🔍",
+      "category": "search",
+      "keywords": ["find", "search", "global", "workspace"],
+      "shortcut": "Ctrl+Shift+F",
+      "popularity": 65,
+      "action": "search.findInFiles"
+    },
+    {
+      "id": "view-command-palette",
+      "label": "Show Command Palette",
+      "description": "Open the command palette",
+      "icon": "🎛️",
+      "category": "view",
+      "keywords": ["command", "palette", "menu"],
+      "shortcut": "Ctrl+Shift+P",
+      "popularity": 60,
+      "action": "view.commandPalette"
+    },
+    {
+      "id": "view-file-explorer",
+      "label": "Toggle File Explorer",
+      "description": "Show or hide the file explorer sidebar",
+      "icon": "📁",
+      "category": "view",
+      "keywords": ["files", "explorer", "sidebar", "toggle"],
+      "shortcut": "Ctrl+Shift+E",
+      "popularity": 70,
+      "action": "view.toggleFileExplorer"
+    },
+    {
+      "id": "view-search-panel",
+      "label": "Toggle Search Panel",
+      "description": "Show or hide the search panel",
+      "icon": "🔍",
+      "category": "view",
+      "keywords": ["search", "panel", "toggle"],
+      "shortcut": "Ctrl+Shift+F",
+      "popularity": 58,
+      "action": "view.toggleSearchPanel"
+    },
+    {
+      "id": "view-terminal",
+      "label": "Toggle Terminal",
+      "description": "Show or hide the integrated terminal",
+      "icon": "💻",
+      "category": "view",
+      "keywords": ["terminal", "console", "toggle"],
+      "shortcut": "Ctrl+`",
+      "popularity": 80,
+      "action": "view.toggleTerminal"
+    },
+    {
+      "id": "debug-start",
+      "label": "Start Debugging",
+      "description": "Start a debugging session",
+      "icon": "▶️",
+      "category": "debug",
+      "keywords": ["debug", "start", "run"],
+      "shortcut": "F5",
+      "popularity": 55,
+      "action": "debug.start"
+    },
+    {
+      "id": "debug-stop",
+      "label": "Stop Debugging",
+      "description": "Stop the current debugging session",
+      "icon": "⏹️",
+      "category": "debug",
+      "keywords": ["debug", "stop", "end"],
+      "shortcut": "Shift+F5",
+      "popularity": 45,
+      "action": "debug.stop"
+    },
+    {
+      "id": "debug-toggle-breakpoint",
+      "label": "Toggle Breakpoint",
+      "description": "Add or remove a breakpoint at current line",
+      "icon": "🔴",
+      "category": "debug",
+      "keywords": ["breakpoint", "toggle", "debug"],
+      "shortcut": "F9",
+      "popularity": 48,
+      "action": "debug.toggleBreakpoint"
+    },
+    {
+      "id": "git-status",
+      "label": "Git: Show Status",
+      "description": "Show git repository status",
+      "icon": "📊",
+      "category": "git",
+      "keywords": ["git", "status", "changes"],
+      "popularity": 62,
+      "action": "git.status"
+    },
+    {
+      "id": "git-commit",
+      "label": "Git: Commit",
+      "description": "Commit staged changes",
+      "icon": "💾",
+      "category": "git",
+      "keywords": ["git", "commit", "save"],
+      "popularity": 58,
+      "action": "git.commit"
+    },
+    {
+      "id": "git-pull",
+      "label": "Git: Pull",
+      "description": "Pull changes from remote repository",
+      "icon": "⬇️",
+      "category": "git",
+      "keywords": ["git", "pull", "sync", "update"],
+      "popularity": 52,
+      "action": "git.pull"
+    },
+    {
+      "id": "git-push",
+      "label": "Git: Push",
+      "description": "Push commits to remote repository",
+      "icon": "⬆️",
+      "category": "git",
+      "keywords": ["git", "push", "upload"],
+      "popularity": 55,
+      "action": "git.push"
+    },
+    {
+      "id": "terminal-new",
+      "label": "Terminal: Create New Terminal",
+      "description": "Open a new terminal instance",
+      "icon": "➕",
+      "category": "terminal",
+      "keywords": ["terminal", "new", "create", "console"],
+      "shortcut": "Ctrl+Shift+`",
+      "popularity": 42,
+      "action": "terminal.new"
+    },
+    {
+      "id": "terminal-split",
+      "label": "Terminal: Split Terminal",
+      "description": "Split the terminal horizontally",
+      "icon": "⬌",
+      "category": "terminal",
+      "keywords": ["terminal", "split", "divide"],
+      "popularity": 35,
+      "action": "terminal.split"
+    },
+    {
+      "id": "settings-open",
+      "label": "Open Settings",
+      "description": "Open application settings",
+      "icon": "⚙️",
+      "category": "settings",
+      "keywords": ["settings", "preferences", "config"],
+      "shortcut": "Ctrl+,",
+      "popularity": 40,
+      "action": "settings.open"
+    },
+    {
+      "id": "settings-keyboard-shortcuts",
+      "label": "Open Keyboard Shortcuts",
+      "description": "View and edit keyboard shortcuts",
+      "icon": "⌨️",
+      "category": "settings",
+      "keywords": ["keyboard", "shortcuts", "keybindings"],
+      "shortcut": "Ctrl+K Ctrl+S",
+      "popularity": 28,
+      "action": "settings.keyboardShortcuts"
+    },
+    {
+      "id": "extensions-show",
+      "label": "Show Extensions",
+      "description": "View installed extensions",
+      "icon": "🧩",
+      "category": "extensions",
+      "keywords": ["extensions", "plugins", "addons"],
+      "shortcut": "Ctrl+Shift+X",
+      "popularity": 38,
+      "action": "extensions.show"
+    },
+    {
+      "id": "extensions-install",
+      "label": "Install Extension",
+      "description": "Browse and install new extensions",
+      "icon": "⬇️",
+      "category": "extensions",
+      "keywords": ["install", "extension", "plugin", "addon"],
+      "popularity": 32,
+      "action": "extensions.install"
+    },
+    {
+      "id": "help-welcome",
+      "label": "Welcome",
+      "description": "Show the welcome screen",
+      "icon": "👋",
+      "category": "help",
+      "keywords": ["welcome", "getting started"],
+      "popularity": 25,
+      "action": "help.welcome"
+    },
+    {
+      "id": "help-docs",
+      "label": "Documentation",
+      "description": "Open online documentation",
+      "icon": "📚",
+      "category": "help",
+      "keywords": ["docs", "documentation", "manual"],
+      "popularity": 30,
+      "action": "help.documentation"
+    },
+    {
+      "id": "help-shortcuts",
+      "label": "Keyboard Shortcuts Reference",
+      "description": "Show keyboard shortcuts reference",
+      "icon": "⌨️",
+      "category": "help",
+      "keywords": ["shortcuts", "keys", "reference"],
+      "popularity": 22,
+      "action": "help.shortcuts"
+    },
+    {
+      "id": "help-about",
+      "label": "About",
+      "description": "Show version and license information",
+      "icon": "ℹ️",
+      "category": "help",
+      "keywords": ["about", "version", "info"],
+      "popularity": 15,
+      "action": "help.about"
+    }
+  ],
+  "recent": {
+    "enabled": true,
+    "maxItems": 10,
+    "showSeparator": true,
+    "label": "Recently Used"
+  },
+  "popular": {
+    "enabled": true,
+    "maxItems": 5,
+    "threshold": 50,
+    "label": "Popular Commands"
+  },
+  "ui": {
+    "width": 600,
+    "maxHeight": 400,
+    "position": "center",
+    "showScrollbar": true,
+    "highlightSelection": true,
+    "showDescription": true,
+    "showShortcut": true,
+    "showCategory": true,
+    "categoryColors": true,
+    "animations": {
+      "fadeIn": 150,
+      "slideDown": 200,
+      "highlight": 100
+    }
+  },
+  "behavior": {
+    "closeOnSelect": true,
+    "closeOnEscape": true,
+    "closeOnFocusLost": true,
+    "rememberPosition": false,
+    "autoFocus": true,
+    "selectFirstResult": true,
+    "executeOnEnter": true
+  },
+  "themes": {
+    "dark": {
+      "background": "#1e1e1e",
+      "inputBackground": "#3c3c3c",
+      "itemBackground": "#2d2d30",
+      "selectedBackground": "#094771",
+      "text": "#cccccc",
+      "placeholderText": "#999999",
+      "border": "#454545",
+      "shadow": "rgba(0, 0, 0, 0.3)"
+    },
+    "light": {
+      "background": "#ffffff",
+      "inputBackground": "#f8f8f8",
+      "itemBackground": "#ffffff",
+      "selectedBackground": "#0078d4",
+      "text": "#333333",
+      "placeholderText": "#767676",
+      "border": "#cccccc",
+      "shadow": "rgba(0, 0, 0, 0.1)"
+    }
+  },
+  "performance": {
+    "virtualScrolling": true,
+    "debounceSearch": 100,
+    "lazyLoad": true,
+    "cacheResults": true,
+    "maxCacheSize": 1000
+  },
+  "metadata": {
+    "created": "2025-01-12T20:00:00Z",
+    "author": "Menu Builder CLI",
+    "tags": ["command-palette", "vscode", "keyboard", "search", "productivity"],
+    "version": "1.0.0",
+    "compatibility": {
+      "minVersion": "1.0.0",
+      "platforms": ["web", "desktop", "electron"],
+      "keyboardRequired": true
+    }
+  }
+}

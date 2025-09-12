@@ -1,0 +1,702 @@
+{
+  "id": "settings-menu",
+  "title": "Settings & Preferences",
+  "description": "Configure your CLI experience",
+  "searchable": true,
+  "breadcrumbs": true,
+  "style": {
+    "type": "cards",
+    "theme": "default",
+    "showIcons": true,
+    "showDescriptions": true,
+    "animations": true,
+    "itemsPerRow": 2
+  },
+  "items": [
+    {
+      "id": "appearance",
+      "title": "Appearance",
+      "description": "Customize the visual appearance of the CLI",
+      "icon": {
+        "type": "emoji",
+        "value": "🎨"
+      },
+      "submenu": [
+        {
+          "id": "theme",
+          "title": "Theme",
+          "description": "Choose your preferred color scheme",
+          "icon": {
+            "type": "emoji",
+            "value": "🌈"
+          },
+          "submenu": [
+            {
+              "id": "dark-theme",
+              "title": "Dark Theme",
+              "description": "Dark background with light text",
+              "action": "setTheme",
+              "metadata": {
+                "theme": "dark",
+                "default": true
+              }
+            },
+            {
+              "id": "light-theme",
+              "title": "Light Theme",
+              "description": "Light background with dark text",
+              "action": "setTheme",
+              "metadata": {
+                "theme": "light"
+              }
+            },
+            {
+              "id": "colorful-theme",
+              "title": "Colorful Theme",
+              "description": "Vibrant colors and gradients",
+              "action": "setTheme",
+              "metadata": {
+                "theme": "colorful"
+              }
+            },
+            {
+              "id": "high-contrast",
+              "title": "High Contrast",
+              "description": "Enhanced contrast for accessibility",
+              "action": "setTheme",
+              "metadata": {
+                "theme": "high-contrast",
+                "accessibility": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "menu-style",
+          "title": "Menu Style",
+          "description": "Choose how menus are displayed",
+          "icon": {
+            "type": "emoji",
+            "value": "🗋"
+          },
+          "submenu": [
+            {
+              "id": "list-style",
+              "title": "List View",
+              "description": "Traditional vertical list layout",
+              "action": "setMenuStyle",
+              "metadata": {
+                "style": "list"
+              }
+            },
+            {
+              "id": "grid-style",
+              "title": "Grid View",
+              "description": "Grid layout with multiple columns",
+              "action": "setMenuStyle",
+              "metadata": {
+                "style": "grid"
+              }
+            },
+            {
+              "id": "cards-style",
+              "title": "Cards View",
+              "description": "Card-based layout with detailed info",
+              "action": "setMenuStyle",
+              "metadata": {
+                "style": "cards"
+              }
+            },
+            {
+              "id": "tree-style",
+              "title": "Tree View",
+              "description": "Hierarchical tree structure",
+              "action": "setMenuStyle",
+              "metadata": {
+                "style": "tree"
+              }
+            }
+          ]
+        },
+        {
+          "id": "animations",
+          "title": "Animations",
+          "description": "Control interface animations",
+          "icon": {
+            "type": "emoji",
+            "value": "✨"
+          },
+          "submenu": [
+            {
+              "id": "enable-animations",
+              "title": "Enable Animations",
+              "description": "Turn on smooth transitions and effects",
+              "action": "toggleAnimations",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "disable-animations",
+              "title": "Disable Animations",
+              "description": "Turn off all animations for better performance",
+              "action": "toggleAnimations",
+              "metadata": {
+                "enabled": false
+              }
+            },
+            {
+              "id": "reduced-motion",
+              "title": "Reduced Motion",
+              "description": "Minimal animations for accessibility",
+              "action": "setAnimationMode",
+              "metadata": {
+                "mode": "reduced-motion",
+                "accessibility": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "font-settings",
+          "title": "Font Settings",
+          "description": "Customize text appearance",
+          "icon": {
+            "type": "emoji",
+            "value": "🔠"
+          },
+          "submenu": [
+            {
+              "id": "font-size-small",
+              "title": "Small Font",
+              "description": "12px font size",
+              "action": "setFontSize",
+              "metadata": {
+                "size": "small"
+              }
+            },
+            {
+              "id": "font-size-medium",
+              "title": "Medium Font",
+              "description": "14px font size (default)",
+              "action": "setFontSize",
+              "metadata": {
+                "size": "medium",
+                "default": true
+              }
+            },
+            {
+              "id": "font-size-large",
+              "title": "Large Font",
+              "description": "16px font size",
+              "action": "setFontSize",
+              "metadata": {
+                "size": "large"
+              }
+            },
+            {
+              "id": "font-size-extra-large",
+              "title": "Extra Large Font",
+              "description": "18px font size for accessibility",
+              "action": "setFontSize",
+              "metadata": {
+                "size": "extra-large",
+                "accessibility": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "behavior",
+      "title": "Behavior",
+      "description": "Configure how the CLI behaves",
+      "icon": {
+        "type": "emoji",
+        "value": "⚙️"
+      },
+      "submenu": [
+        {
+          "id": "navigation",
+          "title": "Navigation Settings",
+          "description": "Control navigation behavior",
+          "icon": {
+            "type": "emoji",
+            "value": "🧭"
+          },
+          "submenu": [
+            {
+              "id": "keyboard-navigation",
+              "title": "Keyboard Navigation",
+              "description": "Enable arrow key navigation",
+              "action": "toggleKeyboardNav",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "mouse-navigation",
+              "title": "Mouse Navigation",
+              "description": "Enable click and hover interactions",
+              "action": "toggleMouseNav",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "breadcrumbs",
+              "title": "Show Breadcrumbs",
+              "description": "Display navigation path",
+              "action": "toggleBreadcrumbs",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "back-button",
+              "title": "Show Back Button",
+              "description": "Display back navigation option",
+              "action": "toggleBackButton",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "search",
+          "title": "Search Settings",
+          "description": "Configure search functionality",
+          "icon": {
+            "type": "emoji",
+            "value": "🔍"
+          },
+          "submenu": [
+            {
+              "id": "enable-search",
+              "title": "Enable Search",
+              "description": "Allow searching through menu items",
+              "action": "toggleSearch",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "fuzzy-search",
+              "title": "Fuzzy Search",
+              "description": "Allow approximate string matching",
+              "action": "toggleFuzzySearch",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "search-descriptions",
+              "title": "Search Descriptions",
+              "description": "Include item descriptions in search",
+              "action": "toggleSearchDescriptions",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "instant-search",
+              "title": "Instant Search",
+              "description": "Show results as you type",
+              "action": "toggleInstantSearch",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "shortcuts",
+          "title": "Keyboard Shortcuts",
+          "description": "Configure hotkeys and shortcuts",
+          "icon": {
+            "type": "emoji",
+            "value": "⌨️"
+          },
+          "submenu": [
+            {
+              "id": "show-shortcuts",
+              "title": "Show Shortcuts",
+              "description": "Display keyboard shortcuts in menus",
+              "action": "toggleShowShortcuts",
+              "metadata": {
+                "enabled": true,
+                "default": true
+              }
+            },
+            {
+              "id": "global-shortcuts",
+              "title": "Global Shortcuts",
+              "description": "Enable system-wide hotkeys",
+              "action": "toggleGlobalShortcuts",
+              "metadata": {
+                "enabled": false,
+                "default": false
+              }
+            },
+            {
+              "id": "customize-shortcuts",
+              "title": "Customize Shortcuts",
+              "description": "Modify default keyboard shortcuts",
+              "action": "customizeShortcuts"
+            }
+          ]
+        },
+        {
+          "id": "performance",
+          "title": "Performance",
+          "description": "Optimize CLI performance",
+          "icon": {
+            "type": "emoji",
+            "value": "⚡"
+          },
+          "submenu": [
+            {
+              "id": "virtual-scrolling",
+              "title": "Virtual Scrolling",
+              "description": "Optimize rendering for large lists",
+              "action": "toggleVirtualScrolling",
+              "metadata": {
+                "enabled": true,
+                "threshold": 100
+              }
+            },
+            {
+              "id": "lazy-loading",
+              "title": "Lazy Loading",
+              "description": "Load menu items on demand",
+              "action": "toggleLazyLoading",
+              "metadata": {
+                "enabled": false
+              }
+            },
+            {
+              "id": "cache-menus",
+              "title": "Cache Menus",
+              "description": "Cache menu configurations for faster loading",
+              "action": "toggleMenuCaching",
+              "metadata": {
+                "enabled": true,
+                "ttl": 300000
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "developer",
+      "title": "Developer",
+      "description": "Advanced options for developers",
+      "icon": {
+        "type": "emoji",
+        "value": "👩‍💻"
+      },
+      "submenu": [
+        {
+          "id": "debug-mode",
+          "title": "Debug Mode",
+          "description": "Enable detailed logging and debugging",
+          "icon": {
+            "type": "emoji",
+            "value": "🐛"
+          },
+          "action": "toggleDebugMode",
+          "metadata": {
+            "enabled": false,
+            "level": "info"
+          }
+        },
+        {
+          "id": "hot-reload",
+          "title": "Hot Reload",
+          "description": "Automatically reload menu configurations",
+          "icon": {
+            "type": "emoji",
+            "value": "🔄"
+          },
+          "action": "toggleHotReload",
+          "metadata": {
+            "enabled": false,
+            "interval": 1000
+          }
+        },
+        {
+          "id": "performance-monitor",
+          "title": "Performance Monitor",
+          "description": "Show performance metrics and statistics",
+          "icon": {
+            "type": "emoji",
+            "value": "📈"
+          },
+          "action": "togglePerformanceMonitor",
+          "metadata": {
+            "enabled": false
+          }
+        },
+        {
+          "id": "export-config",
+          "title": "Export Configuration",
+          "description": "Export current settings to file",
+          "icon": {
+            "type": "emoji",
+            "value": "📤"
+          },
+          "action": "exportConfig"
+        },
+        {
+          "id": "import-config",
+          "title": "Import Configuration",
+          "description": "Import settings from file",
+          "icon": {
+            "type": "emoji",
+            "value": "📥"
+          },
+          "action": "importConfig"
+        },
+        {
+          "id": "reset-settings",
+          "title": "Reset to Defaults",
+          "description": "Restore all settings to default values",
+          "icon": {
+            "type": "emoji",
+            "value": "♾️"
+          },
+          "action": "resetSettings",
+          "metadata": {
+            "confirmation": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "description": "Options to improve accessibility",
+      "icon": {
+        "type": "emoji",
+        "value": "♿"
+      },
+      "submenu": [
+        {
+          "id": "screen-reader",
+          "title": "Screen Reader Support",
+          "description": "Enhanced support for screen readers",
+          "icon": {
+            "type": "emoji",
+            "value": "🔊"
+          },
+          "action": "toggleScreenReaderSupport",
+          "metadata": {
+            "enabled": true,
+            "aria-labels": true
+          }
+        },
+        {
+          "id": "high-contrast-mode",
+          "title": "High Contrast Mode",
+          "description": "Increase contrast for better visibility",
+          "icon": {
+            "type": "emoji",
+            "value": "⚫"
+          },
+          "action": "toggleHighContrast",
+          "metadata": {
+            "enabled": false
+          }
+        },
+        {
+          "id": "large-text",
+          "title": "Large Text Mode",
+          "description": "Increase text size for better readability",
+          "icon": {
+            "type": "emoji",
+            "value": "🔍"
+          },
+          "action": "toggleLargeText",
+          "metadata": {
+            "enabled": false,
+            "scale": 1.25
+          }
+        },
+        {
+          "id": "focus-indicators",
+          "title": "Enhanced Focus Indicators",
+          "description": "More visible focus outlines",
+          "icon": {
+            "type": "emoji",
+            "value": "🔲"
+          },
+          "action": "toggleFocusIndicators",
+          "metadata": {
+            "enabled": true,
+            "style": "enhanced"
+          }
+        }
+      ]
+    },
+    {
+      "id": "data-privacy",
+      "title": "Data & Privacy",
+      "description": "Manage data storage and privacy settings",
+      "icon": {
+        "type": "emoji",
+        "value": "🔒"
+      },
+      "submenu": [
+        {
+          "id": "local-storage",
+          "title": "Local Storage",
+          "description": "Configure local data storage",
+          "icon": {
+            "type": "emoji",
+            "value": "💾"
+          },
+          "submenu": [
+            {
+              "id": "enable-storage",
+              "title": "Enable Local Storage",
+              "description": "Allow storing preferences locally",
+              "action": "toggleLocalStorage",
+              "metadata": {
+                "enabled": true
+              }
+            },
+            {
+              "id": "clear-storage",
+              "title": "Clear Stored Data",
+              "description": "Remove all locally stored data",
+              "action": "clearLocalStorage",
+              "metadata": {
+                "confirmation": true
+              }
+            },
+            {
+              "id": "storage-location",
+              "title": "Storage Location",
+              "description": "View where data is stored",
+              "action": "showStorageLocation"
+            }
+          ]
+        },
+        {
+          "id": "session-data",
+          "title": "Session Data",
+          "description": "Manage session-specific information",
+          "icon": {
+            "type": "emoji",
+            "value": "🕐"
+          },
+          "submenu": [
+            {
+              "id": "save-session",
+              "title": "Save Session State",
+              "description": "Remember navigation state between sessions",
+              "action": "toggleSaveSession",
+              "metadata": {
+                "enabled": true
+              }
+            },
+            {
+              "id": "clear-session",
+              "title": "Clear Session Data",
+              "description": "Remove current session information",
+              "action": "clearSession"
+            }
+          ]
+        },
+        {
+          "id": "history",
+          "title": "History Management",
+          "description": "Control navigation history",
+          "icon": {
+            "type": "emoji",
+            "value": "📉"
+          },
+          "submenu": [
+            {
+              "id": "save-history",
+              "title": "Save Navigation History",
+              "description": "Keep track of visited menus",
+              "action": "toggleSaveHistory",
+              "metadata": {
+                "enabled": true,
+                "maxItems": 50
+              }
+            },
+            {
+              "id": "clear-history",
+              "title": "Clear History",
+              "description": "Remove all navigation history",
+              "action": "clearHistory",
+              "metadata": {
+                "confirmation": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "title": "About",
+      "description": "Information about the CLI application",
+      "icon": {
+        "type": "emoji",
+        "value": "ℹ️"
+      },
+      "submenu": [
+        {
+          "id": "version-info",
+          "title": "Version Information",
+          "description": "Current version and build details",
+          "action": "showVersionInfo"
+        },
+        {
+          "id": "system-info",
+          "title": "System Information",
+          "description": "Platform and environment details",
+          "action": "showSystemInfo"
+        },
+        {
+          "id": "keyboard-shortcuts-help",
+          "title": "Keyboard Shortcuts",
+          "description": "View all available shortcuts",
+          "action": "showShortcuts"
+        },
+        {
+          "id": "documentation",
+          "title": "Documentation",
+          "description": "Open user manual and guides",
+          "action": "openDocumentation"
+        },
+        {
+          "id": "report-issue",
+          "title": "Report Issue",
+          "description": "Submit bug reports or feature requests",
+          "action": "reportIssue"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "maxDepth": 3,
+    "maxItems": 200,
+    "requiredFields": ["id", "title"]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "name": "interactive-algorithms-learning",
+  "version": "1.0.0",
+  "description": "Interactive learning platform for algorithms and data structures through everyday contexts",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "arrays": "node src/modules/arrays.js",
+    "linkedlists": "node src/modules/linkedlists.js",
+    "stacks": "node src/modules/stacks.js",
+    "queues": "node src/modules/queues.js",
+    "trees": "node src/modules/trees.js",
+    "graphs": "node src/modules/graphs.js",
+    "sorting": "node src/modules/sorting.js",
+    "searching": "node src/modules/searching.js",
+    "dynamic-programming": "node src/modules/dynamic_programming.js",
+    "recursion": "node src/modules/recursion.js",
+    "examples": "node src/examples/interactive_examples.js",
+    "challenges": "node src/practice-problems/comprehensive_challenges.js",
+    "test": "jest",
+    "test:ui": "jest tests/ui --verbose",
+    "test:ui:components": "jest tests/ui/components --verbose",
+    "test:ui:integration": "jest tests/ui/integration --verbose",
+    "test:ui:performance": "jest tests/ui/performance --verbose",
+    "test:ui:watch": "jest tests/ui --watch",
+    "test:ui:coverage": "jest tests/ui --coverage",
+    "demo:ui": "npx tsx examples/ui-demo.ts",
+    "demo:navigation": "npx tsx examples/navigation-demo.ts",
+    "lint": "eslint . --ext .js --fix",
+    "docs:build": "typedoc",
+    "docs:serve": "cd docs/site && python -m http.server 8080",
+    "docs:dev": "npm run docs:build && npm run docs:serve"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "cli-table3": "^0.6.5",
+    "inquirer": "^9.3.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.19.13",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "tsx": "^4.6.0",
+    "typedoc": "^0.28.12",
+    "typescript": "^5.3.2"
+  },
+  "keywords": [
+    "algorithms",
+    "data-structures",
+    "interactive-learning",
+    "educational",
+    "console-application",
+    "nodejs",
+    "learning-platform",
+    "computer-science"
+  ],
+  "author": "Interactive Learning Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/interactive-algorithms-learning.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/interactive-algorithms-learning/issues"
+  },
+  "homepage": "https://github.com/your-org/interactive-algorithms-learning#readme",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  }
+}

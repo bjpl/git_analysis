@@ -1,0 +1,345 @@
+{
+  "curriculum": {
+    "id": "algorithms-fundamentals",
+    "title": "Algorithms Fundamentals",
+    "description": "Comprehensive foundation in algorithmic thinking and fundamental algorithms",
+    "version": "1.0.0",
+    "difficulty": "beginner-to-intermediate",
+    "estimatedHours": 40,
+    "prerequisites": ["basic-programming", "mathematics-foundations"],
+    "learningObjectives": [
+      "Understand algorithm analysis and Big O notation",
+      "Master fundamental algorithmic paradigms",
+      "Implement and analyze classic algorithms",
+      "Apply algorithmic thinking to problem-solving",
+      "Evaluate algorithm efficiency and trade-offs"
+    ],
+    "modules": [
+      {
+        "id": "introduction",
+        "title": "Introduction to Algorithms",
+        "description": "Foundation concepts and algorithmic thinking",
+        "order": 1,
+        "estimatedHours": 6,
+        "lessons": [
+          {
+            "id": "algo-intro-001",
+            "title": "What is an Algorithm?",
+            "description": "Understanding algorithms, properties, and characteristics",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 45,
+            "learningObjectives": [
+              "Define what constitutes an algorithm",
+              "Identify properties of good algorithms",
+              "Distinguish between algorithms and programs"
+            ],
+            "content": {
+              "theory": {
+                "definition": "An algorithm is a finite sequence of well-defined instructions for solving a computational problem",
+                "properties": [
+                  "Input: Zero or more inputs",
+                  "Output: At least one output",
+                  "Definiteness: Each step must be clear and unambiguous",
+                  "Finiteness: Must terminate after finite steps",
+                  "Effectiveness: Steps must be basic enough to be carried out"
+                ],
+                "examples": [
+                  "Recipe for cooking",
+                  "Directions to a location",
+                  "Mathematical formulas"
+                ]
+              },
+              "codeExamples": [
+                {
+                  "language": "python",
+                  "title": "Simple Algorithm: Finding Maximum",
+                  "code": "def find_maximum(numbers):\n    \"\"\"\n    Algorithm to find the maximum number in a list\n    Input: List of numbers\n    Output: Maximum number\n    \"\"\"\n    if not numbers:\n        return None\n    \n    max_num = numbers[0]\n    for num in numbers[1:]:\n        if num > max_num:\n            max_num = num\n    \n    return max_num\n\n# Example usage\nnumbers = [3, 7, 2, 9, 1, 5]\nresult = find_maximum(numbers)\nprint(f\"Maximum: {result}\")  # Output: Maximum: 9"
+                }
+              ]
+            },
+            "exercises": [
+              {
+                "id": "ex-001",
+                "title": "Algorithm Identification",
+                "description": "Identify which of the following are valid algorithms and explain why",
+                "type": "multiple-choice",
+                "questions": [
+                  {
+                    "question": "Which represents a valid algorithm?",
+                    "options": [
+                      "A recipe that says 'add some salt'",
+                      "A step-by-step process to sort numbers",
+                      "A general suggestion to 'be creative'",
+                      "An infinite loop without termination"
+                    ],
+                    "correct": 1,
+                    "explanation": "A valid algorithm must have definite, finite, and effective steps"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "algo-intro-002",
+            "title": "Algorithm Analysis and Big O Notation",
+            "description": "Understanding time and space complexity",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 90,
+            "learningObjectives": [
+              "Understand time and space complexity",
+              "Apply Big O notation for algorithm analysis",
+              "Compare algorithm efficiency"
+            ],
+            "content": {
+              "theory": {
+                "timeComplexity": "Measures how running time increases with input size",
+                "spaceComplexity": "Measures how memory usage increases with input size",
+                "bigONotation": "Describes the upper bound of algorithm growth rate",
+                "commonComplexities": {
+                  "O(1)": "Constant time - doesn't change with input size",
+                  "O(log n)": "Logarithmic time - divides problem in half each step",
+                  "O(n)": "Linear time - grows directly with input size",
+                  "O(n log n)": "Linearithmic time - efficient sorting algorithms",
+                  "O(n²)": "Quadratic time - nested loops over input",
+                  "O(2^n)": "Exponential time - doubles with each additional input"
+                }
+              },
+              "codeExamples": [
+                {
+                  "language": "python",
+                  "title": "Different Time Complexities",
+                  "code": "# O(1) - Constant Time\ndef get_first_element(arr):\n    return arr[0] if arr else None\n\n# O(n) - Linear Time\ndef find_element(arr, target):\n    for element in arr:\n        if element == target:\n            return True\n    return False\n\n# O(n²) - Quadratic Time\ndef bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\n# O(log n) - Logarithmic Time\ndef binary_search(sorted_arr, target):\n    left, right = 0, len(sorted_arr) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        if sorted_arr[mid] == target:\n            return mid\n        elif sorted_arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1"
+                }
+              ]
+            },
+            "exercises": [
+              {
+                "id": "ex-002",
+                "title": "Complexity Analysis",
+                "description": "Determine the time complexity of given algorithms",
+                "type": "coding",
+                "problems": [
+                  {
+                    "question": "What is the time complexity of this function?",
+                    "code": "def mystery_function(n):\n    result = 0\n    for i in range(n):\n        for j in range(n):\n            result += i * j\n    return result",
+                    "answer": "O(n²)",
+                    "explanation": "Two nested loops each running n times results in O(n²)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "searching",
+        "title": "Searching Algorithms",
+        "description": "Fundamental searching techniques and their analysis",
+        "order": 2,
+        "estimatedHours": 8,
+        "lessons": [
+          {
+            "id": "search-001",
+            "title": "Linear Search",
+            "description": "Sequential search through data structures",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 60,
+            "content": {
+              "theory": {
+                "description": "Examines each element sequentially until target is found or end is reached",
+                "timeComplexity": "O(n)",
+                "spaceComplexity": "O(1)",
+                "advantages": ["Works on unsorted data", "Simple implementation", "No preprocessing required"],
+                "disadvantages": ["Inefficient for large datasets", "Always checks elements sequentially"]
+              },
+              "codeExamples": [
+                {
+                  "language": "python",
+                  "title": "Linear Search Implementation",
+                  "code": "def linear_search(arr, target):\n    \"\"\"\n    Perform linear search on an array\n    Time: O(n), Space: O(1)\n    \"\"\"\n    for i, element in enumerate(arr):\n        if element == target:\n            return i  # Return index if found\n    return -1  # Return -1 if not found\n\ndef linear_search_with_count(arr, target):\n    \"\"\"\n    Linear search that also returns comparison count\n    \"\"\"\n    comparisons = 0\n    for i, element in enumerate(arr):\n        comparisons += 1\n        if element == target:\n            return i, comparisons\n    return -1, comparisons\n\n# Example usage\nnumbers = [64, 34, 25, 12, 22, 11, 90]\nresult = linear_search(numbers, 22)\nprint(f\"Element found at index: {result}\")\n\n# With comparison counting\nindex, count = linear_search_with_count(numbers, 22)\nprint(f\"Found at index {index} with {count} comparisons\")"
+                }
+              ]
+            }
+          },
+          {
+            "id": "search-002",
+            "title": "Binary Search",
+            "description": "Efficient searching in sorted arrays using divide and conquer",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 75,
+            "content": {
+              "theory": {
+                "description": "Repeatedly divides sorted array in half, comparing target with middle element",
+                "timeComplexity": "O(log n)",
+                "spaceComplexity": "O(1) iterative, O(log n) recursive",
+                "prerequisites": ["Array must be sorted"],
+                "advantages": ["Very efficient for large datasets", "Guaranteed logarithmic performance"],
+                "disadvantages": ["Requires sorted data", "Not efficient for small datasets due to overhead"]
+              },
+              "codeExamples": [
+                {
+                  "language": "python",
+                  "title": "Binary Search - Iterative and Recursive",
+                  "code": "def binary_search_iterative(arr, target):\n    \"\"\"\n    Iterative binary search\n    Time: O(log n), Space: O(1)\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\ndef binary_search_recursive(arr, target, left=0, right=None):\n    \"\"\"\n    Recursive binary search\n    Time: O(log n), Space: O(log n)\n    \"\"\"\n    if right is None:\n        right = len(arr) - 1\n    \n    if left > right:\n        return -1\n    \n    mid = (left + right) // 2\n    \n    if arr[mid] == target:\n        return mid\n    elif arr[mid] < target:\n        return binary_search_recursive(arr, target, mid + 1, right)\n    else:\n        return binary_search_recursive(arr, target, left, mid - 1)\n\n# Example usage\nsorted_numbers = [11, 12, 22, 25, 34, 64, 90]\ntarget = 25\n\nresult_iter = binary_search_iterative(sorted_numbers, target)\nresult_rec = binary_search_recursive(sorted_numbers, target)\n\nprint(f\"Iterative result: {result_iter}\")\nprint(f\"Recursive result: {result_rec}\")"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "sorting",
+        "title": "Sorting Algorithms",
+        "description": "Classical sorting algorithms and their comparison",
+        "order": 3,
+        "estimatedHours": 12,
+        "lessons": [
+          {
+            "id": "sort-001",
+            "title": "Bubble Sort",
+            "description": "Simple comparison-based sorting algorithm",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 45
+          },
+          {
+            "id": "sort-002",
+            "title": "Selection Sort",
+            "description": "In-place comparison sorting algorithm",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 45
+          },
+          {
+            "id": "sort-003",
+            "title": "Insertion Sort",
+            "description": "Builds final sorted array one item at a time",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 45
+          },
+          {
+            "id": "sort-004",
+            "title": "Merge Sort",
+            "description": "Efficient, stable, divide-and-conquer algorithm",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          },
+          {
+            "id": "sort-005",
+            "title": "Quick Sort",
+            "description": "Efficient divide-and-conquer sorting algorithm",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          }
+        ]
+      },
+      {
+        "id": "recursion",
+        "title": "Recursion and Divide & Conquer",
+        "description": "Recursive problem-solving techniques",
+        "order": 4,
+        "estimatedHours": 10,
+        "lessons": [
+          {
+            "id": "rec-001",
+            "title": "Introduction to Recursion",
+            "description": "Understanding recursive thinking and base cases",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 75
+          },
+          {
+            "id": "rec-002",
+            "title": "Classic Recursive Problems",
+            "description": "Factorial, Fibonacci, and tree traversals",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          },
+          {
+            "id": "rec-003",
+            "title": "Divide and Conquer Strategy",
+            "description": "Breaking problems into smaller subproblems",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 75
+          }
+        ]
+      },
+      {
+        "id": "greedy",
+        "title": "Greedy Algorithms",
+        "description": "Making locally optimal choices",
+        "order": 5,
+        "estimatedHours": 6,
+        "lessons": [
+          {
+            "id": "greedy-001",
+            "title": "Greedy Strategy",
+            "description": "Understanding the greedy approach and when it works",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 60
+          },
+          {
+            "id": "greedy-002",
+            "title": "Classic Greedy Problems",
+            "description": "Activity selection, fractional knapsack, Huffman coding",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          }
+        ]
+      }
+    ],
+    "assessments": [
+      {
+        "id": "midterm",
+        "title": "Midterm Assessment",
+        "description": "Comprehensive test covering introduction, searching, and basic sorting",
+        "type": "exam",
+        "passingScore": 70,
+        "questions": 25,
+        "timeLimit": 120
+      },
+      {
+        "id": "final",
+        "title": "Final Project",
+        "description": "Implement and analyze multiple algorithms, create performance comparison",
+        "type": "project",
+        "passingScore": 75,
+        "deliverables": [
+          "Implementation of 5 sorting algorithms",
+          "Performance analysis report",
+          "Visualization of algorithm behavior",
+          "Code documentation and testing"
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "book",
+        "title": "Introduction to Algorithms",
+        "authors": ["Thomas H. Cormen", "Charles E. Leiserson", "Ronald L. Rivest", "Clifford Stein"],
+        "edition": "3rd Edition"
+      },
+      {
+        "type": "online",
+        "title": "Algorithm Visualizer",
+        "url": "https://algorithm-visualizer.org/"
+      },
+      {
+        "type": "practice",
+        "title": "LeetCode",
+        "url": "https://leetcode.com/"
+      }
+    ]
+  }
+}

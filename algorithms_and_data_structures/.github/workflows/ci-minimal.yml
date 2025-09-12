@@ -1,0 +1,39 @@
+name: Minimal CI (Save Minutes)
+
+# OPTIMIZATION: Only run on PR to main and manual trigger
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'requirements*.txt'
+  workflow_dispatch:
+
+# OPTIMIZATION: Cancel previous runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Quick Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5  # OPTIMIZATION: Strict timeout
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Shallow clone
+      
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+      
+      - name: Run tests
+        run: pytest tests/unit/ -x --tb=short  # Exit on first failure
