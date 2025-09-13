@@ -506,7 +506,7 @@ Score: {progress.get('score', 0)} points"""
                 print(self.formatter.error("Invalid lesson number."))
     
     def start_lesson(self, lesson: Dict, module: Dict):
-        """Start a specific lesson with beautiful formatting"""
+        """Start a specific lesson with beautiful formatting and note integration"""
         # Mark as current lesson
         progress = self._load_progress()
         progress["current_lesson"] = lesson["id"]
@@ -515,8 +515,17 @@ Score: {progress.get('score', 0)} points"""
         # Clear screen for focused learning
         os.system('cls' if os.name == 'nt' else 'clear')
         
-        # Beautiful lesson header with box
+        # Check for existing notes
+        existing_notes = self.notes_manager.get_notes(
+            user_id=1,
+            lesson_id=lesson.get('id')
+        )
+        note_count = len(existing_notes) if existing_notes else 0
+        
+        # Beautiful lesson header with box and note indicator
         header_content = f"Module: {module['title']}\nLesson: {lesson['title']}"
+        if note_count > 0:
+            header_content += f"\n📝 Notes: {note_count} saved"
         self.formatter.box(header_content, title="📖 LESSON", style="double")
         
         # Lesson progress bar
@@ -573,12 +582,18 @@ Score: {progress.get('score', 0)} points"""
         # Interactive menu with better styling
         self.formatter.rule("Interactive Options")
         
+        # Customize note menu text based on existing notes
+        note_text = f"Take Notes ({note_count} existing)" if note_count > 0 else "Take Notes"
+        note_desc = f"View {note_count} notes or add new" if note_count > 0 else "Capture your thoughts and insights"
+        
         menu_options = [
-            ("1", "📝", "Take Notes", "Capture your thoughts and insights"),
+            ("1", "📝", note_text, note_desc),
             ("2", "🤖", "Claude Questions", "Get AI-powered explanations"),
             ("3", "💡", "Practice Problems", f"{lesson.get('practice_problems', 0)} problems available"),
             ("4", "✅", "Mark Complete", "Finish and earn points"),
             ("5", "⏭️", "Skip to Next", "Continue without completing"),
+            ("N", "📌", "Quick Note", "Add a quick note (shortcut)"),
+            ("V", "👁️", "View Notes", f"View all {note_count} notes" if note_count else "No notes yet"),
             ("0", "🔙", "Back", "Return to curriculum")
         ]
         
@@ -591,7 +606,7 @@ Score: {progress.get('score', 0)} points"""
             desc_str = self.formatter._color(f"- {desc}", self.formatter.theme.muted)
             print(f"  {key_str} {icon} {title_str} {desc_str}")
         
-        choice = input("\nYour choice: ")
+        choice = input("\nYour choice: ").strip().upper()
         
         if choice == "1":
             self.take_lesson_notes(lesson)
@@ -611,6 +626,13 @@ Score: {progress.get('score', 0)} points"""
             progress["current_lesson"] = None
             self._save_progress(progress)
             self.continue_learning()
+        elif choice == "N":  # Quick note shortcut
+            self.quick_note(lesson)
+            self.start_lesson(lesson, module)  # Return to lesson menu
+        elif choice == "V":  # View notes
+            self.view_lesson_notes(lesson)
+            input("\nPress Enter to continue...")
+            self.start_lesson(lesson, module)  # Return to lesson menu
         elif choice == "0":
             # Clear current lesson when going back
             progress["current_lesson"] = None
@@ -650,9 +672,62 @@ Score: {progress.get('score', 0)} points"""
                 continue
     
     def take_lesson_notes(self, lesson: Dict):
-        """Take notes for a lesson"""
+        """Enhanced note-taking with quick options and better integration"""
         print(self.formatter.info(f"\n📝 Taking notes for: {lesson['title']}"))
-        note_content = input("Enter your notes (press Enter twice to finish):\n")
+        
+        # Check for existing notes
+        existing_notes = self.notes_manager.get_notes(
+            user_id=1,
+            lesson_id=lesson.get('id')
+        )
+        
+        if existing_notes:
+            print(self.formatter._color(f"📚 You have {len(existing_notes)} existing note(s) for this lesson", 
+                                       self.formatter.theme.info))
+            print("Options:")
+            print("1. Add new note")
+            print("2. View existing notes")
+            print("3. Quick note (single line)")
+            print("0. Cancel")
+            
+            choice = input("\nYour choice: ").strip()
+            if choice == "0":
+                return
+            elif choice == "2":
+                self.view_lesson_notes(lesson)
+                if input("\nAdd a new note? (y/n): ").lower() == 'y':
+                    pass  # Continue to add note
+                else:
+                    return
+            elif choice == "3":
+                self.quick_note(lesson)
+                return
+        
+        # Show note templates
+        print("\nNote type:")
+        print("1. 📝 General note")
+        print("2. 💡 Key concept")
+        print("3. ❓ Question/confusion")
+        print("4. 📋 Summary")
+        print("5. 🔗 Connection to other topics")
+        
+        note_type = input("\nSelect type (1-5, default=1): ").strip() or "1"
+        
+        prefixes = {
+            "1": "",
+            "2": "KEY CONCEPT: ",
+            "3": "QUESTION: ",
+            "4": "SUMMARY: ",
+            "5": "CONNECTION: "
+        }
+        
+        prefix = prefixes.get(note_type, "")
+        
+        print(f"\nEnter your notes (press Enter twice to finish):")
+        if prefix:
+            print(self.formatter._color(prefix, self.formatter.theme.warning))
+        
+        note_content = input()
         
         # Multi-line input
         lines = [note_content]
@@ -662,18 +737,73 @@ Score: {progress.get('score', 0)} points"""
                 break
             lines.append(line)
         
-        full_note = "\n".join(lines)
+        full_note = prefix + "\n".join(lines)
         
-        # Save note (using save_note method with proper parameters)
+        # Auto-generate tags based on note type and content
+        tags = [lesson.get("id", "unknown"), "study-notes"]
+        
+        if note_type == "2":
+            tags.append("key-concept")
+        elif note_type == "3":
+            tags.append("question")
+        elif note_type == "4":
+            tags.append("summary")
+        elif note_type == "5":
+            tags.append("connection")
+        
+        # Save note with enhanced metadata
         self.notes_manager.save_note(
-            user_id=1,  # Default user ID
-            lesson_id=None,
-            module_name="Lessons",
-            topic=f"{lesson['title']} - Notes",
+            user_id=1,
+            lesson_id=lesson.get('id'),
+            module_name=lesson.get('module', 'Lessons'),
+            topic=f"{lesson['title']}",
             content=full_note,
-            tags=[lesson["id"], "study-notes"]
+            tags=list(set(tags))
         )
-        print(self.formatter.success("✅ Note saved!"))
+        
+        print(self.formatter.success("✅ Note saved successfully!"))
+        
+        # Show note preview
+        preview = full_note[:150]
+        print(self.formatter._color(f"Preview: {preview}{'...' if len(full_note) > 150 else ''}", 
+                                   self.formatter.theme.muted))
+    
+    def quick_note(self, lesson: Dict):
+        """Add a quick single-line note"""
+        note = input("Quick note: ").strip()
+        if note:
+            self.notes_manager.save_note(
+                user_id=1,
+                lesson_id=lesson.get('id'),
+                module_name=lesson.get('module', 'Lessons'),
+                topic=f"{lesson['title']} - Quick Note",
+                content=note,
+                tags=[lesson.get("id", "unknown"), "quick-note"]
+            )
+            print(self.formatter.success("✅ Quick note saved!"))
+    
+    def view_lesson_notes(self, lesson: Dict):
+        """View all notes for current lesson"""
+        notes = self.notes_manager.get_notes(
+            user_id=1,
+            lesson_id=lesson.get('id')
+        )
+        
+        if not notes:
+            print(self.formatter.warning("No notes found for this lesson."))
+            return
+        
+        print(self.formatter.header(f"\n📚 Notes for: {lesson['title']}"))
+        print(f"Total notes: {len(notes)}\n")
+        
+        for i, note in enumerate(notes, 1):
+            print(self.formatter._color(f"Note #{i}", self.formatter.theme.warning))
+            print(f"Date: {note.get('created_at', 'Unknown')}")
+            if note.get('tags'):
+                print(f"Tags: {', '.join(note['tags'])}")
+            print(self.formatter._color("Content:", self.formatter.theme.info))
+            print(note.get('content', 'No content'))
+            print("-" * 40)
     
     def show_claude_suggestions(self, lesson: Dict):
         """Show suggested questions for Claude"""
