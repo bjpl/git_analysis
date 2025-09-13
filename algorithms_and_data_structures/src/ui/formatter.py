@@ -2,16 +2,8 @@
 """
 Terminal Formatter - Beautiful terminal formatting with colors
 
-This module provides:
-- Rich text formatting and colors
-- Progress indicators and animations
-- Table and list formatting
-- Cross-platform terminal support
-- Theme system
-- Enhanced Windows PowerShell compatibility
-
-Note: This is the legacy formatter. For enhanced features with Windows-safe
-box drawing and advanced formatting, use enhanced_formatter.py
+This module now imports from the unified formatter for consistency.
+All formatting functionality is centralized in unified_formatter.py
 """
 
 import sys
@@ -25,14 +17,42 @@ import threading
 import asyncio
 import random
 import re
-# Handle relative imports when running as script
+
+# Import everything from unified formatter
+try:
+    from .unified_formatter import (
+        UnifiedFormatter, Color, Theme,
+        formatter, success, error, warning, info, header,
+        create_box, progress_bar, clear_screen
+    )
+    UNIFIED_AVAILABLE = True
+except ImportError:
+    UNIFIED_AVAILABLE = False
+# Terminal utilities are now handled by unified formatter
+# Keep imports for backward compatibility
 try:
     from ..utils.terminal_utils import terminal_utils, get_terminal_width, create_safe_box, wrap_text_safe, calculate_display_width
 except ImportError:
-    # If running as script, try absolute import
-    import sys
-    sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-    from utils.terminal_utils import terminal_utils, get_terminal_width, create_safe_box, wrap_text_safe, calculate_display_width
+    # Provide fallback implementations
+    def get_terminal_width():
+        return shutil.get_terminal_size((80, 24)).columns
+    
+    def create_safe_box(content, title=None, width=None):
+        if UNIFIED_AVAILABLE:
+            return formatter.create_box(content, title, width)
+        return '\n'.join(content)
+    
+    def wrap_text_safe(text, width=None):
+        if UNIFIED_AVAILABLE:
+            return formatter.wrap_text(text, width)
+        return text
+    
+    def calculate_display_width(text):
+        if UNIFIED_AVAILABLE:
+            return len(formatter.strip_ansi(text))
+        return len(text)
+    
+    terminal_utils = None
 try:
     import msvcrt
 except ImportError:
@@ -48,65 +68,69 @@ except ImportError:
     COMPONENTS_AVAILABLE = False
 
 
-class Color(Enum):
-    """ANSI color codes"""
-    BLACK = "\033[30m"
-    RED = "\033[31m"
-    GREEN = "\033[32m"
-    YELLOW = "\033[33m"
-    BLUE = "\033[34m"
-    MAGENTA = "\033[35m"
-    CYAN = "\033[36m"
-    WHITE = "\033[37m"
-    
-    # Bright colors
-    BRIGHT_BLACK = "\033[90m"
-    BRIGHT_RED = "\033[91m"
-    BRIGHT_GREEN = "\033[92m"
-    BRIGHT_YELLOW = "\033[93m"
-    BRIGHT_BLUE = "\033[94m"
-    BRIGHT_MAGENTA = "\033[95m"
-    BRIGHT_CYAN = "\033[96m"
-    BRIGHT_WHITE = "\033[97m"
-    
-    # Background colors
-    BG_BLACK = "\033[40m"
-    BG_RED = "\033[41m"
-    BG_GREEN = "\033[42m"
-    BG_YELLOW = "\033[43m"
-    BG_BLUE = "\033[44m"
-    BG_MAGENTA = "\033[45m"
-    BG_CYAN = "\033[46m"
-    BG_WHITE = "\033[47m"
-    
-    # Reset
-    RESET = "\033[0m"
-    
-    # Styles
-    BOLD = "\033[1m"
-    DIM = "\033[2m"
-    ITALIC = "\033[3m"
-    UNDERLINE = "\033[4m"
-    BLINK = "\033[5m"
-    REVERSE = "\033[7m"
-    STRIKETHROUGH = "\033[9m"
+# Re-export Color enum from unified formatter if not available
+if not UNIFIED_AVAILABLE:
+    class Color(Enum):
+        """ANSI color codes"""
+        BLACK = "\033[30m"
+        RED = "\033[31m"
+        GREEN = "\033[32m"
+        YELLOW = "\033[33m"
+        BLUE = "\033[34m"
+        MAGENTA = "\033[35m"
+        CYAN = "\033[36m"
+        WHITE = "\033[37m"
+        
+        # Bright colors
+        BRIGHT_BLACK = "\033[90m"
+        BRIGHT_RED = "\033[91m"
+        BRIGHT_GREEN = "\033[92m"
+        BRIGHT_YELLOW = "\033[93m"
+        BRIGHT_BLUE = "\033[94m"
+        BRIGHT_MAGENTA = "\033[95m"
+        BRIGHT_CYAN = "\033[96m"
+        BRIGHT_WHITE = "\033[97m"
+        
+        # Background colors
+        BG_BLACK = "\033[40m"
+        BG_RED = "\033[41m"
+        BG_GREEN = "\033[42m"
+        BG_YELLOW = "\033[43m"
+        BG_BLUE = "\033[44m"
+        BG_MAGENTA = "\033[45m"
+        BG_CYAN = "\033[46m"
+        BG_WHITE = "\033[47m"
+        
+        # Reset
+        RESET = "\033[0m"
+        
+        # Styles
+        BOLD = "\033[1m"
+        DIM = "\033[2m"
+        ITALIC = "\033[3m"
+        UNDERLINE = "\033[4m"
+        BLINK = "\033[5m"
+        REVERSE = "\033[7m"
+        STRIKETHROUGH = "\033[9m"
 
 
-@dataclass
-class Theme:
-    """Terminal theme configuration"""
-    primary: Color = Color.BLUE
-    secondary: Color = Color.CYAN
-    success: Color = Color.GREEN
-    warning: Color = Color.YELLOW
-    error: Color = Color.RED
-    info: Color = Color.BRIGHT_BLUE
-    muted: Color = Color.BRIGHT_BLACK
-    text: Color = Color.WHITE
+# Re-export Theme from unified formatter if not available
+if not UNIFIED_AVAILABLE:
+    @dataclass
+    class Theme:
+        """Terminal theme configuration"""
+        primary: Color = Color.BLUE
+        secondary: Color = Color.CYAN
+        success: Color = Color.GREEN
+        warning: Color = Color.YELLOW
+        error: Color = Color.RED
+        info: Color = Color.BRIGHT_BLUE
+        muted: Color = Color.BRIGHT_BLACK
+        text: Color = Color.WHITE
     
 
 class TerminalFormatter:
-    """Terminal formatter with colors and styling"""
+    """Terminal formatter that wraps UnifiedFormatter for backward compatibility"""
     
     def __init__(self, theme: Optional[Theme] = None, color_enabled: Optional[bool] = None):
         """Initialize terminal formatter
@@ -115,6 +139,16 @@ class TerminalFormatter:
             theme: Color theme to use
             color_enabled: Override color support detection
         """
+        # Use unified formatter if available
+        if UNIFIED_AVAILABLE:
+            self._formatter = UnifiedFormatter(theme)
+            if color_enabled is False:
+                UnifiedFormatter.disable_colors()
+            elif color_enabled is True:
+                UnifiedFormatter.enable_colors()
+        else:
+            self._formatter = None
+            
         self.theme = theme or Theme()
         self._color_enabled = color_enabled
         self.width = self._get_terminal_width()
@@ -132,8 +166,12 @@ class TerminalFormatter:
         
         # Initialize enhanced components if available
         if COMPONENTS_AVAILABLE:
-            self.gradient = GradientText(color_enabled=self.color_enabled)
-            self.animations = LoadingAnimation(color_enabled=self.color_enabled)
+            try:
+                self.gradient = GradientText(color_enabled=self.color_enabled)
+                self.animations = LoadingAnimation(color_enabled=self.color_enabled)
+            except:
+                self.gradient = None
+                self.animations = None
         else:
             self.gradient = None
             self.animations = None
@@ -1458,3 +1496,14 @@ class EnhancedSpinnerContext:
             return self.spinner_context.__exit__(exc_type, exc_val, exc_tb)
         else:
             print("Done!")
+
+
+# Export Formatter class for backward compatibility
+Formatter = TerminalFormatter
+
+# If unified formatter is available, use it directly
+if UNIFIED_AVAILABLE:
+    from .unified_formatter import Formatter as UnifiedFormatterClass
+    # Override with unified formatter for better compatibility
+    Formatter = UnifiedFormatterClass
+
