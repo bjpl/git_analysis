@@ -107,7 +107,7 @@ class NavigationController:
         self._clear_screen()
         
         # Render title with academic styling
-        print(self.formatter.header(self.title, level=1, style="banner"))
+        print(self.formatter.header(self.title, level=1))
         
         # Render menu items with selection highlighting
         self._render_items()
@@ -307,7 +307,7 @@ class NavigationController:
         """Show help information"""
         self._clear_screen()
         
-        print(self.formatter.header("Navigation Help", level=2, style="boxed"))
+        print(self.formatter.header("Navigation Help", level=2))
         
         help_content = """
         NAVIGATION CONTROLS:
@@ -396,7 +396,7 @@ class QuizNavigation:
         
         # Question header
         header_text = f"Question {question_num} of {total}"
-        print(self.formatter.header(header_text, level=1, style="centered"))
+        print(self.formatter.header(header_text, level=1))
         
         # Question content
         question_text = question_data.get('question', '')
@@ -490,7 +490,7 @@ class ProgressVisualization:
         print('\033[2J\033[H', end='')
         
         # Title
-        print(self.formatter.header(title, level=1, style="centered"))
+        print(self.formatter.header(title, level=1))
         
         # Main progress bar with animation
         progress_bar = await self.formatter.animated_progress_bar(
