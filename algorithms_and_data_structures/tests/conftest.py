@@ -111,7 +111,7 @@ class TestDataFactory:
         defaults = {
             "id": str(uuid.uuid4()),
             "name": name,
-            "email": f"{name.lower().replace(' ', '.')@test.com",
+            "email": f"{name.lower().replace(' ', '.')}@test.com",
             "learning_goals": ["algorithms", "data_structures"],
             "preferred_difficulty": "intermediate",
             "created_at": datetime.now().isoformat(),
@@ -459,12 +459,13 @@ def cleanup_after_test(test_data_dir):
 def pytest_configure(config):
     """Configure pytest settings."""
     # Add custom markers
-    config.addinivalue_line("markers", "slow: marks tests as slow (deselect with '-m "not slow"')")
+    config.addinivalue_line("markers", "slow: marks tests as slow (deselect with '-m \"not slow\"')")
     config.addinivalue_line("markers", "integration: marks tests as integration tests")
     config.addinivalue_line("markers", "unit: marks tests as unit tests")
     config.addinivalue_line("markers", "performance: marks tests as performance tests")
     config.addinivalue_line("markers", "database: marks tests that require database")
     config.addinivalue_line("markers", "async_test: marks tests that test async functionality")
+    config.addinivalue_line("markers", "asyncio: marks tests that use asyncio")
 
 
 def pytest_collection_modifyitems(config, items):

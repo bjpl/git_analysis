@@ -1,0 +1,74 @@
+{
+  "flow_nexus": {
+    "enabled": true,
+    "mcp_tools_required": [
+      "mcp__flow-nexus__user_login",
+      "mcp__flow-nexus__user_register", 
+      "mcp__flow-nexus__auth_status",
+      "mcp__flow-nexus__storage_upload",
+      "mcp__flow-nexus__storage_list",
+      "mcp__flow-nexus__challenge_submit",
+      "mcp__flow-nexus__challenges_list",
+      "mcp__flow-nexus__challenge_get",
+      "mcp__flow-nexus__leaderboard_get",
+      "mcp__flow-nexus__achievements_list",
+      "mcp__flow-nexus__app_store_earn_ruv",
+      "mcp__flow-nexus__ruv_balance",
+      "mcp__flow-nexus__realtime_subscribe"
+    ],
+    "endpoints": {
+      "api_base": "https://api.flow-nexus.ruv.io",
+      "websocket": "wss://ws.flow-nexus.ruv.io",
+      "storage": "https://storage.flow-nexus.ruv.io"
+    },
+    "features": {
+      "authentication": true,
+      "progress_sync": true,
+      "challenges": true,
+      "leaderboards": true,
+      "achievements": true,
+      "collaboration": true,
+      "real_time": true
+    },
+    "storage": {
+      "buckets": {
+        "user_progress": "user-progress",
+        "study_groups": "study-groups", 
+        "challenge_solutions": "challenge-solutions",
+        "shared_notes": "shared-notes"
+      },
+      "sync_interval": 300,
+      "auto_backup": true
+    }
+  },
+  "ruv_swarm": {
+    "enabled": false,
+    "description": "Optional enhanced coordination features",
+    "mcp_tools": [
+      "mcp__ruv-swarm__swarm_init",
+      "mcp__ruv-swarm__agent_spawn",
+      "mcp__ruv-swarm__task_orchestrate"
+    ]
+  },
+  "claude_flow": {
+    "enabled": true,
+    "description": "Basic coordination and hooks",
+    "required": true
+  },
+  "offline_mode": {
+    "enabled": true,
+    "cache_duration": 86400,
+    "local_challenges": true,
+    "progress_export": true
+  },
+  "privacy": {
+    "data_sharing": "opt_in",
+    "leaderboard_participation": "opt_in",
+    "usage_analytics": "anonymous_only"
+  },
+  "performance": {
+    "request_timeout": 30,
+    "max_retries": 3,
+    "connection_pool_size": 10
+  }
+}

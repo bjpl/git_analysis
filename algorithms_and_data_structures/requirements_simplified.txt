@@ -1,0 +1,22 @@
+# Simplified CLI Requirements
+# Core Python standard library dependencies only
+
+# The simplified CLI uses only Python standard library modules:
+# - sys, os (system operations)
+# - json (data persistence)  
+# - datetime (timestamps)
+# - pathlib (file paths)
+# - typing (type hints)
+
+# No external dependencies required!
+# This makes the CLI:
+# - Fast to install
+# - No dependency conflicts
+# - Works across all Python 3.7+ environments
+# - Reliable and stable
+
+# Optional: If you want enhanced colors on Windows
+# colorama>=0.4.6
+
+# For development/testing only:
+# pytest>=7.0.0

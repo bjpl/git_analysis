@@ -1,69 +1,266 @@
 #!/usr/bin/env python3
 """
-Algorithms & Data Structures CLI
-A comprehensive learning platform with interactive UI
+Algorithms & Data Structures Learning Platform
+Enhanced entry point with beautiful CLI formatting
 """
 
 import sys
 import os
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-# Import only what we need, avoid readline dependency on Windows
-from src.ui.formatter import OutputFormatter
 import argparse
+import asyncio
+from pathlib import Path
 
-def main():
+# Add project root to path
+project_root = Path(__file__).parent
+sys.path.insert(0, str(project_root))
+
+# Import the beautiful formatter
+try:
+    from src.ui.enhanced_formatter import BeautifulFormatter, GradientPreset
+    BEAUTIFUL_CLI = True
+except ImportError:
+    BEAUTIFUL_CLI = False
+
+def parse_arguments():
+    """Parse command line arguments"""
     parser = argparse.ArgumentParser(
-        description='Algorithms & Data Structures CLI - Interactive Learning Platform'
+        description="Algorithms & Data Structures Learning Platform",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python cli.py                           # Start in interactive mode
+  python cli.py curriculum list           # List all curricula
+  python cli.py curriculum show 1         # Show curriculum details
+  python cli.py curriculum create         # Create new curriculum
+  python cli.py --cloud                  # Start with cloud features
+  python cli.py --setup-cloud            # Setup cloud integration
+  python cli.py --offline                # Force offline mode
+  python cli.py --reset-progress         # Reset learning progress
+        """
     )
     
     parser.add_argument(
-        '--mode',
-        choices=['interactive', 'batch', 'test'],
-        default='interactive',
-        help='CLI mode (default: interactive)'
-    )
-    
-    parser.add_argument(
-        '--theme',
-        choices=['default', 'dark', 'light', 'high-contrast'],
-        default='default',
-        help='UI theme (default: default)'
-    )
-    
-    parser.add_argument(
-        '--no-color',
+        '--cloud', 
         action='store_true',
-        help='Disable colored output'
+        help='Enable cloud features (sync, challenges, leaderboards)'
     )
     
     parser.add_argument(
-        '--version',
-        action='version',
-        version='%(prog)s 1.0.0'
+        '--offline',
+        action='store_true', 
+        help='Force offline mode (no cloud features)'
     )
     
-    args = parser.parse_args()
+    parser.add_argument(
+        '--setup-cloud',
+        action='store_true',
+        help='Run cloud integration setup'
+    )
     
-    if args.mode == 'interactive':
-        # Launch interactive UI
-        try:
-            from src.ui.interactive import InteractiveUI
-            ui = InteractiveUI(theme=args.theme, use_color=not args.no_color)
-            ui.run()
-        except ImportError:
-            formatter = OutputFormatter()
-            formatter.print_warning("Interactive mode requires additional dependencies.")
-            formatter.print_info("Running in simple mode instead...")
-            formatter.print_success("✓ CLI is operational!")
-            formatter.print_info("Try: python cli.py --mode test")
-    elif args.mode == 'batch':
-        print("Batch mode - coming soon!")
-    elif args.mode == 'test':
-        print("Test mode - running diagnostics...")
-        formatter = OutputFormatter()
-        formatter.print_success("✓ CLI is working correctly!")
-        formatter.print_info("All systems operational")
+    parser.add_argument(
+        '--reset-progress',
+        action='store_true',
+        help='Reset all learning progress'
+    )
     
+    parser.add_argument(
+        '--debug',
+        action='store_true',
+        help='Enable debug mode'
+    )
+    
+    parser.add_argument(
+        '--config',
+        type=str,
+        default=None,
+        help='Path to custom configuration file'
+    )
+    
+    parser.add_argument(
+        '--demo',
+        action='store_true',
+        help='Show beautiful CLI features demo'
+    )
+    
+    # Add support for command arguments
+    parser.add_argument(
+        'command',
+        nargs='?',
+        help='Command to execute (e.g., curriculum, help)'
+    )
+    
+    parser.add_argument(
+        'args',
+        nargs='*',
+        help='Command arguments'
+    )
+    
+    return parser.parse_args()
+
+async def setup_cloud_integration():
+    """Setup cloud integration"""
+    try:
+        from config.mcp_setup import MCPSetupManager
+        
+        print("🔧 Setting up Flow Nexus cloud integration...")
+        setup_manager = MCPSetupManager()
+        success = setup_manager.run_full_setup()
+        
+        if success:
+            print("\n✅ Cloud integration setup completed!")
+            print("You can now use --cloud flag to enable cloud features")
+        else:
+            print("\n⚠️ Setup completed with warnings")
+            print("Some features may not be available")
+        
+        return success
+        
+    except ImportError:
+        print("❌ Setup module not found")
+        return False
+    except Exception as e:
+        print(f"❌ Setup failed: {e}")
+        return False
+
+async def main():
+    """Enhanced main entry point with beautiful CLI"""
+    args = parse_arguments()
+    
+    # Initialize beautiful formatter if available
+    if BEAUTIFUL_CLI:
+        formatter = BeautifulFormatter()
+    
+    try:
+        # Handle special commands first
+        if args.demo and BEAUTIFUL_CLI:
+            # Show beautiful CLI demo
+            from src.ui.enhanced_formatter import demo_beautiful_cli
+            demo_beautiful_cli()
+            return
+        
+        if args.setup_cloud:
+            await setup_cloud_integration()
+            return
+        
+        # Handle command-line commands (non-interactive mode)
+        if args.command:
+            from src.command_router import CommandRouter
+            router = CommandRouter()
+            
+            # Build command arguments
+            command_args = [args.command] + (args.args or [])
+            command, remaining_args = router.parse_command(command_args)
+            
+            # Route the command
+            success = await router.route_command(command, remaining_args)
+            sys.exit(0 if success else 1)
+        
+        # Import the enhanced CLI after path setup
+        from src.enhanced_cli import EnhancedCLI
+        
+        # Show beautiful startup message
+        if BEAUTIFUL_CLI:
+            formatter.clear_screen()
+            
+            # Beautiful ASCII banner with gradient
+            banner = formatter.ascii_art_banner("ALGORITHMS")
+            print(formatter.gradient_text(banner, GradientPreset.CYBERPUNK))
+            
+            # Mode-specific messages with beautiful formatting
+            if args.cloud:
+                title = formatter.gradient_text(
+                    "☁️ Cloud-Enhanced Learning Platform",
+                    GradientPreset.OCEAN
+                )
+                print(f"\n{title}")
+                features = [
+                    "Real-time sync across devices",
+                    "Global challenges & competitions",
+                    "Live leaderboards",
+                    "Collaborative learning"
+                ]
+                for feature in features:
+                    print(f"  {formatter.status_icon('star')} {feature}")
+            elif args.offline:
+                title = formatter.gradient_text(
+                    "📚 Offline Learning Mode",
+                    GradientPreset.FOREST
+                )
+                print(f"\n{title}")
+                features = [
+                    "Complete curriculum access",
+                    "Local progress tracking",
+                    "Personal notes system",
+                    "No internet required"
+                ]
+                for feature in features:
+                    print(f"  {formatter.status_icon('success')} {feature}")
+            else:
+                title = formatter.gradient_text(
+                    "Your Journey to Mastery Begins Here!",
+                    GradientPreset.RAINBOW
+                )
+                print(f"\n{title}")
+                subtitle = formatter.gradient_text(
+                    "Master algorithms & data structures with interactive learning",
+                    GradientPreset.SUNSET
+                )
+                print(subtitle)
+            
+            # Beautiful separator
+            print("\n" + formatter.gradient_text("═" * 70, GradientPreset.NEON))
+        else:
+            # Fallback to simple messages
+            if args.cloud:
+                print("🎓 Starting Algorithms & Data Structures Learning Platform (Cloud Mode)...")
+                print("☁️ Cloud features: sync, challenges, leaderboards, collaboration")
+            elif args.offline:
+                print("🎓 Starting Algorithms & Data Structures Learning Platform (Offline Mode)...")
+                print("📱 Local-only features: progress tracking, notes, curriculum")
+            else:
+                print("🎓 Starting Algorithms & Data Structures Learning Platform...")
+                print("Your comprehensive guide to mastering computer science fundamentals")
+        
+        print()
+        
+        # Initialize CLI with appropriate settings
+        cli_options = {
+            'reset_progress': args.reset_progress,
+            'cloud_mode': args.cloud,
+            'offline_mode': args.offline,
+            'debug_mode': args.debug,
+            'config_path': args.config
+        }
+        
+        cli = EnhancedCLI(**cli_options)
+        
+        # Initialize cloud integration if requested
+        if args.cloud:
+            await cli.initialize_cloud_features()
+        
+        # Run the CLI
+        await cli.run()
+        
+    except KeyboardInterrupt:
+        print("\n👋 Exiting... See you next time!")
+        sys.exit(0)
+    except ImportError as e:
+        print(f"❌ Import error: {e}")
+        print("Please ensure all dependencies are installed: pip install -r requirements.txt")
+        if args.cloud:
+            print("For cloud features, also run: python cli.py --setup-cloud")
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ An error occurred: {e}")
+        if args.debug:
+            import traceback
+            traceback.print_exc()
+        print("Please check your installation and try again.")
+        sys.exit(1)
+
+def sync_main():
+    """Synchronous wrapper for main function"""
+    asyncio.run(main())
+
 if __name__ == '__main__':
-    main()
+    sync_main()

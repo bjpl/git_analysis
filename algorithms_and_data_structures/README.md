@@ -19,6 +19,17 @@ This platform is designed specifically for **non-STEM professionals** to build i
 
 ## ✨ Key Features
 
+### 🌟 NEW: Enhanced Interactive Learning System
+- **🎨 Beautiful animated interface** optimized for Windows PowerShell
+- **⚡ Arrow key navigation** with number input fallback
+- **✨ Typing animation effects** for engaging content delivery
+- **🔄 Smooth transitions** between screens (fade, slide, wipe)
+- **📝 Rich note-taking** with markdown-style formatting
+- **🧠 Visual quizzes** with instant feedback and explanations
+- **📊 Real-time progress visualization** with achievements
+- **💾 Advanced export options** (session reports, web portfolios)
+- **⚙️ Performance optimization** specifically for Windows terminals
+
 ### 🎮 Interactive Learning Modules
 ```
 📚 Arrays          → Bookshelf organization
@@ -50,9 +61,21 @@ This platform is designed specifically for **non-STEM professionals** to build i
 
 ## 🚀 Quick Start
 
+### 🌟 Enhanced Interactive Mode (Recommended)
+```bash
+# Launch the main CLI
+python cli.py
+
+# Select option 9: "✨ Enhanced Interactive Mode (NEW!)"
+# Experience the full animated learning environment!
+```
+
 ### Prerequisites
 ```bash
-# Required: Node.js 18.0.0 or higher
+# Required: Python 3.7+ (for enhanced mode)
+python --version  # Should be >= 3.7
+
+# Optional: Node.js 18.0.0 or higher (for certain features)
 node --version  # Should be >= 18.0.0
 ```
 

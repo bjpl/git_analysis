@@ -702,53 +702,72 @@ class CurriculumShowCommand(BaseCommand):
         return None
     
     def _show_detailed(self, formatter: TerminalFormatter, curriculum: Dict[str, Any], args):
-        """Show detailed curriculum information"""
-        formatter.header(curriculum['name'], level=1)
+        """Show detailed curriculum information with enhanced formatting"""
+        # Use banner style for main title
+        formatter.header(curriculum['name'], level=1, style="banner", 
+                        subtitle=f"{curriculum['category']} | {curriculum['difficulty'].title()}")
         
-        # Basic information
-        formatter.header("Basic Information", level=2)
-        basic_info = {
-            'ID': curriculum['id'],
-            'Status': curriculum['status'].upper(),
-            'Difficulty': curriculum['difficulty'].title(),
-            'Category': curriculum['category'],
-            'Author': curriculum['author'],
-            'Created': curriculum['created'],
-            'Updated': curriculum['updated']
-        }
-        formatter.key_value_pairs(basic_info)
+        # Use a decorative frame for the description
+        formatter.box(
+            curriculum['description'],
+            title="📚 What You'll Learn",
+            style="double",
+            padding=2,
+            color=formatter.theme.primary if hasattr(formatter, 'theme') else None
+        )
         
-        # Description
-        formatter.header("Description", level=2)
-        formatter.info(curriculum['description'])
+        # Basic information in a panel
+        basic_info_content = []
+        basic_info_content.append(f"Status: {curriculum['status'].upper()}")
+        basic_info_content.append(f"Author: {curriculum['author']}")
+        basic_info_content.append(f"Created: {curriculum['created']}")
+        basic_info_content.append(f"Updated: {curriculum['updated']}")
         
-        # Tags
+        sections = [("📊 Course Details", "\n".join(basic_info_content))]
+        
+        # Add tags if present
         if curriculum.get('tags'):
-            formatter.header("Tags", level=2)
-            formatter.list_items(curriculum['tags'])
+            tags_content = " • ".join([f"#{tag}" for tag in curriculum['tags']])
+            sections.append(("🏷️ Topics Covered", tags_content))
         
-        # Statistics
+        # Add statistics if requested
         if args.include_stats and 'students' in curriculum:
-            formatter.header("Statistics", level=2)
-            stats = {
-                'Students Enrolled': curriculum.get('students', 0),
-                'Completion Rate': f"{curriculum.get('completion_rate', 0)}%",
-                'Average Rating': f"{curriculum.get('average_rating', 0)}/5.0",
-                'Total Duration': curriculum.get('total_duration', 'Not specified')
-            }
-            formatter.key_value_pairs(stats)
+            stats_lines = []
+            stats_lines.append(f"👥 Students Enrolled: {curriculum.get('students', 0)}")
+            stats_lines.append(f"✅ Completion Rate: {curriculum.get('completion_rate', 0)}%")
+            stats_lines.append(f"⭐ Average Rating: {curriculum.get('average_rating', 0)}/5.0")
+            stats_lines.append(f"⏱️ Total Duration: {curriculum.get('total_duration', 'Not specified')}")
+            sections.append(("📈 Performance Metrics", "\n".join(stats_lines)))
         
-        # Modules
+        # Display all sections in a panel
+        formatter.panel(sections, title="CURRICULUM OVERVIEW")
+        
+        # Modules with enhanced formatting
         if args.include_modules and curriculum.get('modules'):
-            formatter.header("Modules", level=2)
-            module_data = []
-            for module in curriculum['modules']:
-                module_data.append({
-                    'Order': module['order'],
-                    'Name': module['name'],
-                    'Status': module['status'].upper()
-                })
-            formatter.table(module_data)
+            formatter.header("📚 Course Modules", level=2)
+            
+            for i, module in enumerate(curriculum['modules'], 1):
+                status_icon = "✅" if module['status'] == 'published' else "🔄" if module['status'] == 'draft' else "⏸️"
+                module_line = f"  {i}. {status_icon} {module['name']}"
+                
+                if module['status'] == 'published':
+                    formatter.success(module_line)
+                elif module['status'] == 'draft':
+                    formatter.warning(module_line)
+                else:
+                    formatter.info(module_line)
+            
+            # Add a progress visualization
+            published_count = sum(1 for m in curriculum['modules'] if m['status'] == 'published')
+            total_count = len(curriculum['modules'])
+            progress_pct = (published_count / total_count * 100) if total_count > 0 else 0
+            
+            progress_bar = formatter.progress_with_eta(
+                current=published_count,
+                total=total_count,
+                description="Module Completion"
+            )
+            print(f"\n{progress_bar}")
     
     def _show_summary(self, formatter: TerminalFormatter, curriculum: Dict[str, Any]):
         """Show curriculum summary"""

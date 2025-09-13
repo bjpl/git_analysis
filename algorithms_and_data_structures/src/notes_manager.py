@@ -64,11 +64,17 @@ class NotesManager:
                 ON notes(lesson_id, user_id)
             """)
             
-            # Ensure progress table has notes column
-            cursor.execute("PRAGMA table_info(progress)")
-            columns = [col[1] for col in cursor.fetchall()]
-            if 'notes' not in columns:
-                cursor.execute("ALTER TABLE progress ADD COLUMN notes TEXT")
+            # Ensure progress table exists and has notes column
+            cursor.execute("""
+                SELECT name FROM sqlite_master 
+                WHERE type='table' AND name='progress'
+            """)
+            if cursor.fetchone():
+                # Table exists, check for notes column
+                cursor.execute("PRAGMA table_info(progress)")
+                columns = [col[1] for col in cursor.fetchall()]
+                if 'notes' not in columns:
+                    cursor.execute("ALTER TABLE progress ADD COLUMN notes TEXT")
             
             conn.commit()
     
@@ -484,8 +490,13 @@ def integrate_with_cli(cli_instance):
         """List notes with optional filters"""
         user_id = getattr(cli_instance, 'current_user_id', 1)
         
-        search = args.get('search')
-        module = args.get('module')
+        # Handle args being a dict, string, or None
+        if isinstance(args, dict):
+            search = args.get('search')
+            module = args.get('module')
+        else:
+            search = None
+            module = None
         
         notes = notes_mgr.get_notes(user_id, module_name=module, search_term=search)
         notes_mgr.display_notes(notes, title="Your Notes")
@@ -493,7 +504,12 @@ def integrate_with_cli(cli_instance):
     def cmd_note_export(args):
         """Export notes to file"""
         user_id = getattr(cli_instance, 'current_user_id', 1)
-        format = args.get('format', 'markdown')
+        
+        # Handle args being a dict, string, or None
+        if isinstance(args, dict):
+            format = args.get('format', 'markdown')
+        else:
+            format = 'markdown'
         
         filename = notes_mgr.export_notes(user_id, format)
         if filename:
