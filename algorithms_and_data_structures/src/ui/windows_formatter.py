@@ -95,6 +95,7 @@ class ModernTheme:
     highlight: WindowsColor = WindowsColor.BRIGHT_MAGENTA
     code: WindowsColor = WindowsColor.BRIGHT_WHITE
     comment: WindowsColor = WindowsColor.GREEN
+    accent: WindowsColor = WindowsColor.BRIGHT_MAGENTA  # Added accent color for UI elements
 
 
 class WindowsFormatter:
@@ -120,7 +121,11 @@ class WindowsFormatter:
             'error': WindowsColor.BRIGHT_RED,
             'info': WindowsColor.BRIGHT_BLUE,
             'muted': WindowsColor.BRIGHT_BLACK,
-            'text': WindowsColor.WHITE
+            'text': WindowsColor.WHITE,
+            'accent': WindowsColor.BRIGHT_MAGENTA,  # Added missing accent attribute
+            'highlight': WindowsColor.BRIGHT_MAGENTA,  # Also add highlight for consistency
+            'code': WindowsColor.BRIGHT_WHITE,  # Add code color
+            'comment': WindowsColor.GREEN  # Add comment color
         })()
     
     # Windows-safe box drawing characters

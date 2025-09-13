@@ -15,11 +15,46 @@ project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
 # Import the beautiful formatter
+BeautifulFormatter = None
+CLIFormatter = None
+formatter = None
+
 try:
-    from src.ui.enhanced_formatter import BeautifulFormatter, GradientPreset
+    from src.cli_formatter import CLIFormatter, BoxStyle, display_header, display_panel, success, error, info
+    formatter = CLIFormatter()
     BEAUTIFUL_CLI = True
+    # Create a mock GradientPreset for compatibility
+    class GradientPreset:
+        CYBERPUNK = "cyberpunk"
+        OCEAN = "ocean"
+        FOREST = "forest"
+        RAINBOW = "rainbow"
+        SUNSET = "sunset"
+        NEON = "neon"
 except ImportError:
-    BEAUTIFUL_CLI = False
+    try:
+        from src.ui.enhanced_formatter import BeautifulFormatter as BF, GradientPreset
+        BeautifulFormatter = BF
+        formatter = BF()  # Create instance of BeautifulFormatter
+        BEAUTIFUL_CLI = True
+    except ImportError:
+        BEAUTIFUL_CLI = False
+        # Create a mock formatter for fallback
+        class MockFormatter:
+            def clear_screen(self):
+                os.system('cls' if sys.platform == 'win32' else 'clear')
+            def ascii_art_banner(self, text):
+                return f"=== {text} ==="
+            def gradient_text(self, text, preset=None):
+                return text
+        formatter = MockFormatter()
+        class GradientPreset:
+            CYBERPUNK = "cyberpunk"
+            OCEAN = "ocean"
+            FOREST = "forest"
+            RAINBOW = "rainbow"
+            SUNSET = "sunset"
+            NEON = "neon"
 
 def parse_arguments():
     """Parse command line arguments"""
@@ -82,6 +117,12 @@ Examples:
         help='Show beautiful CLI features demo'
     )
     
+    parser.add_argument(
+        '--menu',
+        action='store_true',
+        help='Launch new interactive menu with arrow key navigation'
+    )
+    
     # Add support for command arguments
     parser.add_argument(
         'command',
@@ -127,11 +168,23 @@ async def main():
     args = parse_arguments()
     
     # Initialize beautiful formatter if available
-    if BEAUTIFUL_CLI:
+    global formatter
+    if BEAUTIFUL_CLI and BeautifulFormatter and not formatter:
         formatter = BeautifulFormatter()
     
     try:
         # Handle special commands first
+        if args.menu:
+            # Launch the new interactive menu system
+            from src.main_menu import MainMenuSystem
+            menu_system = MainMenuSystem()
+            print(menu_system.formatter.header("🎓 Welcome to Algorithm Learning Platform!", level=1))
+            print(menu_system.formatter.info("Master algorithms and data structures with interactive learning"))
+            print(menu_system.formatter.success("Now with arrow key navigation! Use ↑↓ or number keys."))
+            input("\nPress Enter to start...")
+            await menu_system.run()
+            return
+        
         if args.demo and BEAUTIFUL_CLI:
             # Show beautiful CLI demo
             from src.ui.enhanced_formatter import demo_beautiful_cli
