@@ -1,12 +1,12 @@
-# 🧠 Interactive Algorithms & Data Structures Learning Platform
+# 🎓 Algorithms & Data Structures Learning Platform
 
-[![Node.js CI](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![SPARC Methodology](https://img.shields.io/badge/Built%20with-SPARC-blue.svg)](https://github.com/ruvnet/claude-flow)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean-green.svg)](./docs/ARCHITECTURE.md)
 
-> *"Understanding before memorization, intuition before formulas, application before theory"*
+> *"Master algorithms through interactive learning and structured practice"*
 
-A comprehensive CLI-based learning platform that transforms abstract computer science concepts into relatable experiences using familiar analogies like organizing books, waiting in coffee lines, and planning road trips.
+A comprehensive command-line learning platform for mastering algorithms and data structures with beautiful terminal UI, progress tracking, and AI integration.
 
 ## 🎯 Core Philosophy
 

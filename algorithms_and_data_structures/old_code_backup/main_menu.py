@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # Import navigation system
 from src.ui.navigation import NavigationController, MenuItem, NavigationMode
 from src.ui.windows_formatter import WindowsFormatter, WindowsColor
+from src.ui.enhanced_lesson_formatter import EnhancedLessonFormatter
 from src.flow_nexus_teacher import AlgorithmTeacher
 from src.notes_manager import NotesManager
 from src.notes_viewer import EnhancedNotesViewer
@@ -30,6 +31,7 @@ class MainMenuSystem:
         """Initialize the main menu system"""
         self.formatter = WindowsFormatter()
         self.nav_controller = NavigationController(self.formatter)
+        self.enhanced_formatter = EnhancedLessonFormatter(self.formatter)
         self.teacher = AlgorithmTeacher()
         self.notes_manager = NotesManager()
         self.notes_viewer = EnhancedNotesViewer()
@@ -221,6 +223,89 @@ class MainMenuSystem:
                 }
             ]
         }
+    
+    def _normalize_lesson_for_display(self, lesson: Dict, module: Dict) -> Dict:
+        """Normalize lesson data for enhanced formatter
+        
+        Args:
+            lesson: Raw lesson data
+            module: Parent module data
+            
+        Returns:
+            Normalized lesson structure
+        """
+        normalized = {
+            'id': lesson.get('id', 'unknown'),
+            'title': lesson.get('title', 'Untitled Lesson'),
+            'subtitle': f"Module: {module.get('title', 'Unknown Module')}",
+            'topics': lesson.get('topics', []),
+            'practice_problems': lesson.get('practice_problems', 0)
+        }
+        
+        # Handle content - ensure it's a string
+        content = lesson.get('content', '')
+        if isinstance(content, dict):
+            # Convert dict to formatted string
+            content_parts = []
+            for key, value in content.items():
+                if key not in ['title', 'subtitle', 'id']:
+                    content_parts.append(f"## {key.replace('_', ' ').title()}")
+                    if isinstance(value, list):
+                        for item in value:
+                            content_parts.append(f"- {item}")
+                    else:
+                        content_parts.append(str(value))
+            normalized['content'] = '\n\n'.join(content_parts)
+        elif isinstance(content, list):
+            # Convert list to formatted string
+            normalized['content'] = '\n\n'.join(str(item) for item in content)
+        else:
+            # Use as-is or default
+            normalized['content'] = str(content) if content else self._generate_default_content(lesson)
+        
+        # Add any additional fields
+        for key in ['difficulty', 'est_time', 'prerequisites', 'objectives', 
+                    'time_complexity', 'space_complexity', 'code_examples']:
+            if key in lesson:
+                normalized[key] = lesson[key]
+        
+        # Ensure topics is always a list
+        if not isinstance(normalized['topics'], list):
+            normalized['topics'] = [str(normalized['topics'])] if normalized['topics'] else []
+        
+        # Add key_topics for formatter compatibility
+        normalized['key_topics'] = normalized['topics']
+        
+        return normalized
+    
+    def _generate_default_content(self, lesson: Dict) -> str:
+        """Generate default content from lesson structure
+        
+        Args:
+            lesson: Lesson data
+            
+        Returns:
+            Generated content string
+        """
+        parts = []
+        
+        if lesson.get('description'):
+            parts.append(lesson['description'])
+        
+        if lesson.get('topics'):
+            parts.append("\n## Topics Covered")
+            for topic in lesson['topics']:
+                parts.append(f"- {topic}")
+        
+        if lesson.get('objectives'):
+            parts.append("\n## Learning Objectives")
+            for obj in lesson['objectives']:
+                parts.append(f"- {obj}")
+        
+        if not parts:
+            parts.append("This lesson content is being prepared. Check back soon!")
+        
+        return '\n'.join(parts)
     
     async def run(self):
         """Main run loop"""
@@ -494,17 +579,30 @@ class MainMenuSystem:
         if lesson["id"] == "big-o":
             self.teacher.teach_big_o_notation()
         else:
-            # Display generic lesson content
-            print(self.formatter.header(f"📖 {lesson['title']}", level=1))
-            print(self.formatter.box(lesson["content"], title="Overview", style="rounded"))
+            # Normalize lesson structure for consistent formatting
+            normalized_lesson = self._normalize_lesson_for_display(lesson, module)
             
-            # Display topics
-            print(self.formatter.header("🎯 Key Topics", level=2))
-            for i, topic in enumerate(lesson["topics"], 1):
-                print(f"  {i}. {topic}")
-            
-            # Display practice problems info
-            print(self.formatter.header(f"💡 Practice Problems: {lesson['practice_problems']} available", level=3))
+            # Use enhanced formatter for beautiful consistent display
+            try:
+                self.enhanced_formatter.format_lesson_content(normalized_lesson)
+            except Exception as e:
+                # Fallback to simple display if enhanced formatting fails
+                print(self.formatter.warning(f"Note: Using simplified display"))
+                print(self.formatter.header(f"📖 {lesson['title']}", level=1))
+                
+                # Safe content display
+                content_str = str(lesson.get("content", "Content coming soon..."))
+                print(self.formatter.box(content_str, title="Overview", style="rounded"))
+                
+                # Display topics
+                if lesson.get("topics"):
+                    print(self.formatter.header("🎯 Key Topics", level=2))
+                    for i, topic in enumerate(lesson["topics"], 1):
+                        print(f"  {i}. {topic}")
+                
+                # Display practice problems info
+                if lesson.get("practice_problems"):
+                    print(self.formatter.header(f"💡 Practice Problems: {lesson['practice_problems']} available", level=3))
         
         # Lesson menu
         menu_items = [

@@ -6,7 +6,7 @@ Ensures both menu AND content use the same pretty terminal formatting styles
 
 import re
 import textwrap
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any, Tuple, Union
 from .formatter import TerminalFormatter, Color
 from .lesson_display import LessonDisplay
 
@@ -129,6 +129,42 @@ class EnhancedLessonFormatter:
             print(self.formatter._colorize("└" + "─" * 68 + "┘", Color.BRIGHT_CYAN))
             print()
     
+    def _normalize_content(self, content: Any) -> str:
+        """Normalize content to string format
+        
+        Args:
+            content: Content in various formats
+            
+        Returns:
+            Normalized string content
+        """
+        if content is None:
+            return ""
+        
+        if isinstance(content, str):
+            return content
+        
+        if isinstance(content, dict):
+            # Handle dict format with sections
+            parts = []
+            for key, value in content.items():
+                if key in ['title', 'subtitle']:
+                    continue  # Skip these as they're handled in header
+                parts.append(f"## {key.replace('_', ' ').title()}")
+                if isinstance(value, list):
+                    for item in value:
+                        parts.append(f"- {item}")
+                else:
+                    parts.append(str(value))
+            return '\n\n'.join(parts)
+        
+        if isinstance(content, list):
+            # Handle list format
+            return '\n\n'.join(str(item) for item in content)
+        
+        # Fallback: convert to string
+        return str(content)
+    
     def _create_difficulty_badge(self, difficulty: str) -> str:
         """Create a color-coded difficulty badge"""
         difficulty_lower = difficulty.lower()
@@ -167,15 +203,27 @@ class EnhancedLessonFormatter:
         formatted = self.formatter._colorize(complexity, color, Color.BOLD)
         return f"  {formatted} - {label}"
     
-    def _display_formatted_content(self, content: str) -> None:
-        """Display main content with proper formatting"""
+    def _display_formatted_content(self, content: Any) -> None:
+        """Display main content with proper formatting
+        
+        Args:
+            content: Can be string, dict, list, or None
+        """
         print(self.formatter._colorize(">>> 📖 Lesson Content >>>", 
                                        Color.BRIGHT_CYAN, Color.BOLD))
         print(self.formatter._colorize("=" * 60, Color.BRIGHT_CYAN))
         print()
         
+        # Handle different content types
+        content_str = self._normalize_content(content)
+        if not content_str:
+            print(self.formatter._colorize("  No detailed content available yet.", 
+                                          Color.WHITE))
+            print()
+            return
+        
         # Parse and format content sections
-        lines = content.split('\n')
+        lines = content_str.split('\n')
         in_code_block = False
         code_lines = []
         code_lang = "python"

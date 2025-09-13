@@ -537,15 +537,27 @@ Score: {progress.get('score', 0)} points"""
         bar = "█" * filled + "░" * (bar_length - filled)
         print(f"Module Progress: [{bar}] {progress_percent:.0f}% ({current_idx + 1}/{len(module_lessons)})")
         
+        # Ensure lesson has proper structure for formatter
+        formatted_lesson = self._normalize_lesson_structure(lesson)
+        
         # Display the lesson content with beautiful formatting
-        if 'content' in lesson and lesson['content']:
-            # Use the enhanced formatter for consistent beautiful formatting
-            self.enhanced_formatter.format_lesson_content(lesson)
-        else:
-            # Fallback for lessons without detailed content
+        try:
+            self.enhanced_formatter.format_lesson_content(formatted_lesson)
+        except Exception as e:
+            # Fallback for any formatting errors
+            print(self.formatter.warning(f"Note: Using simplified formatting due to: {e}"))
             print(self.formatter.header("📚 Lesson Content", level=2))
-            print(self.formatter._colorize(f"  {lesson.get('description', 'No detailed content available yet.')}", 
-                                          self.formatter.theme.text))
+            
+            # Display available content
+            if formatted_lesson.get('content'):
+                print(self.formatter._colorize(str(formatted_lesson['content']), 
+                                              self.formatter.theme.text))
+            elif formatted_lesson.get('description'):
+                print(self.formatter._colorize(formatted_lesson['description'], 
+                                              self.formatter.theme.text))
+            else:
+                print(self.formatter._colorize("No detailed content available yet.", 
+                                              self.formatter.theme.text))
         
         # Topics section with colorful bullets
         print(self.formatter.header("🎯 Key Topics", level=2))
@@ -916,6 +928,48 @@ How to use Claude Code with this CLI:
 Press Enter to continue...
 """)
         input()
+    
+    def _normalize_lesson_structure(self, lesson: Dict) -> Dict:
+        """Normalize lesson structure for consistent formatting
+        
+        Args:
+            lesson: Raw lesson data
+            
+        Returns:
+            Normalized lesson with expected structure
+        """
+        normalized = {
+            'id': lesson.get('id', 'unknown'),
+            'title': lesson.get('title', 'Untitled Lesson'),
+            'subtitle': lesson.get('subtitle', ''),
+            'topics': lesson.get('topics', []),
+            'practice_problems': lesson.get('practice_problems', 0)
+        }
+        
+        # Handle content field - it might be string, dict, or missing
+        if 'content' in lesson:
+            normalized['content'] = lesson['content']
+        elif 'description' in lesson:
+            normalized['content'] = lesson['description']
+        else:
+            # Generate content from other fields
+            content_parts = []
+            if 'topics' in lesson and lesson['topics']:
+                content_parts.append("## Topics Covered")
+                for topic in lesson['topics']:
+                    content_parts.append(f"- {topic}")
+            if 'description' in lesson:
+                content_parts.append("\n## Description")
+                content_parts.append(lesson['description'])
+            normalized['content'] = '\n'.join(content_parts) if content_parts else "Content coming soon..."
+        
+        # Copy over any additional fields
+        for key in ['difficulty', 'est_time', 'prerequisites', 'objectives', 
+                    'time_complexity', 'space_complexity', 'code_examples']:
+            if key in lesson:
+                normalized[key] = lesson[key]
+        
+        return normalized
     
     def _reset_progress(self):
         """Reset all learning progress"""
