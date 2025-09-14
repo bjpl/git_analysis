@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Voice Agent</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4F46E5">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Breathing animation for listening state */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .breathing {
+            animation: breathe 2s ease-in-out infinite;
+        }
+        
+        /* Spinning ring for processing */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .spinning {
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Word-by-word appearance */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .word-appear {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Custom scrollbar */
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+                <h1 class="text-xl font-semibold text-gray-900">Learning Voice Agent</h1>
+                <div class="flex items-center space-x-4">
+                    <span v-if="sessionId" class="text-sm text-gray-500">
+                        Session: {{ sessionId.slice(0, 8) }}...
+                    </span>
+                    <button 
+                        @click="toggleSearch"
+                        class="p-2 rounded-lg hover:bg-gray-100 transition"
+                        title="Search (Cmd+K)"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6">
+            <!-- Search Bar (Hidden by default) -->
+            <div v-if="showSearch" class="mb-6">
+                <input
+                    v-model="searchQuery"
+                    @input="performSearch"
+                    type="text"
+                    placeholder="Search your captures..."
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    ref="searchInput"
+                >
+                <div v-if="searchResults.length > 0" class="mt-2 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div v-for="result in searchResults" :key="result.id" 
+                         class="p-3 border-b hover:bg-gray-50 cursor-pointer"
+                         @click="viewResult(result)">
+                        <div class="text-sm text-gray-600" v-html="result.user_snippet"></div>
+                        <div class="text-sm text-gray-800 mt-1" v-html="result.agent_snippet"></div>
+                        <div class="text-xs text-gray-400 mt-1">{{ formatDate(result.timestamp) }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversation Container -->
+            <div class="chat-container bg-white rounded-lg shadow-sm border p-4 h-96 overflow-y-auto mb-6" ref="chatContainer">
+                <div v-if="conversations.length === 0" class="text-center text-gray-400 mt-20">
+                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                    </svg>
+                    <p>Start speaking to begin capturing your thoughts</p>
+                </div>
+                
+                <div v-for="(conv, index) in conversations" :key="index" class="mb-4">
+                    <!-- User message -->
+                    <div class="flex justify-end mb-2">
+                        <div class="bg-indigo-500 text-white rounded-lg px-4 py-2 max-w-xs lg:max-w-md">
+                            <p class="text-sm">{{ conv.user }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Agent message -->
+                    <div class="flex justify-start">
+                        <div class="bg-gray-100 text-gray-800 rounded-lg px-4 py-2 max-w-xs lg:max-w-md">
+                            <p class="text-sm word-appear">{{ conv.agent }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Processing indicator -->
+                <div v-if="isProcessing" class="flex justify-start">
+                    <div class="bg-gray-100 rounded-lg px-4 py-3">
+                        <div class="flex space-x-2">
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex flex-col items-center space-y-4">
+                <!-- Recording Button -->
+                <button
+                    @mousedown="startRecording"
+                    @mouseup="stopRecording"
+                    @touchstart="startRecording"
+                    @touchend="stopRecording"
+                    :class="[
+                        'relative w-20 h-20 rounded-full transition-all',
+                        isRecording ? 'bg-red-500 breathing' : 'bg-indigo-500 hover:bg-indigo-600'
+                    ]"
+                    :disabled="isProcessing"
+                >
+                    <svg v-if="!isRecording" class="w-8 h-8 mx-auto text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div v-else class="w-8 h-8 mx-auto bg-white rounded"></div>
+                    
+                    <!-- Processing spinner overlay -->
+                    <div v-if="isProcessing" class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full spinning"></div>
+                    </div>
+                </button>
+                
+                <p class="text-sm text-gray-500">
+                    {{ isRecording ? 'Recording... Release to send' : 'Hold to speak' }}
+                </p>
+                
+                <!-- Toggle Mode -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-600">Mode:</span>
+                    <button
+                        @click="toggleMode"
+                        class="px-3 py-1 text-sm rounded-full transition"
+                        :class="mode === 'conversation' ? 'bg-indigo-500 text-white' : 'bg-gray-200 text-gray-700'"
+                    >
+                        {{ mode === 'conversation' ? 'Conversation' : 'Quick Capture' }}
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Status Bar -->
+        <footer class="bg-white border-t px-4 py-2">
+            <div class="max-w-4xl mx-auto flex items-center justify-between text-sm text-gray-500">
+                <span>{{ statusMessage }}</span>
+                <span v-if="stats.total_captures">
+                    {{ stats.total_captures }} captures | {{ stats.unique_sessions }} sessions
+                </span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    sessionId: null,
+                    conversations: [],
+                    isRecording: false,
+                    isProcessing: false,
+                    mode: 'conversation',
+                    showSearch: false,
+                    searchQuery: '',
+                    searchResults: [],
+                    statusMessage: 'Ready',
+                    stats: {},
+                    mediaRecorder: null,
+                    audioChunks: [],
+                    ws: null,
+                    reconnectAttempts: 0
+                }
+            },
+            
+            mounted() {
+                this.initializeSession();
+                this.setupKeyboardShortcuts();
+                this.loadStats();
+                this.setupWebSocket();
+            },
+            
+            methods: {
+                initializeSession() {
+                    // Generate or retrieve session ID
+                    this.sessionId = localStorage.getItem('sessionId') || this.generateSessionId();
+                    localStorage.setItem('sessionId', this.sessionId);
+                },
+                
+                generateSessionId() {
+                    return 'xxxx-xxxx-xxxx'.replace(/[x]/g, () => 
+                        (Math.random() * 16 | 0).toString(16)
+                    );
+                },
+                
+                setupWebSocket() {
+                    const wsUrl = `ws://${window.location.host}/ws/${this.sessionId}`;
+                    this.ws = new WebSocket(wsUrl);
+                    
+                    this.ws.onopen = () => {
+                        this.statusMessage = 'Connected';
+                        this.reconnectAttempts = 0;
+                    };
+                    
+                    this.ws.onmessage = (event) => {
+                        const data = JSON.parse(event.data);
+                        this.handleWebSocketMessage(data);
+                    };
+                    
+                    this.ws.onclose = () => {
+                        this.statusMessage = 'Disconnected';
+                        this.reconnectWebSocket();
+                    };
+                    
+                    this.ws.onerror = (error) => {
+                        console.error('WebSocket error:', error);
+                        this.statusMessage = 'Connection error';
+                    };
+                },
+                
+                reconnectWebSocket() {
+                    if (this.reconnectAttempts < 5) {
+                        this.reconnectAttempts++;
+                        setTimeout(() => this.setupWebSocket(), 2000 * this.reconnectAttempts);
+                    }
+                },
+                
+                handleWebSocketMessage(data) {
+                    if (data.type === 'response') {
+                        this.conversations.push({
+                            user: data.user_text,
+                            agent: data.agent_text,
+                            timestamp: new Date()
+                        });
+                        
+                        // Speak the response
+                        this.speakText(data.agent_text);
+                        
+                        // Auto-scroll
+                        this.$nextTick(() => {
+                            this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight;
+                        });
+                        
+                        // End conversation if intent is goodbye
+                        if (data.intent === 'end_conversation') {
+                            this.endConversation();
+                        }
+                    } else if (data.type === 'summary') {
+                        this.statusMessage = data.text;
+                    }
+                },
+                
+                async startRecording() {
+                    if (this.isProcessing) return;
+                    
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        
+                        this.mediaRecorder = new MediaRecorder(stream);
+                        this.audioChunks = [];
+                        
+                        this.mediaRecorder.ondataavailable = (event) => {
+                            this.audioChunks.push(event.data);
+                        };
+                        
+                        this.mediaRecorder.onstop = async () => {
+                            const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
+                            await this.processAudio(audioBlob);
+                        };
+                        
+                        this.mediaRecorder.start();
+                        this.isRecording = true;
+                        this.statusMessage = 'Listening...';
+                        
+                    } catch (error) {
+                        console.error('Error accessing microphone:', error);
+                        this.statusMessage = 'Microphone access denied';
+                    }
+                },
+                
+                stopRecording() {
+                    if (this.mediaRecorder && this.isRecording) {
+                        this.mediaRecorder.stop();
+                        this.isRecording = false;
+                        this.statusMessage = 'Processing...';
+                        
+                        // Stop all tracks
+                        this.mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                    }
+                },
+                
+                async processAudio(audioBlob) {
+                    this.isProcessing = true;
+                    
+                    try {
+                        // Convert to base64
+                        const reader = new FileReader();
+                        reader.readAsDataURL(audioBlob);
+                        
+                        reader.onloadend = async () => {
+                            const base64Audio = reader.result.split(',')[1];
+                            
+                            if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                                // Send via WebSocket
+                                this.ws.send(JSON.stringify({
+                                    type: 'audio',
+                                    audio: base64Audio
+                                }));
+                            } else {
+                                // Fallback to REST API
+                                await this.sendViaAPI(base64Audio);
+                            }
+                        };
+                        
+                    } catch (error) {
+                        console.error('Error processing audio:', error);
+                        this.statusMessage = 'Error processing audio';
+                    } finally {
+                        this.isProcessing = false;
+                        this.statusMessage = 'Ready';
+                    }
+                },
+                
+                async sendViaAPI(base64Audio) {
+                    const response = await fetch('/api/conversation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            session_id: this.sessionId,
+                            audio_base64: base64Audio
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    this.handleWebSocketMessage({
+                        type: 'response',
+                        user_text: data.user_text,
+                        agent_text: data.agent_text,
+                        intent: data.intent
+                    });
+                },
+                
+                speakText(text) {
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.rate = 1.0;
+                        utterance.pitch = 1.0;
+                        speechSynthesis.speak(utterance);
+                    }
+                },
+                
+                toggleMode() {
+                    this.mode = this.mode === 'conversation' ? 'capture' : 'conversation';
+                },
+                
+                toggleSearch() {
+                    this.showSearch = !this.showSearch;
+                    if (this.showSearch) {
+                        this.$nextTick(() => {
+                            this.$refs.searchInput.focus();
+                        });
+                    }
+                },
+                
+                async performSearch() {
+                    if (this.searchQuery.length < 2) {
+                        this.searchResults = [];
+                        return;
+                    }
+                    
+                    try {
+                        const response = await fetch('/api/search', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                query: this.searchQuery,
+                                limit: 10
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        this.searchResults = data.results;
+                        
+                    } catch (error) {
+                        console.error('Search error:', error);
+                    }
+                },
+                
+                viewResult(result) {
+                    // Load the session history for this result
+                    this.loadSessionHistory(result.session_id);
+                    this.showSearch = false;
+                },
+                
+                async loadSessionHistory(sessionId) {
+                    try {
+                        const response = await fetch(`/api/session/${sessionId}/history`);
+                        const data = await response.json();
+                        
+                        this.conversations = data.history.map(item => ({
+                            user: item.user_text,
+                            agent: item.agent_text,
+                            timestamp: new Date(item.timestamp)
+                        }));
+                        
+                    } catch (error) {
+                        console.error('Error loading history:', error);
+                    }
+                },
+                
+                async loadStats() {
+                    try {
+                        const response = await fetch('/api/stats');
+                        const data = await response.json();
+                        this.stats = data.database;
+                        
+                    } catch (error) {
+                        console.error('Error loading stats:', error);
+                    }
+                },
+                
+                endConversation() {
+                    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                        this.ws.send(JSON.stringify({ type: 'end' }));
+                    }
+                    
+                    // Generate new session for next conversation
+                    setTimeout(() => {
+                        this.sessionId = this.generateSessionId();
+                        localStorage.setItem('sessionId', this.sessionId);
+                        this.setupWebSocket();
+                    }, 3000);
+                },
+                
+                setupKeyboardShortcuts() {
+                    document.addEventListener('keydown', (e) => {
+                        // Cmd+K or Ctrl+K for search
+                        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                            e.preventDefault();
+                            this.toggleSearch();
+                        }
+                        
+                        // Escape to close search
+                        if (e.key === 'Escape' && this.showSearch) {
+                            this.showSearch = false;
+                        }
+                    });
+                },
+                
+                formatDate(timestamp) {
+                    return new Date(timestamp).toLocaleString();
+                }
+            }
+        }).mount('#app');
+        
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js').then(reg => {
+                console.log('Service Worker registered:', reg);
+            }).catch(err => {
+                console.log('Service Worker registration failed:', err);
+            });
+        }
+    </script>
+</body>
+</html>
