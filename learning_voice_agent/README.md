@@ -13,6 +13,8 @@ An AI-powered voice conversation system for capturing and developing learning in
 
 ## 🏗️ Architecture
 
+See [Architecture Documentation](docs/ARCHITECTURE.md) for detailed system design.
+
 ### Core Components (SPARC Methodology Applied)
 
 1. **Conversation Handler**: Claude Haiku integration with intelligent prompting
