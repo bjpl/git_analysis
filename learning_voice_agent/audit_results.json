@@ -1,0 +1,167 @@
+{
+  "timestamp": "2025-09-14T23:33:05.833159",
+  "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+  "project_root": "C:\\Users\\brand\\Development\\Project_Workspace\\learning_voice_agent",
+  "checks": {
+    "dependencies": {
+      "status": "ok",
+      "details": [
+        "\u2713 fastapi==0.109.0",
+        "\u2713 uvicorn[standard]==0.27.0",
+        "\u2713 python-dotenv==1.0.0",
+        "\u2713 anthropic==0.18.1",
+        "\u2713 openai==1.10.0",
+        "\u2713 twilio==8.11.0",
+        "\u2713 redis==5.0.1",
+        "\u2713 aioredis==2.0.1",
+        "\u2713 aiosqlite==0.19.0",
+        "\u2713 websockets==12.0",
+        "\u2713 python-multipart==0.0.6",
+        "\u2713 pydantic==2.5.3",
+        "\u2713 pydantic-settings==2.1.0",
+        "\u2713 httpx==0.26.0",
+        "\u2713 jinja2==3.1.3"
+      ],
+      "package_count": 15
+    },
+    "imports": {
+      "status": "error",
+      "importable": [
+        "app.models"
+      ],
+      "failed": [
+        {
+          "module": "app.config",
+          "error": "No module named 'pydantic_settings'"
+        },
+        {
+          "module": "app.database",
+          "error": "No module named 'aiosqlite'"
+        },
+        {
+          "module": "app.state_manager",
+          "error": "No module named 'redis'"
+        },
+        {
+          "module": "app.conversation_handler",
+          "error": "No module named 'anthropic'"
+        },
+        {
+          "module": "app.audio_pipeline",
+          "error": "No module named 'pydantic_settings'"
+        },
+        {
+          "module": "app.twilio_handler",
+          "error": "No module named 'twilio'"
+        },
+        {
+          "module": "app.main",
+          "error": "No module named 'pydantic_settings'"
+        }
+      ]
+    },
+    "configuration": {
+      "status": "warning",
+      "env_vars": {},
+      "missing": [
+        "ANTHROPIC_API_KEY",
+        "OPENAI_API_KEY",
+        "TWILIO_ACCOUNT_SID",
+        "TWILIO_AUTH_TOKEN",
+        "TWILIO_PHONE_NUMBER",
+        "DATABASE_URL",
+        "REDIS_URL",
+        "REDIS_TTL",
+        "HOST",
+        "PORT",
+        "CORS_ORIGINS",
+        "WHISPER_MODEL",
+        "MAX_AUDIO_DURATION",
+        "CLAUDE_MODEL",
+        "CLAUDE_MAX_TOKENS",
+        "CLAUDE_TEMPERATURE",
+        "SESSION_TIMEOUT",
+        "MAX_CONTEXT_EXCHANGES"
+      ]
+    },
+    "code_quality": {
+      "status": "ok",
+      "metrics": {
+        "files": 9,
+        "total_lines": 1491,
+        "functions": 53,
+        "classes": 19,
+        "avg_lines_per_file": 165
+      },
+      "issues": []
+    },
+    "security": {
+      "status": "warning",
+      "vulnerabilities": [
+        {
+          "file": "config.py",
+          "type": "API_KEY",
+          "severity": "high"
+        }
+      ]
+    },
+    "database": {
+      "status": "ok",
+      "details": {
+        "db_exists": false,
+        "db_path": "C:\\Users\\brand\\Development\\Project_Workspace\\learning_voice_agent\\learning_captures.db"
+      }
+    },
+    "structure": {
+      "status": "ok",
+      "structure": {
+        "app/": {
+          "exists": true,
+          "files": [
+            "\u2713 __init__.py",
+            "\u2713 main.py",
+            "\u2713 config.py",
+            "\u2713 database.py"
+          ]
+        },
+        "static/": {
+          "exists": true,
+          "files": [
+            "\u2713 index.html",
+            "\u2713 manifest.json",
+            "\u2713 sw.js"
+          ]
+        },
+        "scripts/": {
+          "exists": true,
+          "files": []
+        },
+        "tests/": {
+          "exists": false,
+          "files": []
+        }
+      }
+    }
+  },
+  "summary": {
+    "issues": [
+      "Cannot import app.config: No module named 'pydantic_settings'",
+      "Cannot import app.database: No module named 'aiosqlite'",
+      "Cannot import app.state_manager: No module named 'redis'",
+      "Cannot import app.conversation_handler: No module named 'anthropic'",
+      "Cannot import app.audio_pipeline: No module named 'pydantic_settings'",
+      "Cannot import app.twilio_handler: No module named 'twilio'",
+      "Cannot import app.main: No module named 'pydantic_settings'",
+      "Critical env var missing: ANTHROPIC_API_KEY",
+      "Critical env var missing: OPENAI_API_KEY",
+      "Potential hardcoded API_KEY in config.py"
+    ],
+    "warnings": [
+      "No tests directory - testing not implemented"
+    ],
+    "info": [
+      "No migrations directory found - consider adding schema versioning"
+    ],
+    "health_score": 0
+  }
+}

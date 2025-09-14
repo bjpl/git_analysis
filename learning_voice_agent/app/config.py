@@ -4,15 +4,16 @@ PATTERN: Singleton configuration with environment validation
 """
 import os
 from typing import Optional
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
 load_dotenv()
 
 class Settings(BaseSettings):
     # API Keys
-    anthropic_api_key: str = Field(..., env="ANTHROPIC_API_KEY")
-    openai_api_key: str = Field(..., env="OPENAI_API_KEY")
+    anthropic_api_key: str = Field(default="", env="ANTHROPIC_API_KEY")
+    openai_api_key: str = Field(default="", env="OPENAI_API_KEY")
     twilio_account_sid: Optional[str] = Field(None, env="TWILIO_ACCOUNT_SID")
     twilio_auth_token: Optional[str] = Field(None, env="TWILIO_AUTH_TOKEN")
     twilio_phone_number: Optional[str] = Field(None, env="TWILIO_PHONE_NUMBER")
@@ -45,6 +46,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = False
+        extra = "ignore"  # Ignore extra environment variables
 
 # Singleton instance
 settings = Settings()
