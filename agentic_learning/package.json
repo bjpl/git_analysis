@@ -1,0 +1,64 @@
+{
+  "name": "prometheus-v5-ai-monitoring",
+  "version": "5.0.0",
+  "description": "Prometheus v5 - Next Generation Monitoring with Integrated Voice & Text AI Agents",
+  "main": "04_implementations/prometheus_v5_implementation.js",
+  "scripts": {
+    "start": "node 04_implementations/prometheus_v5_implementation.js",
+    "dev": "nodemon 04_implementations/prometheus_v5_implementation.js",
+    "test": "jest",
+    "lint": "eslint .",
+    "build": "webpack --mode production",
+    "docker:build": "docker build -t prometheus-v5 .",
+    "docker:run": "docker run -p 9090:9090 -p 3001:3001 prometheus-v5"
+  },
+  "keywords": [
+    "prometheus",
+    "monitoring",
+    "observability",
+    "ai",
+    "voice-agent",
+    "text-agent",
+    "nlp",
+    "metrics",
+    "alerting"
+  ],
+  "author": "AI-Enhanced Monitoring Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.14.2",
+    "socket.io": "^4.6.1",
+    "ioredis": "^5.3.2",
+    "prom-client": "^15.0.0",
+    "openai": "^4.20.0",
+    "langchain": "^0.1.25",
+    "jsonwebtoken": "^9.0.2",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.5",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.1",
+    "bcrypt": "^5.1.1",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "eslint": "^8.54.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "@types/node": "^20.10.0",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/prometheus-v5.git"
+  }
+}
