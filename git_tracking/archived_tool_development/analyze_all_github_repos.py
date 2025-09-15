@@ -21,6 +21,7 @@ import getpass
 sys.path.insert(0, str(Path(__file__).parent / 'src'))
 
 from core.enhanced_evolution_tracker import EnhancedEvolutionTracker
+from core.security import SecureConfigManager, InputValidator, CommandSanitizer
 
 
 class GitHubAllReposAnalyzer:
@@ -35,8 +36,20 @@ class GitHubAllReposAnalyzer:
             token: GitHub personal access token (for private repos)
             workspace: Directory to clone/analyze repos (default: ./github_repos)
         """
-        self.username = username
-        self.token = token
+        # Validate username
+        self.validator = InputValidator()
+        self.username = self.validator.validate_username(username)
+
+        # Set up secure token management
+        self.config_manager = SecureConfigManager()
+        self.command_sanitizer = CommandSanitizer()
+
+        # Use provided token or retrieve from secure storage
+        if token:
+            self.config_manager.store_token('github', token)
+            self.token = token
+        else:
+            self.token = self.config_manager.get_token('github') or os.environ.get('GITHUB_TOKEN')
         self.workspace = Path(workspace) if workspace else Path.cwd() / 'github_repos'
         self.workspace.mkdir(exist_ok=True)
 

@@ -835,23 +835,222 @@ class EnhancedEvolutionTracker:
 
     def _get_contributor_details(self, email: str) -> Dict:
         """Get detailed information for a contributor."""
-        # Implementation
-        return {}
+        details = {
+            'total_commits': 0,
+            'files_modified': set(),
+            'first_commit': None,
+            'last_commit': None,
+            'active_days': 0,
+            'languages': Counter()
+        }
+
+        # Get commits by this contributor (limited for performance)
+        commits_raw = self._run_git_command([
+            'log', '--author', email, '--format=%H|%ai', '-n', '100'
+        ], timeout=5).strip()
+
+        if not commits_raw:
+            return details
+
+        commits = commits_raw.split('\n')
+        details['total_commits'] = len(commits)
+
+        # Parse commit dates
+        dates = []
+        for commit in commits[:50]:  # Limit to first 50 for performance
+            if '|' in commit:
+                sha, date = commit.split('|', 1)
+                dates.append(date)
+
+                # Get files modified in this commit
+                files = self._run_git_command([
+                    'diff-tree', '--no-commit-id', '--name-only', '-r', sha[:7]
+                ], timeout=2).strip().split('\n')
+
+                for file in files:
+                    if file:
+                        details['files_modified'].add(file)
+                        # Track language based on extension
+                        ext = Path(file).suffix
+                        if ext:
+                            details['languages'][ext] += 1
+
+        if dates:
+            details['first_commit'] = dates[-1]
+            details['last_commit'] = dates[0]
+            details['active_days'] = len(set(d.split()[0] for d in dates))
+
+        details['files_modified'] = len(details['files_modified'])
+        details['languages'] = dict(details['languages'].most_common(5))
+
+        return details
 
     def _calculate_contribution_distribution(self, contributors: List[Dict]) -> Dict:
         """Calculate how contributions are distributed."""
-        # Implementation
-        return {}
+        if not contributors:
+            return {
+                'gini_coefficient': 0,
+                'top_10_percent_share': 0,
+                'single_contributor_share': 0,
+                'distribution_type': 'empty'
+            }
+
+        total_commits = sum(c.get('commits', 0) for c in contributors)
+        if total_commits == 0:
+            return {
+                'gini_coefficient': 0,
+                'top_10_percent_share': 0,
+                'single_contributor_share': 0,
+                'distribution_type': 'empty'
+            }
+
+        # Sort contributors by commits
+        sorted_contributors = sorted(contributors, key=lambda x: x.get('commits', 0), reverse=True)
+
+        # Calculate Gini coefficient
+        n = len(sorted_contributors)
+        index = range(1, n + 1)
+        commits = [c.get('commits', 0) for c in sorted_contributors]
+
+        # Gini calculation
+        gini = (2 * sum(index[i] * commits[i] for i in range(n))) / (n * sum(commits)) - (n + 1) / n if sum(commits) > 0 else 0
+
+        # Calculate top contributor shares
+        top_10_percent_count = max(1, n // 10)
+        top_10_percent_commits = sum(commits[:top_10_percent_count])
+        top_10_percent_share = (top_10_percent_commits / total_commits * 100) if total_commits > 0 else 0
+
+        single_contributor_share = (commits[0] / total_commits * 100) if commits and total_commits > 0 else 0
+
+        # Determine distribution type
+        if gini < 0.3:
+            distribution_type = 'highly_equal'
+        elif gini < 0.5:
+            distribution_type = 'moderately_equal'
+        elif gini < 0.7:
+            distribution_type = 'moderately_unequal'
+        else:
+            distribution_type = 'highly_unequal'
+
+        return {
+            'gini_coefficient': round(gini, 3),
+            'top_10_percent_share': round(top_10_percent_share, 1),
+            'single_contributor_share': round(single_contributor_share, 1),
+            'distribution_type': distribution_type,
+            'total_contributors': n,
+            'total_commits': total_commits
+        }
 
     def _build_collaboration_graph(self, contributor_details: Dict) -> Dict:
-        """Build collaboration relationships."""
-        # Implementation
-        return {}
+        """Build collaboration relationships between contributors."""
+        collaboration_graph = {
+            'nodes': [],
+            'edges': [],
+            'clusters': []
+        }
+
+        # Create nodes for each contributor
+        for contributor, details in contributor_details.items():
+            collaboration_graph['nodes'].append({
+                'id': contributor,
+                'commits': details.get('total_commits', 0),
+                'files': details.get('files_modified', 0),
+                'languages': details.get('languages', {})
+            })
+
+        # Find collaborations through shared files
+        contributors = list(contributor_details.keys())
+        for i, contrib1 in enumerate(contributors):
+            for contrib2 in contributors[i+1:]:
+                # Check for shared work periods
+                details1 = contributor_details[contrib1]
+                details2 = contributor_details[contrib2]
+
+                # Simple collaboration detection based on overlapping active periods
+                if (details1.get('last_commit') and details2.get('last_commit') and
+                    details1.get('first_commit') and details2.get('first_commit')):
+
+                    # Calculate collaboration strength
+                    shared_languages = set(details1.get('languages', {}).keys()) & \
+                                     set(details2.get('languages', {}).keys())
+
+                    if shared_languages:
+                        collaboration_graph['edges'].append({
+                            'source': contrib1,
+                            'target': contrib2,
+                            'weight': len(shared_languages),
+                            'shared_languages': list(shared_languages)
+                        })
+
+        # Identify clusters (simplified - contributors working on same languages)
+        language_clusters = defaultdict(list)
+        for contributor, details in contributor_details.items():
+            for lang in details.get('languages', {}).keys():
+                language_clusters[lang].append(contributor)
+
+        for lang, members in language_clusters.items():
+            if len(members) > 1:
+                collaboration_graph['clusters'].append({
+                    'type': 'language',
+                    'name': lang,
+                    'members': members,
+                    'size': len(members)
+                })
+
+        return collaboration_graph
 
     def _identify_expertise_areas(self, contributor_details: Dict) -> Dict:
-        """Identify expertise areas for contributors."""
-        # Implementation
-        return {}
+        """Identify expertise areas for contributors based on their contributions."""
+        expertise_areas = {}
+
+        for contributor, details in contributor_details.items():
+            languages = details.get('languages', {})
+            files_count = details.get('files_modified', 0)
+            commits = details.get('total_commits', 0)
+
+            # Determine expertise based on languages and activity
+            expertise = {
+                'primary_languages': [],
+                'expertise_level': 'novice',
+                'specialization': 'generalist'
+            }
+
+            # Identify primary languages (those with most commits)
+            if languages:
+                sorted_langs = sorted(languages.items(), key=lambda x: x[1], reverse=True)
+                expertise['primary_languages'] = [lang for lang, _ in sorted_langs[:3]]
+
+                # Determine specialization
+                if len(languages) == 1:
+                    expertise['specialization'] = 'specialist'
+                elif len(languages) <= 3:
+                    expertise['specialization'] = 'focused'
+                else:
+                    expertise['specialization'] = 'generalist'
+
+            # Determine expertise level based on commit count
+            if commits >= 100:
+                expertise['expertise_level'] = 'expert'
+            elif commits >= 50:
+                expertise['expertise_level'] = 'advanced'
+            elif commits >= 20:
+                expertise['expertise_level'] = 'intermediate'
+            elif commits >= 5:
+                expertise['expertise_level'] = 'contributor'
+            else:
+                expertise['expertise_level'] = 'novice'
+
+            # Add activity metrics
+            expertise['metrics'] = {
+                'total_commits': commits,
+                'files_modified': files_count,
+                'languages_used': len(languages),
+                'active_days': details.get('active_days', 0)
+            }
+
+            expertise_areas[contributor] = expertise
+
+        return expertise_areas
 
     def _count_lines_of_code(self) -> Dict:
         """Count lines of code by language."""
