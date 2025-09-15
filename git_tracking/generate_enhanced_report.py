@@ -10,13 +10,10 @@ import os
 from pathlib import Path
 from datetime import datetime
 
-# Add parent directory to path for imports
-parent_dir = Path(__file__).parent
-sys.path.insert(0, str(parent_dir))
-sys.path.insert(0, str(parent_dir / 'src'))
-sys.path.insert(0, str(parent_dir / 'src' / 'core'))
+# Add src to path for imports
+sys.path.insert(0, str(Path(__file__).parent / 'src'))
 
-from enhanced_evolution_tracker import EnhancedEvolutionTracker
+from core.enhanced_evolution_tracker import EnhancedEvolutionTracker
 
 
 def generate_enhanced_report(repo_path: str = None):
