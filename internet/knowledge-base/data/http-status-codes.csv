@@ -1,0 +1,62 @@
+code,name,category,description,common_usage,caching,common_causes
+100,Continue,1xx Informational,Client should continue request,Large POST requests,Not cached,Expect: 100-continue header
+101,Switching Protocols,1xx Informational,Server switching protocols,WebSocket upgrade,Not cached,Upgrade header request
+102,Processing,1xx Informational,Server processing lengthy request,WebDAV,Not cached,Long-running operations
+103,Early Hints,1xx Informational,Preload resources while preparing response,Link headers,Not cached,Performance optimization
+200,OK,2xx Success,Standard successful response,GET/POST success,Cacheable,Normal success
+201,Created,2xx Success,Resource successfully created,POST/PUT creating resource,Cacheable,Resource creation
+202,Accepted,2xx Success,Request accepted for processing,Async operations,Not cached,Background processing
+203,Non-Authoritative Information,2xx Success,Modified response from proxy,Proxy transformations,Cacheable,Proxy modification
+204,No Content,2xx Success,Success with no response body,DELETE operations,Cacheable,Successful deletion
+205,Reset Content,2xx Success,Client should reset document view,Form reset,Not cached,Form clearing
+206,Partial Content,2xx Success,Partial resource returned,Range requests/video streaming,Cacheable,Range header
+207,Multi-Status,2xx Success,Multiple status values,WebDAV,Not cached,Batch operations
+208,Already Reported,2xx Success,Members already enumerated,WebDAV,Not cached,Avoiding duplicates
+226,IM Used,2xx Success,Instance manipulations applied,Delta encoding,Cacheable,Delta encoding
+300,Multiple Choices,3xx Redirection,Multiple options available,Content negotiation,Cacheable,Multiple representations
+301,Moved Permanently,3xx Redirection,Resource permanently moved,Permanent URL changes,Cacheable,URL restructuring
+302,Found,3xx Redirection,Resource temporarily moved,Temporary redirects,Not cached,Temporary location
+303,See Other,3xx Redirection,Redirect to different resource,POST-redirect-GET,Never cached,Form submission result
+304,Not Modified,3xx Redirection,Resource unchanged since last request,Cache validation,Updates cache,ETag/Last-Modified match
+307,Temporary Redirect,3xx Redirection,Temporary redirect maintain method,Temporary with same method,Not cached,Temporary location
+308,Permanent Redirect,3xx Redirection,Permanent redirect maintain method,Permanent with same method,Cacheable,Permanent relocation
+400,Bad Request,4xx Client Error,Invalid request syntax,Malformed requests,Not cached,Invalid JSON/XML
+401,Unauthorized,4xx Client Error,Authentication required,Login required,Not cached,Missing credentials
+402,Payment Required,4xx Client Error,Reserved for future use,Digital payment systems,Not cached,Payment systems
+403,Forbidden,4xx Client Error,Server refuses to authorize,Access denied,Not cached,Insufficient permissions
+404,Not Found,4xx Client Error,Resource not found,Missing pages,Not cached,Wrong URL
+405,Method Not Allowed,4xx Client Error,HTTP method not supported,Wrong HTTP verb,Not cached,POST to read-only
+406,Not Acceptable,4xx Client Error,Content negotiation failed,Accept header mismatch,Not cached,Content type mismatch
+407,Proxy Authentication Required,4xx Client Error,Proxy authentication needed,Corporate proxies,Not cached,Proxy credentials needed
+408,Request Timeout,4xx Client Error,Request took too long,Slow connections,Not cached,Network issues
+409,Conflict,4xx Client Error,Request conflicts with server state,Version conflicts,Not cached,Duplicate resources
+410,Gone,4xx Client Error,Resource permanently deleted,Intentional removal,Cacheable,Content removed
+411,Length Required,4xx Client Error,Content-Length header missing,Upload without length,Not cached,Missing header
+412,Precondition Failed,4xx Client Error,Precondition headers failed,If-Match failure,Not cached,ETag mismatch
+413,Payload Too Large,4xx Client Error,Request body too large,File upload limits,Not cached,Size limits exceeded
+414,URI Too Long,4xx Client Error,URI exceeds server limits,Huge query strings,Not cached,URL length limit
+415,Unsupported Media Type,4xx Client Error,Media type not supported,Wrong Content-Type,Not cached,Invalid content type
+416,Range Not Satisfiable,4xx Client Error,Range header invalid,Invalid byte range,Not cached,Bad range request
+417,Expectation Failed,4xx Client Error,Expect header requirements failed,100-continue failure,Not cached,Expectation not met
+418,I'm a teapot,4xx Client Error,April Fools joke,Never used,Not cached,RFC 2324 joke
+421,Misdirected Request,4xx Client Error,Request sent to wrong server,HTTP/2 connection reuse,Not cached,Wrong server
+422,Unprocessable Entity,4xx Client Error,Request understood but invalid,Validation errors,Not cached,Business logic failure
+423,Locked,4xx Client Error,Resource is locked,WebDAV locked resources,Not cached,Resource lock
+424,Failed Dependency,4xx Client Error,Previous request failed,WebDAV dependencies,Not cached,Dependency failure
+425,Too Early,4xx Client Error,Server unwilling to risk replay,0-RTT data,Not cached,Replay attack prevention
+426,Upgrade Required,4xx Client Error,Client should switch protocols,Force HTTP/2,Not cached,Protocol upgrade needed
+428,Precondition Required,4xx Client Error,Request must be conditional,Prevent lost updates,Not cached,Missing precondition
+429,Too Many Requests,4xx Client Error,Rate limiting triggered,API throttling,Not cached,Rate limit exceeded
+431,Request Header Fields Too Large,4xx Client Error,Headers exceed limits,Cookie bombs,Not cached,Header size limit
+451,Unavailable For Legal Reasons,4xx Client Error,Censored content,Legal compliance,Not cached,Legal restriction
+500,Internal Server Error,5xx Server Error,Generic server error,Unhandled exceptions,Not cached,Server bugs
+501,Not Implemented,5xx Server Error,Feature not supported,Unsupported features,Not cached,Missing functionality
+502,Bad Gateway,5xx Server Error,Invalid response from upstream,Proxy errors,Not cached,Backend failure
+503,Service Unavailable,5xx Server Error,Server temporarily unavailable,Maintenance/overload,Not cached,Server overload
+504,Gateway Timeout,5xx Server Error,Upstream server timeout,Slow backends,Not cached,Backend timeout
+505,HTTP Version Not Supported,5xx Server Error,HTTP version not supported,Ancient clients,Not cached,Unsupported HTTP version
+506,Variant Also Negotiates,5xx Server Error,Content negotiation error,Configuration error,Not cached,Negotiation loop
+507,Insufficient Storage,5xx Server Error,Server storage full,WebDAV storage limits,Not cached,Disk full
+508,Loop Detected,5xx Server Error,Infinite loop detected,WebDAV circular reference,Not cached,Circular reference
+510,Not Extended,5xx Server Error,Extensions required,Missing extensions,Not cached,Extension not available
+511,Network Authentication Required,5xx Server Error,Network auth needed,Captive portals,Not cached,Wi-Fi login required

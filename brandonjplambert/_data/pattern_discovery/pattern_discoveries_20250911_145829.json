@@ -1,0 +1,213 @@
+{
+  "timestamp": "2025-09-11T14:58:29.284970",
+  "statistics": {
+    "patterns_generated": 94,
+    "urls_verified": 680,
+    "urls_found_active": 10,
+    "instagram_discovered": 4,
+    "youtube_discovered": 6,
+    "twitter_discovered": 0
+  },
+  "results": [
+    {
+      "account": {
+        "handle": "@infopresidencia",
+        "name": "Presidencia de Colombia",
+        "category": "Government",
+        "description": "Official account of the Presidency of Colombia - Casa de Nariño",
+        "existing_instagram": "https://instagram.com/infopresidencia",
+        "existing_youtube": null,
+        "needs_instagram": false,
+        "needs_youtube": true
+      },
+      "discovered_urls": {
+        "youtube": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@consulmexsea",
+        "name": "Mexican Consulate Seattle",
+        "category": "Diplomatic",
+        "description": "Mexican Consulate in Seattle, Washington",
+        "existing_instagram": "https://instagram.com/consulmexsea",
+        "existing_youtube": null,
+        "needs_instagram": false,
+        "needs_youtube": true
+      },
+      "discovered_urls": {
+        "youtube": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@sremx",
+        "name": "SRE Mexico",
+        "category": "Government",
+        "description": "Ministry of Foreign Affairs of Mexico",
+        "existing_instagram": "https://instagram.com/sre_mx",
+        "existing_youtube": null,
+        "needs_instagram": false,
+        "needs_youtube": true
+      },
+      "discovered_urls": {
+        "youtube": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@minhacienda",
+        "name": "MinHacienda Colombia",
+        "category": "Government",
+        "description": "Ministry of Finance and Public Credit of Colombia",
+        "existing_instagram": null,
+        "existing_youtube": "https://www.youtube.com/@MinHaciendaColombia",
+        "needs_instagram": true,
+        "needs_youtube": false
+      },
+      "discovered_urls": {
+        "instagram": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@minticscolombia",
+        "name": "MinTIC Colombia",
+        "category": "Government",
+        "description": "Ministry of Information and Communication Technologies of Colombia",
+        "existing_instagram": null,
+        "existing_youtube": "https://www.youtube.com/@MinTIC_Colombia",
+        "needs_instagram": true,
+        "needs_youtube": false
+      },
+      "discovered_urls": {
+        "instagram": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@mintrabajocol",
+        "name": "MinTrabajo Colombia",
+        "category": "Government",
+        "description": "Ministry of Labor of Colombia",
+        "existing_instagram": "https://instagram.com/mintrabajocol",
+        "existing_youtube": null,
+        "needs_instagram": false,
+        "needs_youtube": true
+      },
+      "discovered_urls": {
+        "youtube": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@mintransporteco",
+        "name": "MinTransporte Colombia",
+        "category": "Government",
+        "description": "Ministry of Transportation of Colombia",
+        "existing_instagram": null,
+        "existing_youtube": "https://www.youtube.com/@Mintransporte",
+        "needs_instagram": true,
+        "needs_youtube": false
+      },
+      "discovered_urls": {
+        "instagram": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@presidenciamx",
+        "name": "Presidencia México",
+        "category": "Government",
+        "description": "Official account of the Presidency of Mexico",
+        "existing_instagram": null,
+        "existing_youtube": "https://www.youtube.com/@PresidenciaMexico",
+        "needs_instagram": true,
+        "needs_youtube": false
+      },
+      "discovered_urls": {
+        "instagram": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@sepgobmx",
+        "name": "SEP México",
+        "category": "Government",
+        "description": "Ministry of Public Education of Mexico",
+        "existing_instagram": "https://instagram.com/sepmx",
+        "existing_youtube": null,
+        "needs_instagram": false,
+        "needs_youtube": true
+      },
+      "discovered_urls": {
+        "youtube": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    },
+    {
+      "account": {
+        "handle": "@saludmexico",
+        "name": "Salud México",
+        "category": "Government",
+        "description": "Ministry of Health of Mexico",
+        "existing_instagram": "https://instagram.com/ssalud_mx",
+        "existing_youtube": null,
+        "needs_instagram": false,
+        "needs_youtube": true
+      },
+      "discovered_urls": {
+        "youtube": {
+          "url": "https://youtube.com/@infopresidencia",
+          "confidence": 0.9,
+          "is_active": true,
+          "followers": null
+        }
+      }
+    }
+  ]
+}

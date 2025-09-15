@@ -1,0 +1,207 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-09-10",
+    "description": "Full-text search index for display technology documentation",
+    "total_documents": 156,
+    "last_updated": "2025-09-10"
+  },
+  "documents": [
+    {
+      "id": "lcd_overview",
+      "title": "Liquid Crystal Display Technology",
+      "content": "Liquid crystal displays LCD use liquid crystals to control light transmission from a backlight. Active matrix displays use thin film transistors TFT for precise pixel control. Color filters create RGB subpixels. Viewing angles and response times vary by liquid crystal mode.",
+      "tags": ["lcd", "display", "backlight", "tft", "active-matrix", "liquid-crystal"],
+      "category": "technology",
+      "difficulty": "beginner",
+      "relevance_score": 1.0,
+      "word_count": 156,
+      "keywords": ["liquid crystal", "backlight", "TFT", "active matrix", "color filter", "viewing angle"]
+    },
+    {
+      "id": "oled_technology",
+      "title": "Organic Light Emitting Diode Displays",
+      "content": "OLED displays are self-emissive using organic compounds that emit light when current is applied. No backlight needed. Perfect blacks and infinite contrast ratio. Susceptible to burn-in and moisture damage. Active matrix AMOLED uses TFT backplane.",
+      "tags": ["oled", "self-emissive", "organic", "amoled", "contrast", "burn-in"],
+      "category": "technology",
+      "difficulty": "intermediate",
+      "relevance_score": 1.0,
+      "word_count": 142,
+      "keywords": ["organic", "self-emissive", "AMOLED", "burn-in", "infinite contrast", "moisture"]
+    },
+    {
+      "id": "microled_emerging",
+      "title": "Micro LED Display Technology",
+      "content": "Micro LED uses microscopic inorganic LEDs as pixels. Self-emissive like OLED but more durable. Extremely high brightness and efficiency. Modular design enables seamless tiling. Manufacturing challenges include mass transfer and uniformity control.",
+      "tags": ["microled", "inorganic", "led", "modular", "brightness", "manufacturing"],
+      "category": "technology",
+      "difficulty": "advanced",
+      "relevance_score": 0.8,
+      "word_count": 128,
+      "keywords": ["micro LED", "inorganic", "mass transfer", "modular", "tiling", "uniformity"]
+    },
+    {
+      "id": "quantum_dot_enhancement",
+      "title": "Quantum Dot Color Enhancement",
+      "content": "Quantum dots are semiconductor nanocrystals that emit pure colors when excited by light. Used in backlights or as photoluminescent layers. Dramatically improves color gamut coverage. Can achieve over 100% DCI-P3 and approach Rec 2020 standards.",
+      "tags": ["quantum-dot", "nanocrystal", "color-gamut", "backlight", "dci-p3", "rec2020"],
+      "category": "technology",
+      "difficulty": "intermediate",
+      "relevance_score": 0.9,
+      "word_count": 134,
+      "keywords": ["quantum dot", "nanocrystal", "color gamut", "DCI-P3", "Rec 2020", "photoluminescent"]
+    },
+    {
+      "id": "backlight_systems",
+      "title": "Display Backlight Technologies",
+      "content": "Backlights provide illumination for transmissive displays. Edge-lit uses LEDs on panel edges with light guide. Direct-lit places LEDs behind entire panel. Full-array local dimming enables HDR. Quantum dot backlights improve color purity.",
+      "tags": ["backlight", "edge-lit", "direct-lit", "local-dimming", "hdr", "light-guide"],
+      "category": "component",
+      "difficulty": "beginner",
+      "relevance_score": 0.8,
+      "word_count": 118,
+      "keywords": ["backlight", "edge-lit", "direct-lit", "local dimming", "HDR", "light guide"]
+    },
+    {
+      "id": "tft_technology",
+      "title": "Thin Film Transistor Technology",
+      "content": "TFT switches control individual pixels in active matrix displays. Amorphous silicon a-Si is common but has mobility limitations. Low temperature polysilicon LTPS offers better performance. IGZO and oxide TFTs enable larger displays and higher resolution.",
+      "tags": ["tft", "active-matrix", "amorphous-silicon", "ltps", "igzo", "oxide"],
+      "category": "component",
+      "difficulty": "intermediate",
+      "relevance_score": 0.9,
+      "word_count": 145,
+      "keywords": ["TFT", "active matrix", "amorphous silicon", "LTPS", "IGZO", "mobility"]
+    },
+    {
+      "id": "color_filter_arrays",
+      "title": "Color Filter Array Design",
+      "content": "Color filters selectively transmit red green blue wavelengths to create color pixels. RGB stripe is common layout. PenTile uses fewer green subpixels. RGBW adds white subpixel for brightness. Quantum dot color filters eliminate need for backlights.",
+      "tags": ["color-filter", "rgb", "pentile", "rgbw", "subpixel", "wavelength"],
+      "category": "component",
+      "difficulty": "intermediate",
+      "relevance_score": 0.8,
+      "word_count": 123,
+      "keywords": ["color filter", "RGB", "PenTile", "RGBW", "subpixel", "wavelength"]
+    },
+    {
+      "id": "photolithography_process",
+      "title": "Display Photolithography Manufacturing",
+      "content": "Photolithography patterns features on display substrates using ultraviolet light and photoresist. Critical for TFT fabrication and color filter formation. Resolution determines minimum feature size. Alignment accuracy affects yield. Multi-layer process builds complex structures.",
+      "tags": ["photolithography", "manufacturing", "patterning", "photoresist", "resolution", "yield"],
+      "category": "process",
+      "difficulty": "advanced",
+      "relevance_score": 0.7,
+      "word_count": 139,
+      "keywords": ["photolithography", "photoresist", "UV light", "alignment", "yield", "feature size"]
+    },
+    {
+      "id": "encapsulation_protection",
+      "title": "Display Encapsulation Methods",
+      "content": "Encapsulation protects sensitive display components from moisture and oxygen. OLED especially vulnerable. Glass frit sealing provides excellent barrier. Thin film encapsulation uses alternating barrier layers. Hybrid approaches combine both methods for flexibility.",
+      "tags": ["encapsulation", "protection", "barrier", "moisture", "glass-frit", "thin-film"],
+      "category": "process",
+      "difficulty": "intermediate",
+      "relevance_score": 0.8,
+      "word_count": 127,
+      "keywords": ["encapsulation", "barrier", "moisture", "oxygen", "glass frit", "thin film"]
+    },
+    {
+      "id": "substrate_materials",
+      "title": "Display Substrate Materials",
+      "content": "Glass substrates provide rigid base for display manufacturing. Soda lime glass is economical. Borosilicate offers better thermal stability. Polyimide enables flexible displays. Steel foil substrates allow roll-to-roll processing. Surface treatment critical for adhesion.",
+      "tags": ["substrate", "glass", "polyimide", "flexible", "thermal-stability", "adhesion"],
+      "category": "material",
+      "difficulty": "beginner",
+      "relevance_score": 0.7,
+      "word_count": 134,
+      "keywords": ["substrate", "glass", "polyimide", "flexible", "thermal stability", "roll-to-roll"]
+    },
+    {
+      "id": "transparent_conductors",
+      "title": "Transparent Conductive Materials",
+      "content": "Transparent conductors enable electrical contact while maintaining optical clarity. Indium tin oxide ITO is standard but brittle and expensive. Silver nanowire offers flexibility. Graphene shows promise but immature. Metal mesh provides low resistance.",
+      "tags": ["transparent-conductor", "ito", "silver-nanowire", "graphene", "metal-mesh", "flexibility"],
+      "category": "material",
+      "difficulty": "intermediate",
+      "relevance_score": 0.8,
+      "word_count": 119,
+      "keywords": ["transparent conductor", "ITO", "silver nanowire", "graphene", "metal mesh", "resistance"]
+    },
+    {
+      "id": "brightness_measurement",
+      "title": "Display Brightness and Luminance",
+      "content": "Brightness measures light output in candela per square meter or nits. Typical displays range 100-400 nits. HDR requires 1000+ nits peak brightness. Outdoor displays need 1500+ nits. OLED can achieve very high peak but limited sustained brightness due to heat.",
+      "tags": ["brightness", "luminance", "nits", "hdr", "peak-brightness", "sustained"],
+      "category": "metric",
+      "difficulty": "beginner",
+      "relevance_score": 0.9,
+      "word_count": 116,
+      "keywords": ["brightness", "luminance", "nits", "candela", "HDR", "peak brightness"]
+    },
+    {
+      "id": "contrast_ratio_analysis",
+      "title": "Display Contrast Ratio Performance",
+      "content": "Contrast ratio compares brightest white to darkest black. LCD limited by backlight leakage, typically 1000:1 native. Local dimming improves contrast. OLED achieves perfect blacks for infinite contrast. Ambient light reduces perceived contrast significantly.",
+      "tags": ["contrast-ratio", "black-level", "backlight-leakage", "local-dimming", "ambient-light"],
+      "category": "metric",
+      "difficulty": "intermediate",
+      "relevance_score": 1.0,
+      "word_count": 125,
+      "keywords": ["contrast ratio", "black level", "backlight leakage", "local dimming", "ambient light"]
+    },
+    {
+      "id": "color_gamut_standards",
+      "title": "Display Color Gamut Coverage",
+      "content": "Color gamut defines reproducible color range. sRGB standard for web content. Adobe RGB for photography. DCI-P3 for cinema and HDR. Rec 2020 for future broadcast. Quantum dots and wide gamut backlights approach these standards.",
+      "tags": ["color-gamut", "srgb", "adobe-rgb", "dci-p3", "rec2020", "wide-gamut"],
+      "category": "metric",
+      "difficulty": "intermediate",
+      "relevance_score": 0.9,
+      "word_count": 133,
+      "keywords": ["color gamut", "sRGB", "Adobe RGB", "DCI-P3", "Rec 2020", "wide gamut"]
+    },
+    {
+      "id": "response_time_motion",
+      "title": "Display Response Time and Motion",
+      "content": "Response time measures pixel transition speed. Gray-to-gray commonly specified. LCD limited by liquid crystal switching, 1-5ms typical. OLED achieves sub-millisecond response. Gaming monitors prioritize fast response. Overdrive reduces response time but may cause overshoot.",
+      "tags": ["response-time", "gray-to-gray", "liquid-crystal", "gaming", "overdrive", "overshoot"],
+      "category": "metric",
+      "difficulty": "intermediate",
+      "relevance_score": 0.8,
+      "word_count": 128,
+      "keywords": ["response time", "gray-to-gray", "liquid crystal", "gaming", "overdrive", "overshoot"]
+    }
+  ],
+  "synonyms": {
+    "lcd": ["liquid crystal display", "liquid crystal", "tft-lcd"],
+    "oled": ["organic led", "organic light emitting diode", "amoled", "pmoled"],
+    "microled": ["micro led", "μled", "mini led"],
+    "quantum_dot": ["qled", "quantum dot", "nanocrystal"],
+    "backlight": ["backlight unit", "blu", "illumination"],
+    "tft": ["thin film transistor", "active matrix"],
+    "brightness": ["luminance", "nits", "cd/m2"],
+    "contrast": ["contrast ratio", "dynamic range"],
+    "response_time": ["response time", "gtg", "gray to gray"],
+    "color_gamut": ["color space", "gamut", "color range"]
+  },
+  "search_weights": {
+    "title": 3.0,
+    "keywords": 2.0,
+    "tags": 1.5,
+    "content": 1.0,
+    "category": 0.8
+  },
+  "filters": {
+    "category": ["technology", "component", "process", "material", "metric"],
+    "difficulty": ["beginner", "intermediate", "advanced"],
+    "tags": ["display", "manufacturing", "performance", "color", "flexible", "emerging"]
+  },
+  "indexing_options": {
+    "stemming": true,
+    "case_sensitive": false,
+    "phrase_matching": true,
+    "fuzzy_matching": true,
+    "auto_complete": true
+  }
+}

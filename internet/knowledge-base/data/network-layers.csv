@@ -1,0 +1,17 @@
+model,layer_number,layer_name,protocols,function,pdu_name,addressing,examples,header_size_bytes
+OSI,7,Application,"HTTP, HTTPS, FTP, SSH, DNS, SMTP",User applications and services,Data,Application-specific,"Web browsers, email clients",Variable
+OSI,6,Presentation,"SSL/TLS, JPEG, GIF, ASCII",Data translation and encryption,Data,None,"Encryption, compression, format conversion",Variable
+OSI,5,Session,"NetBIOS, SQL, RPC",Session establishment and management,Data,Session ID,"Database sessions, RPC",Variable
+OSI,4,Transport,"TCP, UDP, QUIC, SCTP",End-to-end communication and reliability,Segment/Datagram,Port numbers,"Reliable delivery, flow control",20-60 (TCP) / 8 (UDP)
+OSI,3,Network,"IPv4, IPv6, ICMP, IPSec",Routing between networks,Packet,IP addresses,"Internet routing, path determination",20-60 (IPv4) / 40 (IPv6)
+OSI,2,Data Link,"Ethernet, Wi-Fi, PPP, ARP",Node-to-node delivery,Frame,MAC addresses,"Switching, error detection",14-18 (Ethernet)
+OSI,1,Physical,"Cables, Radio, Fiber, Hubs",Bit transmission,Bits,None,"Electrical signals, light pulses",0
+TCP/IP,4,Application,"HTTP, FTP, SSH, DNS, SMTP",Application protocols,Data,Application-specific,"User applications",Variable
+TCP/IP,3,Transport,"TCP, UDP, QUIC",Host-to-host communication,Segment/Datagram,Port numbers,"Reliability, multiplexing",20-60 (TCP) / 8 (UDP)
+TCP/IP,2,Internet,"IP, ICMP, ARP",Internetwork communication,Packet,IP addresses,"Routing, addressing",20-60 (IPv4) / 40 (IPv6)
+TCP/IP,1,Network Access,"Ethernet, Wi-Fi, PPP",Network interface and physical,Frame,MAC addresses,"Physical and data link combined",14-18 (Ethernet)
+Hybrid,5,Application,"HTTP, DNS, SSH",User applications,Data,URLs/Domain names,"Web services, email",Variable
+Hybrid,4,Transport,"TCP, UDP",End-to-end delivery,Segment/Datagram,Port numbers,"Connection management",20-60 (TCP) / 8 (UDP)
+Hybrid,3,Network,"IPv4, IPv6",Logical addressing and routing,Packet,IP addresses,"Path selection",20-60 (IPv4) / 40 (IPv6)
+Hybrid,2,Data Link,"Ethernet, Wi-Fi",Local delivery,Frame,MAC addresses,"Error detection, flow control",14-18
+Hybrid,1,Physical,Physical media,Signal transmission,Bits,None,"Cables, wireless",0

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Deep Dive - Algorithm Notes</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f6f8fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            text-align: left;
+        }
+        h1, h2, h3, h4 {
+            color: #0969da;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 0.3em;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        h1 { font-size: 2em; }
+        h2 { font-size: 1.5em; }
+        h3 { font-size: 1.25em; border-bottom: none; }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #e01e5a;
+        }
+        pre {
+            background: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            line-height: 1.45;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: #24292e;
+            font-size: 0.85em;
+        }
+        blockquote {
+            border-left: 4px solid #0969da;
+            margin: 0;
+            padding-left: 16px;
+            color: #6a737d;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+        }
+        th, td {
+            border: 1px solid #e1e4e8;
+            padding: 8px 12px;
+            text-align: left !important;
+        }
+        /* Force all table cells to be left-aligned */
+        table * {
+            text-align: left !important;
+        }
+        th {
+            background: #f6f8fa;
+            font-weight: 600;
+        }
+        a {
+            color: #0969da;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        strong {
+            color: #24292e;
+            font-weight: 600;
+        }
+        /* Style for date/time metadata */
+        p strong:first-child {
+            color: #6a737d;
+        }
+        .loading {
+            text-align: left;
+            padding: 40px;
+            color: #6a737d;
+        }
+        /* Syntax highlighting classes */
+        .hljs-keyword { color: #d73a49; }
+        .hljs-string { color: #032f62; }
+        .hljs-number { color: #005cc5; }
+        .hljs-comment { color: #6a737d; font-style: italic; }
+        .hljs-function { color: #6f42c1; }
+        
+        /* Navigation */
+        .nav-links {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f6f8fa;
+            border-radius: 6px;
+        }
+        .nav-links a {
+            margin-right: 15px;
+        }
+        
+        /* File selector */
+        #file-selector {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <label for="file-selector">Select Notes: </label>
+            <select id="file-selector">
+                <option value="binary_search_deep_dive_2025-01-12.md">Binary Search Deep Dive (2025-01-12)</option>
+                <option value="big_o_and_search_algorithms_2025-01-11.md">Big O and Search Algorithms (2025-01-11)</option>
+            </select>
+        </div>
+        
+        <div id="content" class="loading">Loading notes...</div>
+    </div>
+
+    <script>
+        // Markdown content embedded directly
+        const markdownContent = `# Binary Search Deep Dive: Q&A Session
+
+**Date Created:** January 12, 2025  
+**Last Updated:** January 12, 2025
+
+## Table of Contents
+1. [Binary Search Prerequisites - Arrays vs Other Data Structures](#1-binary-search-prerequisites---arrays-vs-other-data-structures)
+2. [Dynamic Arrays and Array-like Structures](#2-dynamic-arrays-and-array-like-structures)
+3. [The Integer Overflow Pitfall](#3-the-integer-overflow-pitfall)
+4. [Binary Search Variations](#4-binary-search-variations)
+5. [Search in Rotated Arrays](#5-search-in-rotated-arrays)
+
+---
+
+## 1. Binary Search Prerequisites - Arrays vs Other Data Structures
+
+### Question
+"So binary search is only for arrays?"
+
+### Answer
+
+**Binary search requires random access to elements, not specifically arrays. It needs sorted data where you can jump to any position instantly.**
+
+#### Real-World Analogy
+- **Arrays = Apartment Building with Elevators**: Take elevator directly to floor 25
+- **Linked Lists = Scavenger Hunt**: Must follow each clue in order, can't skip ahead
+
+#### Where Binary Search Works
+
+**Python:**
+\`\`\`python
+# Works with arrays/lists
+contacts = ["Alice", "Bob", "Charlie", "Diana", "Eve"]
+print(contacts[2])  # Instant access to "Charlie"
+
+# Works with array-like structures
+import bisect
+sorted_prices = [10.99, 25.50, 45.00, 67.25, 89.99]
+position = bisect.bisect_left(sorted_prices, 30.00)  # Binary search
+\`\`\`
+
+**JavaScript:**
+\`\`\`javascript
+// Dynamic arrays support binary search
+const prices = [10.99, 25.50, 45.00, 67.25, 89.99];
+console.log(prices[3]);  // Direct access: 67.25
+
+// Binary search implementation
+function binarySearch(arr, target) {
+    let left = 0, right = arr.length - 1;
+    while (left <= right) {
+        const mid = left + Math.floor((right - left) / 2);
+        if (arr[mid] === target) return mid;
+        if (arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+\`\`\`
+
+#### Where Binary Search DOESN'T Work
+- **Linked Lists**: Must traverse node by node
+- **Streams**: Can only read sequentially  
+- **Queues/Stacks**: Can only access ends
+- **Hash Tables**: No sorted order to exploit
+
+#### Key Insight
+Binary search needs:
+1. **Sorted data**
+2. **Random access** (ability to jump to any index)
+
+---
+
+## 2. Dynamic Arrays and Array-like Structures
+
+### Question
+"What do these look like: Dynamic arrays, Array-like structures in databases, Files on disk?"
+
+### Answer
+
+#### Dynamic Arrays in Programming Languages
+
+**Python Lists:**
+\`\`\`python
+# Dynamic array that can grow
+contacts = ["Alice", "Bob", "Charlie"]
+contacts.append("Diana")  # Grows dynamically
+
+# Random access via index
+middle_contact = contacts[len(contacts) // 2]  # Binary search compatible
+\`\`\`
+
+**Behind the Scenes Math:**
+\`\`\`
+Position_in_memory = Starting_address + (index × element_size)
+
+Example:
+- Array starts at memory address 1000
+- Each element takes 4 bytes
+- To find element[25]: 1000 + (25 × 4) = 1100
+- Jump directly to address 1100!
+\`\`\`
+
+#### Database Indexes
+
+**SQL Database Example:**
+\`\`\`sql
+-- Table with millions of records
+Customers Table:
+ID    | Name      | City        
+------|-----------|-------------
+1001  | Anderson  | New York    
+1002  | Baker     | Los Angeles 
+...
+9999  | Wilson    | Miami       
+
+-- INDEX creates sorted lookup structure
+CREATE INDEX idx_name ON Customers(Name);
+
+-- Binary search happens here automatically:
+SELECT * FROM Customers WHERE Name = 'Miller';
+\`\`\`
+
+#### File Seeking
+
+**Python File Access:**
+\`\`\`python
+# Jump to middle of 10GB file
+with open("huge_log.txt", "rb") as file:
+    file.seek(5_000_000_000)  # Jump to byte 5 billion
+    data = file.read(1000)     # Read from that position
+\`\`\`
+
+**Visual Representation:**
+\`\`\`
+10GB File: [=====|=====|=====|=====|=====]
+                  ^           ^           ^
+                 2GB         5GB         8GB
+           Can jump directly to any position!
+\`\`\`
+
+---
+
+## 3. The Integer Overflow Pitfall
+
+### Question
+"How is integer overflow in (left + right) / 2 a pitfall?"
+
+### Answer
+
+**The "Billion-User Bug" - A real bug that affected Java's standard library for years!**
+
+#### The Problem
+
+**Dangerous Code:**
+\`\`\`python
+# With large indices near MAX_INT (2,147,483,647)
+left = 1_900_000_000
+right = 2_100_000_000
+
+# OVERFLOW OCCURS HERE:
+middle = (left + right) // 2
+# 1,900,000,000 + 2,100,000,000 = 4,000,000,000
+# But 4,000,000,000 > MAX_INT!
+# Wraps to negative: -294,967,296
+# Result: array[-147,483,648] → CRASH!
+\`\`\`
+
+#### The Solution
+
+**Safe Calculation:**
+\`\`\`python
+# ALWAYS USE THIS FORMULA:
+middle = left + (right - left) // 2
+
+# Why it works:
+# Step 1: right - left = 200,000,000 (always small)
+# Step 2: 200,000,000 // 2 = 100,000,000
+# Step 3: 1,900,000,000 + 100,000,000 = 2,000,000,000 ✓
+\`\`\`
+
+**Multiple Language Examples:**
+\`\`\`java
+// Java (where the famous bug was)
+int middle = left + (right - left) / 2;  // Safe version
+\`\`\`
+
+\`\`\`javascript
+// JavaScript
+let middle = left + Math.floor((right - left) / 2);
+\`\`\`
+
+\`\`\`c
+/* C Language */
+int middle = left + (right - left) / 2;
+\`\`\`
+
+#### Mathematical Proof
+\`\`\`python
+def verify_safety():
+    MAX_INT = 2_147_483_647
+    
+    # Edge case: both pointers near maximum
+    left = 2_000_000_000
+    right = 2_147_483_647
+    
+    # Safe calculation never overflows:
+    distance = right - left          # 147,483,647 (safe)
+    half = distance // 2              # 73,741,823 (safe)
+    middle = left + half              # 2,073,741,823 (safe)
+    
+    print(f"Result: {middle:,}")  # Valid index!
+\`\`\`
+
+---
+
+## 4. Binary Search Variations
+
+### Question
+"How to differentiate in code between: Finding first/last occurrence, Finding insertion point, Search in rotated array?"
+
+### Answer
+
+#### Finding First Occurrence
+
+\`\`\`python
+def find_first_occurrence(arr, target):
+    """
+    Find FIRST index where target appears
+    Example: [1, 2, 2, 2, 3], target=2 → returns 1
+    """
+    left, right = 0, len(arr) - 1
+    result = -1
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if arr[mid] == target:
+            result = mid
+            right = mid - 1  # KEY: Keep searching LEFT
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return result
+
+# Visual trace for [1, 2, 2, 2, 2, 3]:
+# Found 2 at index 3 → keep looking left
+# Found 2 at index 1 → keep looking left  
+# No more left → return 1
+\`\`\`
+
+#### Finding Last Occurrence
+
+\`\`\`python
+def find_last_occurrence(arr, target):
+    """
+    Find LAST index where target appears
+    Example: [1, 2, 2, 2, 3], target=2 → returns 3
+    """
+    left, right = 0, len(arr) - 1
+    result = -1
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if arr[mid] == target:
+            result = mid
+            left = mid + 1  # KEY: Keep searching RIGHT
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return result
+\`\`\`
+
+#### Finding Insertion Point
+
+\`\`\`python
+def find_insertion_point(arr, target):
+    """
+    Find where to insert target to maintain sorted order
+    Example: [1, 3, 5, 7], target=4 → returns 2
+    """
+    left, right = 0, len(arr)  # Note: right = len(arr)
+    
+    while left < right:  # Note: < not <=
+        mid = left + (right - left) // 2
+        
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid  # KEY: Don't do mid-1
+    
+    return left
+
+# Examples:
+# [1, 3, 5, 7], insert 4 → index 2
+# [1, 3, 5, 7], insert 8 → index 4 (end)
+\`\`\`
+
+#### Key Differences Cheat Sheet
+
+\`\`\`python
+"""
+STANDARD: Stop when found
+    if arr[mid] == target: return mid
+
+FIRST OCCURRENCE: Continue left after finding
+    if arr[mid] == target: 
+        result = mid
+        right = mid - 1
+
+LAST OCCURRENCE: Continue right after finding
+    if arr[mid] == target:
+        result = mid
+        left = mid + 1
+
+INSERTION POINT: Never stop early
+    - Use left < right (not <=)
+    - Use right = mid (not mid - 1)
+    - Return left when done
+"""
+\`\`\`
+
+---
+
+## 5. Search in Rotated Arrays
+
+### Question
+"Is the identification of where in the array it's rotated done as part of the search?"
+
+### Answer
+
+**No! The clever approach searches WITHOUT finding the rotation point first.**
+
+#### Direct Search (What We Use)
+
+\`\`\`python
+def search_rotated_array(arr, target):
+    """
+    Search WITHOUT finding rotation point
+    Example: [4, 5, 6, 7, 0, 1, 2], target=0 → returns 4
+    """
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if arr[mid] == target:
+            return mid
+        
+        # KEY: One half is always properly sorted
+        if arr[left] <= arr[mid]:
+            # Left half is sorted
+            if arr[left] <= target < arr[mid]:
+                right = mid - 1  # Target in sorted left
+            else:
+                left = mid + 1   # Target in unsorted right
+        else:
+            # Right half is sorted
+            if arr[mid] < target <= arr[right]:
+                left = mid + 1   # Target in sorted right
+            else:
+                right = mid - 1  # Target in unsorted left
+    
+    return -1
+
+# Example: [4, 5, 6, 7, 0, 1, 2], finding 0
+# Step 1: mid=7, left [4,5,6,7] sorted, 0 not in [4,7] → go right
+# Step 2: mid=0, found it!
+# Never needed to know rotation was at index 4!
+\`\`\`
+
+#### Alternative: Find Rotation First (Less Efficient)
+
+\`\`\`python
+def find_rotation_point(arr):
+    """Find index of smallest element (rotation point)"""
+    left, right = 0, len(arr) - 1
+    
+    if arr[left] <= arr[right]:
+        return 0  # Not rotated
+    
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        # Check if mid is rotation point
+        if mid > 0 and arr[mid] < arr[mid - 1]:
+            return mid
+        if mid < len(arr) - 1 and arr[mid] > arr[mid + 1]:
+            return mid + 1
+            
+        if arr[left] <= arr[mid]:
+            left = mid + 1  # Rotation in right half
+        else:
+            right = mid - 1  # Rotation in left half
+    
+    return 0
+
+# Then search the appropriate sorted portion
+\`\`\`
+
+#### Performance Comparison
+
+\`\`\`python
+"""
+DIRECT APPROACH (Recommended):
+- 1 binary search
+- O(log n) with fewer operations
+- Simpler implementation
+
+FIND-ROTATION-FIRST:
+- 2 binary searches
+- Still O(log n) but more operations
+- More complex implementation
+
+Use direct approach unless you need the rotation point for other purposes!
+"""
+\`\`\`
+
+---
+
+## Key Takeaways
+
+1. **Binary search needs sorted data + random access**, not just arrays
+2. **Always use \`left + (right - left) // 2\`** to avoid overflow
+3. **Different variations** solve different problems (first/last/insertion)
+4. **Rotated array search** doesn't need to find rotation point
+5. **Master the patterns**, not just memorize code
+
+## Practice Problems
+
+- Implement binary search with all variations
+- Handle edge cases (empty array, single element)
+- Try rotated array with duplicates
+- Implement using iterative and recursive approaches
+- Practice with different data types (strings, floating point)`;
+
+        // Store both documents' content
+        const documents = {
+            'binary_search_deep_dive_2025-01-12.md': markdownContent,
+            'big_o_and_search_algorithms_2025-01-11.md': `# Big O Notation and Search Algorithms: Q&A Session
+
+**Date Created:** January 11, 2025  
+**Last Updated:** January 11, 2025
+
+## Table of Contents
+1. [Understanding O(n) vs O(1) Complexity](#1-understanding-on-vs-o1-complexity)
+2. [How to Pronounce Big O Notation](#2-how-to-pronounce-big-o-notation)
+3. [Why Linear Search is Better for Finding Multiple Occurrences](#3-why-linear-search-is-better-for-finding-multiple-occurrences)
+4. [Where Binary Search Starts](#4-where-binary-search-starts)
+5. [Understanding the Middle Index Calculation](#5-understanding-the-middle-index-calculation)
+6. [Binary Search Only Works on Sorted Data](#6-binary-search-only-works-on-sorted-data)
+
+---
+
+## 1. Understanding O(n) vs O(1) Complexity
+
+### Question
+"What's the difference between Time: O(n) worst case, O(1) best case?"
+
+### Answer
+
+**Big O notation describes how an algorithm's performance scales with input size.**
+
+#### Real-World Analogy
+- **O(1) - Constant Time**: Like having a numbered parking spot - no matter how full the lot is, you go straight to spot #47
+- **O(n) - Linear Time**: Like searching for your car in a mall parking lot - might have to check every spot
+
+#### Code Examples
+
+**Pseudocode:**
+\`\`\`
+LINEAR SEARCH - O(n) worst, O(1) best:
+FUNCTION findStudent(students, targetName):
+    FOR each student in students:
+        IF student.name equals targetName:
+            RETURN student
+    RETURN not found
+\`\`\`
+
+**Python:**
+\`\`\`python
+def find_student_by_name(students, target_name):
+    """
+    Time: O(n) worst case - check all students
+    Time: O(1) best case - first student matches
+    """
+    for student in students:
+        if student['name'] == target_name:
+            return student
+    return None
+
+# O(1) using a hash table/dictionary
+class SmartClassroom:
+    def __init__(self):
+        self.by_id = {}  # Direct access structure
+    
+    def find_by_id(self, student_id):
+        """Always O(1) - instant lookup!"""
+        return self.by_id.get(student_id)
+\`\`\`
+
+**Rust:**
+\`\`\`rust
+// O(n) linear search
+fn find_student_linear(students: &[Student], name: &str) -> Option<&Student> {
+    for student in students {
+        if student.name == name {
+            return Some(student);
+        }
+    }
+    None
+}
+
+// O(1) hash map lookup
+use std::collections::HashMap;
+fn find_student_instant(map: &HashMap<u32, Student>, id: u32) -> Option<&Student> {
+    map.get(&id)  // Always instant!
+}
+\`\`\`
+
+#### Key Insight
+- **O(1)**: Performance doesn't change with data size
+- **O(n)**: Performance scales linearly with data size
+- Same problem can be O(n) or O(1) depending on data structure choice
+
+---
+
+## 2. How to Pronounce Big O Notation
+
+### Question
+"How do you say these out loud?"
+
+### Answer
+
+#### Common Pronunciations
+
+| Notation | Formal | Casual | In Conversation |
+|----------|--------|--------|-----------------|
+| O(1) | "oh of one" | "constant time" | "This lookup is oh-of-one" |
+| O(n) | "oh of n" | "linear time" | "The search is oh-of-n" |
+| O(log n) | "oh of log n" | "logarithmic" | "Binary search is oh-of-log-n" |
+| O(n²) | "oh of n squared" | "quadratic" | "That nested loop is oh-of-n-squared" |
+
+#### Examples in Different Contexts
+
+**Formal/Interview:**
+"The algorithm has oh-of-n time complexity in the worst case, but oh-of-one in the best case."
+
+**Casual/Team:**
+"It's linear worst case, constant best case."
+
+**Teaching:**
+"This runs in oh-of-n, which means if we double our data, we double our time."
+
+#### Pro Tips
+- Some say "Big O of n" (more formal) vs just "O of n" (more common)
+- Very casual: Skip the O entirely - "It's n-squared"
+- When in doubt, use descriptive terms: "constant time", "linear time", "quadratic time"
+
+---
+
+## 3. Why Linear Search is Better for Finding Multiple Occurrences
+
+### Question
+"Why is 'Can find multiple occurrences easily' true for linear search?"
+
+### Answer
+
+**Linear search naturally collects ALL matches in a single pass, while hash tables need special handling for non-unique values.**
+
+#### The Problem Illustrated
+
+**Pseudocode:**
+\`\`\`
+LINEAR SEARCH for multiple matches:
+    matches = EMPTY LIST
+    FOR each item in array:
+        IF item matches condition:
+            ADD item to matches
+    RETURN matches  # One pass, found them all!
+
+HASH TABLE for multiple matches:
+    # Problem: Hash tables map to single values
+    # Need separate structure for each searchable field
+    # Or check every entry anyway (becomes O(n)!)
+\`\`\`
+
+**Python:**
+\`\`\`python
+# Linear search - naturally finds all matches
+def find_all_with_grade_linear(students, target_grade):
+    """One pass through data, collect all matches"""
+    matches = []
+    for student in students:
+        if student['grade'] == target_grade:
+            matches.append(student)
+    return matches  # Found all 'A' students in one go!
+
+# Hash table - requires special handling
+class MultiIndexClassroom:
+    def __init__(self):
+        self.by_id = {}  # id → single student
+        self.by_grade = {}  # grade → LIST of students
+    
+    def add_student(self, student):
+        # Must maintain separate index for non-unique fields
+        grade = student['grade']
+        if grade not in self.by_grade:
+            self.by_grade[grade] = []
+        self.by_grade[grade].append(student)
+\`\`\`
+
+**Rust:**
+\`\`\`rust
+// Linear search - simple and effective for multiple matches
+fn find_all_with_grade(students: &[Student], grade: char) -> Vec<Student> {
+    students.iter()
+        .filter(|s| s.grade == grade)
+        .cloned()
+        .collect()  // One pass, all matches!
+}
+
+// Hash map - needs Vec as value for multiple matches
+use std::collections::HashMap;
+struct MultiIndex {
+    by_grade: HashMap<char, Vec<Student>>,  // Extra complexity!
+}
+\`\`\`
+
+#### When Linear Search Wins
+1. **No extra memory needed** - Just one pass through data
+2. **Flexible queries** - Can search by any field without pre-indexing
+3. **Complex conditions** - Easy to find "all A-grade students with scores > 90"
+4. **Range queries** - Simple to find "all scores between 80-90"
+
+---
+
+## 4. Where Binary Search Starts
+
+### Question
+"Binary search would still need O(log n) comparisons even if the target is at the beginning, as it doesn't check position 0 first. Where does it start then?"
+
+### Answer
+
+**Binary search ALWAYS starts at the middle index, never at position 0.**
+
+#### The Starting Point Formula
+
+**Pseudocode:**
+\`\`\`
+BINARY SEARCH starting point:
+    left = 0
+    right = array_length - 1
+    middle = (left + right) / 2  # ALWAYS starts here!
+    
+    # For array size 10: starts at index 4
+    # For array size 100: starts at index 49
+    # For array size 1000: starts at index 499
+\`\`\`
+
+**Python:**
+\`\`\`python
+def show_binary_search_start(array, target):
+    """Binary search ALWAYS starts in the middle"""
+    left = 0
+    right = len(array) - 1
+    middle = (left + right) // 2  # First check is ALWAYS here
+    
+    print(f"Array size: {len(array)}")
+    print(f"First check at index: {middle}")
+    print(f"Value at middle: {array[middle]}")
+    
+    # Even if target is at index 0, we check middle first!
+    if target == array[0]:
+        print(f"Target is at beginning, but we still check index {middle} first!")
+
+# Example with array [1,2,3,4,5,6,7,8,9,10]
+# Searching for 1 (at index 0)
+# First check: index 4 (value 5) - NOT index 0!
+\`\`\`
+
+**Rust:**
+\`\`\`rust
+fn binary_search_path(array: &[i32], target: i32) {
+    let mut left = 0;
+    let mut right = array.len() - 1;
+    let mut path = Vec::new();
+    
+    while left <= right {
+        let middle = (left + right) / 2;  // Always middle!
+        path.push(middle);
+        
+        if array[middle] == target {
+            break;
+        } else if array[middle] < target {
+            left = middle + 1;
+        } else {
+            right = middle - 1;
+        }
+    }
+    
+    println!("To find {}: checked indices {:?}", target, path);
+    // To find 1: checked indices [4, 1, 0] - starts at middle!
+}
+\`\`\`
+
+#### Why Middle-First?
+1. **Maximum information gain** - Eliminates exactly 50% each step
+2. **Predictable performance** - Always O(log n), no surprises
+3. **No assumptions** - Works for any distribution of values
+
+---
+
+## 5. Understanding the Middle Index Calculation
+
+### Question
+"I'm not sure I get this: For array of size 10: Starts at index 4 or 5"
+
+### Answer
+
+**It's NOT "4 or 5" - it's ALWAYS 4. Binary search uses integer division which always rounds down.**
+
+#### The Math Explained
+
+**Pseudocode:**
+\`\`\`
+MIDDLE INDEX CALCULATION:
+    # Standard formula (used everywhere)
+    middle = (left + right) // 2  # Integer division rounds DOWN
+    
+    For array size 10 (indices 0-9):
+        middle = (0 + 9) // 2 = 4  # ALWAYS 4, not "4 or 5"
+    
+    For array size 100 (indices 0-99):
+        middle = (0 + 99) // 2 = 49  # ALWAYS 49
+    
+    For array size 1000 (indices 0-999):
+        middle = (0 + 999) // 2 = 499  # ALWAYS 499
+\`\`\`
+
+**Python:**
+\`\`\`python
+def calculate_exact_middle(array_size):
+    """Shows EXACTLY where binary search starts"""
+    left = 0
+    right = array_size - 1
+    middle = (left + right) // 2  # Integer division
+    
+    print(f"Array size: {array_size}")
+    print(f"Index range: {left} to {right}")
+    print(f"Calculation: ({left} + {right}) // 2 = {middle}")
+    print(f"Binary search ALWAYS starts at index {middle}")
+    
+    return middle
+
+# Definitive answers:
+calculate_exact_middle(10)    # Always 4
+calculate_exact_middle(100)   # Always 49  
+calculate_exact_middle(1000)  # Always 499
+\`\`\`
+
+**Rust:**
+\`\`\`rust
+fn prove_deterministic_middle() {
+    let test_cases = vec![
+        (10, 4),
+        (100, 49),
+        (1000, 499),
+    ];
+    
+    for (size, expected) in test_cases {
+        let actual = (0 + size - 1) / 2;
+        assert_eq!(actual, expected);
+        println!("Size {}: ALWAYS starts at index {}", size, actual);
+    }
+}
+\`\`\`
+
+#### Visual Proof
+\`\`\`
+Array size 10: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Indices:        0  1  2  3  4  5  6  7  8  9
+                            ↑
+                        Middle = 4
+                    (Deterministic, not ambiguous!)
+\`\`\`
+
+---
+
+## 6. Binary Search Only Works on Sorted Data
+
+### Question
+"And this really only works for ordered list then right?"
+
+### Answer
+
+**YES! Binary search ABSOLUTELY REQUIRES sorted data to function correctly.**
+
+#### Why Sorting is Essential
+
+**Pseudocode:**
+\`\`\`
+BINARY SEARCH ASSUMPTION:
+    IF middle_value < target:
+        # Assumes ALL left values are ALSO < target
+        # ONLY TRUE IF SORTED!
+    
+UNSORTED ARRAY: [8, 3, 10, 1, 6, 14, 4, 7, 13]
+Looking for: 4
+    Step 1: Check middle (value 6)
+    6 > 4, so search left half
+    Step 2: Now searching [8, 3, 10, 1]
+    But 4 is actually in the RIGHT half!
+    BINARY SEARCH FAILS!
+\`\`\`
+
+**Python:**
+\`\`\`python
+def demonstrate_failure_on_unsorted():
+    """Shows binary search failing on unsorted data"""
+    
+    # Same numbers, different order
+    sorted_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    unsorted_array = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+    
+    def binary_search(array, target):
+        left, right = 0, len(array) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if array[mid] == target:
+                return mid
+            elif array[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return -1
+    
+    # Test both arrays
+    target = 2
+    sorted_result = binary_search(sorted_array, target)
+    unsorted_result = binary_search(unsorted_array, target)
+    
+    print(f"Searching for {target}:")
+    print(f"Sorted array: {'Found!' if sorted_result != -1 else 'Not found'}")
+    print(f"Unsorted array: {'Found!' if unsorted_result != -1 else 'Not found'}")
+    # Unsorted fails even though 2 IS in the array!
+\`\`\`
+
+**Rust:**
+\`\`\`rust
+fn prove_sorting_required() {
+    let sorted = vec![1, 2, 3, 4, 5];
+    let unsorted = vec![3, 1, 4, 2, 5];
+    
+    // Binary search on sorted: works
+    assert!(sorted.binary_search(&3).is_ok());
+    
+    // Binary search on unsorted: unreliable!
+    // Might find it, might not, depends on luck
+    match unsorted.binary_search(&2) {
+        Ok(_) => println!("Lucky! Found it"),
+        Err(_) => println!("Missed it, even though it's there!"),
+    }
+}
+\`\`\`
+
+#### Algorithm Requirements Summary
+
+| Algorithm | Sorted Data Required? | Time Complexity | Multiple Matches |
+|-----------|----------------------|-----------------|------------------|
+| Linear Search | No | O(n) | Easy |
+| Binary Search | **YES** | O(log n) | Complex |
+| Hash Table | No | O(1) | Requires special handling |
+
+#### When to Sort First?
+- **Single search on unsorted data**: Use linear search
+- **Multiple searches on same data**: Sort once, then use binary search
+- **Break-even point**: Usually around log(n) searches
+
+---
+
+## Key Takeaways
+
+1. **O(1) vs O(n)**: Constant time means performance doesn't scale with data size, while linear time scales proportionally
+2. **Pronunciation**: "Oh of n" or simply "linear time" - both are correct
+3. **Multiple occurrences**: Linear search naturally handles multiple matches in one pass
+4. **Binary search starting point**: Always starts at the middle index, never at the beginning
+5. **Middle calculation**: Uses integer division, always deterministic (not "or")
+6. **Sorted data requirement**: Binary search ONLY works on sorted data - this is non-negotiable
+
+## Additional Resources
+
+- **Real-world applications**: Database indexes, dictionary lookups, GPS navigation
+- **Trade-offs**: Speed vs memory, simplicity vs performance, setup cost vs query speed
+- **Practice problems**: Try implementing these algorithms yourself to solidify understanding
+
+---
+
+*Notes compiled from algorithms learning session - focusing on practical understanding through real-world analogies and code examples in Pseudocode, Python, and Rust.*`
+        };
+
+        // File selector functionality
+        const fileSelector = document.getElementById('file-selector');
+        const contentDiv = document.getElementById('content');
+        
+        // Render markdown
+        function renderMarkdown(markdown) {
+            contentDiv.innerHTML = marked.parse(markdown);
+            // Add anchor links for headers
+            document.querySelectorAll('h2, h3').forEach(header => {
+                const id = header.textContent.toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-');
+                header.id = id;
+            });
+        }
+        
+        // Initial render - show binary search notes by default
+        renderMarkdown(markdownContent);
+        
+        // Handle file selection
+        fileSelector.addEventListener('change', (e) => {
+            const selectedFile = e.target.value;
+            if (documents[selectedFile]) {
+                renderMarkdown(documents[selectedFile]);
+            }
+        });
+    </script>
+</body>
+</html>

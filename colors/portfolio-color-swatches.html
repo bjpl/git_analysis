@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdTech Portfolio Color Palette</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #F5F5F7;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #7FBA00;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+        
+        .palette-section {
+            margin-bottom: 50px;
+        }
+        
+        h2 {
+            color: #2C3E50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #4A90E2;
+            padding-bottom: 10px;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .color-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .color-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .color-swatch {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .color-info {
+            padding: 20px;
+            background: white;
+        }
+        
+        .color-name {
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .color-hex {
+            font-family: 'Courier New', monospace;
+            color: #4A90E2;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .color-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .demo-header {
+            background: #2C3E50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #4A90E2;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3A7BC8;
+        }
+        
+        .btn-success {
+            background: #7FBA00;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #6CA000;
+        }
+        
+        .btn-accent {
+            background: #FFB84D;
+            color: #2C3E50;
+        }
+        
+        .btn-accent:hover {
+            background: #FFA833;
+        }
+        
+        .demo-card {
+            background: #E8F4FD;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4A90E2;
+        }
+        
+        .sample-text {
+            padding: 20px;
+            background: #F5F5F7;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teacher/EdTech Portfolio</h1>
+        <p class="subtitle">Professional Color Palette for Education Technology</p>
+        
+        <div class="palette-section">
+            <h2>Primary Palette</h2>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #4A90E2; color: white;">
+                        #4A90E2
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Friendly Sky Blue</div>
+                        <div class="color-hex">#4A90E2</div>
+                        <div class="color-desc">Trust, technology, learning - perfect for main CTAs and navigation</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #7FBA00; color: white;">
+                        #7FBA00
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Fresh Green</div>
+                        <div class="color-hex">#7FBA00</div>
+                        <div class="color-desc">Growth, positive energy, success - ideal for achievements and progress</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #F5F5F7; color: #2C3E50;">
+                        #F5F5F7
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Soft White-Gray</div>
+                        <div class="color-hex">#F5F5F7</div>
+                        <div class="color-desc">Clean backgrounds, breathing room - creates professional whitespace</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #2C3E50; color: white;">
+                        #2C3E50
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Deep Blue-Gray</div>
+                        <div class="color-hex">#2C3E50</div>
+                        <div class="color-desc">Professional text, headers - provides excellent readability</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="palette-section">
+            <h2>Accent Colors</h2>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #FFB84D; color: #2C3E50;">
+                        #FFB84D
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Warm Amber</div>
+                        <div class="color-hex">#FFB84D</div>
+                        <div class="color-desc">Highlights, achievements, CTAs - draws attention without overwhelming</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #E8F4FD; color: #2C3E50;">
+                        #E8F4FD
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Pale Blue Tint</div>
+                        <div class="color-hex">#E8F4FD</div>
+                        <div class="color-desc">Section backgrounds, cards - subtle variation for visual hierarchy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2 style="margin-bottom: 30px;">Palette in Action</h2>
+            
+            <div class="demo-header">
+                <h3>Sample Portfolio Header</h3>
+                <p>Building innovative educational experiences with technology</p>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="demo-button btn-primary">View Projects</button>
+                <button class="demo-button btn-success">Student Success</button>
+                <button class="demo-button btn-accent">Contact Me</button>
+            </div>
+            
+            <div class="demo-card">
+                <h4 style="color: #2C3E50; margin-bottom: 10px;">Featured Project</h4>
+                <p style="color: #666;">Interactive learning platform that increased student engagement by 45% through gamification and personalized learning paths.</p>
+            </div>
+            
+            <div class="sample-text">
+                <h4 style="color: #4A90E2; margin-bottom: 10px;">About Me</h4>
+                <p style="color: #2C3E50;">Passionate educator with 10+ years of experience integrating technology into the classroom. Specialized in creating engaging digital learning experiences that inspire students to reach their full potential.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

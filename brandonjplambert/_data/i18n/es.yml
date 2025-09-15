@@ -1,0 +1,84 @@
+# Spanish translations
+site:
+  title: Brandon JP Lambert
+  tagline: Aprendizaje y Enseñanza de Idiomas
+  description: Educador de cuarta generación con MA-TESOL y 10 años en educación de idiomas y edtech.
+
+navigation:
+  home: Inicio
+  work: Trabajo
+  ai_projects: Proyectos de IA
+  resources: Recursos
+  contact: Contacto
+  language_toggle: EN
+
+sections:
+  hero:
+    title: Bienvenido
+    subtitle: Explorando la intersección del lenguaje, la educación y la tecnología
+  featured:
+    title: Trabajo Destacado
+    view_all: Ver Todo el Trabajo
+  teaching_philosophy:
+    title: Filosofía de Enseñanza
+    expand: Mostrar Más
+    collapse: Mostrar Menos
+  education:
+    title: Educación
+    degree: Título
+    institution: Institución
+    dates: Fechas
+  career:
+    title: Trayectoria Profesional
+    duration: Duración
+    organization: Organización
+  projects:
+    title: Proyectos de IA
+    status: Estado
+    technologies: Tecnologías
+    view_project: Ver Proyecto
+    github: GitHub
+    demo: Demo en Vivo
+  resources:
+    title: Recursos de Aprendizaje
+    tools_tab: Herramientas de Aprendizaje
+    accounts_tab: Cuentas en Español
+    effectiveness: Efectividad
+    category: Categoría
+  
+buttons:
+  learn_more: Saber Más
+  view_details: Ver Detalles
+  contact_me: Contáctame
+  download_cv: Descargar CV
+  filter_by: Filtrar por
+
+forms:
+  name: Nombre
+  email: Correo Electrónico
+  message: Mensaje
+  send: Enviar Mensaje
+  sending: Enviando...
+  success: ¡Mensaje enviado con éxito!
+  error: Error al enviar el mensaje. Por favor, inténtalo de nuevo.
+
+footer:
+  copyright: Todos los derechos reservados
+  built_with: Construido con Jekyll y alojado en GitHub Pages
+
+metadata:
+  author: Autor
+  published: Publicado
+  updated: Última Actualización
+  reading_time: min de lectura
+
+status:
+  active: Activo
+  completed: Completado
+  in_progress: En Progreso
+
+errors:
+  404_title: Página No Encontrada
+  404_message: Lo sentimos, la página que buscas no existe.
+  404_home: Volver al Inicio
+  generic: Ocurrió un error. Por favor, inténtalo de nuevo.

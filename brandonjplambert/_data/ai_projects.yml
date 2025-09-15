@@ -1,0 +1,142 @@
+# AI Projects
+projects:
+  - id: describe-it
+    name: Describe It - Spanish Learning through Visual Intelligence
+    description: >-
+      A comprehensive Next.js 14 application that combines visual learning with 
+      AI-powered language education, helping users learn Spanish through interactive 
+      image descriptions, Q&A sessions, and vocabulary extraction. Features a layered,
+      event-driven microservices architecture with robust security and real-time capabilities.
+    github_url: https://github.com/bjpl/describe_it
+    demo_url: 
+    image: /assets/images/projects/describe-it-preview.png
+    technologies:
+      - Next.js 14
+      - TypeScript
+      - Supabase
+      - OpenAI GPT-4
+      - Vercel KV
+      - React Query
+      - Zustand
+      - Radix UI
+      - Tailwind CSS
+      - Unsplash API
+    status: Active
+    category: Educational
+    features:
+      - Multi-style Image Descriptions (Narrativo, Poético, Académico, Conversacional, Infantil)
+      - Interactive Q&A System with difficulty levels and confidence scoring
+      - Smart Phrase Extraction with categorized vocabulary
+      - Session Management with progress tracking and data export
+      - Real-time Collaboration with live updates and shared learning sessions
+    last_updated: 2024-12
+  
+  - id: subjunctive-practice
+    name: Spanish Subjunctive Practice - AI-Powered Grammar Mastery
+    description: >-
+      A desktop application that leverages GPT-4 to create an adaptive learning experience
+      for mastering Spanish subjunctive forms. Implements Task-Based Language Teaching (TBLT)
+      methodology with personalized error analysis, smart explanations, and gamified progress tracking.
+    github_url: https://github.com/bjpl/subjunctive_practice
+    demo_url: 
+    image: /assets/images/projects/subjunctive-practice-preview.png
+    technologies:
+      - Python 3.8+
+      - OpenAI GPT-4
+      - Tkinter
+      - SQLite
+      - Spaced Repetition Algorithm
+      - TBLT Methodology
+    status: Active
+    category: Educational
+    features:
+      - AI-powered contextual explanations and personalized learning tips
+      - Adaptive difficulty adjustment based on performance metrics
+      - Multiple practice modes (Traditional Grammar, TBLT Scenarios, Mood Contrast)
+      - Real-time accuracy tracking with streak monitoring
+      - Support for stem-changing verbs and sequence of tenses
+      - Dark/Light theme with session persistence
+    last_updated: 2024-11
+  
+  - id: internet-infrastructure-map
+    name: Internet Infrastructure Map - Global Network Visualization
+    description: >-
+      A stunning WebGL-powered 3D visualization of global internet infrastructure, featuring
+      550+ submarine cables and 8,000+ data centers. Combines real-time data with estimated
+      metrics to create an educational, interactive exploration of how the internet physically connects our world.
+    github_url: https://github.com/bjpl/Internet-Infrastructure-Map
+    demo_url: 
+    image: /assets/images/projects/infrastructure-map-preview.png
+    technologies:
+      - Three.js
+      - WebGL
+      - D3.js
+      - GSAP
+      - Vite
+      - Geospatial Data Processing
+      - Particle Systems
+    status: Active
+    category: Data Visualization
+    features:
+      - Interactive 3D globe with orbit controls and layer toggles
+      - Real-time network traffic particle visualization
+      - Multi-tier data accuracy system (live, estimated, historical)
+      - Performance-optimized WebGL rendering for smooth interaction
+      - Educational focus with transparent data sourcing
+      - Responsive design with mobile support
+    last_updated: 2024-11
+  
+  - id: letratos
+    name: Letratos - Bilingual Poetry & Photography Portfolio
+    description: >-
+      A meticulously crafted static site showcasing the intersection of poetry and visual art.
+      Built with Jekyll 4.3, this bilingual platform demonstrates advanced static generation
+      techniques, performance optimization, and thoughtful content architecture for creative expression.
+    github_url: https://github.com/bjpl/letratos
+    demo_url: 
+    image: /assets/images/projects/letratos-preview.png
+    technologies:
+      - Jekyll 4.3
+      - Ruby 3.x
+      - SASS/SCSS
+      - Liquid Templating
+      - Semantic HTML5
+      - Lazy Loading
+      - Performance Optimization
+    status: Active
+    category: Creative Platform
+    features:
+      - Bilingual content system with cross-language linking
+      - Custom Jekyll collections for poetry organization
+      - Responsive photo galleries with lazy loading
+      - Interactive media handling with minimal JavaScript
+      - SEO and accessibility-first architecture
+      - Automated meta tags and sitemap generation
+    last_updated: 2024-10
+  
+  - id: fancy-monkey
+    name: Fancy Monkey - Zero-Cost E-commerce Architecture
+    description: >-
+      A revolutionary approach to e-commerce infrastructure, achieving zero hosting costs
+      through intelligent use of GitHub Pages and Vercel serverless functions. Demonstrates
+      masterful architectural thinking with built-in scaling strategies and operational excellence.
+    github_url: https://github.com/bjpl/fancy_monkey
+    demo_url: 
+    image: /assets/images/projects/fancy-monkey-preview.png
+    technologies:
+      - GitHub Pages
+      - Vercel Serverless
+      - Stripe Payments
+      - Static HTML/JS
+      - Apple Pay/Google Pay
+      - Zero-Infrastructure Design
+    status: Completed
+    category: E-commerce Innovation
+    features:
+      - Two-repository architecture for maximum reliability
+      - Single serverless function handling all checkout logic
+      - Real-time inventory validation system
+      - Mobile payment integration (Apple Pay, Google Pay)
+      - Comprehensive operational procedures documentation
+      - Clear scaling migration paths for growth
+    last_updated: 2024-09

@@ -1,0 +1,34 @@
+record_type,purpose,example_value,typical_ttl_seconds,dnssec_signed,priority_field,description
+A,IPv4 address,192.0.2.1,300-86400,Yes,No,Maps domain name to IPv4 address
+AAAA,IPv6 address,2001:db8::1,300-86400,Yes,No,Maps domain name to IPv6 address
+CNAME,Canonical name,www.example.com,300-86400,Yes,No,Alias pointing to another domain name
+MX,Mail exchanger,10 mail.example.com,3600-86400,Yes,Yes,Specifies mail servers for domain
+NS,Name server,ns1.example.com,86400-172800,Yes,No,Delegates subdomain to name servers
+TXT,Text data,v=spf1 include:_spf.google.com ~all,300-3600,Yes,No,Arbitrary text data including SPF and DKIM
+SOA,Start of authority,ns1.example.com admin.example.com 2024010101 3600 1800 604800 86400,86400,Yes,No,Authoritative information about DNS zone
+PTR,Pointer record,host.example.com,86400,Yes,No,Reverse DNS lookup (IP to hostname)
+SRV,Service location,10 60 5060 sipserver.example.com,3600,Yes,Yes,Specifies location of services
+CAA,Certificate authority authorization,0 issue letsencrypt.org,3600,Yes,No,Specifies which CAs can issue certificates
+DNSKEY,DNS public key,257 3 13 [base64_key],3600,No,No,Contains public key for DNSSEC
+DS,Delegation signer,12345 13 2 [sha256_hash],86400,No,No,Links to DNSKEY in child zone
+RRSIG,Resource record signature,[signature_data],Varies,No,No,DNSSEC signature for record set
+NSEC,Next secure record,next.example.com A AAAA MX,Varies,No,No,Proves non-existence in DNSSEC
+NSEC3,Next secure record v3,[hashed_next_domain],Varies,No,No,NSEC with hashed names for privacy
+TLSA,TLS authentication,3 1 1 [cert_hash],3600,Yes,No,DANE certificate pinning
+SSHFP,SSH fingerprint,1 1 [fingerprint],3600,Yes,No,SSH host key fingerprint
+DMARC,Email authentication policy,v=DMARC1; p=reject; rua=mailto:dmarc@example.com,3600,Yes,No,Email authentication policy
+SPF,Sender policy framework,v=spf1 ip4:192.0.2.0/24 -all,3600,Yes,No,Email sender authorization
+DKIM,DomainKeys identified mail,v=DKIM1; k=rsa; p=[public_key],3600,Yes,No,Email signing verification
+NAPTR,Naming authority pointer,100 10 u E2U+sip !^.*$! sip:info@example.com,3600,Yes,Yes,Used for ENUM and Dynamic Delegation Discovery
+HINFO,Host information,CPU=x86-64 OS=Linux,86400,Yes,No,Hardware and OS information (rarely used)
+RP,Responsible person,admin.example.com admin-info.example.com,86400,Yes,No,Contact information for domain
+LOC,Location,51 30 0.000 N 0 7 0.000 W 0.00m,86400,Yes,No,Geographic location
+CERT,Certificate,PKIX 0 0 [base64_cert],3600,Yes,No,Stores certificates in DNS
+IPSECKEY,IPsec key,10 1 2 192.0.2.1 [public_key],3600,Yes,Yes,IPsec public keys
+OPENPGPKEY,OpenPGP key,[base64_pgp_key],3600,Yes,No,OpenPGP public keys
+ALIAS,Alias at zone apex,target.example.com,300,Yes,No,Like CNAME but works at zone apex
+HTTPS,HTTPS service binding,1 . alpn=h3 ipv4hint=192.0.2.1,300,Yes,Yes,Service binding for HTTPS
+SVCB,Service binding,1 backend.example.com port=8080,300,Yes,Yes,Generic service binding
+APL,Address prefix list,1:192.0.2.0/24 !1:192.0.2.128/25,3600,Yes,No,Address range lists
+DHCID,DHCP identifier,[base64_identifier],3600,Yes,No,Links DHCP clients to DNS
+SMIMEA,S/MIME certificate,3 1 1 [cert_hash],3600,Yes,No,S/MIME certificate association

@@ -1,0 +1,81 @@
+// Variables - Academic Design System
+
+// Color Palette
+:root {
+  // Primary Colors
+  --color-ink: #1a1a1a;           // Primary text
+  --color-paper: #fafaf9;          // Background
+  --color-accent: #2c5282;         // Deep academic blue
+  --color-secondary: #718096;      // Muted gray
+  --color-highlight: #e2e8f0;      // Subtle highlights
+  --color-border: #e2e8f0;         // Delicate borders
+  
+  // Extended Palette
+  --color-ink-light: #4a5568;
+  --color-ink-lighter: #718096;
+  --color-accent-dark: #1a365d;
+  --color-accent-light: #3182ce;
+  --color-success: #38a169;
+  --color-warning: #d69e2e;
+  --color-error: #e53e3e;
+  
+  // Typography Scale (1.25 ratio)
+  --font-size-xs: 0.64rem;
+  --font-size-sm: 0.8rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.25rem;
+  --font-size-lg: 1.563rem;
+  --font-size-xl: 1.953rem;
+  --font-size-2xl: 2.441rem;
+  --font-size-3xl: 3.052rem;
+  
+  // Font Families
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Crimson Text', 'EB Garamond', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  
+  // Line Heights
+  --line-height-tight: 1.2;
+  --line-height-heading: 1.4;
+  --line-height-base: 1.6;
+  --line-height-relaxed: 1.8;
+  
+  // Spacing Scale (8px grid)
+  --space-0: 0;
+  --space-1: 0.25rem;  // 4px
+  --space-2: 0.5rem;   // 8px
+  --space-3: 1rem;     // 16px
+  --space-4: 1.5rem;   // 24px
+  --space-5: 2rem;     // 32px
+  --space-6: 3rem;     // 48px
+  --space-8: 4rem;     // 64px
+  --space-10: 5rem;    // 80px
+  --space-12: 6rem;    // 96px
+  
+  // Layout
+  --max-width: 1200px;
+  --content-width: 720px;
+  --container-medium: 900px;
+  --sidebar-width: 280px;
+  --gutter: 5vw;
+  
+  // Borders
+  --border-width: 1px;
+  --border-radius-sm: 2px;
+  --border-radius: 4px;
+  
+  // Transitions
+  --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // Shadows (minimal)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-focus: 0 0 0 2px var(--color-accent);
+  
+  // Z-index
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+}

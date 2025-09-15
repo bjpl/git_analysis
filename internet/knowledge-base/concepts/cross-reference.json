@@ -1,0 +1,239 @@
+{
+  "cross_references": {
+    "protocol_dependencies": {
+      "application_layer": {
+        "HTTP": {
+          "depends_on": ["TCP", "IP", "DNS"],
+          "optional": ["TLS", "HTTP/2", "QUIC"],
+          "interactions": {
+            "DNS": "Resolves domain names before connection",
+            "TCP": "Provides reliable transport",
+            "TLS": "Adds encryption for HTTPS"
+          }
+        },
+        "Email": {
+          "protocols": {
+            "sending": ["SMTP", "SMTPS"],
+            "retrieval": ["IMAP", "POP3"],
+            "security": ["TLS", "STARTTLS"],
+            "authentication": ["SPF", "DKIM", "DMARC"]
+          },
+          "dns_records": ["MX", "TXT", "A/AAAA"],
+          "ports": {
+            "SMTP": [25, 587, 465],
+            "IMAP": [143, 993],
+            "POP3": [110, 995]
+          }
+        },
+        "VoIP": {
+          "signaling": ["SIP", "H.323"],
+          "media": ["RTP", "RTCP"],
+          "transport": ["UDP", "TCP"],
+          "nat_traversal": ["STUN", "TURN", "ICE"],
+          "codecs": ["G.711", "G.729", "Opus"]
+        }
+      },
+      "transport_layer": {
+        "TCP": {
+          "requires": ["IP"],
+          "provides": ["Reliability", "Ordering", "Flow control"],
+          "used_by": ["HTTP", "HTTPS", "SSH", "FTP", "SMTP"]
+        },
+        "UDP": {
+          "requires": ["IP"],
+          "provides": ["Low latency", "No connection overhead"],
+          "used_by": ["DNS", "DHCP", "VoIP", "Gaming", "QUIC"]
+        },
+        "QUIC": {
+          "built_on": ["UDP"],
+          "replaces": ["TCP + TLS"],
+          "features": ["0-RTT", "Multiplexing", "Connection migration"],
+          "used_by": ["HTTP/3"]
+        }
+      }
+    },
+    "technology_stacks": {
+      "cdn_stack": {
+        "components": {
+          "routing": ["GeoDNS", "Anycast", "Load balancing"],
+          "caching": ["Edge cache", "Origin shield", "Browser cache"],
+          "protocols": ["HTTP/2", "HTTP/3", "TLS 1.3"],
+          "security": ["DDoS protection", "WAF", "Bot management"],
+          "compute": ["Edge workers", "Serverless functions"]
+        },
+        "relationships": {
+          "GeoDNS": "Routes users to nearest edge",
+          "Anycast": "Same IP in multiple locations",
+          "Edge_cache": "Serves content without origin hit",
+          "Origin_shield": "Protects origin from cache misses"
+        }
+      },
+      "modern_web_app": {
+        "frontend": {
+          "protocols": ["HTTP/2", "WebSocket", "WebRTC"],
+          "apis": ["REST", "GraphQL", "gRPC"],
+          "security": ["CSP", "CORS", "SRI"]
+        },
+        "backend": {
+          "api_gateway": ["Rate limiting", "Authentication", "Routing"],
+          "microservices": ["Service mesh", "Container orchestration"],
+          "database": ["Connection pooling", "Replication", "Sharding"]
+        },
+        "infrastructure": {
+          "compute": ["Containers", "Serverless", "VMs"],
+          "networking": ["Load balancers", "Service discovery", "VPC"],
+          "storage": ["Object storage", "Block storage", "CDN"]
+        }
+      }
+    },
+    "problem_solution_mappings": {
+      "performance_issues": {
+        "high_latency": {
+          "causes": ["Geographic distance", "Network congestion", "Processing time"],
+          "solutions": {
+            "CDN": "Reduce geographic distance",
+            "Caching": "Avoid repeated processing",
+            "Connection_pooling": "Reduce connection overhead",
+            "Protocol_optimization": "HTTP/2, QUIC"
+          }
+        },
+        "slow_dns": {
+          "causes": ["Distant resolver", "No caching", "Large responses"],
+          "solutions": {
+            "DNS_caching": "Cache at multiple levels",
+            "Prefetching": "Resolve before needed",
+            "Fast_DNS": "Use 1.1.1.1 or 8.8.8.8",
+            "DoH_DoT": "Prevent interference"
+          }
+        },
+        "packet_loss": {
+          "detection": ["Ping statistics", "TCP retransmissions", "Application timeouts"],
+          "mitigation": {
+            "FEC": "Forward error correction",
+            "Retransmission": "TCP automatic retry",
+            "Path_diversity": "Multiple network paths",
+            "QoS": "Prioritize important traffic"
+          }
+        }
+      },
+      "security_threats": {
+        "man_in_the_middle": {
+          "attack_vectors": ["ARP spoofing", "DNS hijacking", "Rogue AP"],
+          "defenses": {
+            "TLS": "End-to-end encryption",
+            "DNSSEC": "DNS authentication",
+            "Certificate_pinning": "Prevent cert substitution",
+            "HSTS": "Force HTTPS"
+          }
+        },
+        "ddos_attacks": {
+          "types": ["Volume", "Protocol", "Application"],
+          "mitigations": {
+            "Rate_limiting": "Limit requests per IP",
+            "CDN": "Absorb and filter traffic",
+            "Anycast": "Distribute attack traffic",
+            "Scrubbing": "Filter malicious traffic"
+          }
+        }
+      }
+    },
+    "evolution_paths": {
+      "protocol_evolution": {
+        "HTTP": {
+          "versions": {
+            "HTTP/1.0": {"year": 1996, "features": ["Basic request/response"]},
+            "HTTP/1.1": {"year": 1997, "features": ["Persistent connections", "Pipelining"]},
+            "HTTP/2": {"year": 2015, "features": ["Multiplexing", "Server push", "Header compression"]},
+            "HTTP/3": {"year": 2020, "features": ["QUIC transport", "0-RTT", "No head-of-line blocking"]}
+          },
+          "drivers": ["Performance", "Mobile networks", "Latency reduction"]
+        },
+        "TLS": {
+          "versions": {
+            "SSL_2.0": {"status": "Deprecated", "vulnerabilities": ["Multiple"]},
+            "SSL_3.0": {"status": "Deprecated", "vulnerabilities": ["POODLE"]},
+            "TLS_1.0": {"status": "Deprecated", "vulnerabilities": ["BEAST"]},
+            "TLS_1.1": {"status": "Deprecated", "improvements": ["IV explicit"]},
+            "TLS_1.2": {"status": "Current minimum", "features": ["AEAD ciphers"]},
+            "TLS_1.3": {"status": "Recommended", "features": ["1-RTT handshake", "0-RTT resumption"]}
+          },
+          "migration_challenges": ["Compatibility", "Performance", "Certificate management"]
+        }
+      },
+      "technology_migrations": {
+        "IPv6": {
+          "drivers": ["Address exhaustion", "IoT scale", "Simplified routing"],
+          "dependencies": {
+            "ISP_support": "Required for native connectivity",
+            "Router_compatibility": "Hardware and software support",
+            "Application_updates": "Socket programming changes",
+            "DNS_records": "AAAA records needed"
+          },
+          "transition_mechanisms": ["Dual stack", "Tunneling", "Translation"]
+        },
+        "HTTP3_QUIC": {
+          "requirements": {
+            "UDP_443": "Must be allowed through firewalls",
+            "Client_support": "Browser implementation",
+            "Server_support": "Web server QUIC module",
+            "Fallback": "HTTP/2 for compatibility"
+          },
+          "benefits": ["Faster connections", "Better mobile performance", "Reduced latency"]
+        }
+      }
+    },
+    "troubleshooting_correlations": {
+      "symptom_cause_mapping": {
+        "slow_website": {
+          "check_sequence": [
+            {"layer": "DNS", "tool": "dig", "metric": "Resolution time"},
+            {"layer": "Network", "tool": "ping", "metric": "RTT and loss"},
+            {"layer": "TCP", "tool": "netstat", "metric": "Connection state"},
+            {"layer": "TLS", "tool": "openssl", "metric": "Handshake time"},
+            {"layer": "HTTP", "tool": "curl", "metric": "TTFB"},
+            {"layer": "Application", "tool": "Browser DevTools", "metric": "Resource timing"}
+          ]
+        },
+        "connection_failure": {
+          "systematic_checks": [
+            {"level": "Physical", "verify": "Cable/WiFi connection"},
+            {"level": "Link", "verify": "ARP resolution"},
+            {"level": "Network", "verify": "IP configuration and routing"},
+            {"level": "Transport", "verify": "Port accessibility"},
+            {"level": "Application", "verify": "Service running"}
+          ]
+        },
+        "intermittent_issues": {
+          "potential_causes": {
+            "packet_loss": "Check with extended ping",
+            "DNS_flapping": "Monitor DNS responses",
+            "Route_flapping": "Check BGP stability",
+            "Congestion": "Monitor bandwidth utilization",
+            "Application": "Check logs for patterns"
+          }
+        }
+      }
+    },
+    "standards_relationships": {
+      "organizations": {
+        "IETF": {
+          "scope": "Internet protocols",
+          "outputs": "RFCs",
+          "protocols": ["TCP", "IP", "HTTP", "DNS", "TLS", "QUIC"],
+          "working_groups": ["HTTPbis", "TLS", "QUIC", "DNS"]
+        },
+        "W3C": {
+          "scope": "Web standards",
+          "outputs": "Recommendations",
+          "standards": ["HTML", "CSS", "JavaScript APIs", "WebRTC"],
+          "relationship_to_IETF": "Complementary - W3C uses IETF protocols"
+        },
+        "IEEE": {
+          "scope": "Network hardware standards",
+          "notable": ["802.3 (Ethernet)", "802.11 (Wi-Fi)", "802.1Q (VLANs)"],
+          "relationship": "Lower layer standards that internet protocols run over"
+        }
+      }
+    }
+  }
+}

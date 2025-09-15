@@ -1,0 +1,40 @@
+Material,Category,Refractive_Index,Bandgap_eV,Work_Function_eV,Mobility,Stability,Applications
+Indium Tin Oxide,Transparent Conductor,1.85,3.5-4.3,4.4-4.8,30-50 cm²/Vs,High,Touch Screens Electrodes
+Zinc Oxide,Transparent Conductor,2.0,3.37,4.5,200 cm²/Vs,High,Alternative TCO
+Graphene,2D Material,2.6,0,4.6,200000 cm²/Vs,Medium,Flexible Displays Electrodes
+Silver Nanowires,Conductive Film,0.13,N/A,4.26,High,Medium,Flexible TCO
+PEDOT:PSS,Conductive Polymer,1.5,1.6,5.2,0.1-10 cm²/Vs,Medium,OLED Hole Injection
+Alq3,OLED Emitter,1.7,2.7,3.0,10^-4 cm²/Vs,Low,Green OLED Light
+NPB,OLED Transport,1.8,2.3,5.4,10^-3 cm²/Vs,Medium,Hole Transport Layer
+Polyimide,Substrate,1.6,3.5,N/A,N/A,Very High,Flexible Displays
+PET,Substrate,1.57,4.0,N/A,N/A,High,Flexible Electronics
+Liquid Crystal 5CB,LC Material,1.53-1.73,N/A,N/A,N/A,Medium,LCD Cells
+Quantum Dots CdSe,Emitter,2.5,1.74-2.1,N/A,350 cm²/Vs,Low,QLED Displays
+Quantum Dots InP,Emitter,3.2,1.35,N/A,5400 cm²/Vs,High,Cadmium-free QLED
+Perovskite CsPbBr3,Emitter,2.3,2.3,N/A,1000 cm²/Vs,Low,Next-gen Displays
+Amorphous Silicon,Semiconductor,3.4,1.7,N/A,0.5 cm²/Vs,High,TFT Backplane
+IGZO,Semiconductor,1.9,3.05,N/A,10-50 cm²/Vs,High,High-mobility TFT
+LTPS,Semiconductor,3.4,1.12,N/A,100-650 cm²/Vs,High,Mobile Display TFT
+Aluminum,Metal,0.97,N/A,4.28,N/A,High,Electrodes Reflectors
+Magnesium,Metal,N/A,N/A,3.66,N/A,Medium,OLED Cathode
+Calcium,Metal,N/A,N/A,2.87,N/A,Low,OLED Electron Injection
+Lithium Fluoride,Insulator,1.39,14.2,N/A,N/A,High,OLED Electron Injection
+Silicon Nitride,Passivation,2.0,5.0,N/A,N/A,Very High,Barrier Layer
+Silicon Dioxide,Insulator,1.46,9.0,N/A,N/A,Very High,Gate Dielectric
+Hafnium Oxide,High-k Dielectric,2.0,5.7,N/A,N/A,High,Advanced Gate Dielectric
+Tantalum Pentoxide,High-k Dielectric,2.1,4.4,N/A,N/A,High,Capacitor Dielectric
+Chromium,Metal,3.15,N/A,4.5,N/A,High,Photomask Material
+Molybdenum,Metal,4.2,N/A,4.6,N/A,High,Gate Electrode
+Copper,Metal,0.5,N/A,4.65,N/A,Medium,Interconnects
+Titanium,Metal,2.4,N/A,4.33,N/A,High,Adhesion Layer
+Glass Soda-lime,Substrate,1.52,9.0,N/A,N/A,Very High,Display Substrate
+Sapphire,Substrate,1.77,9.9,N/A,N/A,Very High,LED Substrate
+Silicon Carbide,Substrate,2.65,3.3,N/A,900 cm²/Vs,Very High,LED Substrate
+Gallium Nitride,LED Material,2.4,3.4,N/A,1500 cm²/Vs,High,Blue LED MicroLED
+Aluminum Gallium Indium Phosphide,LED Material,3.0,1.9-2.5,N/A,150 cm²/Vs,High,Red LED MicroLED
+Indium Gallium Nitride,LED Material,2.5,0.7-3.4,N/A,1000 cm²/Vs,High,Green Blue LED
+Photoresist Positive,Processing,1.7,N/A,N/A,N/A,Medium,Photolithography
+Photoresist Negative,Processing,1.6,N/A,N/A,N/A,Medium,Photolithography
+PMMA,Processing,1.49,N/A,N/A,N/A,Medium,E-beam Lithography
+Benzocyclobutene,Dielectric,2.65,N/A,N/A,N/A,High,Low-k Dielectric
+Parylene,Coating,1.64,N/A,N/A,N/A,Very High,Conformal Coating

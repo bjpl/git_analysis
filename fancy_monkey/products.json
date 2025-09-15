@@ -1,0 +1,177 @@
+[
+    {
+        "id": "prod_005",
+        "name": "MIDNIGHT EMERALD HOODIE",
+        "price": 195,
+        "image": "images/black_hoodie_green_1.png",
+        "fit": "Premium oversized fit - Heavy weight cotton blend",
+        "sizes": {
+            "S": {
+                "skuId": "sku_midnight_emerald_s",
+                "priceId": "price_midnight_emerald_s",
+                "soldOut": false
+            },
+            "M": {
+                "skuId": "sku_midnight_emerald_m",
+                "priceId": "price_midnight_emerald_m",
+                "soldOut": false
+            },
+            "L": {
+                "skuId": "sku_midnight_emerald_l",
+                "priceId": "price_midnight_emerald_l",
+                "soldOut": false
+            },
+            "XL": {
+                "skuId": "sku_midnight_emerald_xl",
+                "priceId": "price_midnight_emerald_xl",
+                "soldOut": false
+            },
+            "XXL": {
+                "skuId": "sku_midnight_emerald_xxl",
+                "priceId": "price_midnight_emerald_xxl",
+                "soldOut": false
+            }
+        },
+        "fallbackLink": "https://buy.stripe.com/test_midnight_emerald_hoodie"
+    },
+    {
+        "id": "prod_006",
+        "name": "SHADOW VIPER HOODIE",
+        "price": 210,
+        "image": "images/black_hoodie_green_2.png",
+        "fit": "Limited Edition - Signature oversized silhouette",
+        "sizes": {
+            "S": {
+                "skuId": "sku_shadow_viper_s",
+                "priceId": "price_shadow_viper_s",
+                "soldOut": false
+            },
+            "M": {
+                "skuId": "sku_shadow_viper_m",
+                "priceId": "price_shadow_viper_m",
+                "soldOut": false
+            },
+            "L": {
+                "skuId": "sku_shadow_viper_l",
+                "priceId": "price_shadow_viper_l",
+                "soldOut": false
+            },
+            "XL": {
+                "skuId": "sku_shadow_viper_xl",
+                "priceId": "price_shadow_viper_xl",
+                "soldOut": false
+            },
+            "XXL": {
+                "skuId": "sku_shadow_viper_xxl",
+                "priceId": "price_shadow_viper_xxl",
+                "soldOut": false
+            }
+        },
+        "fallbackLink": "https://buy.stripe.com/test_shadow_viper_hoodie"
+    },
+    {
+        "id": "prod_007",
+        "name": "ARCTIC FLAME HOODIE",
+        "price": 185,
+        "image": "images/white_hoodie_red_1.png",
+        "fit": "Relaxed streetwear fit - Soft brushed interior",
+        "sizes": {
+            "S": {
+                "skuId": "sku_arctic_flame_s",
+                "priceId": "price_arctic_flame_s",
+                "soldOut": false
+            },
+            "M": {
+                "skuId": "sku_arctic_flame_m",
+                "priceId": "price_arctic_flame_m",
+                "soldOut": false
+            },
+            "L": {
+                "skuId": "sku_arctic_flame_l",
+                "priceId": "price_arctic_flame_l",
+                "soldOut": false
+            },
+            "XL": {
+                "skuId": "sku_arctic_flame_xl",
+                "priceId": "price_arctic_flame_xl",
+                "soldOut": false
+            },
+            "XXL": {
+                "skuId": "sku_arctic_flame_xxl",
+                "priceId": "price_arctic_flame_xxl",
+                "soldOut": false
+            }
+        },
+        "fallbackLink": "https://buy.stripe.com/test_arctic_flame_hoodie"
+    },
+    {
+        "id": "prod_008",
+        "name": "CRIMSON GHOST HOODIE",
+        "price": 190,
+        "image": "images/white_hoodie_red_2.png",
+        "fit": "Classic drop shoulder - Premium cotton blend",
+        "sizes": {
+            "S": {
+                "skuId": "sku_crimson_ghost_s",
+                "priceId": "price_crimson_ghost_s",
+                "soldOut": false
+            },
+            "M": {
+                "skuId": "sku_crimson_ghost_m",
+                "priceId": "price_crimson_ghost_m",
+                "soldOut": false
+            },
+            "L": {
+                "skuId": "sku_crimson_ghost_l",
+                "priceId": "price_crimson_ghost_l",
+                "soldOut": false
+            },
+            "XL": {
+                "skuId": "sku_crimson_ghost_xl",
+                "priceId": "price_crimson_ghost_xl",
+                "soldOut": false
+            },
+            "XXL": {
+                "skuId": "sku_crimson_ghost_xxl",
+                "priceId": "price_crimson_ghost_xxl",
+                "soldOut": false
+            }
+        },
+        "fallbackLink": "https://buy.stripe.com/test_crimson_ghost_hoodie"
+    },
+    {
+        "id": "prod_009",
+        "name": "RUBY CLOUD HOODIE",
+        "price": 175,
+        "image": "images/white_hoodie_red_3.png",
+        "fit": "Comfort fit - Lightweight breathable fabric",
+        "sizes": {
+            "S": {
+                "skuId": "sku_ruby_cloud_s",
+                "priceId": "price_ruby_cloud_s",
+                "soldOut": false
+            },
+            "M": {
+                "skuId": "sku_ruby_cloud_m",
+                "priceId": "price_ruby_cloud_m",
+                "soldOut": false
+            },
+            "L": {
+                "skuId": "sku_ruby_cloud_l",
+                "priceId": "price_ruby_cloud_l",
+                "soldOut": false
+            },
+            "XL": {
+                "skuId": "sku_ruby_cloud_xl",
+                "priceId": "price_ruby_cloud_xl",
+                "soldOut": false
+            },
+            "XXL": {
+                "skuId": "sku_ruby_cloud_xxl",
+                "priceId": "price_ruby_cloud_xxl",
+                "soldOut": false
+            }
+        },
+        "fallbackLink": "https://buy.stripe.com/test_ruby_cloud_hoodie"
+    }
+]

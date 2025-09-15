@@ -1,0 +1,433 @@
+name: Testing Pipeline Workflow
+version: "1.0.0"
+description: Comprehensive testing pipeline with multiple test types and reporting
+variables:
+  testEnv: "test"
+  coverageThreshold: 80
+  testTimeout: 600000
+  maxRetries: 2
+  reportPath: "./test-reports"
+
+triggers:
+  - type: cron
+    config:
+      schedule: "0 2 * * *"  # Run daily at 2 AM
+      timezone: "UTC"
+      variables:
+        testType: "full"
+        
+  - type: event
+    config:
+      eventType: "pull_request"
+      conditions:
+        - expression: "event.action === 'opened' || event.action === 'synchronize'"
+
+tasks:
+  # 1. Environment setup
+  - id: setup-test-environment
+    name: Setup Test Environment
+    type: shell:exec
+    config:
+      command: |
+        echo "Setting up test environment..."
+        export NODE_ENV={{testEnv}}
+        mkdir -p {{reportPath}}
+        echo "Test environment ready"
+      env:
+        NODE_ENV: "{{testEnv}}"
+        CI: "true"
+    timeout: 30000
+
+  # 2. Install test dependencies
+  - id: install-test-deps
+    name: Install Test Dependencies
+    type: npm:install
+    config:
+      packages: []  # Install all dependencies
+      dev: true
+    dependsOn: ["setup-test-environment"]
+
+  # 3. Prepare test database
+  - id: setup-test-database
+    name: Setup Test Database
+    type: shell:exec
+    config:
+      command: |
+        echo "Setting up test database..."
+        npm run db:test:setup
+        npm run db:migrate:test
+        npm run db:seed:test
+    dependsOn: ["install-test-deps"]
+    timeout: 120000
+
+  # 4. Lint tests
+  - id: lint-tests
+    name: Lint Test Files
+    type: npm:script
+    config:
+      script: "lint:tests"
+    dependsOn: ["install-test-deps"]
+    parallel: true
+    continueOnError: true
+
+  # 5. Unit tests with coverage
+  - id: unit-tests
+    name: Run Unit Tests
+    type: npm:script
+    config:
+      script: "test:unit"
+      args: ["--coverage", "--coverageDirectory={{reportPath}}/coverage"]
+    dependsOn: ["setup-test-database", "lint-tests"]
+    timeout: "{{testTimeout}}"
+    retries: "{{maxRetries}}"
+
+  # 6. Component tests (for frontend)
+  - id: component-tests
+    name: Run Component Tests
+    type: npm:script
+    config:
+      script: "test:component"
+      args: ["--watchAll=false", "--coverage"]
+    dependsOn: ["setup-test-database"]
+    parallel: true
+    timeout: "{{testTimeout}}"
+    retries: "{{maxRetries}}"
+
+  # 7. Integration tests
+  - id: integration-tests
+    name: Run Integration Tests
+    type: npm:script
+    config:
+      script: "test:integration"
+      args: ["--verbose"]
+    dependsOn: ["unit-tests"]
+    timeout: 1200000  # 20 minutes for integration tests
+
+  # 8. API tests
+  - id: api-tests
+    name: Run API Tests
+    type: npm:script
+    config:
+      script: "test:api"
+    dependsOn: ["integration-tests"]
+    parallel: true
+    timeout: 900000
+
+  # 9. End-to-end tests
+  - id: e2e-tests
+    name: Run E2E Tests
+    type: shell:exec
+    config:
+      command: |
+        echo "Starting E2E tests..."
+        npm run start:test &
+        SERVER_PID=$!
+        sleep 10  # Wait for server to start
+        npm run test:e2e
+        kill $SERVER_PID
+    dependsOn: ["integration-tests"]
+    timeout: 1800000  # 30 minutes for E2E tests
+    condition:
+      expression: "testType === 'full'"
+
+  # 10. Performance tests
+  - id: performance-tests
+    name: Run Performance Tests
+    type: npm:script
+    config:
+      script: "test:performance"
+    dependsOn: ["integration-tests"]
+    parallel: true
+    timeout: 900000
+    condition:
+      expression: "testType === 'full'"
+
+  # 11. Load tests
+  - id: load-tests
+    name: Run Load Tests
+    type: shell:exec
+    config:
+      command: |
+        echo "Running load tests..."
+        npm run start:test &
+        SERVER_PID=$!
+        sleep 5
+        npm run test:load
+        kill $SERVER_PID
+    dependsOn: ["performance-tests"]
+    timeout: 1200000
+    condition:
+      expression: "testType === 'full'"
+
+  # 12. Security tests
+  - id: security-tests
+    name: Run Security Tests
+    type: npm:script
+    config:
+      script: "test:security"
+    dependsOn: ["integration-tests"]
+    parallel: true
+    timeout: 600000
+
+  # 13. Accessibility tests
+  - id: accessibility-tests
+    name: Run Accessibility Tests
+    type: npm:script
+    config:
+      script: "test:a11y"
+    dependsOn: ["component-tests"]
+    parallel: true
+    timeout: 300000
+    continueOnError: true
+
+  # 14. Visual regression tests
+  - id: visual-regression-tests
+    name: Run Visual Regression Tests
+    type: npm:script
+    config:
+      script: "test:visual"
+    dependsOn: ["component-tests"]
+    parallel: true
+    timeout: 900000
+    condition:
+      expression: "testType === 'full'"
+    continueOnError: true
+
+  # 15. Code quality analysis
+  - id: code-quality-analysis
+    name: Code Quality Analysis
+    type: shell:exec
+    config:
+      command: |
+        echo "Running code quality analysis..."
+        npm run analyze:complexity
+        npm run analyze:duplicates
+        npm run analyze:security
+    dependsOn: ["unit-tests"]
+    parallel: true
+    timeout: 300000
+
+  # 16. Coverage validation
+  - id: validate-coverage
+    name: Validate Test Coverage
+    type: data:validate
+    config:
+      data: "{{unit-tests.coverage || {}}}"
+      schema:
+        properties:
+          lines:
+            type: object
+            properties:
+              pct:
+                type: number
+                minimum: "{{coverageThreshold}}"
+          functions:
+            type: object
+            properties:
+              pct:
+                type: number
+                minimum: "{{coverageThreshold}}"
+          branches:
+            type: object
+            properties:
+              pct:
+                type: number
+                minimum: "{{coverageThreshold}}"
+    dependsOn: ["unit-tests"]
+
+  # 17. Generate test report
+  - id: generate-test-report
+    name: Generate Test Report
+    type: data:transform
+    config:
+      data:
+        timestamp: "{{new Date().toISOString()}}"
+        environment: "{{testEnv}}"
+        coverage: "{{unit-tests.coverage}}"
+        testResults:
+          unit: "{{unit-tests.success}}"
+          component: "{{component-tests.success}}"
+          integration: "{{integration-tests.success}}"
+          api: "{{api-tests.success}}"
+          e2e: "{{e2e-tests.success}}"
+          performance: "{{performance-tests.success}}"
+          security: "{{security-tests.success}}"
+          accessibility: "{{accessibility-tests.success}}"
+        qualityMetrics: "{{code-quality-analysis.metrics}}"
+      expression: |
+        const report = {
+          ...data,
+          summary: {
+            totalTests: Object.values(data.testResults).length,
+            passedTests: Object.values(data.testResults).filter(Boolean).length,
+            overallSuccess: Object.values(data.testResults).every(Boolean),
+            coverageThreshold: {{coverageThreshold}}
+          }
+        };
+        JSON.stringify(report, null, 2)
+    dependsOn: [
+      "validate-coverage", "component-tests", "integration-tests", 
+      "api-tests", "security-tests", "code-quality-analysis"
+    ]
+
+  # 18. Save test artifacts
+  - id: save-test-artifacts
+    name: Save Test Artifacts
+    type: shell:exec
+    config:
+      command: |
+        echo "Saving test artifacts..."
+        mkdir -p {{reportPath}}/artifacts
+        
+        # Copy test reports
+        cp -r coverage/ {{reportPath}}/artifacts/ 2>/dev/null || true
+        cp -r test-results/ {{reportPath}}/artifacts/ 2>/dev/null || true
+        cp -r screenshots/ {{reportPath}}/artifacts/ 2>/dev/null || true
+        cp -r videos/ {{reportPath}}/artifacts/ 2>/dev/null || true
+        
+        # Create summary file
+        echo "{{generate-test-report.result}}" > {{reportPath}}/test-summary.json
+        
+        # Create HTML report
+        npm run report:html {{reportPath}}/artifacts || echo "HTML report generation skipped"
+        
+        echo "Test artifacts saved to {{reportPath}}"
+    dependsOn: ["generate-test-report"]
+    continueOnError: true
+
+  # 19. Upload coverage to external service
+  - id: upload-coverage
+    name: Upload Coverage
+    type: http:request
+    config:
+      url: "https://codecov.io/upload"
+      method: POST
+      headers:
+        Authorization: "Bearer {{CODECOV_TOKEN}}"
+      data:
+        coverage: "{{unit-tests.coverage}}"
+        commit: "{{GIT_COMMIT}}"
+        branch: "{{GIT_BRANCH}}"
+    dependsOn: ["validate-coverage"]
+    condition:
+      expression: "CODECOV_TOKEN !== undefined"
+    continueOnError: true
+
+  # 20. Clean up test environment
+  - id: cleanup-test-environment
+    name: Clean Up Test Environment
+    type: shell:exec
+    config:
+      command: |
+        echo "Cleaning up test environment..."
+        npm run db:test:cleanup
+        docker-compose -f docker-compose.test.yml down 2>/dev/null || true
+        rm -rf tmp/test-* 2>/dev/null || true
+        echo "Test environment cleaned up"
+    dependsOn: ["save-test-artifacts"]
+    continueOnError: true
+
+# Success handlers
+onSuccess:
+  - id: notify-test-success
+    name: Notify Test Success
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      data:
+        channel: "#testing"
+        text: |
+          ✅ Testing pipeline completed successfully!
+          
+          Test Summary:
+          • Unit Tests: {{unit-tests.success ? '✅' : '❌'}}
+          • Integration Tests: {{integration-tests.success ? '✅' : '❌'}}
+          • E2E Tests: {{e2e-tests.success ? '✅' : '❌'}}
+          • Performance Tests: {{performance-tests.success ? '✅' : '❌'}}
+          • Security Tests: {{security-tests.success ? '✅' : '❌'}}
+          
+          Coverage: {{unit-tests.coverage?.lines?.pct || 'N/A'}}%
+          Reports available at: {{reportPath}}
+        username: "Test Bot"
+        icon_emoji: ":test_tube:"
+
+  - id: update-test-status
+    name: Update Test Status
+    type: file:write
+    config:
+      path: "{{reportPath}}/STATUS.md"
+      content: |
+        # Test Status - {{new Date().toISOString().split('T')[0]}}
+        
+        ## ✅ All Tests Passed
+        
+        ### Test Results
+        - **Unit Tests**: {{unit-tests.success ? 'PASSED' : 'FAILED'}}
+        - **Component Tests**: {{component-tests.success ? 'PASSED' : 'FAILED'}}
+        - **Integration Tests**: {{integration-tests.success ? 'PASSED' : 'FAILED'}}
+        - **API Tests**: {{api-tests.success ? 'PASSED' : 'FAILED'}}
+        - **E2E Tests**: {{e2e-tests.success ? 'PASSED' : 'FAILED'}}
+        - **Performance Tests**: {{performance-tests.success ? 'PASSED' : 'FAILED'}}
+        - **Security Tests**: {{security-tests.success ? 'PASSED' : 'FAILED'}}
+        
+        ### Coverage
+        - **Lines**: {{unit-tests.coverage?.lines?.pct || 'N/A'}}%
+        - **Functions**: {{unit-tests.coverage?.functions?.pct || 'N/A'}}%
+        - **Branches**: {{unit-tests.coverage?.branches?.pct || 'N/A'}}%
+        
+        ### Environment
+        - **Test Environment**: {{testEnv}}
+        - **Coverage Threshold**: {{coverageThreshold}}%
+        - **Timeout**: {{testTimeout}}ms
+        
+        Last updated: {{new Date().toISOString()}}
+
+# Failure handlers
+onFailure:
+  - id: notify-test-failure
+    name: Notify Test Failure
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      data:
+        channel: "#testing"
+        text: |
+          ❌ Testing pipeline failed!
+          
+          Failed Tests:
+          {{unit-tests.success ? '' : '• Unit Tests ❌'}}
+          {{integration-tests.success ? '' : '• Integration Tests ❌'}}
+          {{e2e-tests.success ? '' : '• E2E Tests ❌'}}
+          {{performance-tests.success ? '' : '• Performance Tests ❌'}}
+          {{security-tests.success ? '' : '• Security Tests ❌'}}
+          
+          Please check the test logs for details.
+        username: "Test Bot"
+        icon_emoji: ":x:"
+
+  - id: save-failure-logs
+    name: Save Failure Logs
+    type: shell:exec
+    config:
+      command: |
+        echo "Saving failure logs..."
+        mkdir -p {{reportPath}}/failures
+        
+        # Save npm logs
+        cp ~/.npm/_logs/*.log {{reportPath}}/failures/ 2>/dev/null || true
+        
+        # Save test output
+        npm test > {{reportPath}}/failures/test-output.log 2>&1 || true
+        
+        # Save system info
+        echo "Node version: $(node --version)" > {{reportPath}}/failures/system-info.txt
+        echo "NPM version: $(npm --version)" >> {{reportPath}}/failures/system-info.txt
+        echo "OS: $(uname -a)" >> {{reportPath}}/failures/system-info.txt
+        echo "Memory: $(free -h 2>/dev/null || vm_stat)" >> {{reportPath}}/failures/system-info.txt
+    continueOnError: true
+
+# Rollback is not applicable for testing workflow
+timeout: 7200000  # 2 hours total timeout
+retries: 1

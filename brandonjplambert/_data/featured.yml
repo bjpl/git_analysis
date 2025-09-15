@@ -1,0 +1,22 @@
+# Featured work highlights for homepage
+highlights:
+  - title: VR Language Education
+    description: >-
+      Led program management for immersive VR English language learning, 
+      managing instructors and developing innovative educational experiences.
+    link: /work/#immerse
+    icon: vr
+    
+  - title: Curriculum Development
+    description: >-
+      Developed curriculum impacting 100,000+ teachers and 800,000+ learners, 
+      focusing on framework-aligned, interactive learning content.
+    link: /work/#vipkid
+    icon: curriculum
+    
+  - title: AI-Powered Language Tools
+    description: >-
+      Created Spanish learning applications using AI and visual intelligence 
+      to enhance vocabulary acquisition and conversational practice.
+    link: /ai-projects/#describe-it
+    icon: ai

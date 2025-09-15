@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "repositories": [
+    "learning_voice_agent",
+    "corporate_intel",
+    "learning_agentic_engineering",
+    "describe_it",
+    "letratos",
+    "algorithms_and_data_structures",
+    "fancy_monkey",
+    "Internet-Infrastructure-Map",
+    "subjunctive_practice",
+    "conjugation_gui"
+  ],
+  "monitoring": {
+    "enabled": true,
+    "frequency": "daily",
+    "alerts": {
+      "stale_repos": 30,
+      "issue_threshold": 10
+    }
+  },
+  "categories": {
+    "other": [
+      "learning_voice_agent",
+      "corporate_intel",
+      "learning_agentic_engineering",
+      "describe_it",
+      "fancy_monkey",
+      "subjunctive_practice",
+      "conjugation_gui"
+    ],
+    "creative": [
+      "letratos",
+      "Internet-Infrastructure-Map"
+    ],
+    "ai_learning": [
+      "algorithms_and_data_structures"
+    ]
+  },
+  "last_analysis": "2025-09-14T17:17:10.040414"
+}

@@ -1,0 +1,29 @@
+Interface,Version,Bandwidth_Gbps,Max_Resolution,Max_Refresh_Hz,Color_Depth,Features,Cable_Length_m
+HDMI 1.4,1.4,10.2,4K UHD 3840x2160,30,8-bit,ARC 3D Ethernet,10
+HDMI 2.0,2.0,18.0,4K UHD 3840x2160,60,10-bit,HDR ARC,15
+HDMI 2.1,2.1,48.0,8K UHD 7680x4320,60,12-bit,VRR ALLM eARC DSC,10
+DisplayPort 1.2,1.2,21.6,4K UHD 3840x2160,60,8-bit,MST Audio,3
+DisplayPort 1.3,1.3,32.4,5K 5120x2880,60,10-bit,HDR MST USB-PD,3
+DisplayPort 1.4,1.4,32.4,8K UHD 7680x4320,60,10-bit,HDR DSC FEC,3
+DisplayPort 2.0,2.0,80.0,16K 15360x8640,60,16-bit,UHBR20 DSC,3
+Thunderbolt 3,3.0,40.0,5K 5120x2880,60,10-bit,USB-PD Data PCIe,2
+Thunderbolt 4,4.0,40.0,8K UHD 7680x4320,30,10-bit,USB4 PCIe Security,2
+USB-C Alt Mode,3.1,10.0,4K UHD 3840x2160,60,8-bit,USB-PD Data,2
+DVI Single Link,1.0,4.95,WUXGA 1920x1200,60,8-bit,Digital Only,5
+DVI Dual Link,1.0,9.9,WQXGA 2560x1600,60,8-bit,High Resolution,5
+VGA Analog,1.0,0.4,QXGA 2048x1536,85,8-bit,Analog Legacy,10
+Mini DisplayPort,1.2,21.6,4K UHD 3840x2160,60,8-bit,MST Compact,3
+Micro HDMI,1.4,10.2,4K UHD 3840x2160,30,8-bit,Mobile Devices,3
+HDMI eARC,2.1,37.0,Audio Return,N/A,24-bit,Uncompressed Audio,15
+SDI 3G,3.0,3.0,Full HD 1920x1080,60,10-bit,Professional Video,100
+SDI 6G,6.0,6.0,4K UHD 3840x2160,30,10-bit,Professional 4K,100
+SDI 12G,12.0,12.0,4K UHD 3840x2160,60,12-bit,High-end Professional,100
+MIPI DSI,2.1,4.5,4K UHD 3840x2160,60,8-bit,Mobile Displays,0.3
+eDP 1.4,1.4,32.4,4K UHD 3840x2160,60,8-bit,Embedded Panels,0.5
+LVDS,1.0,0.65,WUXGA 1920x1200,60,6-bit,Legacy Laptops,1
+FPD-Link,3.0,4.16,Full HD 1920x1080,60,8-bit,Automotive,15
+GVIF,2.0,3.0,Full HD 1920x1080,60,8-bit,Automotive Gigabit,10
+HDBaseT,1.0,10.2,4K UHD 3840x2160,30,8-bit,Cat5e/6 Extension,100
+Wireless HDMI,1.0,5.0,Full HD 1920x1080,60,8-bit,Wireless 60GHz,10
+USB 3.0,3.0,5.0,WQHD 2560x1440,60,8-bit,Data Display,3
+USB 2.0,2.0,0.48,XGA 1024x768,60,6-bit,Basic Display,5

@@ -1,0 +1,50 @@
+category,subcategory,topic,file_path,format,description,priority
+Internet Architecture,Core Concepts,Design Principles,internet-architecture/core-concepts.md,Markdown,Fundamental internet design principles,High
+Internet Architecture,Core Concepts,Design Principles,internet-architecture/core-concepts.csv,CSV,Tabular design principles data,High
+Internet Architecture,Core Concepts,Design Principles,internet-architecture/core-concepts.json,JSON,Structured design principles,High
+Quick Reference,Protocols,Protocol Stack,quick-ref/protocol-stack.md,Markdown,TCP/IP and OSI model reference,High
+Quick Reference,Protocols,Protocol Stack,quick-ref/protocol-stack.csv,CSV,Protocol layers data,High
+Quick Reference,Protocols,Protocol Stack,quick-ref/protocol-stack.json,JSON,Structured protocol information,High
+Quick Reference,Networking,Common Ports,quick-ref/ports.md,Markdown,Network port reference guide,High
+Quick Reference,Networking,Common Ports,quick-ref/ports.csv,CSV,Port numbers database,High
+Quick Reference,Networking,Common Ports,quick-ref/ports.json,JSON,Structured port information,High
+Quick Reference,Web,HTTP Status Codes,quick-ref/http-status.md,Markdown,HTTP status code reference,Medium
+Quick Reference,Web,HTTP Status Codes,quick-ref/http-status.csv,CSV,Status codes data,Medium
+Quick Reference,Web,HTTP Status Codes,quick-ref/http-status.json,JSON,Structured status codes,Medium
+Security,Cryptography,Encryption Algorithms,security/cryptographic-reference.md,Markdown,Cryptographic algorithms guide,High
+Security,Cryptography,Encryption Algorithms,security/cryptographic-reference.csv,CSV,Algorithm comparison data,High
+Security,Cryptography,Encryption Algorithms,security/cryptographic-reference.json,JSON,Structured crypto information,High
+Security,Cryptography,Algorithm Details,data/encryption-algorithms.md,Markdown,Detailed algorithm specifications,High
+Security,Cryptography,Algorithm Details,data/encryption-algorithms.csv,CSV,Algorithm specifications data,High
+Security,Reference,Security Standards,data/security-reference.csv,CSV,Security standards database,High
+Performance,Optimization,Strategies,performance/optimization-strategies.md,Markdown,Performance optimization guide,High
+Performance,Optimization,Strategies,performance/optimization-strategies.csv,CSV,Optimization techniques data,High
+Performance,Optimization,Strategies,performance/optimization-strategies.json,JSON,Structured optimization info,High
+Performance,Metrics,Core Web Vitals,data/performance-metrics.md,Markdown,Performance metrics guide,High
+Performance,Metrics,Core Web Vitals,data/performance-metrics.json,JSON,Structured metrics data,High
+Performance,Metrics,Core Web Vitals,data/performance-metrics.csv,CSV,Metrics reference data,High
+Practical,Troubleshooting,Diagnostic Guide,practical/troubleshooting-guide.md,Markdown,Network troubleshooting guide,High
+Practical,Troubleshooting,Diagnostic Guide,practical/troubleshooting-guide.csv,CSV,Troubleshooting steps data,High
+Practical,Troubleshooting,Diagnostic Guide,practical/troubleshooting-guide.json,JSON,Structured troubleshooting,High
+Concepts,Dependencies,Cross-Reference,concepts/cross-reference.md,Markdown,Protocol dependencies guide,Medium
+Concepts,Dependencies,Cross-Reference,concepts/cross-reference.csv,CSV,Dependencies matrix,Medium
+Concepts,Dependencies,Cross-Reference,concepts/cross-reference.json,JSON,Structured dependencies,Medium
+Frameworks,Routing,Decision Framework,frameworks/routing-decision-framework.md,Markdown,Routing decision guide,High
+Frameworks,Routing,Decision Framework,frameworks/routing-decision-framework.csv,CSV,Routing decision data,High
+Frameworks,Routing,Decision Framework,frameworks/routing-decision-framework.json,JSON,Structured routing info,High
+Data,CDN,Technologies,data/cdn-technologies.md,Markdown,CDN technology reference,Medium
+Data,CDN,Technologies,data/cdn-technologies.csv,CSV,CDN comparison data,Medium
+Data,CDN,Technologies,data/cdn-technologies.json,JSON,Structured CDN information,Medium
+Data,DNS,Record Types,data/dns-records.md,Markdown,DNS record type reference,High
+Data,DNS,Record Types,data/dns-records.csv,CSV,DNS records database,High
+Data,DNS,Record Types,data/dns-records.json,JSON,Structured DNS data,High
+Data,Networking,Network Layers,data/network-layers.md,Markdown,OSI and TCP/IP layers guide,High
+Data,Networking,Network Layers,data/network-layers.csv,CSV,Network layers data,High
+Data,Networking,Network Layers,data/network-layers.json,JSON,Structured layer information,High
+Data,Routing,Protocols,data/routing-protocols.md,Markdown,Routing protocols reference,High
+Data,Routing,Protocols,data/routing-protocols.csv,CSV,Protocol comparison data,High
+Data,Routing,Protocols,data/routing-protocols.json,JSON,Structured routing protocols,High
+Data,Networking,Port Numbers,data/network-ports.csv,CSV,Complete port database,High
+Data,Web,HTTP Status,data/http-status-codes.csv,CSV,HTTP status database,Medium
+Data,Web,HTTP Status,data/http-status-codes.json,JSON,Structured status codes,Medium
+Data,Networking,Protocol Details,data/protocols.csv,CSV,Protocol specifications,High

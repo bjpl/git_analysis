@@ -1,0 +1,21 @@
+# Education History
+education:
+  - degree: Master of Arts (M.A.)
+    field: Teaching English to Speakers of Other Languages
+    institution: Middlebury Institute of International Studies at Monterey
+    location: Monterey, CA
+    start_date: 2014-09-01
+    end_date: 2016-05-01
+    honors: "with Distinction, 4.0 GPA"
+    thesis: 
+    notes: "Research focus on language education and applied linguistics"
+    
+  - degree: Bachelor of Arts (B.A.)
+    field: Government
+    institution: University of Redlands
+    location: Redlands, CA
+    start_date: 2005-09-01
+    end_date: 2009-05-01
+    honors: 
+    thesis: 
+    notes: "Study abroad: London Academy of Music and Dramatic Art (semester); Chinese philosophy short course (month). Public Speaking concentration."

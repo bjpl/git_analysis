@@ -1,0 +1,412 @@
+{
+  "lessonPack": {
+    "id": "sorting-algorithms",
+    "title": "Sorting Algorithms",
+    "description": "Comprehensive lessons on classical sorting algorithms with implementations and analysis",
+    "version": "1.0.0",
+    "difficulty": "beginner-to-advanced",
+    "estimatedHours": 15,
+    "category": "algorithms",
+    "tags": ["sorting", "algorithms", "comparison", "divide-conquer"],
+    "learningObjectives": [
+      "Understand different sorting paradigms and their trade-offs",
+      "Implement major sorting algorithms from scratch",
+      "Analyze time and space complexity of sorting algorithms",
+      "Choose appropriate sorting algorithm based on data characteristics",
+      "Optimize sorting performance for specific use cases"
+    ],
+    "lessons": [
+      {
+        "id": "bubble-sort",
+        "title": "Bubble Sort",
+        "description": "Simple comparison-based sorting with adjacent swaps",
+        "order": 1,
+        "difficulty": "beginner",
+        "estimatedMinutes": 60,
+        "learningObjectives": [
+          "Understand the bubble sort algorithm",
+          "Implement bubble sort with optimizations",
+          "Analyze best, average, and worst-case performance"
+        ],
+        "content": {
+          "theory": {
+            "algorithm": "Repeatedly steps through the list, compares adjacent elements and swaps them if they are in wrong order",
+            "paradigm": "Comparison-based, in-place sorting",
+            "stability": "Stable - maintains relative order of equal elements",
+            "complexity": {
+              "timeWorst": "O(n²)",
+              "timeAverage": "O(n²)",
+              "timeBest": "O(n) with early termination optimization",
+              "space": "O(1)"
+            },
+            "advantages": [
+              "Simple implementation",
+              "In-place sorting",
+              "Stable sorting",
+              "Can detect if list is already sorted"
+            ],
+            "disadvantages": [
+              "Poor time complexity",
+              "More swaps than selection sort",
+              "Rarely used in practice"
+            ]
+          },
+          "implementation": {
+            "language": "python",
+            "code": "def bubble_sort_basic(arr):\n    \"\"\"\n    Basic bubble sort implementation\n    Time: O(n²), Space: O(1)\n    \"\"\"\n    n = len(arr)\n    \n    # Traverse through all array elements\n    for i in range(n):\n        # Last i elements are already sorted\n        for j in range(0, n - i - 1):\n            # Traverse the array from 0 to n-i-1\n            # Swap if the element found is greater than the next element\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    \n    return arr\n\ndef bubble_sort_optimized(arr):\n    \"\"\"\n    Optimized bubble sort with early termination\n    Best case: O(n) when array is already sorted\n    \"\"\"\n    n = len(arr)\n    \n    for i in range(n):\n        # Flag to track if any swaps occurred\n        swapped = False\n        \n        # Last i elements are already in place\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                swapped = True\n        \n        # If no swaps occurred, array is sorted\n        if not swapped:\n            break\n    \n    return arr\n\ndef bubble_sort_with_stats(arr):\n    \"\"\"\n    Bubble sort that returns sorting statistics\n    \"\"\"\n    n = len(arr)\n    comparisons = 0\n    swaps = 0\n    \n    for i in range(n):\n        swapped = False\n        \n        for j in range(0, n - i - 1):\n            comparisons += 1\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                swaps += 1\n                swapped = True\n        \n        if not swapped:\n            break\n    \n    return arr, {'comparisons': comparisons, 'swaps': swaps}\n\n# Example usage and demonstration\nimport time\nimport random\n\ndef demonstrate_bubble_sort():\n    # Test with different array sizes\n    sizes = [10, 100, 1000]\n    \n    for size in sizes:\n        # Generate random array\n        arr = [random.randint(1, 1000) for _ in range(size)]\n        arr_copy = arr.copy()\n        \n        # Time the sorting\n        start_time = time.time()\n        sorted_arr, stats = bubble_sort_with_stats(arr_copy)\n        end_time = time.time()\n        \n        print(f\"Array size: {size}\")\n        print(f\"Time taken: {end_time - start_time:.4f} seconds\")\n        print(f\"Comparisons: {stats['comparisons']}\")\n        print(f\"Swaps: {stats['swaps']}\")\n        print(f\"Is sorted: {sorted_arr == sorted(arr)}\")\n        print(\"-\" * 40)\n\n# Demonstration of algorithm behavior\nif __name__ == \"__main__\":\n    # Small example\n    test_arr = [64, 34, 25, 12, 22, 11, 90]\n    print(f\"Original array: {test_arr}\")\n    \n    sorted_arr, stats = bubble_sort_with_stats(test_arr.copy())\n    print(f\"Sorted array: {sorted_arr}\")\n    print(f\"Statistics: {stats}\")\n    \n    print(\"\\nPerformance demonstration:\")\n    demonstrate_bubble_sort()"
+          },
+          "visualization": {
+            "description": "Step-by-step visualization of bubble sort process",
+            "steps": [
+              {
+                "step": 1,
+                "description": "Compare first two elements",
+                "array": "[64, 34, 25, 12, 22, 11, 90]",
+                "comparing": [0, 1],
+                "action": "Swap 64 and 34"
+              },
+              {
+                "step": 2,
+                "description": "Continue comparing adjacent pairs",
+                "array": "[34, 64, 25, 12, 22, 11, 90]",
+                "comparing": [1, 2],
+                "action": "Swap 64 and 25"
+              },
+              {
+                "step": 3,
+                "description": "Largest element 'bubbles' to the end",
+                "array": "[34, 25, 64, 12, 22, 11, 90]",
+                "comparing": [2, 3],
+                "action": "Continue process"
+              }
+            ]
+          }
+        },
+        "exercises": [
+          {
+            "id": "bubble-ex-001",
+            "title": "Bubble Sort Variants",
+            "description": "Implement different variations of bubble sort",
+            "type": "coding",
+            "problems": [
+              {
+                "title": "Cocktail Shaker Sort",
+                "description": "Implement bidirectional bubble sort (cocktail sort) that alternates between left-to-right and right-to-left passes",
+                "difficulty": "intermediate",
+                "hints": [
+                  "Alternate direction of bubbling",
+                  "Keep track of both left and right boundaries",
+                  "Optimize by shrinking search range from both ends"
+                ]
+              },
+              {
+                "title": "Recursive Bubble Sort",
+                "description": "Implement bubble sort using recursion instead of loops",
+                "difficulty": "intermediate",
+                "hints": [
+                  "Base case: when array size is 1 or 0",
+                  "Recursive case: bubble largest element and recurse on remaining array",
+                  "Consider tail recursion optimization"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "bubble-ex-002",
+            "title": "Performance Analysis",
+            "description": "Analyze bubble sort performance characteristics",
+            "type": "analysis",
+            "questions": [
+              {
+                "question": "Why does bubble sort perform O(n²) comparisons in the worst case?",
+                "type": "explanation",
+                "hint": "Consider what happens when array is reverse sorted"
+              },
+              {
+                "question": "When would bubble sort be preferred over other O(n²) algorithms?",
+                "type": "comparison",
+                "hint": "Think about early termination and stability properties"
+              }
+            ]
+          }
+        ],
+        "quiz": [
+          {
+            "id": "q1",
+            "question": "What is the best-case time complexity of optimized bubble sort?",
+            "type": "multiple-choice",
+            "options": ["O(n²)", "O(n log n)", "O(n)", "O(1)"],
+            "correct": 2,
+            "explanation": "With early termination, bubble sort can detect an already sorted array in O(n) time"
+          },
+          {
+            "id": "q2",
+            "question": "Is bubble sort a stable sorting algorithm?",
+            "type": "boolean",
+            "correct": true,
+            "explanation": "Bubble sort is stable because equal elements are never swapped, maintaining their relative order"
+          }
+        ]
+      },
+      {
+        "id": "selection-sort",
+        "title": "Selection Sort",
+        "description": "In-place sorting by repeatedly selecting minimum element",
+        "order": 2,
+        "difficulty": "beginner",
+        "estimatedMinutes": 45,
+        "learningObjectives": [
+          "Understand selection sort algorithm and its invariants",
+          "Implement selection sort efficiently",
+          "Compare selection sort with other O(n²) algorithms"
+        ],
+        "content": {
+          "theory": {
+            "algorithm": "Divides input into sorted and unsorted regions, repeatedly selects smallest element from unsorted region and moves it to sorted region",
+            "paradigm": "Selection-based, in-place sorting",
+            "stability": "Unstable - may change relative order of equal elements",
+            "complexity": {
+              "timeWorst": "O(n²)",
+              "timeAverage": "O(n²)",
+              "timeBest": "O(n²)",
+              "space": "O(1)"
+            },
+            "advantages": [
+              "Simple implementation",
+              "In-place sorting",
+              "Performs minimal swaps (O(n))",
+              "Good for small datasets",
+              "Performance not affected by input order"
+            ],
+            "disadvantages": [
+              "Poor time complexity",
+              "Unstable sorting",
+              "No early termination possible"
+            ]
+          },
+          "implementation": {
+            "language": "python",
+            "code": "def selection_sort(arr):\n    \"\"\"\n    Selection sort implementation\n    Time: O(n²), Space: O(1)\n    \"\"\"\n    n = len(arr)\n    \n    # Traverse through all array elements\n    for i in range(n):\n        # Find the minimum element in remaining unsorted array\n        min_idx = i\n        for j in range(i + 1, n):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        \n        # Swap the found minimum element with the first element\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    \n    return arr\n\ndef selection_sort_with_stats(arr):\n    \"\"\"\n    Selection sort with operation counting\n    \"\"\"\n    n = len(arr)\n    comparisons = 0\n    swaps = 0\n    \n    for i in range(n):\n        min_idx = i\n        for j in range(i + 1, n):\n            comparisons += 1\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        \n        if min_idx != i:\n            arr[i], arr[min_idx] = arr[min_idx], arr[i]\n            swaps += 1\n    \n    return arr, {'comparisons': comparisons, 'swaps': swaps}\n\ndef selection_sort_recursive(arr, start=0):\n    \"\"\"\n    Recursive implementation of selection sort\n    \"\"\"\n    n = len(arr)\n    \n    # Base case\n    if start >= n - 1:\n        return arr\n    \n    # Find minimum element index in remaining array\n    min_idx = start\n    for i in range(start + 1, n):\n        if arr[i] < arr[min_idx]:\n            min_idx = i\n    \n    # Swap minimum with first element of unsorted part\n    arr[start], arr[min_idx] = arr[min_idx], arr[start]\n    \n    # Recursively sort remaining array\n    return selection_sort_recursive(arr, start + 1)\n\n# Demonstration function\ndef demonstrate_selection_sort():\n    import random\n    \n    # Test array\n    test_arr = [64, 25, 12, 22, 11]\n    print(f\"Original array: {test_arr}\")\n    \n    # Sort and get statistics\n    sorted_arr, stats = selection_sort_with_stats(test_arr.copy())\n    print(f\"Sorted array: {sorted_arr}\")\n    print(f\"Comparisons: {stats['comparisons']}\")\n    print(f\"Swaps: {stats['swaps']}\")\n    \n    # Compare with other O(n²) algorithms\n    sizes = [100, 500, 1000]\n    print(\"\\nPerformance comparison (swaps):\")\n    print(\"Size\\tSelection\\tBubble\")\n    \n    for size in sizes:\n        arr = [random.randint(1, 1000) for _ in range(size)]\n        \n        # Selection sort\n        _, sel_stats = selection_sort_with_stats(arr.copy())\n        \n        # Bubble sort (from previous lesson)\n        _, bub_stats = bubble_sort_with_stats(arr.copy())\n        \n        print(f\"{size}\\t{sel_stats['swaps']}\\t\\t{bub_stats['swaps']}\")\n\nif __name__ == \"__main__\":\n    demonstrate_selection_sort()"
+          }
+        },
+        "exercises": [
+          {
+            "id": "sel-ex-001",
+            "title": "Selection Sort Modifications",
+            "description": "Implement variations of selection sort",
+            "type": "coding",
+            "problems": [
+              {
+                "title": "Double-Ended Selection Sort",
+                "description": "Find both minimum and maximum in each pass, place them at both ends",
+                "difficulty": "intermediate"
+              },
+              {
+                "title": "Selection Sort for Strings",
+                "description": "Adapt selection sort for sorting strings lexicographically",
+                "difficulty": "beginner"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "insertion-sort",
+        "title": "Insertion Sort",
+        "description": "Builds sorted array one element at a time by inserting elements in correct position",
+        "order": 3,
+        "difficulty": "beginner",
+        "estimatedMinutes": 50,
+        "content": {
+          "theory": {
+            "algorithm": "Builds final sorted array one item at a time by repeatedly taking elements from unsorted portion and inserting them into correct position in sorted portion",
+            "paradigm": "Insertion-based, in-place sorting",
+            "stability": "Stable - maintains relative order of equal elements",
+            "complexity": {
+              "timeWorst": "O(n²)",
+              "timeAverage": "O(n²)",
+              "timeBest": "O(n) for nearly sorted arrays",
+              "space": "O(1)"
+            }
+          },
+          "implementation": {
+            "language": "python",
+            "code": "def insertion_sort(arr):\n    \"\"\"\n    Insertion sort implementation\n    Time: O(n²), Space: O(1)\n    \"\"\"\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        \n        # Move elements greater than key one position ahead\n        while j >= 0 and arr[j] > key:\n            arr[j + 1] = arr[j]\n            j -= 1\n        \n        # Place key in its correct position\n        arr[j + 1] = key\n    \n    return arr\n\ndef insertion_sort_binary_search(arr):\n    \"\"\"\n    Insertion sort with binary search for position finding\n    Reduces comparisons but not shifts\n    \"\"\"\n    def binary_search(arr, val, start, end):\n        \"\"\"Find insertion position using binary search\"\"\"\n        if start == end:\n            return start if arr[start] > val else start + 1\n        \n        if start > end:\n            return start\n        \n        mid = (start + end) // 2\n        \n        if arr[mid] < val:\n            return binary_search(arr, val, mid + 1, end)\n        elif arr[mid] > val:\n            return binary_search(arr, val, start, mid - 1)\n        else:\n            return mid\n    \n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = binary_search(arr, key, 0, i - 1)\n        \n        # Shift elements to make room\n        for k in range(i - 1, j - 1, -1):\n            arr[k + 1] = arr[k]\n        \n        arr[j] = key\n    \n    return arr"
+          }
+        }
+      },
+      {
+        "id": "merge-sort",
+        "title": "Merge Sort",
+        "description": "Efficient divide-and-conquer sorting algorithm with guaranteed O(n log n) performance",
+        "order": 4,
+        "difficulty": "intermediate",
+        "estimatedMinutes": 90,
+        "learningObjectives": [
+          "Understand divide-and-conquer paradigm",
+          "Implement merge sort recursively",
+          "Analyze merge sort's consistent O(n log n) performance",
+          "Compare merge sort with other sorting algorithms"
+        ],
+        "content": {
+          "theory": {
+            "algorithm": "Divides array into two halves, recursively sorts both halves, then merges the sorted halves",
+            "paradigm": "Divide-and-conquer algorithm",
+            "stability": "Stable - maintains relative order of equal elements",
+            "complexity": {
+              "timeWorst": "O(n log n)",
+              "timeAverage": "O(n log n)",
+              "timeBest": "O(n log n)",
+              "space": "O(n) for auxiliary array"
+            },
+            "advantages": [
+              "Guaranteed O(n log n) performance",
+              "Stable sorting algorithm",
+              "Predictable performance regardless of input",
+              "Good for large datasets",
+              "Parallelizable"
+            ],
+            "disadvantages": [
+              "Requires O(n) extra space",
+              "Not in-place sorting",
+              "Overhead for small arrays"
+            ]
+          },
+          "implementation": {
+            "language": "python",
+            "code": "def merge_sort(arr):\n    \"\"\"\n    Merge sort implementation using divide-and-conquer\n    Time: O(n log n), Space: O(n)\n    \"\"\"\n    if len(arr) <= 1:\n        return arr\n    \n    # Divide: Find the middle point\n    mid = len(arr) // 2\n    \n    # Conquer: Recursively sort both halves\n    left_half = merge_sort(arr[:mid])\n    right_half = merge_sort(arr[mid:])\n    \n    # Combine: Merge the sorted halves\n    return merge(left_half, right_half)\n\ndef merge(left, right):\n    \"\"\"\n    Merge two sorted arrays into one sorted array\n    \"\"\"\n    result = []\n    i = j = 0\n    \n    # Merge elements in sorted order\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    \n    # Add remaining elements\n    result.extend(left[i:])\n    result.extend(right[j:])\n    \n    return result\n\ndef merge_sort_in_place(arr, left=0, right=None):\n    \"\"\"\n    In-place merge sort implementation\n    Reduces space complexity but more complex\n    \"\"\"\n    if right is None:\n        right = len(arr) - 1\n    \n    if left < right:\n        mid = (left + right) // 2\n        \n        # Recursively sort both halves\n        merge_sort_in_place(arr, left, mid)\n        merge_sort_in_place(arr, mid + 1, right)\n        \n        # Merge the sorted halves\n        merge_in_place(arr, left, mid, right)\n    \n    return arr\n\ndef merge_in_place(arr, left, mid, right):\n    \"\"\"\n    Merge function for in-place merge sort\n    \"\"\"\n    # Create temporary arrays for left and right subarrays\n    left_arr = arr[left:mid + 1]\n    right_arr = arr[mid + 1:right + 1]\n    \n    i = j = 0\n    k = left\n    \n    # Merge back into original array\n    while i < len(left_arr) and j < len(right_arr):\n        if left_arr[i] <= right_arr[j]:\n            arr[k] = left_arr[i]\n            i += 1\n        else:\n            arr[k] = right_arr[j]\n            j += 1\n        k += 1\n    \n    # Copy remaining elements\n    while i < len(left_arr):\n        arr[k] = left_arr[i]\n        i += 1\n        k += 1\n    \n    while j < len(right_arr):\n        arr[k] = right_arr[j]\n        j += 1\n        k += 1\n\ndef merge_sort_iterative(arr):\n    \"\"\"\n    Bottom-up iterative implementation of merge sort\n    \"\"\"\n    if len(arr) <= 1:\n        return arr\n    \n    # Start with subarrays of size 1\n    current_size = 1\n    \n    while current_size < len(arr):\n        # Pick starting point of different subarrays\n        left = 0\n        while left < len(arr) - 1:\n            # Find mid and right points\n            mid = min(left + current_size - 1, len(arr) - 1)\n            right = min(left + current_size * 2 - 1, len(arr) - 1)\n            \n            # Merge subarrays arr[left...mid] and arr[mid+1...right]\n            if mid < right:\n                merge_in_place(arr, left, mid, right)\n            \n            left += current_size * 2\n        \n        current_size *= 2\n    \n    return arr\n\n# Performance analysis and demonstration\ndef analyze_merge_sort():\n    import time\n    import random\n    \n    def time_sort(sort_func, arr):\n        start = time.time()\n        result = sort_func(arr.copy())\n        end = time.time()\n        return end - start, result\n    \n    # Test different array sizes\n    sizes = [1000, 5000, 10000, 20000]\n    \n    print(\"Merge Sort Performance Analysis:\")\n    print(\"Size\\tTime(s)\\tVerified\")\n    print(\"-\" * 30)\n    \n    for size in sizes:\n        # Generate random array\n        arr = [random.randint(1, 10000) for _ in range(size)]\n        \n        # Time merge sort\n        time_taken, sorted_arr = time_sort(merge_sort, arr)\n        \n        # Verify correctness\n        is_sorted = sorted_arr == sorted(arr)\n        \n        print(f\"{size}\\t{time_taken:.4f}\\t{is_sorted}\")\n\nif __name__ == \"__main__\":\n    # Simple demonstration\n    test_arr = [38, 27, 43, 3, 9, 82, 10]\n    print(f\"Original array: {test_arr}\")\n    \n    sorted_arr = merge_sort(test_arr.copy())\n    print(f\"Sorted array: {sorted_arr}\")\n    \n    # Performance analysis\n    analyze_merge_sort()"
+          }
+        }
+      },
+      {
+        "id": "quick-sort",
+        "title": "Quick Sort",
+        "description": "Fast divide-and-conquer algorithm using partitioning around pivot",
+        "order": 5,
+        "difficulty": "intermediate",
+        "estimatedMinutes": 90,
+        "content": {
+          "theory": {
+            "algorithm": "Selects a pivot element, partitions array around pivot, recursively sorts subarrays",
+            "paradigm": "Divide-and-conquer with partitioning",
+            "stability": "Unstable - may change relative order of equal elements",
+            "complexity": {
+              "timeWorst": "O(n²) when pivot is always smallest/largest",
+              "timeAverage": "O(n log n)",
+              "timeBest": "O(n log n)",
+              "space": "O(log n) for recursion stack"
+            }
+          },
+          "implementation": {
+            "language": "python",
+            "code": "def quick_sort(arr, low=0, high=None):\n    \"\"\"\n    Quick sort implementation with Lomuto partition\n    Time: Average O(n log n), Worst O(n²), Space: O(log n)\n    \"\"\"\n    if high is None:\n        high = len(arr) - 1\n    \n    if low < high:\n        # Partition the array and get pivot index\n        pivot_index = partition(arr, low, high)\n        \n        # Recursively sort elements before and after partition\n        quick_sort(arr, low, pivot_index - 1)\n        quick_sort(arr, pivot_index + 1, high)\n    \n    return arr\n\ndef partition(arr, low, high):\n    \"\"\"\n    Lomuto partition scheme\n    Takes last element as pivot, places pivot at correct position\n    \"\"\"\n    # Choose rightmost element as pivot\n    pivot = arr[high]\n    \n    # Index of smaller element (correct position of pivot)\n    i = low - 1\n    \n    for j in range(low, high):\n        # If current element is smaller than or equal to pivot\n        if arr[j] <= pivot:\n            i += 1\n            arr[i], arr[j] = arr[j], arr[i]\n    \n    # Place pivot in correct position\n    arr[i + 1], arr[high] = arr[high], arr[i + 1]\n    return i + 1\n\ndef quick_sort_hoare(arr, low=0, high=None):\n    \"\"\"\n    Quick sort with Hoare partition scheme\n    More efficient partitioning method\n    \"\"\"\n    if high is None:\n        high = len(arr) - 1\n    \n    if low < high:\n        pivot_index = hoare_partition(arr, low, high)\n        quick_sort_hoare(arr, low, pivot_index)\n        quick_sort_hoare(arr, pivot_index + 1, high)\n    \n    return arr\n\ndef hoare_partition(arr, low, high):\n    \"\"\"\n    Hoare partition scheme - more efficient than Lomuto\n    \"\"\"\n    pivot = arr[low]  # First element as pivot\n    i = low - 1\n    j = high + 1\n    \n    while True:\n        # Find element on left that should be on right\n        i += 1\n        while arr[i] < pivot:\n            i += 1\n        \n        # Find element on right that should be on left\n        j -= 1\n        while arr[j] > pivot:\n            j -= 1\n        \n        # If elements crossed, partitioning is done\n        if i >= j:\n            return j\n        \n        # Swap elements\n        arr[i], arr[j] = arr[j], arr[i]\n\ndef quick_sort_random_pivot(arr, low=0, high=None):\n    \"\"\"\n    Quick sort with random pivot selection\n    Helps avoid worst-case performance on sorted arrays\n    \"\"\"\n    import random\n    \n    if high is None:\n        high = len(arr) - 1\n    \n    if low < high:\n        # Randomly choose pivot and swap with last element\n        random_index = random.randint(low, high)\n        arr[random_index], arr[high] = arr[high], arr[random_index]\n        \n        # Use standard partitioning\n        pivot_index = partition(arr, low, high)\n        \n        quick_sort_random_pivot(arr, low, pivot_index - 1)\n        quick_sort_random_pivot(arr, pivot_index + 1, high)\n    \n    return arr\n\ndef quick_sort_3way(arr, low=0, high=None):\n    \"\"\"\n    3-way quick sort for arrays with many duplicate elements\n    Partitions into <pivot, =pivot, >pivot\n    \"\"\"\n    if high is None:\n        high = len(arr) - 1\n    \n    if low < high:\n        lt, gt = partition_3way(arr, low, high)\n        quick_sort_3way(arr, low, lt - 1)\n        quick_sort_3way(arr, gt + 1, high)\n    \n    return arr\n\ndef partition_3way(arr, low, high):\n    \"\"\"\n    3-way partitioning: returns (lt, gt) such that\n    arr[low..lt-1] < pivot\n    arr[lt..gt] == pivot\n    arr[gt+1..high] > pivot\n    \"\"\"\n    pivot = arr[low]\n    lt = low      # arr[low..lt-1] < pivot\n    i = low       # arr[lt..i-1] == pivot\n    gt = high + 1 # arr[gt..high] > pivot\n    \n    while i < gt:\n        if arr[i] < pivot:\n            arr[lt], arr[i] = arr[i], arr[lt]\n            lt += 1\n            i += 1\n        elif arr[i] > pivot:\n            gt -= 1\n            arr[i], arr[gt] = arr[gt], arr[i]\n        else:\n            i += 1\n    \n    return lt, gt - 1"
+          }
+        }
+      },
+      {
+        "id": "heap-sort",
+        "title": "Heap Sort",
+        "description": "Comparison-based sorting using binary heap data structure",
+        "order": 6,
+        "difficulty": "advanced",
+        "estimatedMinutes": 75,
+        "content": {
+          "theory": {
+            "algorithm": "Builds max heap from array, repeatedly extracts maximum element",
+            "paradigm": "Selection-based using heap data structure",
+            "stability": "Unstable sorting algorithm",
+            "complexity": {
+              "timeWorst": "O(n log n)",
+              "timeAverage": "O(n log n)",
+              "timeBest": "O(n log n)",
+              "space": "O(1) - in-place sorting"
+            }
+          }
+        }
+      },
+      {
+        "id": "radix-sort",
+        "title": "Radix Sort",
+        "description": "Non-comparison based sorting for integers using digit processing",
+        "order": 7,
+        "difficulty": "advanced",
+        "estimatedMinutes": 60,
+        "content": {
+          "theory": {
+            "algorithm": "Sorts integers by processing individual digits from least to most significant",
+            "paradigm": "Non-comparison based, distribution sort",
+            "stability": "Stable sorting algorithm",
+            "complexity": {
+              "timeWorst": "O(d * (n + k)) where d=digits, k=range",
+              "timeAverage": "O(d * (n + k))",
+              "timeBest": "O(d * (n + k))",
+              "space": "O(n + k)"
+            }
+          }
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "title": "Time Complexity Comparison",
+        "data": [
+          {"algorithm": "Bubble Sort", "best": "O(n)", "average": "O(n²)", "worst": "O(n²)"},
+          {"algorithm": "Selection Sort", "best": "O(n²)", "average": "O(n²)", "worst": "O(n²)"},
+          {"algorithm": "Insertion Sort", "best": "O(n)", "average": "O(n²)", "worst": "O(n²)"},
+          {"algorithm": "Merge Sort", "best": "O(n log n)", "average": "O(n log n)", "worst": "O(n log n)"},
+          {"algorithm": "Quick Sort", "best": "O(n log n)", "average": "O(n log n)", "worst": "O(n²)"},
+          {"algorithm": "Heap Sort", "best": "O(n log n)", "average": "O(n log n)", "worst": "O(n log n)"},
+          {"algorithm": "Radix Sort", "best": "O(d(n+k))", "average": "O(d(n+k))", "worst": "O(d(n+k))"}
+        ]
+      },
+      {
+        "title": "Space Complexity Comparison",
+        "data": [
+          {"algorithm": "Bubble Sort", "space": "O(1)"},
+          {"algorithm": "Selection Sort", "space": "O(1)"},
+          {"algorithm": "Insertion Sort", "space": "O(1)"},
+          {"algorithm": "Merge Sort", "space": "O(n)"},
+          {"algorithm": "Quick Sort", "space": "O(log n)"},
+          {"algorithm": "Heap Sort", "space": "O(1)"},
+          {"algorithm": "Radix Sort", "space": "O(n + k)"}
+        ]
+      }
+    ],
+    "practiceProblems": [
+      {
+        "id": "sort-choice",
+        "title": "Choosing the Right Sort",
+        "description": "Given different scenarios, choose the most appropriate sorting algorithm",
+        "scenarios": [
+          {
+            "scenario": "Sorting 10 million integers with values 0-100",
+            "bestChoice": "Radix Sort or Counting Sort",
+            "reason": "Limited range makes non-comparison sorts efficient"
+          },
+          {
+            "scenario": "Sorting linked list nodes",
+            "bestChoice": "Merge Sort",
+            "reason": "Doesn't require random access, stable, guaranteed performance"
+          },
+          {
+            "scenario": "Nearly sorted array of 1000 elements",
+            "bestChoice": "Insertion Sort",
+            "reason": "O(n) performance on nearly sorted data, low overhead"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "visualization",
+        "title": "Sorting Algorithms Visualization",
+        "url": "https://www.toptal.com/developers/sorting-algorithms"
+      },
+      {
+        "type": "interactive",
+        "title": "Algorithm Visualizer - Sorting",
+        "url": "https://algorithm-visualizer.org/category/Sorting"
+      }
+    ]
+  }
+}

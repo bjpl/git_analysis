@@ -1,0 +1,81 @@
+title: Letratos
+email: contact@brandonjplambert.com
+description: >-
+  A record of the poetry and art a life makes.
+baseurl: ""
+url: "https://www.letratos.com"
+github_username: bjpl
+
+# Build settings
+markdown: kramdown
+incremental: true
+liquid:
+  error_mode: strict
+  strict_filters: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Collections
+collections:
+  poems_es:
+    output: true
+    permalink: /es/:title/
+  poems_en:
+    output: true
+    permalink: /en/:title/
+  photography:
+    output: true
+    permalink: /photography/:title/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "poems_es"
+    values:
+      layout: "poem"
+      lang: "es"
+  - scope:
+      path: ""
+      type: "poems_en"
+    values:
+      layout: "poem"
+      lang: "en"
+  - scope:
+      path: ""
+      type: "photography"
+    values:
+      layout: "photography"
+
+# Language settings
+languages: ["en", "es"]
+default_lang: "en"
+
+# SASS settings
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - .sass-cache/
+  - .jekyll-cache/
+  - .jekyll-metadata
+  - README.md
+  - CONTRIBUTING.md
+  - .git/
+  - .github/
+  - .claude/
+  - .claude-flow/
+  - .hive-mind/
+  - _sass/*.scss.backup

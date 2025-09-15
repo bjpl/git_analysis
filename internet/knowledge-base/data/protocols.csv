@@ -1,0 +1,54 @@
+category,protocol,port,transport,purpose,encrypted,key_features
+Application,HTTP,80,TCP,Web browsing,No,"Stateless, request-response"
+Application,HTTPS,443,TCP,Secure web,Yes,HTTP + TLS encryption
+Application,HTTP/3,443,QUIC/UDP,Modern web,Yes,"Multiplexing, 0-RTT"
+Application,DNS,53,UDP/TCP,Name resolution,No*,"Hierarchical, cached"
+Application,SSH,22,TCP,Secure shell,Yes,Encrypted remote access
+Application,FTP,20/21,TCP,File transfer,No,Separate control/data
+Application,SFTP,22,TCP,Secure file transfer,Yes,Over SSH
+Application,SMTP,25,TCP,Email sending,No*,Store and forward
+Application,SMTPS,465,TCP,Secure email sending,Yes,SMTP over TLS
+Application,POP3,110,TCP,Email retrieval,No*,Download and delete
+Application,POP3S,995,TCP,Secure email retrieval,Yes,POP3 over TLS
+Application,IMAP,143,TCP,Email access,No*,Server-side storage
+Application,IMAPS,993,TCP,Secure email access,Yes,IMAP over TLS
+Application,NTP,123,UDP,Time sync,No,Stratum hierarchy
+Application,DHCP,67/68,UDP,IP configuration,No,Automatic network config
+Application,SNMP,161,UDP,Network management,No,Monitoring and control
+Application,Telnet,23,TCP,Remote access,No,Clear text - deprecated
+Application,LDAP,389,TCP,Directory access,No,Hierarchical database
+Application,LDAPS,636,TCP,Secure directory,Yes,LDAP over TLS
+Application,DoT,853,TCP,DNS over TLS,Yes,Encrypted DNS
+Application,DoH,443,TCP,DNS over HTTPS,Yes,DNS via HTTPS
+Transport,TCP,-,-,Reliable delivery,-,"Ordered, reliable, flow control"
+Transport,UDP,-,-,Fast delivery,-,"Unreliable, no ordering"
+Transport,QUIC,-,UDP,Modern transport,Yes,"0-RTT, multiplexing"
+Transport,SCTP,-,-,Message-oriented,-,"Multi-streaming, multi-homing"
+Network,IPv4,-,-,Internet addressing,-,"32-bit addresses, NAT required"
+Network,IPv6,-,-,Modern addressing,-,"128-bit addresses, autoconfiguration"
+Network,ICMP,-,-,Control messages,-,"Ping, errors, diagnostics"
+Network,IPSec,-,-,Network security,Yes,"Encryption, authentication"
+Routing,BGP,179,TCP,Internet routing,No*,"Path vector, AS-based"
+Routing,OSPF,89,IP,Link state routing,No,"Fast convergence, areas"
+Routing,IS-IS,-,-,Link state routing,No,"Scalable, protocol-independent"
+Routing,RIP,520,UDP,Distance vector,No,"Simple, hop count metric"
+Routing,EIGRP,88,IP,Hybrid routing,No,"Cisco, fast convergence"
+VPN,OpenVPN,1194,UDP/TCP,VPN tunnel,Yes,"Flexible, cross-platform"
+VPN,WireGuard,51820,UDP,Modern VPN,Yes,"Fast, simple, secure"
+VPN,IPSec/IKEv2,500/4500,UDP,Standard VPN,Yes,"Industry standard, complex"
+VPN,L2TP,1701,UDP,Layer 2 tunnel,No*,Often with IPSec
+VPN,PPTP,1723,TCP,Legacy VPN,Weak,Deprecated - insecure
+IoT,MQTT,1883,TCP,IoT messaging,No,"Pub/sub, lightweight"
+IoT,MQTTS,8883,TCP,Secure IoT,Yes,MQTT over TLS
+IoT,CoAP,5683,UDP,Constrained devices,No*,"REST-like, UDP-based"
+IoT,LoRaWAN,-,-,Long range IoT,Yes,"Low power, long range"
+Real-time,WebSocket,80/443,TCP,Full-duplex,No/Yes,Bidirectional communication
+Real-time,WebRTC,-,UDP,Peer-to-peer,Yes,"Audio/video, NAT traversal"
+Real-time,RTP,-,UDP,Media streaming,No,"Real-time media transport"
+Real-time,RTSP,554,TCP,Streaming control,No,"Media session control"
+Database,MySQL,3306,TCP,MySQL database,No*,Relational database
+Database,PostgreSQL,5432,TCP,PostgreSQL database,No*,Advanced relational
+Database,MongoDB,27017,TCP,MongoDB database,No*,Document database
+Database,Redis,6379,TCP,Redis cache/database,No*,In-memory data store
+Database,Cassandra,9042,TCP,Cassandra database,No*,Distributed NoSQL
+Database,Elasticsearch,9200,TCP,Search engine,No*,Full-text search

@@ -1,0 +1,610 @@
+{
+  "id": "tools-menu",
+  "title": "Development Tools",
+  "description": "Utilities and helper tools for algorithm development",
+  "searchable": true,
+  "breadcrumbs": true,
+  "style": {
+    "type": "grid",
+    "theme": "default",
+    "showIcons": true,
+    "showShortcuts": true,
+    "showDescriptions": true,
+    "animations": true,
+    "itemsPerRow": 3
+  },
+  "items": [
+    {
+      "id": "code-generators",
+      "title": "Code Generators",
+      "description": "Generate boilerplate code for algorithms and data structures",
+      "icon": {
+        "type": "emoji",
+        "value": "🏭"
+      },
+      "shortcut": {
+        "key": "g",
+        "alt": true,
+        "description": "Quick access to generators"
+      },
+      "submenu": [
+        {
+          "id": "algorithm-template",
+          "title": "Algorithm Template Generator",
+          "description": "Generate template for new algorithms with testing framework",
+          "icon": {
+            "type": "emoji",
+            "value": "📝"
+          },
+          "action": "generateAlgorithmTemplate",
+          "metadata": {
+            "supports": ["JavaScript", "TypeScript", "Python", "Java", "C++"]
+          }
+        },
+        {
+          "id": "data-structure-template",
+          "title": "Data Structure Template",
+          "description": "Generate class template for custom data structures",
+          "icon": {
+            "type": "emoji",
+            "value": "🏠"
+          },
+          "action": "generateDataStructureTemplate",
+          "metadata": {
+            "includes": ["constructor", "methods", "tests", "documentation"]
+          }
+        },
+        {
+          "id": "test-suite-generator",
+          "title": "Test Suite Generator",
+          "description": "Generate comprehensive test suites for algorithms",
+          "icon": {
+            "type": "emoji",
+            "value": "🧩"
+          },
+          "action": "generateTestSuite",
+          "metadata": {
+            "frameworks": ["Jest", "Mocha", "pytest", "JUnit"]
+          }
+        },
+        {
+          "id": "benchmark-template",
+          "title": "Benchmark Template",
+          "description": "Generate performance benchmarking code",
+          "icon": {
+            "type": "emoji",
+            "value": "🏁"
+          },
+          "action": "generateBenchmarkTemplate",
+          "metadata": {
+            "metrics": ["time", "space", "iterations", "comparison"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "testing-tools",
+      "title": "Testing Tools",
+      "description": "Tools for testing and validating algorithms",
+      "icon": {
+        "type": "emoji",
+        "value": "🧩"
+      },
+      "shortcut": {
+        "key": "t",
+        "alt": true,
+        "description": "Access testing tools"
+      },
+      "submenu": [
+        {
+          "id": "test-data-generator",
+          "title": "Test Data Generator",
+          "description": "Generate test cases with various data distributions",
+          "icon": {
+            "type": "emoji",
+            "value": "🎲"
+          },
+          "action": "openTestDataGenerator",
+          "metadata": {
+            "types": ["random", "sorted", "reverse-sorted", "duplicates", "edge-cases"]
+          }
+        },
+        {
+          "id": "complexity-analyzer",
+          "title": "Complexity Analyzer",
+          "description": "Analyze time and space complexity of implementations",
+          "icon": {
+            "type": "emoji",
+            "value": "📊"
+          },
+          "action": "openComplexityAnalyzer",
+          "metadata": {
+            "analysis": ["big-o", "worst-case", "average-case", "best-case"]
+          }
+        },
+        {
+          "id": "correctness-checker",
+          "title": "Correctness Checker",
+          "description": "Verify algorithm correctness with automated testing",
+          "icon": {
+            "type": "emoji",
+            "value": "✓"
+          },
+          "action": "openCorrectnessChecker",
+          "metadata": {
+            "methods": ["unit-tests", "property-based", "fuzzing", "formal-verification"]
+          }
+        },
+        {
+          "id": "performance-profiler",
+          "title": "Performance Profiler",
+          "description": "Profile algorithm performance and identify bottlenecks",
+          "icon": {
+            "type": "emoji",
+            "value": "⚡"
+          },
+          "action": "openPerformanceProfiler",
+          "metadata": {
+            "metrics": ["cpu-usage", "memory-usage", "cache-misses", "execution-time"]
+          }
+        },
+        {
+          "id": "edge-case-finder",
+          "title": "Edge Case Finder",
+          "description": "Automatically discover edge cases for testing",
+          "icon": {
+            "type": "emoji",
+            "value": "🔍"
+          },
+          "action": "openEdgeCaseFinder",
+          "metadata": {
+            "strategies": ["boundary-values", "null-inputs", "extreme-sizes", "invalid-data"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "debugging-tools",
+      "title": "Debugging Tools",
+      "description": "Debug and trace algorithm execution",
+      "icon": {
+        "type": "emoji",
+        "value": "🐛"
+      },
+      "shortcut": {
+        "key": "d",
+        "alt": true,
+        "description": "Access debugging tools"
+      },
+      "submenu": [
+        {
+          "id": "step-debugger",
+          "title": "Step-by-Step Debugger",
+          "description": "Execute algorithms step-by-step with state inspection",
+          "icon": {
+            "type": "emoji",
+            "value": "🐎"
+          },
+          "action": "openStepDebugger",
+          "metadata": {
+            "features": ["breakpoints", "variable-inspection", "call-stack", "step-over"]
+          }
+        },
+        {
+          "id": "execution-tracer",
+          "title": "Execution Tracer",
+          "description": "Trace algorithm execution path and decisions",
+          "icon": {
+            "type": "emoji",
+            "value": "📝"
+          },
+          "action": "openExecutionTracer",
+          "metadata": {
+            "output": ["trace-log", "decision-tree", "execution-graph"]
+          }
+        },
+        {
+          "id": "memory-inspector",
+          "title": "Memory Inspector",
+          "description": "Visualize memory usage and data structure states",
+          "icon": {
+            "type": "emoji",
+            "value": "🧠"
+          },
+          "action": "openMemoryInspector",
+          "metadata": {
+            "views": ["heap-dump", "stack-trace", "memory-graph", "leak-detection"]
+          }
+        },
+        {
+          "id": "invariant-checker",
+          "title": "Invariant Checker",
+          "description": "Verify data structure invariants during execution",
+          "icon": {
+            "type": "emoji",
+            "value": "🔒"
+          },
+          "action": "openInvariantChecker",
+          "metadata": {
+            "checks": ["pre-conditions", "post-conditions", "loop-invariants", "data-integrity"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "visualization-tools",
+      "title": "Visualization Tools",
+      "description": "Visual tools for understanding algorithms and data structures",
+      "icon": {
+        "type": "emoji",
+        "value": "🎆"
+      },
+      "shortcut": {
+        "key": "v",
+        "alt": true,
+        "description": "Access visualization tools"
+      },
+      "submenu": [
+        {
+          "id": "algorithm-animator",
+          "title": "Algorithm Animator",
+          "description": "Create animated visualizations of algorithm execution",
+          "icon": {
+            "type": "emoji",
+            "value": "🎦"
+          },
+          "action": "openAlgorithmAnimator",
+          "metadata": {
+            "formats": ["interactive-web", "gif", "video", "step-by-step"]
+          }
+        },
+        {
+          "id": "data-structure-visualizer",
+          "title": "Data Structure Visualizer",
+          "description": "Visualize data structures and their operations",
+          "icon": {
+            "type": "emoji",
+            "value": "🌳"
+          },
+          "action": "openDataStructureVisualizer",
+          "metadata": {
+            "structures": ["trees", "graphs", "heaps", "hash-tables", "arrays"]
+          }
+        },
+        {
+          "id": "complexity-grapher",
+          "title": "Complexity Grapher",
+          "description": "Generate graphs of algorithm complexity curves",
+          "icon": {
+            "type": "emoji",
+            "value": "📈"
+          },
+          "action": "openComplexityGrapher",
+          "metadata": {
+            "types": ["time-complexity", "space-complexity", "comparative", "growth-rates"]
+          }
+        },
+        {
+          "id": "flow-diagram-generator",
+          "title": "Flow Diagram Generator",
+          "description": "Generate flowcharts and diagrams for algorithms",
+          "icon": {
+            "type": "emoji",
+            "value": "🗺️"
+          },
+          "action": "openFlowDiagramGenerator",
+          "metadata": {
+            "formats": ["flowchart", "sequence-diagram", "state-diagram", "uml"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "optimization-tools",
+      "title": "Optimization Tools",
+      "description": "Tools for optimizing algorithm performance",
+      "icon": {
+        "type": "emoji",
+        "value": "🚀"
+      },
+      "shortcut": {
+        "key": "o",
+        "alt": true,
+        "description": "Access optimization tools"
+      },
+      "submenu": [
+        {
+          "id": "performance-optimizer",
+          "title": "Performance Optimizer",
+          "description": "Suggest optimizations for algorithm implementations",
+          "icon": {
+            "type": "emoji",
+            "value": "⚙️"
+          },
+          "action": "openPerformanceOptimizer",
+          "metadata": {
+            "techniques": ["memoization", "caching", "loop-unrolling", "vectorization"]
+          }
+        },
+        {
+          "id": "bottleneck-analyzer",
+          "title": "Bottleneck Analyzer",
+          "description": "Identify performance bottlenecks in code",
+          "icon": {
+            "type": "emoji",
+            "value": "🔍"
+          },
+          "action": "openBottleneckAnalyzer",
+          "metadata": {
+            "analysis": ["hot-spots", "memory-usage", "io-operations", "recursive-calls"]
+          }
+        },
+        {
+          "id": "cache-analyzer",
+          "title": "Cache Analyzer",
+          "description": "Analyze cache performance and suggest improvements",
+          "icon": {
+            "type": "emoji",
+            "value": "💾"
+          },
+          "action": "openCacheAnalyzer",
+          "metadata": {
+            "metrics": ["cache-hits", "cache-misses", "locality", "prefetching"]
+          }
+        },
+        {
+          "id": "parallel-optimizer",
+          "title": "Parallelization Optimizer",
+          "description": "Identify opportunities for parallel execution",
+          "icon": {
+            "type": "emoji",
+            "value": "🔀"
+          },
+          "action": "openParallelOptimizer",
+          "metadata": {
+            "patterns": ["embarrassing-parallel", "divide-conquer", "pipeline", "map-reduce"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "documentation-tools",
+      "title": "Documentation Tools",
+      "description": "Generate and maintain algorithm documentation",
+      "icon": {
+        "type": "emoji",
+        "value": "📚"
+      },
+      "shortcut": {
+        "key": "m",
+        "alt": true,
+        "description": "Access documentation tools"
+      },
+      "submenu": [
+        {
+          "id": "api-doc-generator",
+          "title": "API Documentation Generator",
+          "description": "Generate API documentation from code comments",
+          "icon": {
+            "type": "emoji",
+            "value": "📝"
+          },
+          "action": "openApiDocGenerator",
+          "metadata": {
+            "formats": ["markdown", "html", "pdf", "json"]
+          }
+        },
+        {
+          "id": "complexity-documenter",
+          "title": "Complexity Documenter",
+          "description": "Generate complexity analysis documentation",
+          "icon": {
+            "type": "emoji",
+            "value": "📈"
+          },
+          "action": "openComplexityDocumenter",
+          "metadata": {
+            "includes": ["big-o", "space-complexity", "examples", "proofs"]
+          }
+        },
+        {
+          "id": "tutorial-generator",
+          "title": "Tutorial Generator",
+          "description": "Create step-by-step tutorials for algorithms",
+          "icon": {
+            "type": "emoji",
+            "value": "🎓"
+          },
+          "action": "openTutorialGenerator",
+          "metadata": {
+            "features": ["interactive-examples", "visualizations", "exercises", "quizzes"]
+          }
+        },
+        {
+          "id": "readme-generator",
+          "title": "README Generator",
+          "description": "Generate comprehensive README files",
+          "icon": {
+            "type": "emoji",
+            "value": "📜"
+          },
+          "action": "openReadmeGenerator",
+          "metadata": {
+            "sections": ["description", "usage", "examples", "performance", "references"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "integration-tools",
+      "title": "Integration Tools",
+      "description": "Tools for integrating with external systems and frameworks",
+      "icon": {
+        "type": "emoji",
+        "value": "🔗"
+      },
+      "shortcut": {
+        "key": "i",
+        "alt": true,
+        "description": "Access integration tools"
+      },
+      "submenu": [
+        {
+          "id": "git-integration",
+          "title": "Git Integration",
+          "description": "Integrate with Git for version control",
+          "icon": {
+            "type": "emoji",
+            "value": "💾"
+          },
+          "action": "setupGitIntegration",
+          "metadata": {
+            "features": ["commit-templates", "branch-naming", "hooks", "ci-cd"]
+          }
+        },
+        {
+          "id": "ide-plugins",
+          "title": "IDE Plugins",
+          "description": "Generate plugins for popular IDEs",
+          "icon": {
+            "type": "emoji",
+            "value": "💻"
+          },
+          "action": "generateIdePlugins",
+          "metadata": {
+            "supported": ["VS Code", "IntelliJ", "Vim", "Emacs", "Atom"]
+          }
+        },
+        {
+          "id": "ci-cd-templates",
+          "title": "CI/CD Templates",
+          "description": "Generate CI/CD pipeline templates",
+          "icon": {
+            "type": "emoji",
+            "value": "🔄"
+          },
+          "action": "generateCiCdTemplates",
+          "metadata": {
+            "platforms": ["GitHub Actions", "GitLab CI", "Jenkins", "CircleCI"]
+          }
+        },
+        {
+          "id": "package-managers",
+          "title": "Package Manager Integration",
+          "description": "Create packages for various package managers",
+          "icon": {
+            "type": "emoji",
+            "value": "📦"
+          },
+          "action": "setupPackageIntegration",
+          "metadata": {
+            "managers": ["npm", "pip", "maven", "cargo", "gem"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "utility-tools",
+      "title": "Utility Tools",
+      "description": "Miscellaneous utilities and helpers",
+      "icon": {
+        "type": "emoji",
+        "value": "🧰"
+      },
+      "submenu": [
+        {
+          "id": "data-converter",
+          "title": "Data Format Converter",
+          "description": "Convert between different data formats",
+          "icon": {
+            "type": "emoji",
+            "value": "🔄"
+          },
+          "action": "openDataConverter",
+          "metadata": {
+            "formats": ["JSON", "CSV", "XML", "YAML", "Binary"]
+          }
+        },
+        {
+          "id": "hash-calculator",
+          "title": "Hash Calculator",
+          "description": "Calculate various hash functions",
+          "icon": {
+            "type": "emoji",
+            "value": "#️⃣"
+          },
+          "action": "openHashCalculator",
+          "metadata": {
+            "algorithms": ["MD5", "SHA-1", "SHA-256", "CRC32", "djb2"]
+          }
+        },
+        {
+          "id": "random-generator",
+          "title": "Random Data Generator",
+          "description": "Generate random data for testing",
+          "icon": {
+            "type": "emoji",
+            "value": "🎲"
+          },
+          "action": "openRandomGenerator",
+          "metadata": {
+            "types": ["numbers", "strings", "arrays", "graphs", "trees"]
+          }
+        },
+        {
+          "id": "algorithm-comparator",
+          "title": "Algorithm Comparator",
+          "description": "Compare performance of different algorithms",
+          "icon": {
+            "type": "emoji",
+            "value": "⚖️"
+          },
+          "action": "openAlgorithmComparator",
+          "metadata": {
+            "metrics": ["time", "space", "accuracy", "scalability"]
+          }
+        },
+        {
+          "id": "export-import",
+          "title": "Export/Import Tools",
+          "description": "Export and import data and configurations",
+          "icon": {
+            "type": "emoji",
+            "value": "📤"
+          },
+          "submenu": [
+            {
+              "id": "export-algorithms",
+              "title": "Export Algorithms",
+              "description": "Export implemented algorithms",
+              "action": "exportAlgorithms"
+            },
+            {
+              "id": "import-algorithms",
+              "title": "Import Algorithms",
+              "description": "Import external algorithm implementations",
+              "action": "importAlgorithms"
+            },
+            {
+              "id": "export-settings",
+              "title": "Export Settings",
+              "description": "Export current tool configurations",
+              "action": "exportSettings"
+            },
+            {
+              "id": "import-settings",
+              "title": "Import Settings",
+              "description": "Import tool configurations",
+              "action": "importSettings"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "maxDepth": 3,
+    "maxItems": 150,
+    "requiredFields": ["id", "title"]
+  }
+}

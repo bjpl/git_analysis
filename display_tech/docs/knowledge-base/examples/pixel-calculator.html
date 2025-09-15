@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Pixel Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+        .results {
+            background: #ebf8ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #4299e1;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #bee3f8;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            font-weight: 600;
+            color: #2b6cb0;
+        }
+        .result-value {
+            font-family: 'Courier New', monospace;
+            color: #1a365d;
+        }
+        .explanation {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        .visual-demo {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pixel-grid {
+            display: inline-block;
+            border: 2px solid #4a5568;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Display Pixel Calculator</h1>
+        
+        <div class="input-group">
+            <label for="width">Width (pixels):</label>
+            <input type="number" id="width" value="1920" min="1">
+        </div>
+        
+        <div class="input-group">
+            <label for="height">Height (pixels):</label>
+            <input type="number" id="height" value="1080" min="1">
+        </div>
+        
+        <div class="input-group">
+            <label for="diagonal">Diagonal Size (inches):</label>
+            <input type="number" id="diagonal" value="24" min="0.1" step="0.1">
+        </div>
+        
+        <div class="input-group">
+            <label for="subpixel">Subpixel Layout:</label>
+            <select id="subpixel">
+                <option value="rgb">RGB Stripe</option>
+                <option value="pentile">PenTile</option>
+                <option value="rgbw">RGBW</option>
+            </select>
+        </div>
+        
+        <div class="results" id="results">
+            <!-- Results will be populated by JavaScript -->
+        </div>
+        
+        <div class="explanation">
+            <h3>How to interpret these results:</h3>
+            <ul>
+                <li><strong>PPI (Pixels Per Inch):</strong> Higher values mean sharper text and images. 300+ PPI is considered "Retina" quality for mobile devices.</li>
+                <li><strong>Pixel Pitch:</strong> Physical distance between pixel centers. Smaller values mean higher density.</li>
+                <li><strong>Total Pixels:</strong> Overall resolution. Higher means more detail but requires more processing power.</li>
+                <li><strong>Subpixel Count:</strong> Individual color elements. Affects text rendering and color reproduction.</li>
+                <li><strong>Viewing Distance:</strong> Optimal distance where individual pixels aren't visible to the average human eye.</li>
+            </ul>
+        </div>
+        
+        <div class="visual-demo">
+            <h3>Relative Size Comparison</h3>
+            <div id="sizeDemo"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const width = parseInt(document.getElementById('width').value) || 0;
+            const height = parseInt(document.getElementById('height').value) || 0;
+            const diagonal = parseFloat(document.getElementById('diagonal').value) || 0;
+            const subpixelLayout = document.getElementById('subpixel').value;
+            
+            if (width <= 0 || height <= 0 || diagonal <= 0) return;
+            
+            // Calculate diagonal in pixels
+            const diagonalPixels = Math.sqrt(width * width + height * height);
+            
+            // Calculate PPI
+            const ppi = diagonalPixels / diagonal;
+            
+            // Calculate pixel pitch in mm
+            const pixelPitchMM = 25.4 / ppi;
+            const pixelPitchMicrons = pixelPitchMM * 1000;
+            
+            // Calculate total pixels
+            const totalPixels = width * height;
+            
+            // Calculate subpixel count
+            let subpixelMultiplier = 3; // RGB
+            let subpixelDesc = "RGB (3 per pixel)";
+            
+            switch(subpixelLayout) {
+                case 'pentile':
+                    subpixelMultiplier = 2;
+                    subpixelDesc = "PenTile (2 per pixel average)";
+                    break;
+                case 'rgbw':
+                    subpixelMultiplier = 4;
+                    subpixelDesc = "RGBW (4 per pixel)";
+                    break;
+            }
+            
+            const totalSubpixels = totalPixels * subpixelMultiplier;
+            
+            // Calculate optimal viewing distance (assuming 1 arcminute resolution)
+            const viewingDistanceInches = diagonal * 3.438; // Based on human visual acuity
+            const viewingDistanceCM = viewingDistanceInches * 2.54;
+            
+            // Determine quality category
+            let qualityCategory = "";
+            if (ppi >= 300) qualityCategory = "Retina/Premium";
+            else if (ppi >= 200) qualityCategory = "High Quality";
+            else if (ppi >= 150) qualityCategory = "Standard";
+            else if (ppi >= 100) qualityCategory = "Basic";
+            else qualityCategory = "Low Resolution";
+            
+            // Display results
+            const results = document.getElementById('results');
+            results.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Resolution:</span>
+                    <span class="result-value">${width} × ${height}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Aspect Ratio:</span>
+                    <span class="result-value">${calculateAspectRatio(width, height)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">PPI (Pixels Per Inch):</span>
+                    <span class="result-value">${ppi.toFixed(1)} PPI</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Quality Category:</span>
+                    <span class="result-value">${qualityCategory}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Pixel Pitch:</span>
+                    <span class="result-value">${pixelPitchMicrons.toFixed(0)} μm (${pixelPitchMM.toFixed(3)} mm)</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Total Pixels:</span>
+                    <span class="result-value">${totalPixels.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Subpixel Layout:</span>
+                    <span class="result-value">${subpixelDesc}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Total Subpixels:</span>
+                    <span class="result-value">${totalSubpixels.toLocaleString()}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Optimal Viewing Distance:</span>
+                    <span class="result-value">${viewingDistanceInches.toFixed(1)}" (${viewingDistanceCM.toFixed(0)} cm)</span>
+                </div>
+            `;
+            
+            // Update size demo
+            updateSizeDemo(width, height, diagonal);
+        }
+        
+        function calculateAspectRatio(width, height) {
+            const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+            const divisor = gcd(width, height);
+            const ratioW = width / divisor;
+            const ratioH = height / divisor;
+            
+            // Check for common ratios
+            const commonRatios = {
+                "16:9": [16, 9],
+                "16:10": [16, 10],
+                "21:9": [21, 9],
+                "4:3": [4, 3],
+                "3:2": [3, 2],
+                "1:1": [1, 1]
+            };
+            
+            for (const [name, [w, h]] of Object.entries(commonRatios)) {
+                if (Math.abs(ratioW/ratioH - w/h) < 0.01) {
+                    return name;
+                }
+            }
+            
+            return `${ratioW.toFixed(1)}:${ratioH.toFixed(1)}`;
+        }
+        
+        function updateSizeDemo(width, height, diagonal) {
+            const demo = document.getElementById('sizeDemo');
+            
+            // Create relative size visualization
+            const aspectRatio = width / height;
+            const maxSize = 200; // Max size for demo in pixels
+            
+            let demoWidth, demoHeight;
+            if (aspectRatio > 1) {
+                demoWidth = maxSize;
+                demoHeight = maxSize / aspectRatio;
+            } else {
+                demoHeight = maxSize;
+                demoWidth = maxSize * aspectRatio;
+            }
+            
+            demo.innerHTML = `
+                <div style="
+                    width: ${demoWidth}px;
+                    height: ${demoHeight}px;
+                    border: 2px solid #4a5568;
+                    background: linear-gradient(45deg, #e2e8f0 25%, transparent 25%),
+                               linear-gradient(-45deg, #e2e8f0 25%, transparent 25%),
+                               linear-gradient(45deg, transparent 75%, #e2e8f0 75%),
+                               linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+                    background-size: 20px 20px;
+                    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+                    margin: 20px auto;
+                    position: relative;
+                    display: inline-block;
+                ">
+                    <div style="
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(255, 255, 255, 0.9);
+                        padding: 8px 12px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        font-weight: bold;
+                    ">
+                        ${diagonal}" diagonal<br>
+                        ${width} × ${height}
+                    </div>
+                </div>
+                <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                    Relative size representation (not to scale)
+                </p>
+            `;
+        }
+        
+        // Add event listeners
+        document.getElementById('width').addEventListener('input', calculate);
+        document.getElementById('height').addEventListener('input', calculate);
+        document.getElementById('diagonal').addEventListener('input', calculate);
+        document.getElementById('subpixel').addEventListener('change', calculate);
+        
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>

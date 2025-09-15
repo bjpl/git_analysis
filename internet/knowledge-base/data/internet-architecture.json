@@ -1,0 +1,288 @@
+{
+  "internet_architecture": {
+    "core_principles": {
+      "packet_switching": {
+        "description": "Data broken into packets that travel independently",
+        "advantages": ["Efficient resource sharing", "Resilience", "No dedicated circuits"],
+        "key_insight": "Statistical multiplexing allows oversubscription"
+      },
+      "layered_protocols": {
+        "description": "Each layer has specific responsibilities",
+        "benefits": ["Separation of concerns", "Independent innovation", "Encapsulation"],
+        "layers": {
+          "application": ["HTTP", "DNS", "SSH", "FTP"],
+          "transport": ["TCP", "UDP", "QUIC"],
+          "network": ["IPv4", "IPv6", "ICMP"],
+          "link": ["Ethernet", "Wi-Fi", "PPP"]
+        }
+      },
+      "end_to_end": {
+        "description": "Intelligence at edges, simplicity in network",
+        "implementation": "Routers just forward, endpoints handle complexity",
+        "benefits": ["Scalability", "Innovation without network changes"]
+      },
+      "distributed_control": {
+        "description": "No central authority",
+        "features": ["Autonomous systems", "Voluntary cooperation", "No single point of failure"]
+      }
+    },
+    "physical_infrastructure": {
+      "fiber_optic": {
+        "types": {
+          "single_mode": {
+            "core_diameter_um": 8.5,
+            "distance_km": 100,
+            "capacity_gbps": 400,
+            "wavelengths": 80
+          },
+          "multi_mode": {
+            "core_diameter_um": 50,
+            "distance_km": 2,
+            "use_case": "Data centers"
+          }
+        },
+        "technologies": {
+          "DWDM": {
+            "channels": 80,
+            "spacing_ghz": 100,
+            "total_capacity_tbps": 30
+          }
+        }
+      },
+      "submarine_cables": {
+        "characteristics": {
+          "length_km": 10000,
+          "depth_m": 8000,
+          "fiber_pairs": 16,
+          "repeater_spacing_km": 80,
+          "lifespan_years": 25,
+          "cost_million_usd": 500
+        },
+        "traffic_percentage": 99
+      },
+      "data_centers": {
+        "tiers": {
+          "tier_1": {"uptime_percent": 99.671, "downtime_hours_year": 28.8},
+          "tier_2": {"uptime_percent": 99.741, "downtime_hours_year": 22},
+          "tier_3": {"uptime_percent": 99.982, "downtime_hours_year": 1.6},
+          "tier_4": {"uptime_percent": 99.995, "downtime_hours_year": 0.4}
+        },
+        "power": {
+          "consumption_mw": 100,
+          "pue_target": 1.2,
+          "cooling_percentage": 40
+        }
+      },
+      "last_mile": {
+        "technologies": {
+          "DSL": {
+            "max_speed_mbps": 100,
+            "max_distance_km": 5.5,
+            "medium": "Copper phone lines"
+          },
+          "Cable": {
+            "DOCSIS_3_1": {
+              "downstream_gbps": 10,
+              "upstream_gbps": 2,
+              "shared": true
+            }
+          },
+          "FTTH": {
+            "GPON": {
+              "downstream_gbps": 2.5,
+              "upstream_gbps": 1.25,
+              "split_ratio": 64
+            },
+            "XGS_PON": {
+              "symmetric_gbps": 10
+            }
+          },
+          "5G": {
+            "latency_ms": 1,
+            "speed_gbps": 10,
+            "frequency_ghz": [3.5, 28, 39]
+          }
+        }
+      }
+    },
+    "protocols": {
+      "TCP": {
+        "features": ["Reliable", "Ordered", "Flow control", "Congestion control"],
+        "header_size_bytes": 20,
+        "window_scaling": true,
+        "algorithms": {
+          "congestion_control": ["Cubic", "BBR", "Reno", "NewReno"]
+        }
+      },
+      "UDP": {
+        "features": ["Unreliable", "Unordered", "No flow control", "Minimal overhead"],
+        "header_size_bytes": 8,
+        "use_cases": ["DNS", "VoIP", "Gaming", "Video streaming"]
+      },
+      "QUIC": {
+        "features": ["0-RTT", "Multiplexing", "Connection migration", "Built-in encryption"],
+        "based_on": "UDP",
+        "adoption_percent": 30
+      },
+      "IPv4": {
+        "address_bits": 32,
+        "total_addresses": 4294967296,
+        "header_size_bytes": 20,
+        "fragmentation": "By routers"
+      },
+      "IPv6": {
+        "address_bits": 128,
+        "total_addresses": "3.4e38",
+        "header_size_bytes": 40,
+        "fragmentation": "Only by source",
+        "features": ["Autoconfiguration", "No NAT required", "Extension headers"]
+      }
+    },
+    "routing": {
+      "BGP": {
+        "type": "Path vector",
+        "scope": "Internet-wide",
+        "routes": 950000,
+        "attributes": ["AS_PATH", "LOCAL_PREF", "MED", "WEIGHT"],
+        "security": {
+          "issues": ["Route hijacking", "Route leaks"],
+          "solutions": ["RPKI", "ROV", "BGPsec"]
+        }
+      },
+      "OSPF": {
+        "type": "Link state",
+        "algorithm": "Dijkstra SPF",
+        "scope": "Within AS",
+        "areas": true,
+        "convergence_seconds": 5
+      },
+      "routing_table": {
+        "lookup_method": "Longest prefix match",
+        "hardware": "TCAM",
+        "speed_lookups_per_second": 1000000000
+      }
+    },
+    "DNS": {
+      "hierarchy": {
+        "root": {
+          "servers": 13,
+          "actual_instances": 1500,
+          "queries_per_year": 1000000000000
+        },
+        "TLD": {
+          "generic": [".com", ".org", ".net"],
+          "country_code": 250,
+          "new_gTLDs": 1200
+        }
+      },
+      "record_types": {
+        "A": "IPv4 address",
+        "AAAA": "IPv6 address",
+        "CNAME": "Canonical name",
+        "MX": "Mail exchanger",
+        "NS": "Name server",
+        "TXT": "Text data",
+        "SOA": "Start of authority"
+      },
+      "security": {
+        "DNSSEC": {
+          "adoption_percent": 30,
+          "chain_of_trust": true,
+          "records": ["RRSIG", "DNSKEY", "DS", "NSEC3"]
+        },
+        "encrypted": {
+          "DoT": {"port": 853, "protocol": "TLS"},
+          "DoH": {"port": 443, "protocol": "HTTPS"}
+        }
+      }
+    },
+    "security": {
+      "TLS": {
+        "versions": {
+          "1.2": {"handshake_rtt": 2, "status": "Current"},
+          "1.3": {"handshake_rtt": 1, "status": "Modern", "features": ["0-RTT", "Encrypted certificates"]}
+        },
+        "cipher_suites": {
+          "recommended": [
+            "TLS_AES_256_GCM_SHA384",
+            "TLS_AES_128_GCM_SHA256",
+            "TLS_CHACHA20_POLY1305_SHA256"
+          ]
+        }
+      },
+      "certificates": {
+        "types": {
+          "DV": {"validation": "Domain control", "cost": "Free-$10"},
+          "OV": {"validation": "Organization verified", "cost": "$50-200"},
+          "EV": {"validation": "Extended validation", "cost": "$150-500"}
+        },
+        "validity_days_max": 397
+      },
+      "VPN": {
+        "protocols": {
+          "OpenVPN": {"transport": "TCP/UDP", "port": 1194},
+          "WireGuard": {"transport": "UDP", "port": 51820, "code_lines": 4000},
+          "IPSec": {"modes": ["Transport", "Tunnel"], "complexity": "High"}
+        }
+      }
+    },
+    "content_delivery": {
+      "CDN": {
+        "architecture": {
+          "edge_servers": "Serve cached content",
+          "origin_shield": "Protects origin",
+          "PoPs": 300
+        },
+        "benefits": {
+          "latency_reduction_percent": 50,
+          "bandwidth_savings_percent": 60,
+          "availability_improvement": "10x"
+        }
+      },
+      "caching": {
+        "levels": ["Browser", "Service Worker", "CDN Edge", "Origin Shield"],
+        "strategies": ["Cache-Control", "ETags", "Vary headers"],
+        "invalidation": ["TTL expiry", "Purge", "Soft purge"]
+      }
+    },
+    "performance": {
+      "metrics": {
+        "Core_Web_Vitals": {
+          "LCP": {"good_ms": 2500, "poor_ms": 4000},
+          "FID": {"good_ms": 100, "poor_ms": 300},
+          "CLS": {"good": 0.1, "poor": 0.25}
+        }
+      },
+      "optimization": {
+        "techniques": [
+          "Compression",
+          "Minification",
+          "Code splitting",
+          "Lazy loading",
+          "Preloading",
+          "Service workers"
+        ],
+        "image_formats": {
+          "WebP": {"size_reduction_percent": 30},
+          "AVIF": {"size_reduction_percent": 50}
+        }
+      }
+    },
+    "emerging": {
+      "HTTP3": {
+        "transport": "QUIC",
+        "adoption_percent": 30,
+        "benefits": ["No head-of-line blocking", "0-RTT", "Connection migration"]
+      },
+      "IoT": {
+        "protocols": ["MQTT", "CoAP", "LoRaWAN"],
+        "challenges": ["Power", "Security", "Scale"],
+        "devices_billions": 30
+      },
+      "edge_computing": {
+        "locations": ["Regional edge", "Network edge", "Device edge"],
+        "use_cases": ["AR/VR", "IoT processing", "Content filtering"]
+      }
+    }
+  }
+}

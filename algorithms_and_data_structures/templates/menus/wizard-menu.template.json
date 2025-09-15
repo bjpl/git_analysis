@@ -1,0 +1,406 @@
+{
+  "name": "Multi-Step Wizard Menu",
+  "version": "1.0.0",
+  "description": "A comprehensive wizard-style menu template for step-by-step processes",
+  "theme": "default",
+  "type": "wizard",
+  "settings": {
+    "searchable": false,
+    "showIcons": true,
+    "showShortcuts": true,
+    "animationsEnabled": true,
+    "maxDisplayItems": 10,
+    "allowBackNavigation": true,
+    "showProgress": true,
+    "requireCompletion": true,
+    "saveProgress": true
+  },
+  "wizard": {
+    "totalSteps": 5,
+    "currentStep": 1,
+    "completedSteps": [],
+    "canSkipSteps": false,
+    "progressIndicator": "bar",
+    "exitConfirmation": true
+  },
+  "items": [
+    {
+      "id": "step-1-welcome",
+      "label": "Welcome & Introduction",
+      "description": "Get started with the setup wizard",
+      "icon": "👋",
+      "category": "wizard-step",
+      "step": 1,
+      "required": true,
+      "priority": 10,
+      "accessibility": {
+        "ariaLabel": "Welcome and introduction step",
+        "role": "region",
+        "screenReaderText": "First step of the setup wizard - welcome and introduction"
+      },
+      "validation": {
+        "type": "acknowledgment",
+        "message": "Please acknowledge that you've read the introduction"
+      },
+      "content": {
+        "title": "Welcome to the Setup Wizard",
+        "body": "This wizard will guide you through a complete setup process in 5 easy steps.",
+        "tips": [
+          "Take your time to read each step carefully",
+          "You can go back to previous steps if needed",
+          "Your progress will be automatically saved"
+        ]
+      },
+      "action": "showWelcomeStep",
+      "nextStep": "step-2-account",
+      "canProceed": false
+    },
+    {
+      "id": "step-2-account",
+      "label": "Account Configuration",
+      "description": "Set up your account details and preferences",
+      "icon": "👤",
+      "category": "wizard-step",
+      "step": 2,
+      "required": true,
+      "priority": 9,
+      "accessibility": {
+        "ariaLabel": "Account configuration step",
+        "screenReaderText": "Second step - configure your account details and preferences"
+      },
+      "validation": {
+        "type": "form",
+        "required": ["username", "email"],
+        "patterns": {
+          "email": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+          "username": "^[a-zA-Z0-9_]{3,20}$"
+        }
+      },
+      "content": {
+        "title": "Account Setup",
+        "fields": [
+          {
+            "name": "username",
+            "label": "Username",
+            "type": "text",
+            "placeholder": "Enter your username",
+            "required": true,
+            "minLength": 3,
+            "maxLength": 20
+          },
+          {
+            "name": "email",
+            "label": "Email Address",
+            "type": "email",
+            "placeholder": "Enter your email",
+            "required": true
+          },
+          {
+            "name": "fullName",
+            "label": "Full Name",
+            "type": "text",
+            "placeholder": "Enter your full name"
+          }
+        ]
+      },
+      "action": "showAccountStep",
+      "previousStep": "step-1-welcome",
+      "nextStep": "step-3-preferences",
+      "canProceed": false
+    },
+    {
+      "id": "step-3-preferences",
+      "label": "User Preferences",
+      "description": "Customize your experience with personal preferences",
+      "icon": "⚙️",
+      "category": "wizard-step",
+      "step": 3,
+      "required": true,
+      "priority": 8,
+      "accessibility": {
+        "ariaLabel": "User preferences configuration",
+        "screenReaderText": "Third step - customize your experience with preferences"
+      },
+      "validation": {
+        "type": "selection",
+        "minSelections": 1
+      },
+      "content": {
+        "title": "Personalize Your Experience",
+        "sections": [
+          {
+            "name": "appearance",
+            "label": "Appearance",
+            "type": "radio",
+            "options": [
+              { "value": "light", "label": "Light Theme", "icon": "☀️" },
+              { "value": "dark", "label": "Dark Theme", "icon": "🌙" },
+              { "value": "auto", "label": "Auto (System)", "icon": "🔄" }
+            ],
+            "default": "auto"
+          },
+          {
+            "name": "notifications",
+            "label": "Notifications",
+            "type": "checkbox",
+            "options": [
+              { "value": "email", "label": "Email Notifications", "default": true },
+              { "value": "push", "label": "Push Notifications", "default": false },
+              { "value": "sms", "label": "SMS Notifications", "default": false }
+            ]
+          },
+          {
+            "name": "language",
+            "label": "Language",
+            "type": "select",
+            "options": [
+              { "value": "en", "label": "English" },
+              { "value": "es", "label": "Español" },
+              { "value": "fr", "label": "Français" },
+              { "value": "de", "label": "Deutsch" }
+            ],
+            "default": "en"
+          }
+        ]
+      },
+      "action": "showPreferencesStep",
+      "previousStep": "step-2-account",
+      "nextStep": "step-4-features",
+      "canProceed": false
+    },
+    {
+      "id": "step-4-features",
+      "label": "Feature Selection",
+      "description": "Choose which features you'd like to enable",
+      "icon": "🚀",
+      "category": "wizard-step",
+      "step": 4,
+      "required": false,
+      "priority": 7,
+      "accessibility": {
+        "ariaLabel": "Feature selection step",
+        "screenReaderText": "Fourth step - choose features to enable for your account"
+      },
+      "validation": {
+        "type": "optional"
+      },
+      "content": {
+        "title": "Choose Your Features",
+        "description": "Select the features you want to enable. You can change these later in settings.",
+        "categories": [
+          {
+            "name": "ai",
+            "label": "AI Features",
+            "description": "Enhance your experience with artificial intelligence",
+            "features": [
+              {
+                "id": "ai-suggestions",
+                "label": "AI Suggestions",
+                "description": "Get personalized recommendations",
+                "icon": "🤖",
+                "recommended": true,
+                "beta": false
+              },
+              {
+                "id": "smart-search",
+                "label": "Smart Search",
+                "description": "Enhanced search with natural language",
+                "icon": "🔍",
+                "recommended": true,
+                "beta": false
+              },
+              {
+                "id": "auto-categorization",
+                "label": "Auto Categorization",
+                "description": "Automatically organize your content",
+                "icon": "📂",
+                "recommended": false,
+                "beta": true
+              }
+            ]
+          },
+          {
+            "name": "collaboration",
+            "label": "Collaboration",
+            "description": "Work together with team members",
+            "features": [
+              {
+                "id": "real-time-sync",
+                "label": "Real-time Sync",
+                "description": "Sync changes instantly across devices",
+                "icon": "🔄",
+                "recommended": true,
+                "beta": false
+              },
+              {
+                "id": "team-chat",
+                "label": "Team Chat",
+                "description": "Built-in messaging for your team",
+                "icon": "💬",
+                "recommended": false,
+                "beta": false
+              },
+              {
+                "id": "shared-workspaces",
+                "label": "Shared Workspaces",
+                "description": "Collaborate in shared environments",
+                "icon": "👥",
+                "recommended": true,
+                "beta": false
+              }
+            ]
+          },
+          {
+            "name": "productivity",
+            "label": "Productivity",
+            "description": "Tools to boost your productivity",
+            "features": [
+              {
+                "id": "keyboard-shortcuts",
+                "label": "Keyboard Shortcuts",
+                "description": "Navigate faster with shortcuts",
+                "icon": "⌨️",
+                "recommended": true,
+                "beta": false
+              },
+              {
+                "id": "bulk-actions",
+                "label": "Bulk Actions",
+                "description": "Perform actions on multiple items",
+                "icon": "⚡",
+                "recommended": false,
+                "beta": false
+              },
+              {
+                "id": "automation-rules",
+                "label": "Automation Rules",
+                "description": "Automate repetitive tasks",
+                "icon": "🔧",
+                "recommended": false,
+                "beta": true
+              }
+            ]
+          }
+        ]
+      },
+      "action": "showFeaturesStep",
+      "previousStep": "step-3-preferences",
+      "nextStep": "step-5-review",
+      "canProceed": true
+    },
+    {
+      "id": "step-5-review",
+      "label": "Review & Confirm",
+      "description": "Review your settings and complete the setup",
+      "icon": "✅",
+      "category": "wizard-step",
+      "step": 5,
+      "required": true,
+      "priority": 6,
+      "accessibility": {
+        "ariaLabel": "Review and confirmation step",
+        "screenReaderText": "Final step - review your settings and complete the setup"
+      },
+      "validation": {
+        "type": "confirmation",
+        "message": "Please confirm that all settings are correct"
+      },
+      "content": {
+        "title": "Review Your Setup",
+        "description": "Please review your configuration before completing the setup.",
+        "sections": [
+          {
+            "name": "account",
+            "label": "Account Information",
+            "fields": ["username", "email", "fullName"]
+          },
+          {
+            "name": "preferences",
+            "label": "Preferences",
+            "fields": ["theme", "language", "notifications"]
+          },
+          {
+            "name": "features",
+            "label": "Selected Features",
+            "showCount": true
+          }
+        ],
+        "actions": [
+          {
+            "label": "Complete Setup",
+            "type": "primary",
+            "action": "completeWizard"
+          },
+          {
+            "label": "Save as Draft",
+            "type": "secondary",
+            "action": "saveDraft"
+          }
+        ]
+      },
+      "action": "showReviewStep",
+      "previousStep": "step-4-features",
+      "isLastStep": true,
+      "canProceed": false
+    }
+  ],
+  "navigation": {
+    "showStepNumbers": true,
+    "showProgressBar": true,
+    "allowJumpToStep": false,
+    "confirmExit": true,
+    "buttons": {
+      "previous": {
+        "label": "← Previous",
+        "shortcut": "Alt+Left"
+      },
+      "next": {
+        "label": "Next →",
+        "shortcut": "Alt+Right"
+      },
+      "finish": {
+        "label": "Complete Setup",
+        "shortcut": "Ctrl+Enter"
+      },
+      "cancel": {
+        "label": "Cancel",
+        "shortcut": "Escape"
+      }
+    }
+  },
+  "states": {
+    "incomplete": {
+      "icon": "⭕",
+      "color": "gray"
+    },
+    "current": {
+      "icon": "🔵",
+      "color": "blue"
+    },
+    "completed": {
+      "icon": "✅",
+      "color": "green"
+    },
+    "error": {
+      "icon": "❌",
+      "color": "red"
+    }
+  },
+  "messages": {
+    "exitConfirmation": "Are you sure you want to exit? Your progress will be saved.",
+    "stepIncomplete": "Please complete all required fields before continuing.",
+    "validationError": "Please correct the errors before proceeding.",
+    "setupComplete": "Congratulations! Your setup is complete.",
+    "progressSaved": "Your progress has been automatically saved."
+  },
+  "metadata": {
+    "created": "2025-01-12T20:00:00Z",
+    "author": "Menu Builder CLI",
+    "tags": ["wizard", "setup", "step-by-step", "configuration"],
+    "version": "1.0.0",
+    "compatibility": {
+      "minVersion": "1.0.0",
+      "platforms": ["web", "desktop", "mobile"]
+    }
+  }
+}

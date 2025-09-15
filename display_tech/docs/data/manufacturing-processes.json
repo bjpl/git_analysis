@@ -1,0 +1,416 @@
+{
+  "manufacturingProcesses": {
+    "lcd-fabrication": {
+      "technology": "LCD",
+      "processName": "TFT-LCD Manufacturing",
+      "stages": [
+        {
+          "step": "substrate-preparation",
+          "description": "Glass substrate cleaning and preparation",
+          "equipment": ["Glass washing systems", "Plasma cleaners", "Surface treatment"],
+          "temperature": 200,
+          "pressure": "Vacuum (10^-6 Torr)",
+          "duration": "2-4 hours",
+          "parameters": {
+            "glassType": "Low-alkali borosilicate",
+            "thickness": "0.4-0.7mm",
+            "surfaceRoughness": "<1nm"
+          }
+        },
+        {
+          "step": "tft-formation",
+          "description": "Thin Film Transistor array formation",
+          "equipment": ["Sputtering systems", "CVD reactors", "Photolithography"],
+          "temperature": 350,
+          "pressure": "10^-6 to 10^-3 Torr",
+          "duration": "8-12 hours",
+          "parameters": {
+            "materials": ["Amorphous silicon", "Metal oxides", "ITO"],
+            "layerThickness": "50-200nm",
+            "transistorCount": "2-8 million"
+          }
+        },
+        {
+          "step": "color-filter",
+          "description": "RGB color filter array creation",
+          "equipment": ["Spin coaters", "UV exposure", "Development systems"],
+          "temperature": 230,
+          "pressure": "Atmospheric",
+          "duration": "6-8 hours",
+          "parameters": {
+            "colorants": ["Red pigment CR-2036", "Green pigment CG-3618", "Blue pigment CB-4040"],
+            "filterThickness": "1.5-2.5μm",
+            "aperture ratio": "85-95%"
+          }
+        },
+        {
+          "step": "liquid-crystal-injection",
+          "description": "Liquid crystal material injection and sealing",
+          "equipment": ["Vacuum injection", "UV sealing", "Annealing ovens"],
+          "temperature": 120,
+          "pressure": "Vacuum",
+          "duration": "4-6 hours",
+          "parameters": {
+            "lcMaterial": "5CB, E7, or custom mixtures",
+            "cellGap": "3-8μm",
+            "alignment": "Homogeneous or vertical"
+          }
+        },
+        {
+          "step": "polarizer-attachment",
+          "description": "Polarizing film lamination",
+          "equipment": ["Lamination machines", "UV curing", "Precision alignment"],
+          "temperature": 80,
+          "pressure": "Atmospheric",
+          "duration": "2-3 hours",
+          "parameters": {
+            "polarizerType": "TAC-based or PVA",
+            "transmittance": ">42%",
+            "extinction ratio": ">10000:1"
+          }
+        }
+      ],
+      "qualityControl": {
+        "inspectionPoints": [
+          "Substrate defect detection",
+          "TFT electrical testing",
+          "Color uniformity measurement",
+          "LC alignment verification",
+          "Final optical testing"
+        ],
+        "tolerances": {
+          "pixelDefects": "<3 per million",
+          "colorAccuracy": "ΔE <2",
+          "uniformity": ">90%"
+        }
+      },
+      "yield": {
+        "typical": 85,
+        "factors": ["Substrate quality", "Contamination control", "Process stability"]
+      }
+    },
+    "oled-fabrication": {
+      "technology": "OLED",
+      "processName": "OLED Manufacturing",
+      "stages": [
+        {
+          "step": "substrate-cleaning",
+          "description": "Ultra-clean substrate preparation",
+          "equipment": ["Megasonic cleaners", "Plasma etchers", "UV-ozone treatment"],
+          "temperature": 150,
+          "pressure": "Ultra-high vacuum (10^-9 Torr)",
+          "duration": "3-5 hours",
+          "parameters": {
+            "substrate": "Glass or flexible plastic",
+            "cleanliness": "Class 1 cleanroom",
+            "particleCount": "<1 per cm²"
+          }
+        },
+        {
+          "step": "anode-formation",
+          "description": "Transparent conductive anode deposition",
+          "equipment": ["Sputtering systems", "E-beam evaporation"],
+          "temperature": 200,
+          "pressure": "10^-6 Torr",
+          "duration": "2-3 hours",
+          "parameters": {
+            "material": "ITO or Silver nanowires",
+            "thickness": "100-150nm",
+            "sheetResistance": "10-20 Ω/sq"
+          }
+        },
+        {
+          "step": "organic-layers",
+          "description": "Organic semiconductor layer deposition",
+          "equipment": ["Thermal evaporation", "OVPD", "Solution processing"],
+          "temperature": 85,
+          "pressure": "Ultra-high vacuum (10^-8 Torr)",
+          "duration": "4-8 hours",
+          "parameters": {
+            "layers": ["HIL", "HTL", "EML", "ETL", "EIL"],
+            "thickness": "5-100nm per layer",
+            "materials": ["NPB", "Alq3", "CBP", "Various dopants"]
+          }
+        },
+        {
+          "step": "cathode-deposition",
+          "description": "Metal cathode layer formation",
+          "equipment": ["Thermal evaporation", "Sputtering"],
+          "temperature": 25,
+          "pressure": "10^-7 Torr",
+          "duration": "1-2 hours",
+          "parameters": {
+            "materials": ["Aluminum", "Calcium", "Lithium compounds"],
+            "thickness": "100-200nm",
+            "workFunction": "2.8-4.0 eV"
+          }
+        },
+        {
+          "step": "encapsulation",
+          "description": "Moisture and oxygen barrier application",
+          "equipment": ["ALD systems", "Lamination", "UV curing"],
+          "temperature": 80,
+          "pressure": "Atmospheric",
+          "duration": "2-4 hours",
+          "parameters": {
+            "barrier": "Al2O3/Polymer multilayer",
+            "wvtr": "<10^-6 g/m²/day",
+            "otr": "<10^-5 cc/m²/day"
+          }
+        }
+      ],
+      "qualityControl": {
+        "inspectionPoints": [
+          "Substrate inspection",
+          "Layer thickness monitoring",
+          "Organic purity verification",
+          "Electrical testing",
+          "Lifetime testing"
+        ],
+        "tolerances": {
+          "pixelDefects": "<1 per million",
+          "colorShift": "<3% over lifetime",
+          "efficiency": ">20 cd/A"
+        }
+      },
+      "yield": {
+        "typical": 70,
+        "factors": ["Contamination sensitivity", "Organic degradation", "Process complexity"]
+      }
+    },
+    "microled-fabrication": {
+      "technology": "MicroLED",
+      "processName": "MicroLED Manufacturing",
+      "stages": [
+        {
+          "step": "epitaxial-growth",
+          "description": "LED epitaxial wafer growth",
+          "equipment": ["MOCVD reactors", "MBE systems"],
+          "temperature": 1050,
+          "pressure": "Low pressure (0.1-1 Torr)",
+          "duration": "8-12 hours",
+          "parameters": {
+            "substrate": "Sapphire or GaN",
+            "layers": ["n-GaN", "InGaN/GaN MQW", "p-GaN"],
+            "thickness": "2-5μm total"
+          }
+        },
+        {
+          "step": "mesa-definition",
+          "description": "Individual LED pixel isolation",
+          "equipment": ["Dry etching", "Photolithography", "RIE"],
+          "temperature": 150,
+          "pressure": "10^-3 Torr",
+          "duration": "4-6 hours",
+          "parameters": {
+            "pixelSize": "1-10μm",
+            "pitch": "2-20μm",
+            "etchDepth": "500-1000nm"
+          }
+        },
+        {
+          "step": "mass-transfer",
+          "description": "LED transfer to display substrate",
+          "equipment": ["Pick-and-place", "Fluid assembly", "Laser lift-off"],
+          "temperature": 25,
+          "pressure": "Atmospheric",
+          "duration": "12-24 hours",
+          "parameters": {
+            "transferRate": "10^6 pixels/hour",
+            "accuracy": "±0.5μm",
+            "yield": "99.99%"
+          }
+        },
+        {
+          "step": "interconnection",
+          "description": "Electrical connection formation",
+          "equipment": ["Sputtering", "Photolithography", "Etching"],
+          "temperature": 200,
+          "pressure": "10^-6 Torr",
+          "duration": "6-8 hours",
+          "parameters": {
+            "materials": ["Copper", "Silver", "Gold"],
+            "lineWidth": "1-5μm",
+            "resistance": "<10 Ω/contact"
+          }
+        },
+        {
+          "step": "passivation",
+          "description": "Protection layer application",
+          "equipment": ["CVD", "ALD", "Spin coating"],
+          "temperature": 200,
+          "pressure": "Atmospheric",
+          "duration": "2-4 hours",
+          "parameters": {
+            "materials": ["SiO2", "Si3N4", "Polymer"],
+            "thickness": "100-500nm",
+            "coverage": "Conformal"
+          }
+        }
+      ],
+      "qualityControl": {
+        "inspectionPoints": [
+          "Epitaxial quality check",
+          "Transfer accuracy verification",
+          "Electrical continuity test",
+          "Optical uniformity measurement",
+          "Lifetime qualification"
+        ],
+        "tolerances": {
+          "transferYield": ">99.99%",
+          "wavelengthUniformity": "±2nm",
+          "brightnessUniformity": "±5%"
+        }
+      },
+      "yield": {
+        "typical": 95,
+        "factors": ["Transfer process", "Interconnect reliability", "LED quality"]
+      }
+    },
+    "e-paper-fabrication": {
+      "technology": "E-Paper",
+      "processName": "Electrophoretic Display Manufacturing",
+      "stages": [
+        {
+          "step": "microcapsule-preparation",
+          "description": "Electrophoretic microcapsule synthesis",
+          "equipment": ["Microfluidic systems", "Emulsification", "Polymerization"],
+          "temperature": 60,
+          "pressure": "Atmospheric",
+          "duration": "6-12 hours",
+          "parameters": {
+            "capsuleSize": "30-50μm",
+            "particles": "TiO2 (white), Carbon black (black)",
+            "fluid": "Hydrocarbon-based dielectric"
+          }
+        },
+        {
+          "step": "ink-formulation",
+          "description": "E-ink suspension preparation",
+          "equipment": ["High-speed mixers", "Sonication", "Filtration"],
+          "temperature": 25,
+          "pressure": "Atmospheric",
+          "duration": "4-6 hours",
+          "parameters": {
+            "solidContent": "15-25%",
+            "viscosity": "50-200 cP",
+            "particleDistribution": "Uniform"
+          }
+        },
+        {
+          "step": "coating",
+          "description": "E-ink layer application",
+          "equipment": ["Slot-die coating", "Curtain coating", "Gravure"],
+          "temperature": 40,
+          "pressure": "Atmospheric",
+          "duration": "2-4 hours",
+          "parameters": {
+            "thickness": "15-40μm",
+            "uniformity": "±2μm",
+            "defectDensity": "<0.1/cm²"
+          }
+        },
+        {
+          "step": "lamination",
+          "description": "Protective layer lamination",
+          "equipment": ["Roll laminators", "Heat press"],
+          "temperature": 120,
+          "pressure": "5-10 bar",
+          "duration": "1-2 hours",
+          "parameters": {
+            "adhesive": "UV-curable or hot-melt",
+            "thickness": "25-50μm",
+            "bondStrength": ">10 N/cm"
+          }
+        }
+      ],
+      "qualityControl": {
+        "inspectionPoints": [
+          "Microcapsule size distribution",
+          "Coating uniformity",
+          "Switching performance",
+          "Image quality assessment"
+        ],
+        "tolerances": {
+          "contrastRatio": ">10:1",
+          "switchingTime": "<300ms",
+          "imageRetention": "<2%"
+        }
+      },
+      "yield": {
+        "typical": 90,
+        "factors": ["Coating uniformity", "Encapsulation integrity", "Substrate handling"]
+      }
+    }
+  },
+  "equipmentDatabase": {
+    "sputtering": {
+      "function": "Thin film deposition",
+      "technologies": ["LCD", "OLED", "MicroLED"],
+      "specifications": {
+        "temperature": "25-500°C",
+        "pressure": "10^-8 to 10^-2 Torr",
+        "uniformity": "±2%",
+        "throughput": "50-200 wafers/hour"
+      }
+    },
+    "cvd": {
+      "function": "Chemical vapor deposition",
+      "technologies": ["LCD", "OLED"],
+      "specifications": {
+        "temperature": "200-600°C",
+        "pressure": "0.1-760 Torr",
+        "uniformity": "±3%",
+        "throughput": "20-100 wafers/hour"
+      }
+    },
+    "photolithography": {
+      "function": "Pattern definition",
+      "technologies": ["LCD", "OLED", "MicroLED"],
+      "specifications": {
+        "resolution": "0.5-10μm",
+        "alignment": "±0.1μm",
+        "throughput": "30-150 wafers/hour"
+      }
+    },
+    "thermal-evaporation": {
+      "function": "Organic layer deposition",
+      "technologies": ["OLED"],
+      "specifications": {
+        "temperature": "25-300°C",
+        "pressure": "10^-8 to 10^-6 Torr",
+        "rate": "0.1-10 Å/s",
+        "uniformity": "±5%"
+      }
+    }
+  },
+  "processComparison": {
+    "complexity": {
+      "LCD": "Medium",
+      "OLED": "High",
+      "MicroLED": "Very High",
+      "E-Paper": "Low"
+    },
+    "temperatureRequirement": {
+      "LCD": "200-350°C",
+      "OLED": "25-200°C",
+      "MicroLED": "25-1050°C",
+      "E-Paper": "25-120°C"
+    },
+    "cleanroomClass": {
+      "LCD": "Class 10-100",
+      "OLED": "Class 1-10",
+      "MicroLED": "Class 1-10",
+      "E-Paper": "Class 1000"
+    }
+  },
+  "metadata": {
+    "lastUpdated": "2025-01-15T00:00:00Z",
+    "version": "1.0.0",
+    "sources": [
+      "Semiconductor Manufacturing Handbook",
+      "Display Processing Technology Standards",
+      "Industry Manufacturing Guidelines"
+    ]
+  }
+}

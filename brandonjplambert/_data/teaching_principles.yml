@@ -1,0 +1,153 @@
+# Teaching Philosophy & Principles
+principles:
+  - id: situated-learning
+    title_en: Situated & Ecological Learning
+    title_es: Aprendizaje Situado y Ecológico
+    order: 1
+    elaboration_en: >-
+      Language learning happens through interactions between learners, their environments, 
+      and the communities they belong to, not through isolated exercises or mental processing alone. 
+      This approach means placing learning in real-world situations while examining how learners 
+      navigate different social groups, switch between the language expectations of home and school, 
+      and work within institutional structures that influence how they acquire language.
+    elaboration_es: >-
+      El aprendizaje de idiomas ocurre a través de interacciones entre los estudiantes, sus entornos 
+      y las comunidades a las que pertenecen, no a través de ejercicios aislados o procesamiento mental únicamente. 
+      Este enfoque significa situar el aprendizaje en situaciones del mundo real mientras se examina cómo los estudiantes 
+      navegan diferentes grupos sociales, cambian entre las expectativas lingüísticas del hogar y la escuela, 
+      y trabajan dentro de estructuras institucionales que influyen en cómo adquieren el idioma.
+    
+  - id: dialogic-construction
+    title_en: Dialogic & Social Construction
+    title_es: Construcción Dialógica y Social
+    order: 2
+    elaboration_en: >-
+      Language develops through social interaction and connections between texts, contexts, and people, 
+      not through individual processing or one-way teaching. Learning happens when people build understanding 
+      together through collaborative activities, with social interaction driving the process and materials 
+      serving as tools that help people become part of language communities.
+    elaboration_es: >-
+      El lenguaje se desarrolla a través de la interacción social y las conexiones entre textos, contextos y personas, 
+      no a través del procesamiento individual o la enseñanza unidireccional. El aprendizaje ocurre cuando las personas 
+      construyen comprensión juntas a través de actividades colaborativas, con la interacción social impulsando el proceso 
+      y los materiales sirviendo como herramientas que ayudan a las personas a formar parte de comunidades lingüísticas.
+    
+  - id: identity-development
+    title_en: Transformational Identity Development
+    title_es: Desarrollo Transformacional de la Identidad
+    order: 3
+    elaboration_en: >-
+      Language learning changes learners' identity, motivation, and sense of self by affecting not just 
+      what students can say but who they can become. This transformation means teachers need to follow 
+      how students' identities evolve through their learning stories while supporting them through these changes.
+    elaboration_es: >-
+      El aprendizaje de idiomas cambia la identidad, motivación y sentido de sí mismo de los estudiantes, 
+      afectando no solo lo que pueden decir sino en quién pueden convertirse. Esta transformación significa 
+      que los profesores necesitan seguir cómo evolucionan las identidades de los estudiantes a través de 
+      sus historias de aprendizaje mientras los apoyan en estos cambios.
+    
+  - id: person-context
+    title_en: Person-in-Context & Power Dynamics
+    title_es: Persona en Contexto y Dinámicas de Poder
+    order: 4
+    elaboration_en: >-
+      Learners and teachers should be understood as whole persons with their own histories, goals, 
+      and multiple identities. This means recognizing and addressing power imbalances by creating 
+      collaborative spaces instead of hierarchies, openly discussing language-related privileges, 
+      and building supportive relationships while staying aware of everyone's position and power dynamics.
+    elaboration_es: >-
+      Los estudiantes y profesores deben ser entendidos como personas completas con sus propias historias, 
+      metas e identidades múltiples. Esto significa reconocer y abordar los desequilibrios de poder creando 
+      espacios colaborativos en lugar de jerarquías, discutiendo abiertamente los privilegios relacionados con el idioma, 
+      y construyendo relaciones de apoyo mientras se mantiene conciencia de la posición y dinámicas de poder de todos.
+    
+  - id: multi-competence
+    title_en: Multi-Competence & Translingual Resources
+    title_es: Multicompetencia y Recursos Translingües
+    order: 5
+    elaboration_en: >-
+      All languages a learner knows are interconnected resources that should be actively used rather 
+      than suppressed. The multilingual mind is greater than the sum of its parts. This means using 
+      first languages as support, making clear the cognitive connections between languages, and 
+      recognizing cross-language practices as natural and productive.
+    elaboration_es: >-
+      Todos los idiomas que conoce un estudiante son recursos interconectados que deben usarse activamente 
+      en lugar de suprimirse. La mente multilingüe es mayor que la suma de sus partes. Esto significa usar 
+      los primeros idiomas como apoyo, aclarar las conexiones cognitivas entre idiomas, y reconocer las 
+      prácticas translingües como naturales y productivas.
+    
+  - id: communities-practice
+    title_en: Communities of Practice & Socialization
+    title_es: Comunidades de Práctica y Socialización
+    order: 6
+    elaboration_en: >-
+      Language learning means moving from the edges to full participation in communities of practice, 
+      with proficiency meaning membership rather than abstract knowledge. This involves supporting 
+      learners' initial participation at the margins, helping them move toward core membership, 
+      and exposing them to authentic cultural interactions that teach practical communication skills alongside grammar.
+    elaboration_es: >-
+      El aprendizaje de idiomas significa moverse desde los márgenes hasta la participación plena en comunidades de práctica, 
+      con la competencia significando membresía en lugar de conocimiento abstracto. Esto implica apoyar la participación 
+      inicial de los estudiantes en los márgenes, ayudarlos a moverse hacia la membresía central, y exponerlos a 
+      interacciones culturales auténticas que enseñan habilidades de comunicación práctica junto con la gramática.
+    
+  - id: emergent-motivation
+    title_en: Emergent Motivation & Collaborative Construction
+    title_es: Motivación Emergente y Construcción Colaborativa
+    order: 7
+    elaboration_en: >-
+      Motivation develops naturally through relationships and interactions rather than as fixed traits, 
+      growing through positive exchanges and connections to who learners might become. Knowledge builds 
+      collaboratively through democratic practices where teachers and students learn together through 
+      interaction rather than one-way teaching, with curriculum evolving through engagement with learner experiences.
+    elaboration_es: >-
+      La motivación se desarrolla naturalmente a través de relaciones e interacciones en lugar de como rasgos fijos, 
+      creciendo a través de intercambios positivos y conexiones con quién podrían llegar a ser los estudiantes. 
+      El conocimiento se construye colaborativamente a través de prácticas democráticas donde profesores y estudiantes 
+      aprenden juntos a través de la interacción en lugar de la enseñanza unidireccional, con el currículo evolucionando 
+      a través del compromiso con las experiencias de los estudiantes.
+    
+  - id: assessment-development
+    title_en: Assessment & Professional Development
+    title_es: Evaluación y Desarrollo Profesional
+    order: 8
+    elaboration_en: >-
+      Assessment should be systematic, ongoing, and woven into learning experiences, capturing development 
+      over time rather than single moments through portfolios and formative assessment. Teachers need to 
+      engage in continuous self-directed learning, collaboration, and critical reflection, maintaining 
+      the same growth mindset they expect from students.
+    elaboration_es: >-
+      La evaluación debe ser sistemática, continua y entrelazada con las experiencias de aprendizaje, capturando 
+      el desarrollo a lo largo del tiempo en lugar de momentos únicos a través de portafolios y evaluación formativa. 
+      Los profesores necesitan participar en aprendizaje autodirigido continuo, colaboración y reflexión crítica, 
+      manteniendo la misma mentalidad de crecimiento que esperan de los estudiantes.
+    
+  - id: critical-consciousness
+    title_en: Critical Consciousness & Institutional Awareness
+    title_es: Conciencia Crítica y Conciencia Institucional
+    order: 9
+    elaboration_en: >-
+      Language education should help students develop critical awareness about how educational institutions 
+      shape and limit learning. This means questioning assumptions about language and power, developing 
+      student agency, and addressing gaps between school and home while recognizing that schools are not 
+      neutral spaces and that language education is inherently political.
+    elaboration_es: >-
+      La educación lingüística debe ayudar a los estudiantes a desarrollar conciencia crítica sobre cómo las 
+      instituciones educativas dan forma y limitan el aprendizaje. Esto significa cuestionar suposiciones sobre 
+      el lenguaje y el poder, desarrollar la agencia estudiantil, y abordar las brechas entre la escuela y el hogar 
+      mientras se reconoce que las escuelas no son espacios neutrales y que la educación lingüística es inherentemente política.
+    
+  - id: complex-development
+    title_en: Complex Development & Integrated Skills
+    title_es: Desarrollo Complejo y Habilidades Integradas
+    order: 10
+    elaboration_en: >-
+      Language acquisition follows complex, non-linear paths with skills developing holistically across 
+      linguistic, social, emotional, cognitive, and metacognitive dimensions. This ecological process 
+      means accepting individual variation, avoiding rigid sequencing, and creating authentic task 
+      environments where language learned in context transfers to real-world use.
+    elaboration_es: >-
+      La adquisición del lenguaje sigue caminos complejos y no lineales con habilidades desarrollándose 
+      holísticamente a través de dimensiones lingüísticas, sociales, emocionales, cognitivas y metacognitivas. 
+      Este proceso ecológico significa aceptar la variación individual, evitar la secuenciación rígida, 
+      y crear entornos de tareas auténticas donde el lenguaje aprendido en contexto se transfiere al uso del mundo real.

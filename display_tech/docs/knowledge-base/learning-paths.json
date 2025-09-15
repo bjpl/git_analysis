@@ -1,0 +1,398 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-09-10",
+    "description": "Structured learning paths for different user types in display technology",
+    "total_paths": 4,
+    "skill_levels": ["beginner", "intermediate", "advanced"]
+  },
+  "learning_paths": {
+    "beginner_path": {
+      "title": "Display Technology Fundamentals",
+      "description": "Introduction to basic display concepts and common technologies",
+      "target_audience": ["students", "newcomers", "consumers"],
+      "estimated_duration": "4-6 weeks",
+      "prerequisites": ["basic_physics", "general_curiosity"],
+      "learning_objectives": [
+        "Understand how displays create images",
+        "Differentiate between major display types",
+        "Read and interpret basic specifications",
+        "Make informed purchasing decisions"
+      ],
+      "modules": [
+        {
+          "module": 1,
+          "title": "Display Basics",
+          "duration": "1 week",
+          "topics": [
+            "What is a display?",
+            "Pixels and resolution",
+            "Color creation with light",
+            "Human vision and perception"
+          ],
+          "resources": ["display_basics.md", "pixel_demo.html"],
+          "assessments": ["basic_concepts_quiz"],
+          "hands_on": ["pixel_counting_exercise", "resolution_calculator"]
+        },
+        {
+          "module": 2,
+          "title": "LCD Technology",
+          "duration": "2 weeks",
+          "topics": [
+            "How liquid crystals work",
+            "Backlight systems",
+            "Color filters and polarizers",
+            "LCD advantages and limitations"
+          ],
+          "resources": ["lcd_overview.md", "backlight_demo.html"],
+          "assessments": ["lcd_components_quiz"],
+          "hands_on": ["lcd_teardown_guide", "backlight_experiment"]
+        },
+        {
+          "module": 3,
+          "title": "OLED and Modern Displays",
+          "duration": "2 weeks",
+          "topics": [
+            "Self-emissive displays",
+            "OLED advantages",
+            "Burn-in and limitations",
+            "Emerging technologies overview"
+          ],
+          "resources": ["oled_intro.md", "burn_in_demo.html"],
+          "assessments": ["modern_displays_quiz"],
+          "hands_on": ["oled_vs_lcd_comparison", "burn_in_test"]
+        },
+        {
+          "module": 4,
+          "title": "Reading Specifications",
+          "duration": "1 week",
+          "topics": [
+            "Brightness and contrast",
+            "Color gamut basics",
+            "Response time significance",
+            "Marketing vs real specifications"
+          ],
+          "resources": ["specs_guide.md", "spec_calculator.html"],
+          "assessments": ["spec_interpretation_quiz"],
+          "hands_on": ["spec_comparison_exercise", "buying_guide_creation"]
+        }
+      ],
+      "next_paths": ["engineer_path", "designer_path"],
+      "certification": "Display Technology Foundation Certificate"
+    },
+    "engineer_path": {
+      "title": "Display Engineering Deep Dive",
+      "description": "Technical engineering knowledge for display development and manufacturing",
+      "target_audience": ["engineers", "developers", "manufacturing_staff"],
+      "estimated_duration": "12-16 weeks",
+      "prerequisites": ["electrical_engineering", "materials_science", "beginner_path"],
+      "learning_objectives": [
+        "Design display systems",
+        "Understand manufacturing processes",
+        "Troubleshoot display issues",
+        "Optimize display performance"
+      ],
+      "modules": [
+        {
+          "module": 1,
+          "title": "Physics and Optics",
+          "duration": "3 weeks",
+          "topics": [
+            "Light physics and photometry",
+            "Optical properties of materials",
+            "Polarization and birefringence",
+            "Color science and CIE coordinates"
+          ],
+          "resources": ["physics_deep_dive.md", "optical_simulations.html"],
+          "assessments": ["physics_problem_set"],
+          "hands_on": ["polarizer_experiments", "color_measurement_lab"]
+        },
+        {
+          "module": 2,
+          "title": "Electronic Systems",
+          "duration": "3 weeks",
+          "topics": [
+            "TFT operation and characteristics",
+            "Driving circuits and timing",
+            "Signal processing and gamma",
+            "Power management systems"
+          ],
+          "resources": ["electronics_guide.md", "circuit_simulations.html"],
+          "assessments": ["circuit_analysis_exam"],
+          "hands_on": ["tft_characterization", "timing_analysis"]
+        },
+        {
+          "module": 3,
+          "title": "Manufacturing Processes",
+          "duration": "4 weeks",
+          "topics": [
+            "Substrate preparation",
+            "Thin film deposition",
+            "Photolithography processes",
+            "Assembly and testing"
+          ],
+          "resources": ["manufacturing_guide.md", "process_flows.html"],
+          "assessments": ["process_optimization_project"],
+          "hands_on": ["cleanroom_simulation", "yield_analysis"]
+        },
+        {
+          "module": 4,
+          "title": "Quality and Testing",
+          "duration": "3 weeks",
+          "topics": [
+            "Optical measurements",
+            "Electrical characterization",
+            "Reliability testing",
+            "Failure analysis"
+          ],
+          "resources": ["testing_guide.md", "measurement_protocols.html"],
+          "assessments": ["testing_methodology_exam"],
+          "hands_on": ["optical_bench_setup", "lifetime_testing"]
+        },
+        {
+          "module": 5,
+          "title": "Advanced Topics",
+          "duration": "3 weeks",
+          "topics": [
+            "Flexible and foldable displays",
+            "Transparent displays",
+            "High refresh rate systems",
+            "Emerging technologies"
+          ],
+          "resources": ["advanced_topics.md", "research_papers.html"],
+          "assessments": ["technology_roadmap_project"],
+          "hands_on": ["flexible_display_demo", "transparent_oled_build"]
+        }
+      ],
+      "next_paths": ["researcher_path"],
+      "certification": "Display Systems Engineer Certificate"
+    },
+    "designer_path": {
+      "title": "Display Design and User Experience",
+      "description": "Focus on visual design, user experience, and display selection for products",
+      "target_audience": ["ux_designers", "product_managers", "visual_designers"],
+      "estimated_duration": "8-10 weeks",
+      "prerequisites": ["design_basics", "beginner_path"],
+      "learning_objectives": [
+        "Select appropriate displays for products",
+        "Optimize visual design for different display types",
+        "Understand user perception and comfort",
+        "Design for accessibility and readability"
+      ],
+      "modules": [
+        {
+          "module": 1,
+          "title": "Display Metrics for Designers",
+          "duration": "2 weeks",
+          "topics": [
+            "Resolution and pixel density",
+            "Color accuracy and gamut",
+            "Brightness and readability",
+            "Viewing angles and distance"
+          ],
+          "resources": ["designer_metrics.md", "visual_calculators.html"],
+          "assessments": ["metrics_application_quiz"],
+          "hands_on": ["ppi_calculator", "viewing_distance_tool"]
+        },
+        {
+          "module": 2,
+          "title": "Color and Visual Design",
+          "duration": "2 weeks",
+          "topics": [
+            "Color spaces and gamuts",
+            "Color management workflows",
+            "HDR content creation",
+            "Accessibility considerations"
+          ],
+          "resources": ["color_guide.md", "color_tools.html"],
+          "assessments": ["color_workflow_project"],
+          "hands_on": ["gamut_mapping_exercise", "hdr_content_creation"]
+        },
+        {
+          "module": 3,
+          "title": "User Experience Considerations",
+          "duration": "2 weeks",
+          "topics": [
+            "Eye strain and comfort",
+            "Dark mode considerations",
+            "Motion and refresh rates",
+            "Ambient light adaptation"
+          ],
+          "resources": ["ux_guide.md", "comfort_studies.html"],
+          "assessments": ["ux_analysis_project"],
+          "hands_on": ["eye_strain_study", "dark_mode_optimization"]
+        },
+        {
+          "module": 4,
+          "title": "Product Integration",
+          "duration": "2 weeks",
+          "topics": [
+            "Display selection criteria",
+            "Form factor considerations",
+            "Cost vs performance tradeoffs",
+            "Future-proofing strategies"
+          ],
+          "resources": ["integration_guide.md", "selection_tools.html"],
+          "assessments": ["product_specification_project"],
+          "hands_on": ["display_selection_matrix", "cost_analysis_tool"]
+        }
+      ],
+      "next_paths": ["engineer_path"],
+      "certification": "Display Design Specialist Certificate"
+    },
+    "researcher_path": {
+      "title": "Advanced Research and Development",
+      "description": "Cutting-edge research topics and emerging display technologies",
+      "target_audience": ["researchers", "phd_students", "advanced_engineers"],
+      "estimated_duration": "16-20 weeks",
+      "prerequisites": ["engineer_path", "advanced_physics", "materials_science"],
+      "learning_objectives": [
+        "Understand current research frontiers",
+        "Analyze emerging technologies",
+        "Design novel display concepts",
+        "Evaluate technology feasibility"
+      ],
+      "modules": [
+        {
+          "module": 1,
+          "title": "Current Technology Frontiers",
+          "duration": "4 weeks",
+          "topics": [
+            "Micro LED manufacturing challenges",
+            "Quantum dot enhancement mechanisms",
+            "Perovskite display materials",
+            "Neuromorphic visual processing"
+          ],
+          "resources": ["research_frontiers.md", "paper_database.html"],
+          "assessments": ["literature_review_project"],
+          "hands_on": ["technology_assessment", "patent_analysis"]
+        },
+        {
+          "module": 2,
+          "title": "Novel Display Concepts",
+          "duration": "4 weeks",
+          "topics": [
+            "Holographic displays",
+            "Light field displays",
+            "Retinal projection",
+            "Neural interfaces"
+          ],
+          "resources": ["novel_concepts.md", "simulation_tools.html"],
+          "assessments": ["concept_feasibility_study"],
+          "hands_on": ["holographic_simulation", "light_field_demo"]
+        },
+        {
+          "module": 3,
+          "title": "Advanced Materials",
+          "duration": "4 weeks",
+          "topics": [
+            "2D materials in displays",
+            "Organic semiconductors",
+            "Inorganic nanomaterials",
+            "Hybrid organic-inorganic systems"
+          ],
+          "resources": ["materials_research.md", "synthesis_protocols.html"],
+          "assessments": ["materials_characterization_project"],
+          "hands_on": ["material_synthesis", "device_fabrication"]
+        },
+        {
+          "module": 4,
+          "title": "System Integration",
+          "duration": "2 weeks",
+          "topics": [
+            "AI-enhanced displays",
+            "Sensor integration",
+            "Adaptive displays",
+            "Sustainable technologies"
+          ],
+          "resources": ["integration_research.md", "ai_tools.html"],
+          "assessments": ["integration_design_project"],
+          "hands_on": ["ai_calibration_system", "sensor_fusion"]
+        },
+        {
+          "module": 5,
+          "title": "Research Methodology",
+          "duration": "3 weeks",
+          "topics": [
+            "Experimental design",
+            "Data analysis techniques",
+            "Publication strategies",
+            "IP and commercialization"
+          ],
+          "resources": ["research_methods.md", "analysis_tools.html"],
+          "assessments": ["research_proposal"],
+          "hands_on": ["experiment_design", "data_analysis_project"]
+        },
+        {
+          "module": 6,
+          "title": "Future Directions",
+          "duration": "3 weeks",
+          "topics": [
+            "Technology roadmapping",
+            "Market analysis",
+            "Sustainability considerations",
+            "Societal impact"
+          ],
+          "resources": ["future_analysis.md", "roadmap_tools.html"],
+          "assessments": ["technology_roadmap"],
+          "hands_on": ["roadmap_development", "impact_assessment"]
+        }
+      ],
+      "certification": "Advanced Display Research Certificate"
+    }
+  },
+  "cross_path_connections": {
+    "beginner_to_engineer": {
+      "bridge_topics": ["basic_electronics", "materials_introduction"],
+      "preparation_time": "2-3 weeks",
+      "recommended_resources": ["electronics_primer.md", "materials_basics.md"]
+    },
+    "beginner_to_designer": {
+      "bridge_topics": ["visual_perception", "design_principles"],
+      "preparation_time": "1-2 weeks",
+      "recommended_resources": ["perception_guide.md", "design_fundamentals.md"]
+    },
+    "engineer_to_researcher": {
+      "bridge_topics": ["research_methods", "advanced_physics"],
+      "preparation_time": "3-4 weeks",
+      "recommended_resources": ["research_primer.md", "advanced_topics.md"]
+    }
+  },
+  "assessment_criteria": {
+    "beginner": {
+      "knowledge_check": 60,
+      "practical_exercises": 30,
+      "final_project": 10
+    },
+    "intermediate": {
+      "knowledge_check": 40,
+      "practical_exercises": 40,
+      "final_project": 20
+    },
+    "advanced": {
+      "knowledge_check": 30,
+      "practical_exercises": 30,
+      "research_project": 40
+    }
+  },
+  "resources": {
+    "simulation_tools": [
+      "optical_ray_tracing",
+      "color_gamut_visualization",
+      "response_time_calculator",
+      "power_consumption_estimator"
+    ],
+    "reference_materials": [
+      "display_handbook.pdf",
+      "manufacturing_guide.pdf",
+      "standards_compendium.pdf",
+      "research_database_access"
+    ],
+    "hands_on_kits": [
+      "lcd_teardown_kit",
+      "color_measurement_tools",
+      "basic_electronics_kit",
+      "optical_components_set"
+    ]
+  }
+}

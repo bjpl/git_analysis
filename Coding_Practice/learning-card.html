@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Card Component</title>
+    <style>
+        /* TODO: Let's make your card beautiful! */
+        /* Add these styles one at a time and watch the magic: */
+        
+        body {
+            /* Center everything on the page */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: Arial, sans-serif;
+        }
+        
+        .card {
+            /* TODO: Add padding: 20px */
+            /* See how it gets breathing room? */
+            padding: 20px;
+            
+            /* TODO: Add border-radius: 10px */
+            /* Watch the corners become rounded! */
+            border-radius: 10px;
+            
+            /* TODO: Add box-shadow: 0 2px 10px rgba(0,0,0,0.1) */
+            /* Look - it's floating off the page! */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            
+            /* Make it white so we can see it */
+            background: white;
+            
+            /* Control the width */
+            width: 300px;
+            
+            /* Center the content */
+            text-align: center;
+        }
+        
+        .card img {
+            /* Make the image round */
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            /* Add a border */
+            border: 5px solid #667eea;
+        }
+        
+        .card h2 {
+            color: #333;
+            margin: 15px 0 5px 0;
+        }
+        
+        .job-title {
+            color: #667eea;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .bio {
+            color: #666;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            /* This makes it feel smooth */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* TODO: Make your button interactive! */
+        /* When someone hovers, it should lift up slightly */
+        button:hover {
+            /* It moves up! */
+            transform: translateY(-3px);
+            /* Shadow gets bigger! */
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Let's build a profile card! -->
+    <!-- We'll start with structure, then make it pretty -->
+    
+    <!-- TODO: Create a div with class "card" -->
+    <div class="card">
+        <!-- TODO: Add your profile image -->
+        <!-- It should look like this: [Image] -->
+        <!-- Remember: images use the <img> tag -->
+        <img src="https://via.placeholder.com/150" alt="Profile picture">
+        
+        <!-- TODO: Add an h2 with your name -->
+        <h2>Your Name Here</h2>
+        
+        <!-- TODO: Add a job title -->
+        <p class="job-title">Web Developer in Training</p>
+        
+        <!-- TODO: Add a short bio -->
+        <p class="bio">I'm learning to build amazing web components!</p>
+        
+        <!-- TODO: Create a button that says "Click Me!" -->
+        <!-- Remember: buttons use the <button> tag -->
+        <!-- Test it by clicking - nothing will happen yet, that's normal! -->
+        <button>Click Me!</button>
+    </div>
+
+    <script>
+        // TODO: Make the button show an alert when clicked
+        // Hint: onclick="" in HTML or addEventListener in JavaScript
+        // Test by clicking - you should see a popup!
+        
+        // First, let's get our button
+        const button = document.querySelector('button');
+        
+        // TODO: Add click event
+        button.addEventListener('click', function() {
+            alert('Hello! You clicked the button! 🎉');
+        });
+        
+        // Let's make the card interactive too!
+        const card = document.querySelector('.card');
+        let clickCount = 0;
+        
+        // Double-click the card to change the message
+        card.addEventListener('dblclick', function() {
+            clickCount++;
+            const bio = document.querySelector('.bio');
+            bio.textContent = `You've double-clicked ${clickCount} times! Keep learning!`;
+        });
+        
+        // Let's add a fun feature - click the image to spin it!
+        const image = document.querySelector('img');
+        image.style.transition = 'transform 0.5s ease';
+        
+        image.addEventListener('click', function() {
+            // Spin the image!
+            this.style.transform = 'rotate(360deg)';
+            
+            // Reset after animation
+            setTimeout(() => {
+                this.style.transform = 'rotate(0deg)';
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+---
+layout: page
+title: Proyectos de IA
+permalink: /es/proyectos-ia/
+lang: es
+description: Aplicaciones de aprendizaje automático e IA para educación y aprendizaje de idiomas
+---
+
+<!-- Filter Controls -->
+<section class="mb-6">
+  <div class="flex flex-wrap gap-2">
+    <button class="btn btn-secondary filter-btn active" data-filter="all">Todos los Proyectos</button>
+    <button class="btn btn-secondary filter-btn" data-filter="Educational">Educativo</button>
+    <button class="btn btn-secondary filter-btn" data-filter="NLP">PLN</button>
+    <button class="btn btn-secondary filter-btn" data-filter="Computer Vision">Visión por Computadora</button>
+    <button class="btn btn-secondary filter-btn" data-filter="ML Tools">Herramientas ML</button>
+  </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="projects-grid">
+  <div class="grid grid-cols-2 gap-5" id="projects-container">
+    {% for project in site.data.ai_projects.projects %}
+    <div class="card project-card" data-category="{{ project.category }}" id="{{ project.id }}">
+      <div class="flex justify-between items-start mb-3">
+        <h3 class="card-title">{{ project.name }}</h3>
+        <span class="badge {% if project.status == 'Active' %}badge-success{% elsif project.status == 'Completed' %}badge-primary{% else %}badge-warning{% endif %}">
+          {% case project.status %}
+            {% when 'Active' %}
+              {{ site.data.i18n[page.lang].status.active }}
+            {% when 'Completed' %}
+              {{ site.data.i18n[page.lang].status.completed }}
+            {% when 'In Progress' %}
+              {{ site.data.i18n[page.lang].status.in_progress }}
+          {% endcase %}
+        </span>
+      </div>
+      
+      <p class="card-description">
+        {% if page.lang == 'es' %}
+          Una aplicación integral de Next.js 14 que combina el aprendizaje visual con educación de idiomas impulsada por IA, ayudando a los usuarios a aprender español a través de descripciones de imágenes interactivas, sesiones de preguntas y respuestas, y extracción de vocabulario.
+        {% else %}
+          {{ project.description }}
+        {% endif %}
+      </p>
+      
+      {% if project.features %}
+      <div class="mb-3">
+        <h4 class="text-sm font-semibold mb-2">Características Principales:</h4>
+        <ul class="text-sm text-muted">
+          {% for feature in project.features limit:3 %}
+          <li>• 
+            {% if page.lang == 'es' %}
+              {% case forloop.index %}
+                {% when 1 %}
+                  Descripciones de imágenes multi-estilo (Narrativo, Poético, Académico, Conversacional, Infantil)
+                {% when 2 %}
+                  Sistema de Q&A interactivo con niveles de dificultad y puntuación de confianza
+                {% when 3 %}
+                  Extracción inteligente de frases con vocabulario categorizado
+              {% endcase %}
+            {% else %}
+              {{ feature }}
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      
+      <div class="mb-3">
+        <h4 class="text-sm font-semibold mb-2">{{ site.data.i18n[page.lang].sections.projects.technologies }}:</h4>
+        <div class="flex flex-wrap gap-1">
+          {% for tech in project.technologies limit:5 %}
+          <span class="badge">{{ tech }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="flex gap-3 mt-4">
+        {% if project.github_url %}
+        <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+          {{ site.data.i18n[page.lang].sections.projects.github }} →
+        </a>
+        {% endif %}
+        {% if project.demo_url %}
+        <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          {{ site.data.i18n[page.lang].sections.projects.demo }}
+        </a>
+        {% endif %}
+      </div>
+      
+      {% if project.last_updated %}
+      <p class="text-xs text-muted mt-3">
+        {{ site.data.i18n[page.lang].metadata.updated }}: 
+        {% assign month_names_es = "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre" | split: "," %}
+        {% assign month_num = project.last_updated | date: "%-m" | minus: 1 %}
+        {{ month_names_es[month_num] }} {{ project.last_updated | date: "%Y" }}
+      </p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Coming Soon Section -->
+<section class="mt-8 text-center">
+  <div class="card">
+    <h3 class="mb-3">Más Proyectos Próximamente</h3>
+    <p class="text-muted">Estoy trabajando activamente en nuevas herramientas educativas impulsadas por IA y aplicaciones de aprendizaje de idiomas. ¡Vuelve pronto para ver actualizaciones!</p>
+    <div class="mt-4">
+      <a href="https://github.com/{{ site.data.profile.social.github }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        Sígueme en GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+// Project filtering
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Filter projects
+      projectCards.forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
+
+<style>
+.filter-btn.active {
+  background-color: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.project-card {
+  transition: all var(--transition-base);
+}
+</style>

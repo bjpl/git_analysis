@@ -1,0 +1,32 @@
+REMOVED BROKEN LINKS REPORT
+==================================================
+Generated: 2025-09-11 20:39:02
+
+Total removed: 192
+  - Instagram: 155
+  - YouTube: 37
+
+Sample of removed links:
+--------------------------------------------------
+MinDefensa Colombia (youtube): https://www.youtube.com/@mindefensacolombia
+MinTIC Colombia (youtube): https://www.youtube.com/@MinTIC_Colombia
+USA Embassy Mexico (youtube): https://www.youtube.com/@USEmbassyMexico
+CDMX (youtube): https://www.youtube.com/@GobiernoCDMX
+Museo del Oro (instagram): https://instagram.com/museodeloro
+MAMM Medellín (instagram): https://instagram.com/elmamm
+Biblioteca Luis Ángel Arango (instagram): https://instagram.com/bibliotecaluisangelarango
+MoMA (instagram): https://instagram.com/themuseumofmodernart
+Visitar Medellín (instagram): https://instagram.com/visitarmedellin
+Medellín Guru (instagram): https://instagram.com/medellin_guru
+Parques Nacionales Colombia (instagram): https://instagram.com/parquescolombia
+Visit Mexico (youtube): https://www.youtube.com/@visitmexico
+Colombian Family (instagram): https://instagram.com/colombianfamily
+Visit Peru (instagram): https://instagram.com/visitperu
+Chile Travel (instagram): https://instagram.com/chiletravel
+Visit Costa Rica (instagram): https://instagram.com/visitcostarica
+Uruguay Natural (instagram): https://instagram.com/uruguaynaturalmt
+Uruguay Natural (youtube): https://www.youtube.com/@UruguayNatural
+Museo Nacional Mexico (instagram): https://instagram.com/museonacional
+MALBA (youtube): https://www.youtube.com/@malbamuseo
+
+... and 172 more

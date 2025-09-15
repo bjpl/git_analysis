@@ -1,0 +1,392 @@
+{
+  "curriculum": {
+    "id": "data-structures",
+    "title": "Data Structures",
+    "description": "Comprehensive study of fundamental data structures and their applications",
+    "version": "1.0.0",
+    "difficulty": "beginner-to-advanced",
+    "estimatedHours": 50,
+    "prerequisites": ["algorithms-fundamentals", "object-oriented-programming"],
+    "learningObjectives": [
+      "Understand fundamental data structure concepts",
+      "Implement common data structures from scratch",
+      "Analyze time and space complexity of operations",
+      "Choose appropriate data structures for specific problems",
+      "Apply data structures in real-world applications"
+    ],
+    "modules": [
+      {
+        "id": "arrays-strings",
+        "title": "Arrays and Strings",
+        "description": "Linear data structures and string manipulation",
+        "order": 1,
+        "estimatedHours": 8,
+        "lessons": [
+          {
+            "id": "array-001",
+            "title": "Array Fundamentals",
+            "description": "Understanding arrays, indexing, and basic operations",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 60,
+            "learningObjectives": [
+              "Understand array structure and memory layout",
+              "Implement basic array operations",
+              "Analyze time complexity of array operations"
+            ],
+            "content": {
+              "theory": {
+                "definition": "A collection of elements stored in contiguous memory locations",
+                "characteristics": [
+                  "Fixed size (in most languages)",
+                  "Homogeneous elements",
+                  "Random access via indexing",
+                  "Cache-friendly due to locality"
+                ],
+                "operations": {
+                  "access": "O(1) - Direct indexing",
+                  "search": "O(n) - Linear search in unsorted array",
+                  "insertion": "O(n) - May need to shift elements",
+                  "deletion": "O(n) - May need to shift elements"
+                }
+              },
+              "codeExamples": [
+                {
+                  "language": "python",
+                  "title": "Array Operations Implementation",
+                  "code": "class Array:\n    def __init__(self, capacity):\n        \"\"\"\n        Initialize array with fixed capacity\n        \"\"\"\n        self.data = [None] * capacity\n        self.size = 0\n        self.capacity = capacity\n    \n    def get(self, index):\n        \"\"\"\n        Get element at index - O(1)\n        \"\"\"\n        if 0 <= index < self.size:\n            return self.data[index]\n        raise IndexError(\"Index out of bounds\")\n    \n    def set(self, index, value):\n        \"\"\"\n        Set element at index - O(1)\n        \"\"\"\n        if 0 <= index < self.size:\n            self.data[index] = value\n        else:\n            raise IndexError(\"Index out of bounds\")\n    \n    def insert(self, index, value):\n        \"\"\"\n        Insert element at index - O(n)\n        \"\"\"\n        if self.size >= self.capacity:\n            raise OverflowError(\"Array is full\")\n        \n        if index < 0 or index > self.size:\n            raise IndexError(\"Invalid index\")\n        \n        # Shift elements to the right\n        for i in range(self.size, index, -1):\n            self.data[i] = self.data[i - 1]\n        \n        self.data[index] = value\n        self.size += 1\n    \n    def delete(self, index):\n        \"\"\"\n        Delete element at index - O(n)\n        \"\"\"\n        if index < 0 or index >= self.size:\n            raise IndexError(\"Index out of bounds\")\n        \n        # Shift elements to the left\n        for i in range(index, self.size - 1):\n            self.data[i] = self.data[i + 1]\n        \n        self.size -= 1\n        return self.data[index]\n    \n    def find(self, value):\n        \"\"\"\n        Find first occurrence of value - O(n)\n        \"\"\"\n        for i in range(self.size):\n            if self.data[i] == value:\n                return i\n        return -1\n    \n    def __str__(self):\n        return str([self.data[i] for i in range(self.size)])\n\n# Example usage\narr = Array(10)\narr.insert(0, 10)\narr.insert(1, 20)\narr.insert(2, 30)\nprint(f\"Array: {arr}\")  # [10, 20, 30]\n\narr.insert(1, 15)  # Insert 15 at index 1\nprint(f\"After insertion: {arr}\")  # [10, 15, 20, 30]\n\narr.delete(2)  # Delete element at index 2\nprint(f\"After deletion: {arr}\")  # [10, 15, 30]"
+                }
+              ]
+            },
+            "exercises": [
+              {
+                "id": "array-ex-001",
+                "title": "Array Rotation",
+                "description": "Implement left and right rotation of arrays",
+                "type": "coding",
+                "problem": {
+                  "description": "Write functions to rotate an array left and right by k positions",
+                  "examples": [
+                    {
+                      "input": "[1, 2, 3, 4, 5], k=2 (left rotation)",
+                      "output": "[3, 4, 5, 1, 2]"
+                    },
+                    {
+                      "input": "[1, 2, 3, 4, 5], k=2 (right rotation)",
+                      "output": "[4, 5, 1, 2, 3]"
+                    }
+                  ]
+                },
+                "hints": [
+                  "Consider the modulo operation for k > array length",
+                  "Think about reversing subarrays as an optimization"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "string-001",
+            "title": "String Processing",
+            "description": "String algorithms and manipulation techniques",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 75,
+            "content": {
+              "theory": {
+                "stringRepresentation": "Strings as arrays of characters with special properties",
+                "immutability": "Strings are often immutable, creating new objects for modifications",
+                "encoding": "Character encoding (ASCII, UTF-8) affects string operations"
+              },
+              "codeExamples": [
+                {
+                  "language": "python",
+                  "title": "String Algorithm Implementations",
+                  "code": "def reverse_string(s):\n    \"\"\"\n    Reverse a string in-place (if mutable) - O(n)\n    \"\"\"\n    chars = list(s)  # Convert to mutable list\n    left, right = 0, len(chars) - 1\n    \n    while left < right:\n        chars[left], chars[right] = chars[right], chars[left]\n        left += 1\n        right -= 1\n    \n    return ''.join(chars)\n\ndef is_palindrome(s):\n    \"\"\"\n    Check if string is palindrome - O(n)\n    \"\"\"\n    # Clean string: remove non-alphanumeric, convert to lowercase\n    clean = ''.join(char.lower() for char in s if char.isalnum())\n    \n    left, right = 0, len(clean) - 1\n    while left < right:\n        if clean[left] != clean[right]:\n            return False\n        left += 1\n        right -= 1\n    \n    return True\n\ndef find_substring(text, pattern):\n    \"\"\"\n    Find all occurrences of pattern in text - O(nm)\n    Naive string matching algorithm\n    \"\"\"\n    occurrences = []\n    n, m = len(text), len(pattern)\n    \n    for i in range(n - m + 1):\n        match = True\n        for j in range(m):\n            if text[i + j] != pattern[j]:\n                match = False\n                break\n        if match:\n            occurrences.append(i)\n    \n    return occurrences\n\ndef longest_common_subsequence(str1, str2):\n    \"\"\"\n    Find length of longest common subsequence - O(mn)\n    Dynamic programming approach\n    \"\"\"\n    m, n = len(str1), len(str2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    \n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if str1[i-1] == str2[j-1]:\n                dp[i][j] = dp[i-1][j-1] + 1\n            else:\n                dp[i][j] = max(dp[i-1][j], dp[i][j-1])\n    \n    return dp[m][n]\n\n# Example usage\nprint(reverse_string(\"hello\"))  # \"olleh\"\nprint(is_palindrome(\"A man, a plan, a canal: Panama\"))  # True\nprint(find_substring(\"hello world\", \"lo\"))  # [3, 9]\nprint(longest_common_subsequence(\"ABCDGH\", \"AEDFHR\"))  # 3"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "linked-lists",
+        "title": "Linked Lists",
+        "description": "Dynamic linear data structures with pointer-based implementation",
+        "order": 2,
+        "estimatedHours": 10,
+        "lessons": [
+          {
+            "id": "linked-001",
+            "title": "Singly Linked Lists",
+            "description": "Basic linked list implementation and operations",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90,
+            "content": {
+              "theory": {
+                "definition": "Linear data structure where elements are stored in nodes, each containing data and a reference to the next node",
+                "advantages": [
+                  "Dynamic size",
+                  "Efficient insertion/deletion at beginning",
+                  "Memory efficient for sparse data"
+                ],
+                "disadvantages": [
+                  "No random access",
+                  "Extra memory for pointers",
+                  "Not cache-friendly"
+                ]
+              },
+              "codeExamples": [
+                {
+                  "language": "python",
+                  "title": "Singly Linked List Implementation",
+                  "code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass LinkedList:\n    def __init__(self):\n        self.head = None\n        self.size = 0\n    \n    def insert_at_head(self, val):\n        \"\"\"\n        Insert at beginning - O(1)\n        \"\"\"\n        new_node = ListNode(val)\n        new_node.next = self.head\n        self.head = new_node\n        self.size += 1\n    \n    def insert_at_tail(self, val):\n        \"\"\"\n        Insert at end - O(n)\n        \"\"\"\n        new_node = ListNode(val)\n        if not self.head:\n            self.head = new_node\n        else:\n            current = self.head\n            while current.next:\n                current = current.next\n            current.next = new_node\n        self.size += 1\n    \n    def insert_at_index(self, index, val):\n        \"\"\"\n        Insert at specific index - O(n)\n        \"\"\"\n        if index < 0 or index > self.size:\n            raise IndexError(\"Index out of bounds\")\n        \n        if index == 0:\n            self.insert_at_head(val)\n            return\n        \n        new_node = ListNode(val)\n        current = self.head\n        for i in range(index - 1):\n            current = current.next\n        \n        new_node.next = current.next\n        current.next = new_node\n        self.size += 1\n    \n    def delete_at_head(self):\n        \"\"\"\n        Delete first node - O(1)\n        \"\"\"\n        if not self.head:\n            raise ValueError(\"List is empty\")\n        \n        deleted_val = self.head.val\n        self.head = self.head.next\n        self.size -= 1\n        return deleted_val\n    \n    def delete_by_value(self, val):\n        \"\"\"\n        Delete first occurrence of value - O(n)\n        \"\"\"\n        if not self.head:\n            return False\n        \n        if self.head.val == val:\n            self.head = self.head.next\n            self.size -= 1\n            return True\n        \n        current = self.head\n        while current.next:\n            if current.next.val == val:\n                current.next = current.next.next\n                self.size -= 1\n                return True\n            current = current.next\n        \n        return False\n    \n    def find(self, val):\n        \"\"\"\n        Find value and return index - O(n)\n        \"\"\"\n        current = self.head\n        index = 0\n        while current:\n            if current.val == val:\n                return index\n            current = current.next\n            index += 1\n        return -1\n    \n    def reverse(self):\n        \"\"\"\n        Reverse the linked list - O(n)\n        \"\"\"\n        prev = None\n        current = self.head\n        \n        while current:\n            next_temp = current.next\n            current.next = prev\n            prev = current\n            current = next_temp\n        \n        self.head = prev\n    \n    def display(self):\n        \"\"\"\n        Display the list - O(n)\n        \"\"\"\n        elements = []\n        current = self.head\n        while current:\n            elements.append(current.val)\n            current = current.next\n        return elements\n\n# Example usage\nll = LinkedList()\nll.insert_at_head(1)\nll.insert_at_tail(2)\nll.insert_at_tail(3)\nll.insert_at_index(1, 1.5)\nprint(f\"List: {ll.display()}\")  # [1, 1.5, 2, 3]\n\nll.reverse()\nprint(f\"Reversed: {ll.display()}\")  # [3, 2, 1.5, 1]"
+                }
+              ]
+            }
+          },
+          {
+            "id": "linked-002",
+            "title": "Doubly Linked Lists",
+            "description": "Bidirectional linked lists with previous and next pointers",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 75
+          },
+          {
+            "id": "linked-003",
+            "title": "Circular Linked Lists",
+            "description": "Lists where the last node points back to the first",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 60
+          }
+        ]
+      },
+      {
+        "id": "stacks-queues",
+        "title": "Stacks and Queues",
+        "description": "LIFO and FIFO data structures and their applications",
+        "order": 3,
+        "estimatedHours": 8,
+        "lessons": [
+          {
+            "id": "stack-001",
+            "title": "Stack Implementation and Applications",
+            "description": "LIFO structure with push, pop, and peek operations",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 75
+          },
+          {
+            "id": "queue-001",
+            "title": "Queue Implementation and Applications",
+            "description": "FIFO structure with enqueue and dequeue operations",
+            "type": "lesson",
+            "difficulty": "beginner",
+            "estimatedMinutes": 75
+          },
+          {
+            "id": "queue-002",
+            "title": "Priority Queues and Deques",
+            "description": "Advanced queue variations",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 60
+          }
+        ]
+      },
+      {
+        "id": "trees",
+        "title": "Trees",
+        "description": "Hierarchical data structures and tree algorithms",
+        "order": 4,
+        "estimatedHours": 15,
+        "lessons": [
+          {
+            "id": "tree-001",
+            "title": "Binary Trees",
+            "description": "Basic tree structure with at most two children per node",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          },
+          {
+            "id": "tree-002",
+            "title": "Binary Search Trees",
+            "description": "Ordered binary trees for efficient searching",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 105
+          },
+          {
+            "id": "tree-003",
+            "title": "Tree Traversals",
+            "description": "Inorder, preorder, postorder, and level-order traversals",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          },
+          {
+            "id": "tree-004",
+            "title": "Balanced Trees (AVL)",
+            "description": "Self-balancing binary search trees",
+            "type": "lesson",
+            "difficulty": "advanced",
+            "estimatedMinutes": 120
+          },
+          {
+            "id": "tree-005",
+            "title": "Heaps and Priority Queues",
+            "description": "Complete binary trees with heap property",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 105
+          }
+        ]
+      },
+      {
+        "id": "graphs",
+        "title": "Graphs",
+        "description": "Network structures with vertices and edges",
+        "order": 5,
+        "estimatedHours": 12,
+        "lessons": [
+          {
+            "id": "graph-001",
+            "title": "Graph Representations",
+            "description": "Adjacency matrix, adjacency list, and edge list representations",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          },
+          {
+            "id": "graph-002",
+            "title": "Graph Traversals",
+            "description": "Depth-First Search (DFS) and Breadth-First Search (BFS)",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 105
+          },
+          {
+            "id": "graph-003",
+            "title": "Shortest Path Algorithms",
+            "description": "Dijkstra's algorithm and Bellman-Ford algorithm",
+            "type": "lesson",
+            "difficulty": "advanced",
+            "estimatedMinutes": 120
+          },
+          {
+            "id": "graph-004",
+            "title": "Minimum Spanning Trees",
+            "description": "Kruskal's and Prim's algorithms",
+            "type": "lesson",
+            "difficulty": "advanced",
+            "estimatedMinutes": 105
+          }
+        ]
+      },
+      {
+        "id": "hash-tables",
+        "title": "Hash Tables",
+        "description": "Key-value data structures with O(1) average access time",
+        "order": 6,
+        "estimatedHours": 8,
+        "lessons": [
+          {
+            "id": "hash-001",
+            "title": "Hash Functions and Collision Resolution",
+            "description": "Understanding hashing and handling collisions",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 90
+          },
+          {
+            "id": "hash-002",
+            "title": "Hash Table Implementation",
+            "description": "Building hash tables from scratch",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 105
+          },
+          {
+            "id": "hash-003",
+            "title": "Applications and Analysis",
+            "description": "Real-world uses and performance analysis",
+            "type": "lesson",
+            "difficulty": "intermediate",
+            "estimatedMinutes": 75
+          }
+        ]
+      }
+    ],
+    "assessments": [
+      {
+        "id": "data-structures-midterm",
+        "title": "Data Structures Midterm",
+        "description": "Assessment covering arrays, strings, linked lists, stacks, and queues",
+        "type": "exam",
+        "passingScore": 75,
+        "questions": 30,
+        "timeLimit": 150
+      },
+      {
+        "id": "implementation-project",
+        "title": "Data Structure Implementation Project",
+        "description": "Implement a complete data structure library with tests",
+        "type": "project",
+        "passingScore": 80,
+        "requirements": [
+          "Implement 5 different data structures",
+          "Include comprehensive test suite",
+          "Performance benchmarking",
+          "Documentation and examples",
+          "Compare with standard library implementations"
+        ]
+      },
+      {
+        "id": "final-exam",
+        "title": "Comprehensive Final Exam",
+        "description": "Complete assessment of all data structures",
+        "type": "exam",
+        "passingScore": 75,
+        "questions": 40,
+        "timeLimit": 180
+      }
+    ],
+    "projects": [
+      {
+        "id": "custom-container",
+        "title": "Custom Container Library",
+        "description": "Build a library of custom container classes",
+        "difficulty": "intermediate",
+        "estimatedHours": 20
+      },
+      {
+        "id": "graph-visualizer",
+        "title": "Graph Algorithm Visualizer",
+        "description": "Create interactive visualizations of graph algorithms",
+        "difficulty": "advanced",
+        "estimatedHours": 30
+      }
+    ],
+    "resources": [
+      {
+        "type": "book",
+        "title": "Data Structures and Algorithms in Python",
+        "authors": ["Michael T. Goodrich", "Roberto Tamassia", "Michael H. Goldwasser"]
+      },
+      {
+        "type": "online",
+        "title": "VisuAlgo",
+        "url": "https://visualgo.net/",
+        "description": "Interactive data structure and algorithm visualizations"
+      },
+      {
+        "type": "practice",
+        "title": "HackerRank Data Structures",
+        "url": "https://www.hackerrank.com/domains/data-structures"
+      }
+    ]
+  }
+}

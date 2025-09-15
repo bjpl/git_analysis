@@ -1,0 +1,74 @@
+{
+  "paradigms": {
+    "symbiotic_mind_mesh": {
+      "id": 1,
+      "concept": "Distributed cognitive apprenticeship with specialized AI partners",
+      "key_innovation": "Co-thinking rather than teaching",
+      "implementation": "Swarm of specialized cognitive agents",
+      "best_for": ["Complex problem-solving", "Multi-disciplinary learning"]
+    },
+    "quantum_superposition": {
+      "id": 2,
+      "concept": "Parallel exploration of multiple learning paths simultaneously",
+      "key_innovation": "Learn multiple approaches before choosing",
+      "implementation": "Parallel sandbox environments",
+      "best_for": ["Exploring alternatives", "Decision-making skills"]
+    },
+    "adversarial_growth": {
+      "id": 3,
+      "concept": "Learning through productive intellectual conflict",
+      "key_innovation": "Deliberate cognitive stress-testing",
+      "implementation": "Adversarial agent challenges",
+      "best_for": ["Critical thinking", "Robust understanding"]
+    },
+    "emergent_ecosystem": {
+      "id": 4,
+      "concept": "Knowledge as living, evolving ecosystem",
+      "key_innovation": "Organic knowledge growth through ecological interactions",
+      "implementation": "Agent ecosystem with producers, consumers, decomposers",
+      "best_for": ["Holistic understanding", "Creative connections"]
+    },
+    "temporal_helix": {
+      "id": 5,
+      "concept": "Non-linear time navigation in learning",
+      "key_innovation": "Future knowledge informs present learning",
+      "implementation": "Time-travel learning workflows",
+      "best_for": ["Historical understanding", "Predictive learning"]
+    },
+    "dissolution_protocol": {
+      "id": 6,
+      "concept": "Strategic forgetting and unlearning",
+      "key_innovation": "Create cognitive space through destruction",
+      "implementation": "Cognitive demolition agents",
+      "best_for": ["Overcoming biases", "Paradigm shifts"]
+    },
+    "somatic_resonance": {
+      "id": 7,
+      "concept": "Full-body embodied learning",
+      "key_innovation": "Knowledge encoded somatically",
+      "implementation": "Biofeedback and sensation translation",
+      "best_for": ["Kinesthetic learners", "Emotional intelligence"]
+    },
+    "collective_consciousness": {
+      "id": 8,
+      "concept": "Distributed learning across multiple minds",
+      "key_innovation": "Knowledge emerges between minds",
+      "implementation": "Thought-sharing mesh network",
+      "best_for": ["Team learning", "Collective problem-solving"]
+    },
+    "paradox_engine": {
+      "id": 9,
+      "concept": "Learning through irreconcilable contradictions",
+      "key_innovation": "Trans-rational understanding",
+      "implementation": "Paradox-generating agents",
+      "best_for": ["Philosophy", "Quantum concepts", "Creativity"]
+    },
+    "stochastic_dream": {
+      "id": 10,
+      "concept": "Unconscious pattern integration",
+      "key_innovation": "Hypnagogic learning states",
+      "implementation": "Dream-state simulators",
+      "best_for": ["Creative insights", "Pattern recognition"]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+category,principle,description,key_insight,benefits,implementation,examples
+Design Principles,Packet Switching,Data broken into packets that travel independently,Statistical multiplexing allows oversubscription,"Efficient resource sharing, resilience, no dedicated circuits",Routers forward packets independently,"Internet, Ethernet"
+Design Principles,Layered Protocol Architecture,Each layer has specific responsibilities,Changes at one layer don't affect others,"Separation of concerns, independence, encapsulation","TCP/IP stack, OSI model","Application, Transport, Network, Link layers"
+Design Principles,End-to-End Principle,Intelligence at edges simplicity in network,Routers just forward endpoints handle complexity,"Scalability, innovation without network changes",Simple core network with smart endpoints,"TCP reliability, application logic"
+Design Principles,Distributed Control,No central authority,Networks cooperate voluntarily,"No single point of failure, resilience","Autonomous systems, BGP routing","Internet governance, DNS"
+Design Principles,Best Effort Delivery,Try to deliver no guarantees,Reliability added by higher layers when needed,"Simple core allows massive scale, efficiency",IP protocol with TCP on top,"IP routing, UDP"
+Architectural Components,Internet Backbone,Tier 1 ISPs,Interconnected networks with no upstream provider,Global connectivity,Peering agreements,"AT&T, Verizon, Level3"
+Architectural Components,Regional ISPs,Tier 2 providers,Buy transit from Tier 1 and peer with others,Regional coverage,Mix of transit and peering,Regional telecom companies
+Architectural Components,Local ISPs,Tier 3 providers,Buy transit from upstream providers,Last mile connectivity,Customer focused,Local cable and DSL providers
+Architectural Components,Internet Exchange Points,Physical interconnection locations,Neutral meeting points for networks,Efficient local traffic exchange,Shared switching infrastructure,"DE-CIX, AMS-IX, LINX"
+Trade-offs,Speed vs Reliability,UDP fast vs TCP reliable,Different applications need different guarantees,Application choice,"UDP: no guarantees, TCP: guaranteed delivery","Gaming uses UDP, file transfer uses TCP"
+Trade-offs,Security vs Performance,Encryption overhead,Security adds computational and bandwidth costs,Balance based on requirements,"TLS handshake latency, VPN overhead","HTTPS everywhere, VPN tunnels"
+Trade-offs,Centralization vs Distribution,Control vs resilience,Central control easier but single point of failure,Hybrid approaches common,"DNS hierarchical but distributed, CDN distributed delivery","DNS root servers, CDN edge nodes"
+Trade-offs,Compatibility vs Innovation,Backward compatibility slows progress,Internet must work with old and new systems,Gradual transitions,"IPv4 to IPv6 transition, HTTP/2 adoption","Dual stack networks, protocol negotiation"
+Economic Models,Settlement-Free Peering,Equal traffic exchange,Networks of similar size exchange traffic freely,Cost reduction,Direct interconnection agreements,Tier 1 peering
+Economic Models,Paid Peering,Asymmetric relationships,Smaller network pays larger for peering,Revenue for large networks,Negotiated agreements,Content providers to ISPs
+Economic Models,Transit,Customer pays for connectivity,Full routing table access,Simple business model,Volume-based pricing,Tier 2 buying from Tier 1
+Economic Models,95th Percentile Billing,Bandwidth charging model,Bill on 95th percentile of usage not peak,Allows bursting,5-minute samples sorted,Standard ISP billing
+Scalability Mechanisms,Hierarchical Organization,Structured delegation,Divide and conquer approach,Manageable complexity,"DNS namespace, IP allocation, routing aggregation","Domain hierarchy, CIDR"
+Scalability Mechanisms,Caching and Replication,Store frequently accessed data closer,Reduce load on origin servers,Performance improvement,"DNS caching, CDN edge caches, browser caches","Akamai, Cloudflare"
+Scalability Mechanisms,Statistical Multiplexing,Share resources based on statistics,Not everyone uses peak capacity simultaneously,Efficient resource use,"Oversubscription ratios, buffer management","ISP bandwidth, cloud resources"
+Scalability Mechanisms,Anycast,Same IP multiple locations,Traffic goes to nearest instance,Load distribution and redundancy,BGP routing,"Root DNS servers, CDN"
+Resilience Features,Multiple Paths,Mesh topology,Redundant paths between points,Automatic failover,Dynamic routing protocols,"Internet backbone, BGP"
+Resilience Features,Backup Systems,N+1 or 2N redundancy,Spare capacity for failures,Continuous operation,"Hot standby, cold standby","Data center design, DNS"
+Resilience Features,Geographic Distribution,Spread across locations,Natural disaster resilience,Regional independence,Multiple data centers,"Cloud regions, CDN PoPs"
+Resilience Features,Automatic Recovery,Self-healing systems,Detect and route around failures,Minimal human intervention,"Routing protocols, health checks","BGP convergence, load balancer failover"

@@ -1,0 +1,24 @@
+---
+---
+
+// Main SASS file - imports all modules in proper order
+
+// 1. Variables and configuration
+@import 'variables';
+
+// 2. Base styles and resets
+@import 'base';
+
+// 3. Layout components
+@import 'layout';
+
+// 4. Page-specific styles
+@import 'home';
+@import 'poems';
+@import 'photography';
+
+// 5. Utilities and helpers
+@import 'utilities';
+
+// 6. Responsive design
+@import 'responsive';

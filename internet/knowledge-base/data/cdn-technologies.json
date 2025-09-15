@@ -1,0 +1,289 @@
+{
+  "cdn_technologies": {
+    "architecture": {
+      "components": {
+        "edge_servers": {
+          "description": "Servers at network edge serving cached content",
+          "locations": "100-300 PoPs globally",
+          "capacity": "10-100 Gbps per server",
+          "cache_storage": "SSD/NVMe for hot content, HDD for warm",
+          "benefits": ["Low latency", "High throughput", "Redundancy"]
+        },
+        "origin_servers": {
+          "description": "Source servers with original content",
+          "protection": "Origin shield layer",
+          "connection": "Persistent connections from CDN",
+          "optimization": "Connection pooling, keep-alive"
+        },
+        "points_of_presence": {
+          "description": "Physical CDN locations",
+          "components": ["Multiple edge servers", "Routing equipment", "Cache storage"],
+          "locations": {
+            "tier1": "Major cities and IXPs",
+            "tier2": "Regional hubs",
+            "tier3": "Metro areas"
+          }
+        }
+      },
+      "topologies": {
+        "scattered": {
+          "description": "Many small PoPs",
+          "benefits": "Wide coverage",
+          "drawbacks": "Lower cache hit rates"
+        },
+        "consolidated": {
+          "description": "Fewer large PoPs",
+          "benefits": "Better cache efficiency",
+          "drawbacks": "Higher latency for some users"
+        },
+        "hybrid": {
+          "description": "Mix of large and small PoPs",
+          "benefits": "Balance of coverage and efficiency"
+        }
+      }
+    },
+    "caching_strategies": {
+      "cache_control": {
+        "headers": {
+          "max_age": "Time to cache in seconds",
+          "s_maxage": "CDN cache time",
+          "no_cache": "Validate before use",
+          "no_store": "Never cache",
+          "private": "Browser cache only",
+          "public": "CDN can cache"
+        },
+        "patterns": {
+          "static_assets": {
+            "images": "max-age=31536000, immutable",
+            "css_js": "max-age=31536000, immutable",
+            "fonts": "max-age=31536000"
+          },
+          "dynamic_content": {
+            "html": "no-cache or max-age=300",
+            "api": "private, max-age=0",
+            "personalized": "private, no-store"
+          }
+        }
+      },
+      "cache_invalidation": {
+        "methods": {
+          "ttl_expiry": {
+            "description": "Natural timeout",
+            "pros": "Simple, predictable",
+            "cons": "Slow propagation"
+          },
+          "purge": {
+            "description": "Immediate removal",
+            "pros": "Instant update",
+            "cons": "Origin spike"
+          },
+          "soft_purge": {
+            "description": "Serve stale while updating",
+            "pros": "No origin spike",
+            "cons": "Brief inconsistency"
+          },
+          "tag_based": {
+            "description": "Purge by surrogate keys",
+            "pros": "Granular control",
+            "cons": "Complex setup"
+          }
+        }
+      },
+      "cache_key": {
+        "components": ["Protocol", "Host", "Path", "Query string"],
+        "customization": {
+          "ignore_query": "Ignore specific parameters",
+          "normalize": "Case normalization",
+          "vary_headers": "Cache by headers",
+          "device_type": "Separate mobile/desktop"
+        }
+      }
+    },
+    "request_routing": {
+      "methods": {
+        "dns_based": {
+          "mechanism": "GeoDNS",
+          "resolution": "Returns nearest edge IP",
+          "ttl": "30-300 seconds",
+          "benefits": ["Simple", "No client changes"],
+          "drawbacks": ["DNS caching", "Less precise"]
+        },
+        "anycast": {
+          "mechanism": "BGP anycast",
+          "routing": "Network layer",
+          "benefits": ["Automatic failover", "DDoS resilient"],
+          "drawbacks": ["Less control", "Potential flapping"]
+        },
+        "application_layer": {
+          "mechanism": "HTTP redirects",
+          "control": "Fine-grained",
+          "benefits": ["Precise routing", "Complex logic"],
+          "drawbacks": ["Additional latency", "More complex"]
+        }
+      },
+      "optimization": {
+        "factors": ["Geographic distance", "Network latency", "Server load", "Cost", "Peering relationships"],
+        "algorithms": {
+          "round_robin": "Simple rotation",
+          "least_connections": "Lowest active connections",
+          "weighted": "Capacity-based",
+          "geographic": "Nearest location",
+          "performance": "Lowest latency"
+        }
+      }
+    },
+    "performance_features": {
+      "http2_push": {
+        "description": "Proactive resource delivery",
+        "benefits": "Reduced round trips",
+        "best_practices": ["Push critical CSS", "Push fonts", "Limit to essential resources"]
+      },
+      "http3_quic": {
+        "benefits": {
+          "zero_rtt": "Instant reconnection",
+          "multiplexing": "No head-of-line blocking",
+          "connection_migration": "IP change resilience"
+        },
+        "adoption": "30% of web traffic"
+      },
+      "image_optimization": {
+        "techniques": {
+          "format_conversion": {
+            "webp": "25-35% smaller",
+            "avif": "50% smaller"
+          },
+          "responsive_images": "Multiple sizes",
+          "lazy_loading": "Load on scroll",
+          "progressive": "Progressive encoding"
+        }
+      },
+      "video_delivery": {
+        "adaptive_bitrate": {
+          "protocols": ["HLS", "DASH"],
+          "benefits": "Quality adaptation",
+          "segments": "2-10 seconds"
+        },
+        "transcoding": {
+          "formats": ["H.264", "H.265", "VP9", "AV1"],
+          "resolutions": ["360p", "720p", "1080p", "4K"],
+          "bitrates": "Ladder optimization"
+        }
+      }
+    },
+    "edge_computing": {
+      "platforms": {
+        "cloudflare_workers": {
+          "runtime": "V8 isolates",
+          "languages": ["JavaScript", "Rust", "C"],
+          "limits": {
+            "cpu_time_ms": 10,
+            "memory_mb": 128,
+            "subrequests": 50
+          }
+        },
+        "aws_lambda_edge": {
+          "runtime": "Node.js, Python",
+          "triggers": ["Viewer request", "Origin request", "Origin response", "Viewer response"],
+          "limits": {
+            "timeout_s": 30,
+            "memory_mb": 128
+          }
+        },
+        "fastly_compute": {
+          "runtime": "WebAssembly",
+          "languages": ["Rust", "JavaScript", "Go"],
+          "benefits": "Near-instant cold starts"
+        }
+      },
+      "use_cases": {
+        "ab_testing": "Route traffic by experiment",
+        "authentication": "Validate tokens at edge",
+        "personalization": "Customize content",
+        "security": "Bot detection, WAF",
+        "transformation": "Resize images, modify headers"
+      }
+    },
+    "security_features": {
+      "ddos_protection": {
+        "layers": {
+          "network": "Volume attacks",
+          "transport": "Protocol attacks",
+          "application": "Layer 7 attacks"
+        },
+        "mitigation": {
+          "rate_limiting": "Request throttling",
+          "blackholing": "Drop traffic",
+          "scrubbing": "Filter malicious",
+          "anycast": "Distribute attack"
+        }
+      },
+      "waf": {
+        "rules": {
+          "owasp": "Core rule set",
+          "custom": "Business logic",
+          "managed": "Provider rules"
+        },
+        "actions": ["Block", "Challenge", "Log", "Rate limit"]
+      },
+      "bot_management": {
+        "detection": {
+          "signatures": "Known bot patterns",
+          "behavioral": "Anomaly detection",
+          "challenges": "JavaScript, CAPTCHA"
+        },
+        "categories": {
+          "good_bots": "Search engines, monitors",
+          "bad_bots": "Scrapers, attackers",
+          "unknown": "Unclassified"
+        }
+      }
+    },
+    "analytics_monitoring": {
+      "metrics": {
+        "performance": {
+          "cache_hit_ratio": "Percentage served from cache",
+          "bandwidth_savings": "Origin offload",
+          "response_time": "Edge response latency",
+          "availability": "Uptime percentage"
+        },
+        "traffic": {
+          "requests_per_second": "Request rate",
+          "bandwidth": "Data transfer",
+          "unique_visitors": "Distinct users",
+          "geographic_distribution": "User locations"
+        },
+        "security": {
+          "blocked_threats": "Security events",
+          "bot_traffic": "Bot percentage",
+          "ssl_requests": "HTTPS percentage"
+        }
+      },
+      "real_user_monitoring": {
+        "metrics": ["Page load time", "Core Web Vitals", "Error rate"],
+        "collection": "JavaScript beacon",
+        "sampling": "1-100% configurable"
+      }
+    },
+    "major_providers": {
+      "cloudflare": {
+        "pops": 300,
+        "capacity_tbps": 192,
+        "features": ["Workers", "R2 storage", "Argo routing"]
+      },
+      "akamai": {
+        "pops": 350,
+        "servers": 350000,
+        "features": ["Edge compute", "Security", "Media delivery"]
+      },
+      "fastly": {
+        "pops": 70,
+        "features": ["Instant purge", "Real-time analytics", "Compute@Edge"]
+      },
+      "aws_cloudfront": {
+        "pops": 450,
+        "integration": "AWS services",
+        "features": ["Lambda@Edge", "Origin shield", "Real-time logs"]
+      }
+    }
+  }
+}

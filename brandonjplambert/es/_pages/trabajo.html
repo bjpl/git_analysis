@@ -1,0 +1,251 @@
+---
+layout: page
+title: Trabajo
+permalink: /es/trabajo/
+lang: es
+description: Experiencia, educación y filosofía de enseñanza
+---
+
+<!-- Career Timeline Section -->
+<section id="carrera" class="mb-8">
+  <h2 class="mb-5">{{ site.data.i18n[page.lang].sections.career.title }}</h2>
+  
+  <div class="timeline">
+    {% for position in site.data.career_timeline.timeline %}
+    <div class="timeline-item" id="{{ position.organization | slugify }}">
+      <div class="timeline-date">
+        {% assign start_month = position.start_date | date: "%-m" %}
+        {% case start_month %}
+          {% when '1' %}enero{% when '2' %}febrero{% when '3' %}marzo{% when '4' %}abril{% when '5' %}mayo{% when '6' %}junio{% when '7' %}julio{% when '8' %}agosto{% when '9' %}septiembre{% when '10' %}octubre{% when '11' %}noviembre{% when '12' %}diciembre
+        {% endcase %} {{ position.start_date | date: "%Y" }} - 
+        {% if position.end_date %}
+          {% assign end_month = position.end_date | date: "%-m" %}
+          {% case end_month %}
+            {% when '1' %}enero{% when '2' %}febrero{% when '3' %}marzo{% when '4' %}abril{% when '5' %}mayo{% when '6' %}junio{% when '7' %}julio{% when '8' %}agosto{% when '9' %}septiembre{% when '10' %}octubre{% when '11' %}noviembre{% when '12' %}diciembre
+          {% endcase %} {{ position.end_date | date: "%Y" }}
+        {% else %}
+          Presente
+        {% endif %}
+      </div>
+      <h3 class="timeline-title">
+        {% case position.title %}
+          {% when 'Program Manager' %}
+            Gerente de Programa
+          {% when 'Director of Language Programs (Interim)' %}
+            Director de Programas de Idiomas (Interino)
+          {% when 'Founder & CEO' %}
+            Fundador y CEO
+          {% when 'Adjunct Instructor' %}
+            Instructor Adjunto
+          {% when 'Specialist, Academics & Research' %}
+            Especialista en Académicos e Investigación
+          {% when 'Senior Curriculum Developer' %}
+            Desarrollador Senior de Currículo
+          {% when 'Curriculum Developer' %}
+            Desarrollador de Currículo
+          {% when 'Language Coach & Training Facilitator' %}
+            Coach de Idiomas y Facilitador de Capacitación
+          {% when 'Learning and Development Consultant' %}
+            Consultor de Aprendizaje y Desarrollo
+          {% when 'Professor of ESL' %}
+            Profesor de ESL
+          {% else %}
+            {{ position.title }}
+        {% endcase %}
+      </h3>
+      <div class="timeline-organization">
+        {{ position.organization }}
+        <span class="work-badges">
+          <span class="badge badge-outline">
+            {% case position.employment_type %}
+              {% when 'Full-time' %}Tiempo completo
+              {% when 'Part-time' %}Medio tiempo
+              {% else %}{{ position.employment_type }}
+            {% endcase %}
+          </span>
+          <span class="badge badge-outline">
+            {% case position.work_location %}
+              {% when 'Remote' %}Remoto
+              {% when 'Hybrid' %}Híbrido
+              {% when 'In-person' %}Presencial
+              {% else %}{{ position.work_location }}
+            {% endcase %}
+          </span>
+        </span>
+      </div>
+      <div class="timeline-description">
+        {% if position.description_es %}
+          {{ position.description_es | markdownify }}
+        {% elsif position.description_en %}
+          {{ position.description_en | markdownify }}
+        {% else %}
+          {{ position.description | markdownify }}
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Education Section -->
+<section id="educacion" class="mb-8">
+  <h2 class="mb-5">{{ site.data.i18n[page.lang].sections.education.title }}</h2>
+  
+  <div class="grid gap-5">
+    {% for edu in site.data.education.education %}
+    <div class="card">
+      <div class="education-header">
+        <div class="education-details">
+          <h3 class="card-title mb-1">
+            {% if edu.degree contains 'Master' %}
+              Maestría en Artes (M.A.)
+            {% elsif edu.degree contains 'Bachelor' %}
+              Licenciatura en Artes (B.A.)
+            {% else %}
+              {{ edu.degree }}
+            {% endif %}
+            , 
+            {% case edu.field %}
+              {% when 'Teaching English to Speakers of Other Languages' %}
+                Enseñanza de Inglés para Hablantes de Otros Idiomas
+              {% when 'Government' %}
+                Gobierno
+              {% else %}
+                {{ edu.field }}
+            {% endcase %}
+          </h3>
+          <p class="text-accent">{{ edu.institution }}</p>
+          <p class="text-muted">{{ edu.location }}</p>
+        </div>
+        <div class="education-date-wrapper">
+          <span class="education-date">
+            {% assign start_month = edu.start_date | date: "%-m" %}
+            {% case start_month %}
+              {% when '1' %}enero{% when '2' %}febrero{% when '3' %}marzo{% when '4' %}abril{% when '5' %}mayo{% when '6' %}junio{% when '7' %}julio{% when '8' %}agosto{% when '9' %}septiembre{% when '10' %}octubre{% when '11' %}noviembre{% when '12' %}diciembre
+            {% endcase %}&nbsp;{{ edu.start_date | date: "%Y" }}&nbsp;-&nbsp;{% assign end_month = edu.end_date | date: "%-m" %}{% case end_month %}
+              {% when '1' %}enero{% when '2' %}febrero{% when '3' %}marzo{% when '4' %}abril{% when '5' %}mayo{% when '6' %}junio{% when '7' %}julio{% when '8' %}agosto{% when '9' %}septiembre{% when '10' %}octubre{% when '11' %}noviembre{% when '12' %}diciembre
+            {% endcase %}&nbsp;{{ edu.end_date | date: "%Y" }}
+          </span>
+        </div>
+      </div>
+      {% if edu.honors %}
+      <p class="mb-2"><strong>Honores:</strong> {{ edu.honors }}</p>
+      {% endif %}
+      {% if edu.thesis %}
+      <p class="mb-2"><strong>Tesis:</strong> {{ edu.thesis }}</p>
+      {% endif %}
+      {% if edu.notes %}
+      <p class="text-muted">{{ edu.notes }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Teaching Philosophy Section -->
+<section id="filosofia" class="mb-8">
+  <h2 class="mb-5">{{ site.data.i18n[page.lang].sections.teaching_philosophy.title }}</h2>
+  
+  {% for principle in site.data.teaching_principles.principles %}
+  <div class="expandable mb-3">
+    <div class="expandable-header" onclick="toggleExpand(this)">
+      <div>
+        <h3 class="text-lg font-semibold mb-0">
+          {% case principle.id %}
+            {% when 'situated-learning' %}
+              Aprendizaje Situado y Ecológico
+            {% when 'dialogic-construction' %}
+              Construcción Dialógica y Social
+            {% when 'identity-development' %}
+              Desarrollo de Identidad Transformacional
+            {% when 'person-context' %}
+              Persona en Contexto y Dinámicas de Poder
+            {% when 'multi-competence' %}
+              Multi-Competencia y Recursos Translingües
+            {% when 'communities-practice' %}
+              Comunidades de Práctica y Socialización
+            {% when 'emergent-motivation' %}
+              Motivación Emergente y Construcción Colaborativa
+            {% when 'assessment-development' %}
+              Evaluación y Desarrollo Profesional
+            {% when 'critical-consciousness' %}
+              Conciencia Crítica y Conciencia Institucional
+            {% when 'complex-development' %}
+              Desarrollo Complejo y Habilidades Integradas
+          {% endcase %}
+        </h3>
+      </div>
+      <span class="expand-icon">▼</span>
+    </div>
+    <div class="expandable-content">
+      <p>
+        {% case principle.id %}
+          {% when 'situated-learning' %}
+            El aprendizaje de idiomas ocurre a través de interacciones complejas entre estudiantes, contextos y comunidades. Este enfoque ecológico requiere integrar el aprendizaje en situaciones del mundo real mientras se analiza cómo los estudiantes navegan entre múltiples comunidades de práctica.
+          {% when 'dialogic-construction' %}
+            El lenguaje emerge a través de la interacción social y la mediación entre múltiples textos, contextos y participantes. El aprendizaje se co-construye mediante actividades colaborativas con la interacción social como motor principal.
+          {% when 'identity-development' %}
+            El aprendizaje de idiomas transforma fundamentalmente la identidad, motivación y autoconcepto del estudiante. Esta transformación requiere que los maestros rastreen la evolución de la identidad a través de narrativas de aprendizaje.
+          {% when 'person-context' %}
+            Los estudiantes y maestros deben entenderse como personas completas con historias, metas e identidades múltiples. Esto implica crear espacios compartidos en lugar de jerarquías y reconocer explícitamente los privilegios y dinámicas de poder.
+          {% when 'multi-competence' %}
+            Todos los idiomas en el repertorio de un estudiante son recursos interconectados que deben aprovecharse sistemáticamente. Esto requiere usar la L1 como andamiaje y validar las prácticas translingües como naturales y productivas.
+          {% when 'communities-practice' %}
+            El aprendizaje de idiomas significa movimiento de participación periférica a participación plena en comunidades de práctica. Esto implica facilitar el movimiento hacia la membresía central y exponer a los estudiantes a interacciones culturales auténticas.
+          {% when 'emergent-motivation' %}
+            La motivación emerge orgánicamente a través de sistemas de interrelaciones en lugar de ser rasgos fijos. El conocimiento se construye colaborativamente a través de prácticas democráticas donde maestros y estudiantes aprenden juntos.
+          {% when 'assessment-development' %}
+            La evaluación debe ser sistemática, longitudinal e integrada en las experiencias de aprendizaje. Los maestros deben participar en aprendizaje continuo autodirigido, colaboración y reflexión crítica.
+          {% when 'critical-consciousness' %}
+            La educación de idiomas debe ayudar a los estudiantes a desarrollar conciencia crítica sobre cómo las instituciones educativas moldean el aprendizaje. Esto requiere cuestionar supuestos sobre el lenguaje y el poder mientras se desarrolla la agencia estudiantil.
+          {% when 'complex-development' %}
+            La adquisición de idiomas sigue trayectorias complejas y no lineales con habilidades desarrolladas holísticamente. Este proceso ecológico requiere aceptar la variación individual y crear entornos de tareas auténticas.
+        {% endcase %}
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+<!-- Skills & Expertise -->
+<section id="habilidades" class="mb-8">
+  <h2 class="mb-5">Habilidades y Experiencia</h2>
+  
+  <div class="grid grid-cols-3 gap-5">
+    <div>
+      <h3 class="mb-3">Idiomas</h3>
+      <ul>
+        <li>Inglés (Nativo)</li>
+        <li>Español (B2/ACTFL Avanzado Bajo/Medio)</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-3">Tecnología Educativa</h3>
+      <ul>
+        <li>Desarrollo Curricular</li>
+        <li>Aprendizaje de Idiomas en RV</li>
+        <li>Diseño de Cursos en Línea</li>
+        <li>Sistemas de Gestión de Aprendizaje</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-3">Habilidades Técnicas</h3>
+      <ul>
+        <li>Aplicaciones de IA/ML</li>
+        <li>Desarrollo Web</li>
+        <li>Gestión de Contenido</li>
+        <li>Análisis de Datos</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleExpand(element) {
+  const content = element.nextElementSibling;
+  const icon = element.querySelector('.expand-icon');
+  
+  content.classList.toggle('expanded');
+  icon.classList.toggle('expanded');
+}
+</script>

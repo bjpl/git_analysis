@@ -1,0 +1,26 @@
+======================================================================
+YAML UPDATE SUMMARY REPORT
+======================================================================
+
+Processed at: 2025-09-11 15:01:14
+Original file: C:\Users\brand\Development\Project_Workspace\brandonjplambert\_data\spanish_accounts.yml
+
+📊 STATISTICS:
+  Total accounts: 442
+  Accounts updated: 53
+  Total URLs added: 0
+
+🔗 URLs ADDED BY PLATFORM:
+  Instagram URLs added: 0
+  YouTube URLs added: 0
+  Twitter URLs added: 0
+  Website URLs added: 0
+
+✅ VERIFICATION DATA:
+  Verification statuses added: 67
+
+📈 COMPLETION RATES:
+  Instagram: 404/442 (91.4%)
+  YouTube: 139/442 (31.4%)
+
+======================================================================

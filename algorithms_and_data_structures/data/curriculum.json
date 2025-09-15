@@ -1,0 +1,73 @@
+{
+  "modules": [
+    {
+      "id": "foundations",
+      "title": "🏗️ Foundations",
+      "description": "Core concepts and fundamentals",
+      "lessons": [
+        {
+          "id": "big-o",
+          "title": "Big O Notation",
+          "content": "Big O notation is the language we use to describe the efficiency of algorithms. It describes how the runtime or space requirements grow as the input size grows.\n\n**Key Concepts:**\n- Time complexity: How long an algorithm takes\n- Space complexity: How much memory it uses\n- Worst-case vs average-case analysis\n\n**Common Complexities:**\n- O(1): Constant time\n- O(log n): Logarithmic time\n- O(n): Linear time\n- O(n log n): Linearithmic time\n- O(n²): Quadratic time",
+          "topics": ["O(1) - Constant", "O(n) - Linear", "O(log n) - Logarithmic", "O(n²) - Quadratic"],
+          "practice_problems": 5,
+          "code_examples": "# O(1) - Constant time\ndef get_first(arr):\n    return arr[0] if arr else None\n\n# O(n) - Linear time\ndef find_max(arr):\n    max_val = arr[0]\n    for val in arr:\n        if val > max_val:\n            max_val = val\n    return max_val\n\n# O(n²) - Quadratic time\ndef bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(n-1-i):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]"
+        },
+        {
+          "id": "arrays",
+          "title": "Arrays & Dynamic Arrays",
+          "content": "Arrays are the most fundamental data structure. They store elements in contiguous memory locations, allowing O(1) access by index.\n\n**Static Arrays:**\n- Fixed size\n- O(1) access and update\n- O(n) insertion and deletion\n\n**Dynamic Arrays (Lists in Python):**\n- Resizable\n- Amortized O(1) append\n- Same access patterns as static arrays",
+          "topics": ["Array basics", "Dynamic resizing", "Amortized analysis", "Memory allocation"],
+          "practice_problems": 8,
+          "code_examples": "# Dynamic array implementation\nclass DynamicArray:\n    def __init__(self):\n        self.capacity = 1\n        self.size = 0\n        self.array = [None] * self.capacity\n    \n    def append(self, value):\n        if self.size == self.capacity:\n            self._resize()\n        self.array[self.size] = value\n        self.size += 1\n    \n    def _resize(self):\n        self.capacity *= 2\n        new_array = [None] * self.capacity\n        for i in range(self.size):\n            new_array[i] = self.array[i]\n        self.array = new_array"
+        }
+      ]
+    },
+    {
+      "id": "searching",
+      "title": "🔍 Searching Algorithms",
+      "description": "Techniques for finding elements in collections",
+      "lessons": [
+        {
+          "id": "linear-search",
+          "title": "Linear Search",
+          "content": "Linear search is the simplest search algorithm. It checks every element in sequence until the target is found.\n\n**Characteristics:**\n- Works on unsorted data\n- O(n) time complexity\n- O(1) space complexity\n- Best for small datasets or unsorted data",
+          "topics": ["Implementation", "When to use", "Optimizations", "Sentinel search"],
+          "practice_problems": 3,
+          "code_examples": "def linear_search(arr, target):\n    '''Simple linear search'''\n    for i, val in enumerate(arr):\n        if val == target:\n            return i\n    return -1\n\ndef find_all_occurrences(arr, target):\n    '''Find all occurrences of target'''\n    indices = []\n    for i, val in enumerate(arr):\n        if val == target:\n            indices.append(i)\n    return indices"
+        },
+        {
+          "id": "binary-search",
+          "title": "Binary Search",
+          "content": "Binary search is an efficient algorithm for finding an item in a sorted array. It works by repeatedly dividing the search interval in half.\n\n**Requirements:**\n- Array must be sorted\n- Random access to elements\n\n**Complexity:**\n- O(log n) time\n- O(1) space (iterative)\n- O(log n) space (recursive)",
+          "topics": ["Implementation", "Requirements", "Variations", "Applications"],
+          "practice_problems": 6,
+          "code_examples": "def binary_search(arr, target):\n    '''Iterative binary search'''\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\ndef binary_search_recursive(arr, target, left=0, right=None):\n    '''Recursive binary search'''\n    if right is None:\n        right = len(arr) - 1\n    \n    if left > right:\n        return -1\n    \n    mid = (left + right) // 2\n    \n    if arr[mid] == target:\n        return mid\n    elif arr[mid] < target:\n        return binary_search_recursive(arr, target, mid + 1, right)\n    else:\n        return binary_search_recursive(arr, target, left, mid - 1)"
+        }
+      ]
+    },
+    {
+      "id": "sorting",
+      "title": "📊 Sorting Algorithms",
+      "description": "Algorithms for ordering elements",
+      "lessons": [
+        {
+          "id": "bubble-sort",
+          "title": "Bubble Sort",
+          "content": "Bubble sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they're in the wrong order.\n\n**Characteristics:**\n- O(n²) average and worst case\n- O(n) best case (already sorted)\n- O(1) space complexity\n- Stable sort\n- In-place sorting",
+          "topics": ["Algorithm", "Optimization", "Complexity", "Stability"],
+          "practice_problems": 4,
+          "code_examples": "def bubble_sort(arr):\n    '''Basic bubble sort'''\n    n = len(arr)\n    for i in range(n):\n        for j in range(n - 1 - i):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\ndef bubble_sort_optimized(arr):\n    '''Optimized with early termination'''\n    n = len(arr)\n    for i in range(n):\n        swapped = False\n        for j in range(n - 1 - i):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                swapped = True\n        if not swapped:\n            break\n    return arr"
+        },
+        {
+          "id": "quicksort",
+          "title": "QuickSort",
+          "content": "QuickSort is an efficient, in-place sorting algorithm that uses divide-and-conquer. It picks a 'pivot' element and partitions the array around it.\n\n**Characteristics:**\n- O(n log n) average case\n- O(n²) worst case\n- O(log n) space (recursion stack)\n- Not stable (can be made stable)\n- In-place sorting",
+          "topics": ["Partitioning", "Pivot selection", "Analysis", "Optimizations"],
+          "practice_problems": 7,
+          "code_examples": "def quicksort(arr, low=0, high=None):\n    '''In-place quicksort'''\n    if high is None:\n        high = len(arr) - 1\n    \n    if low < high:\n        # Partition the array\n        pivot_index = partition(arr, low, high)\n        \n        # Recursively sort left and right\n        quicksort(arr, low, pivot_index - 1)\n        quicksort(arr, pivot_index + 1, high)\n    \n    return arr\n\ndef partition(arr, low, high):\n    '''Lomuto partition scheme'''\n    pivot = arr[high]\n    i = low - 1\n    \n    for j in range(low, high):\n        if arr[j] <= pivot:\n            i += 1\n            arr[i], arr[j] = arr[j], arr[i]\n    \n    arr[i + 1], arr[high] = arr[high], arr[i + 1]\n    return i + 1"
+        }
+      ]
+    }
+  ]
+}

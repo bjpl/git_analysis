@@ -1,0 +1,17 @@
+{
+  "user": "learner",
+  "level": "foundation",
+  "completed": [],
+  "current_lesson": "big-o",
+  "score": 0,
+  "scores": {},
+  "achievements": [],
+  "last_accessed": "2025-09-13T16:16:58.085513",
+  "total_time": 0,
+  "preferences": {
+    "difficulty": "intermediate",
+    "preferred_language": "python",
+    "show_hints": true,
+    "email_reminders": false
+  }
+}

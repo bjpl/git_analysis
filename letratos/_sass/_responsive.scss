@@ -1,0 +1,158 @@
+// Responsive design breakpoints and adjustments
+
+// Mobile devices (max-width: 480px)
+@media (max-width: $mobile) {
+  body {
+    font-size: 16px;
+  }
+  
+  .site-nav {
+    flex-direction: column;
+    gap: $spacing-unit;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacing-unit * 0.5;
+  }
+  
+  .poem-title,
+  .photography-title {
+    font-size: 1.5rem;
+  }
+  
+  .poem-content {
+    font-size: 0.95rem;
+  }
+  
+  .language-selection {
+    flex-direction: column;
+    gap: $spacing-unit;
+    
+    a {
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+    }
+  }
+  
+  .photography-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .lightbox img {
+    max-width: 95%;
+    max-height: 70vh;
+  }
+  
+  .language-switcher {
+    top: 10px;
+    right: 10px;
+    
+    a {
+      padding: 0.25rem 0.6rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Tablet devices (481px - 768px)
+@media (min-width: #{$mobile + 1px}) and (max-width: $tablet) {
+  .photography-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .poem-sketch {
+    img, .sketch-video {
+      max-width: 70%;
+    }
+  }
+}
+
+// Desktop and larger (769px+)
+@media (min-width: #{$tablet + 1px}) {
+  .main-content {
+    max-width: 800px;
+  }
+  
+  .photography-index {
+    max-width: 1200px;
+  }
+  
+  .photography-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .image-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  // Enhanced hover effects on desktop
+  .photo-tile,
+  .grid-item {
+    &:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+  }
+}
+
+// Large desktop (1024px+)
+@media (min-width: $desktop) {
+  body {
+    font-size: 19px;
+  }
+  
+  .home h1 {
+    font-size: 3.5rem;
+  }
+  
+  .photography-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+// Print styles
+@media print {
+  .site-header,
+  .site-footer,
+  .language-switcher,
+  .poem-nav,
+  .photography-nav,
+  .lightbox {
+    display: none;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black;
+    background: white;
+  }
+  
+  .main-content {
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+  
+  .poem-sketch img {
+    max-width: 50%;
+    page-break-inside: avoid;
+  }
+}

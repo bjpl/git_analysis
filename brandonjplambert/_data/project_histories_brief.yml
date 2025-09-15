@@ -1,0 +1,197 @@
+# Project Development Histories - Refined & Standardized
+# Based on actual GitHub repository data and commit histories
+
+histories:
+  describe-it:
+    title: "Describe It - Spanish Learning Application"
+    summary: "AI-powered language learning platform combining visual recognition with Spanish education"
+    status: "Active Development"
+    current_state: "141 commits, production deployment with ongoing refinements"
+    
+    timeline:
+      - phase: "Initial Development"
+        period: "August-September 2024"
+        focus: "Core infrastructure and type safety"
+        key_work:
+          - "Next.js 14 with TypeScript foundation"
+          - "Supabase authentication integration"
+          - "OpenAI GPT-4 Vision API setup"
+          - "Unsplash API for image sourcing"
+      
+      - phase: "Architecture Evolution"
+        period: "September-October 2024"
+        focus: "Production hardening and scalability"
+        key_work:
+          - "Microservices pattern implementation"
+          - "Event-driven architecture adoption"
+          - "Comprehensive testing suite (Vitest, Playwright)"
+          - "Security configurations and monitoring"
+      
+      - phase: "Current State"
+        period: "November-December 2024"
+        focus: "Feature completion and optimization"
+        key_work:
+          - "Active bug fixes and performance tuning"
+          - "Documentation and ADRs"
+          - "Production deployment maintenance"
+    
+    technical_reality:
+      strengths:
+        - "Solid architectural foundation"
+        - "Comprehensive test coverage"
+        - "Modern tech stack"
+      challenges:
+        - "Some features still being debugged"
+        - "Performance optimization ongoing"
+        - "Complex state management scenarios"
+    
+    metrics:
+      total_commits: 141
+      last_deployment: "December 9, 2024"
+      tech_stack_size: "10+ integrated services"
+      documentation: "Extensive with ADRs"
+
+  subjunctive-practice:
+    title: "Spanish Subjunctive Practice"
+    summary: "Desktop application for mastering Spanish subjunctive forms with AI assistance"
+    status: "Early Stage"
+    current_state: "3 commits, functional prototype requiring API key"
+    
+    timeline:
+      - phase: "Initial Creation"
+        period: "February 2025"
+        focus: "Core functionality"
+        key_work:
+          - "Python desktop app structure"
+          - "OpenAI integration for explanations"
+          - "Three practice modes implementation"
+          - "Basic UI with Tkinter"
+    
+    technical_reality:
+      strengths:
+        - "Clear pedagogical approach"
+        - "AI-powered contextual help"
+        - "Multiple learning modes"
+      challenges:
+        - "Very early stage (3 commits)"
+        - "Requires OpenAI API key"
+        - "Desktop-only limitation"
+        - "No deployment infrastructure"
+    
+    metrics:
+      total_commits: 3
+      repository_created: "February 25, 2025"
+      contributors: 2
+      practice_modes: 3
+
+  internet-infrastructure-map:
+    title: "Internet Infrastructure Map"
+    summary: "3D visualization of global internet infrastructure"
+    status: "Deployed"
+    current_state: "Production deployment with 14 commits focused on UI refinement"
+    
+    timeline:
+      - phase: "Initial Implementation"
+        period: "Single sprint development"
+        focus: "Core visualization"
+        key_work:
+          - "Three.js globe implementation"
+          - "550+ submarine cables data"
+          - "8,000+ data centers mapped"
+          - "Performance optimization for 60 FPS"
+      
+      - phase: "UI Refinement"
+        period: "Post-launch iterations"
+        focus: "User experience improvements"
+        key_work:
+          - "Tooltip positioning fixes (6 commits)"
+          - "Mobile responsiveness"
+          - "Performance optimizations"
+          - "GitHub Pages deployment"
+    
+    technical_reality:
+      strengths:
+        - "Impressive visual presentation"
+        - "Good performance (60 FPS target)"
+        - "Educational value"
+      challenges:
+        - "Static data (not real-time)"
+        - "Limited to visualization only"
+        - "No backend infrastructure"
+    
+    metrics:
+      total_commits: 14
+      data_points: "550+ cables, 8000+ centers"
+      code_changes: "1,100 additions, 434 deletions"
+      ui_focus: "71% of development effort"
+
+  letratos:
+    title: "Letratos - Poetry & Photography Portfolio"
+    summary: "Bilingual static site for poetry and photography"
+    status: "Active"
+    current_state: "Jekyll-based portfolio with focus on performance and aesthetics"
+    
+    timeline:
+      - phase: "Creation & Iteration"
+        period: "Ongoing maintenance"
+        focus: "Content and presentation"
+        key_work:
+          - "Jekyll 4.3 static generation"
+          - "Bilingual content management"
+          - "Photo gallery implementation"
+          - "Performance optimizations"
+    
+    technical_reality:
+      strengths:
+        - "Clean, minimalist design"
+        - "Good performance (static site)"
+        - "Bilingual support"
+      challenges:
+        - "Manual content management"
+        - "Limited interactivity"
+        - "Static site limitations"
+    
+    metrics:
+      framework: "Jekyll 4.3.0"
+      languages_supported: 2
+      content_types: "Poems, Photos, Sketches"
+
+  fancy-monkey:
+    title: "Fancy Monkey - Streetwear E-Commerce"
+    summary: "Lightweight e-commerce platform with zero hosting costs"
+    status: "Completed"
+    current_state: "22 commits, deployed to production at fancymonkey.shop"
+    
+    timeline:
+      - phase: "Development & Launch"
+        period: "Rapid development cycle"
+        focus: "MVP to production"
+        key_work:
+          - "Two-repository architecture"
+          - "Stripe payment integration"
+          - "GitHub Pages frontend"
+          - "Vercel serverless checkout"
+    
+    technical_reality:
+      strengths:
+        - "Zero hosting costs"
+        - "Simple, maintainable architecture"
+        - "Production-ready payments"
+      challenges:
+        - "Limited to static frontend"
+        - "Minimal backend functionality"
+        - "Scalability constraints"
+    
+    metrics:
+      total_commits: 22
+      product_count: 5
+      price_range: "$175-$210"
+      architecture: "Static + Serverless"
+
+# Standardization Notes:
+# - Removed inflated claims and hyperbolic language
+# - Based metrics on actual repository data
+# - Acknowledged limitations and challenges honestly
+# - Focused on factual achievements rather than aspirational claims
+# - Standardized structure across all projects
+# - Used consistent terminology and formatting

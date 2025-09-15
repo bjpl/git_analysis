@@ -1,0 +1,462 @@
+index,handle,name,category,description,instagram_url,instagram_followers,instagram_verified,youtube_url,youtube_subscribers,youtube_verified,website,twitter_url,facebook_url,last_updated,has_instagram,has_youtube,has_both
+1,@infopresidencia,Presidencia de Colombia,Government,Official account of the Presidency of Colombia - Casa de Nariño,https://instagram.com/infopresidencia,,True,,,,,,,2025-09-11,Yes,No,No
+2,@embamexeua,Mexico in USA,Diplomatic,"Mexican Embassy in Washington DC, USA",https://instagram.com/embamexeua,,True,https://www.youtube.com/@embamexeua,,True,,,,2025-09-11,Yes,Yes,Yes
+3,@consulmexsea,Mexican Consulate Seattle,Diplomatic,"Mexican Consulate in Seattle, Washington",https://instagram.com/consulmexsea,,True,,,,,,,2025-09-11,Yes,No,No
+4,@mincultura,MinCultura Colombia,Government,Ministry of Culture of Colombia - promoting Colombian cultural heritage,https://instagram.com/mincultura,,True,https://www.youtube.com/@MinisterioCulturaColombia,,True,,,,2025-09-11,Yes,Yes,Yes
+5,@mineducacion,MinEducación Colombia,Government,Ministry of National Education of Colombia,https://instagram.com/mineducacioncol,,True,https://www.youtube.com/@Mineducacion,,True,,,,2025-09-11,Yes,Yes,Yes
+6,@alcaldiabogota,Alcaldía de Bogotá,Government,Mayor's Office of Bogotá - local government of Colombia's capital,https://instagram.com/alcaldiabogota,,True,https://www.youtube.com/@AlcaldiaBogota,,True,,,,2025-09-11,Yes,Yes,Yes
+7,@sremx,SRE Mexico,Government,Ministry of Foreign Affairs of Mexico,https://instagram.com/sre_mx,,True,,,,,,,2025-09-11,Yes,No,No
+8,@gobmexico,Gobierno de México,Government,Official account of the Government of Mexico,https://instagram.com/gobmexico,,True,https://www.youtube.com/@GobiernoMX,,True,,,,2025-09-11,Yes,Yes,Yes
+9,@mindefensa,MinDefensa Colombia,Government,Ministry of National Defense of Colombia,https://instagram.com/mindefensaco,,True,,,,,,,2025-09-11,Yes,No,No
+10,@minhacienda,MinHacienda Colombia,Government,Ministry of Finance and Public Credit of Colombia,https://instagram.com/minhacienda,,,https://www.youtube.com/@MinHaciendaColombia,,True,,,,2025-09-11,Yes,Yes,Yes
+11,@minsaludcol,MinSalud Colombia,Government,Ministry of Health and Social Protection of Colombia,https://instagram.com/minsaludcol,,True,https://www.youtube.com/@MinSaludColombia,,True,,,,2025-09-11,Yes,Yes,Yes
+12,@minticscolombia,MinTIC Colombia,Government,Ministry of Information and Communication Technologies of Colombia,https://instagram.com/ministerio_tic,,,,,,,,,2025-09-11,Yes,No,No
+13,@mintrabajocol,MinTrabajo Colombia,Government,Ministry of Labor of Colombia,https://instagram.com/mintrabajocol,,True,,,,,,,2025-09-11,Yes,No,No
+14,@mintransporteco,MinTransporte Colombia,Government,Ministry of Transportation of Colombia,https://instagram.com/mintransporteco,,,https://www.youtube.com/@Mintransporte,,True,,,,2025-09-11,Yes,Yes,Yes
+15,@presidenciamx,Presidencia México,Government,Official account of the Presidency of Mexico,https://instagram.com/gobmexico,,,https://www.youtube.com/@PresidenciaMexico,,True,,,,2025-09-11,Yes,Yes,Yes
+16,@sepgobmx,SEP México,Government,Ministry of Public Education of Mexico,https://instagram.com/sepmx,,True,,,,,,,2025-09-11,Yes,No,No
+17,@saludmexico,Salud México,Government,Ministry of Health of Mexico,https://instagram.com/ssalud_mx,,True,,,,,,,2025-09-11,Yes,No,No
+18,@hacienda_mexico,Hacienda México,Government,Ministry of Finance and Public Credit of Mexico,https://instagram.com/shcp_mx,,,,,,,,,2025-09-11,Yes,No,No
+19,@sct_mx,SCT México,Government,Ministry of Communications and Transportation of Mexico,https://instagram.com/sict_mx,,,,,,,,,2025-09-11,Yes,No,No
+20,@semarnat_mexico,SEMARNAT México,Government,Ministry of Environment and Natural Resources of Mexico,https://instagram.com/semarnat_mexico,,,,,,,,,2025-09-11,Yes,No,No
+21,@economía.mexico,Economía México,Government,Ministry of Economy of Mexico,https://instagram.com/secretariaeconomia,,,,,,,,,2025-09-11,Yes,No,No
+22,@usembassymex,USA Embassy Mexico,Diplomatic,United States Embassy in Mexico,https://instagram.com/usembassymex,,True,,,,,,,2025-09-11,Yes,No,No
+23,@franciaenmexico,France Embassy Mexico,Diplomatic,Embassy of France in Mexico,https://instagram.com/franciaenmexico,,True,https://www.youtube.com/@FranciaenMexico,,True,,,,2025-09-11,Yes,Yes,Yes
+24,@embamexcan,Mexico in Canada,Diplomatic,Embassy of Mexico in Canada,https://instagram.com/embamexcan,,True,https://www.youtube.com/@embamexcan,,True,,,,2025-09-11,Yes,Yes,Yes
+25,@embamexchi,Mexico in Chile,Diplomatic,Embassy of Mexico in Chile,https://instagram.com/embamexchi,,True,,,,,,,2025-09-11,Yes,No,No
+26,@embamexcol,Mexico in Colombia,Diplomatic,Embassy of Mexico in Colombia,https://instagram.com/embamexcol,,True,https://www.youtube.com/@embamexcol,,True,,,,2025-09-11,Yes,Yes,Yes
+27,@embamexgua,Mexico in Guatemala,Diplomatic,Embassy of Mexico in Guatemala,https://instagram.com/embamexgua,,True,,,,,,,2025-09-11,Yes,No,No
+28,@embamex_italia,Mexico in Italy,Diplomatic,Embassy of Mexico in Italy,https://instagram.com/embamex_italia,,True,,,,,,,2025-09-11,Yes,No,No
+29,@embamexjp,Mexico in Japan,Diplomatic,Embassy of Mexico in Japan,https://instagram.com/embamexjp,,True,https://www.youtube.com/@embamexjp,,True,,,,2025-09-11,Yes,Yes,Yes
+30,@embamexlibano,Mexico in Lebanon,Diplomatic,Embassy of Mexico in Lebanon,https://instagram.com/embamexlibano,,True,,,,,,,2025-09-11,Yes,No,No
+31,@embamexperu,Mexico in Peru,Diplomatic,Embassy of Mexico in Peru,https://instagram.com/embamexperu,,True,https://www.youtube.com/@embamexperu,,True,,,,2025-09-11,Yes,Yes,Yes
+32,@embamexesp,Mexico in Spain,Diplomatic,Embassy of Mexico in Spain,https://instagram.com/embamexesp,,True,,,,,,,2025-09-11,Yes,No,No
+33,@embamexur,Mexico in Uruguay,Diplomatic,Embassy of Mexico in Uruguay,https://instagram.com/embamexur,,True,,,,,,,2025-09-11,Yes,No,No
+34,@embamexvenezuela,Mexico in Venezuela,Diplomatic,Embassy of Mexico in Venezuela,https://instagram.com/embamexvenezuela,,True,,,,,,,2025-09-11,Yes,No,No
+35,@consulmexla,Mexican Consulate LA,Diplomatic,Mexican Consulate General in Los Angeles,https://instagram.com/consulmexlan,,True,https://www.youtube.com/@ConsulmexLA,,True,,,,2025-09-11,Yes,Yes,Yes
+36,@consulmexny,Mexican Consulate NY,Diplomatic,Mexican Consulate General in New York,https://instagram.com/consulmexny,,True,https://www.youtube.com/@ConsulmexNY,,True,,,,2025-09-11,Yes,Yes,Yes
+37,@consulmexhou,Mexican Consulate Houston,Diplomatic,Mexican Consulate General in Houston,https://instagram.com/consulmexhouston,,True,,,,,,,2025-09-11,Yes,No,No
+38,@consulmexchi,Mexican Consulate Chicago,Diplomatic,Mexican Consulate General in Chicago,https://instagram.com/consulmexchi,,True,https://www.youtube.com/@ConsulmexChicago,,True,,,,2025-09-11,Yes,Yes,Yes
+39,@cdmx,CDMX,Government,Government of Mexico City (Ciudad de México),https://instagram.com/cdmx,,True,,,,,,,2025-09-11,Yes,No,No
+40,@guadalajaramx,Guadalajara,Government,"Municipal Government of Guadalajara, Mexico",https://instagram.com/guadalajaramx,,True,,,,,,,2025-09-11,Yes,No,No
+41,@monterreymx,Monterrey,Government,"Municipal Government of Monterrey, Mexico",https://instagram.com/monterreymx,,True,,,,,,,2025-09-11,Yes,No,No
+42,@udea,Universidad de Antioquia,Education,University of Antioquia - Leading Colombian university in Medellín,https://instagram.com/udea,,True,,,,,,,2025-09-11,Yes,No,No
+43,@instituto_humboldt,Instituto Humboldt,Research,Alexander von Humboldt Biological Resources Research Institute,https://instagram.com/instituto_humboldt,,True,,,,,,,2025-09-11,Yes,No,No
+44,@laprofemonica,La Profe Mónica,Language Learning,Spanish language teacher sharing educational content,https://instagram.com/laprofemonica,,True,,,,,,,2025-09-11,Yes,No,No
+45,@museodeloro,Museo del Oro,Culture,Gold Museum of Colombia showcasing pre-Columbian artifacts,https://instagram.com/museodeloro,,,,,,,,,2025-09-11,Yes,No,No
+46,@elmamm,MAMM Medellín,Art,Museum of Modern Art of Medellín,https://instagram.com/elmamm,,,,,,,,,2025-09-11,Yes,No,No
+47,@bibliotecaluisangelarango,Biblioteca Luis Ángel Arango,Culture,Major cultural library in Bogotá with events and exhibitions,https://instagram.com/bibliotecaluisangelarango,,,,,,,,,2025-09-11,Yes,No,No
+48,@museodeartemoderno,Museo de Arte Moderno MX,Culture,Museum of Modern Art showcasing contemporary Mexican and international art,https://instagram.com/museoartemodernomx,,True,,,,,,,2025-09-11,Yes,No,No
+49,@museumofmodernart,MoMA,Culture,Museum of Modern Art - world-renowned art museum in New York,https://instagram.com/themuseumofmodernart,,,https://www.youtube.com/@MoMAvideos,,True,,,,2025-09-11,Yes,Yes,Yes
+50,@imcine,IMCINE,Culture,Mexican Institute of Cinematography - promoting Mexican cinema,https://instagram.com/imcine,,True,,,,,,,2025-09-11,Yes,No,No
+51,@elcorraloficial,El Corral,Food,Colombian burger restaurant chain - local favorite,https://instagram.com/elcorraloficial,,True,,,,,,,2025-09-11,Yes,No,No
+52,@colcafe,Colcafé,Food,Colombian coffee brand and culture,https://instagram.com/colcafe,,True,,,,,,,2025-09-11,Yes,No,No
+53,@visitbogota.co,Visit Bogotá,Tourism,Official Bogotá tourism account with city highlights,https://instagram.com/visitbogota.co,,True,,,,,,,2025-09-11,Yes,No,No
+54,@visitarmedellin,Visitar Medellín,Tourism,Medellín tourism and local experiences,https://instagram.com/medellin_travel,,,,,,,,,2025-09-11,Yes,No,No
+55,@medellin_guru,Medellín Guru,Tourism,Comprehensive Medellín travel guide and tips,https://instagram.com/medellin_guru,,,,,,,,,2025-09-11,Yes,No,No
+56,@parquescolombia,Parques Nacionales Colombia,Nature,National Parks of Colombia - natural beauty and conservation,https://instagram.com/parquescolombia,,,,,,,,,2025-09-11,Yes,No,No
+57,@visitmexico,Visit Mexico,Tourism,Official tourism promotion of Mexico - destinations and experiences,https://instagram.com/visitmexico,,True,,,,,,,2025-09-11,Yes,No,No
+58,@colombiatravel,Colombia Travel,Tourism,Official tourism promotion of Colombia - showcasing the country's beauty,https://instagram.com/colombia.travel,,True,https://www.youtube.com/@colombiatravel,,True,,,,2025-09-11,Yes,Yes,Yes
+59,@nomadafrustrada,Nómada Frustrada,Tourism,Digital nomad travel content and lifestyle,https://instagram.com/nomadafrustrada,,True,,,,,,,2025-09-11,Yes,No,No
+60,@viajandoempelota,Viajando Empelota,Tourism,Backpacking adventures across Latin America,https://instagram.com/viajandoempelota,,True,,,,,,,2025-09-11,Yes,No,No
+61,@bogotacomidas,Bogotá Comidas,Food,Food guide and restaurant recommendations in Bogotá,https://instagram.com/bogotacomidas,,True,,,,,,,2025-09-11,Yes,No,No
+62,@bogotaplan,Bogotá Plan,Culture,"Events, culture, and activities in Bogotá",https://instagram.com/bogotaplan,,True,,,,,,,2025-09-11,Yes,No,No
+63,@colombianfamily,Colombian Family,Lifestyle,Colombian family travel and lifestyle content,,,,,,,,,,2025-09-11,No,No,No
+64,@visitperu,Visit Peru,Tourism,Official tourism promotion of Peru,https://instagram.com/peru,,,https://www.youtube.com/@visitperu,,True,,,,2025-09-11,Yes,Yes,Yes
+65,@chiletravel,Chile Travel,Tourism,Official tourism promotion of Chile,https://instagram.com/chiletravel,,,https://www.youtube.com/@chiletravel,,True,,,,2025-09-11,Yes,Yes,Yes
+66,@visitpanama,Visit Panama,Tourism,Official tourism promotion of Panama,https://instagram.com/visitpanama,,True,https://www.youtube.com/@multimediavisitpma,,True,,,,2025-09-11,Yes,Yes,Yes
+67,@visitcostarica,Visit Costa Rica,Tourism,Official tourism promotion of Costa Rica,https://instagram.com/visit_costarica,,,https://www.youtube.com/@visitcostarica,,True,,,,2025-09-11,Yes,Yes,Yes
+68,@ecuadortravel,Ecuador Travel,Tourism,Official tourism promotion of Ecuador,https://instagram.com/ecuadortravel,,True,https://www.youtube.com/@EcuadorTravel,,True,,,,2025-09-11,Yes,Yes,Yes
+69,@visitargentina,Visit Argentina,Tourism,Official tourism promotion of Argentina,https://instagram.com/visitargentina,,True,https://www.youtube.com/@visitargentina,,True,,,,2025-09-11,Yes,Yes,Yes
+70,@brasilturismo,Brasil Turismo,Tourism,Official tourism promotion of Brazil,https://instagram.com/brasilturismo,,True,https://www.youtube.com/@brasilturismo,,True,,,,2025-09-11,Yes,Yes,Yes
+71,@uruguaynatural,Uruguay Natural,Tourism,Official tourism promotion of Uruguay,https://instagram.com/uruguaynaturalmt,,,,,,,,,2025-09-11,Yes,No,No
+72,@museonacional,Museo Nacional Mexico,Culture,National Museum of Mexico showcasing Mexican history and culture,,,,,,,,,,2025-09-11,No,No,No
+73,@malba,MALBA,Culture,Museum of Latin American Art of Buenos Aires,https://instagram.com/malba,,True,,,,,,,2025-09-11,Yes,No,No
+74,@museolarco,Museo Larco,Culture,"Museum showcasing pre-Columbian art in Lima, Peru",https://instagram.com/museolarco,,True,,,,,,,2025-09-11,Yes,No,No
+75,@museobotero,Museo Botero,Culture,Museum dedicated to Fernando Botero's works in Bogotá,https://instagram.com/museobotero,,True,,,,,,,2025-09-11,Yes,No,No
+76,@museoantropo,Museo de Antropología,Culture,National Museum of Anthropology showcasing ancient cultures,https://instagram.com/museoantropo,,True,https://www.youtube.com/@museoantropologia,,True,,,,2025-09-11,Yes,Yes,Yes
+77,@museodelprado,Museo del Prado,Culture,Spain's premier art museum in Madrid,https://instagram.com/museoprado,,True,https://www.youtube.com/@museodelprado,,True,,,,2025-09-11,Yes,Yes,Yes
+78,@museoreinasofia,Museo Reina Sofía,Culture,Spanish national museum of modern and contemporary art,https://instagram.com/museoreinasofia,,,https://www.youtube.com/@museoreinasofia,,True,,,,2025-09-11,Yes,Yes,Yes
+79,@mna,MNA,Culture,National Museum of Anthropology - Mexico's premier archaeological museum,,,,https://www.youtube.com/@museonacionaldeantropologia,,True,,,,2025-09-11,No,Yes,No
+80,@inahmx,INAH México,Culture,National Institute of Anthropology and History of Mexico,https://instagram.com/inahmx,,,https://www.youtube.com/@INAHTV,,True,,,,2025-09-11,Yes,Yes,Yes
+81,@inba,INBA,Culture,National Institute of Fine Arts and Literature of Mexico,,,,https://www.youtube.com/@INBAmx,,True,,,,2025-09-11,No,Yes,No
+82,@museofridakahlo,Museo Frida Kahlo,Culture,Casa Azul - Frida Kahlo Museum in Mexico City,https://instagram.com/museofridakahlo,,,https://www.youtube.com/@museofridakahlo,,True,,,,2025-09-11,Yes,Yes,Yes
+83,@munal,MUNAL,Culture,National Art Museum of Mexico,https://instagram.com/munal,,True,,,,,,,2025-09-11,Yes,No,No
+84,@museoevita,Museo Evita,Culture,Museum dedicated to Eva Perón in Buenos Aires,https://instagram.com/museoevita,,True,https://www.youtube.com/@museoevita,,True,,,,2025-09-11,Yes,Yes,Yes
+85,@mnba,MNBA Chile,Culture,National Museum of Fine Arts of Chile,https://instagram.com/mnbachile,,True,,,,,,,2025-09-11,Yes,No,No
+86,@macchile,MAC Chile,Culture,Museum of Contemporary Art of Chile,https://instagram.com/macchile,,True,,,,,,,2025-09-11,Yes,No,No
+87,@mavi,MAVI,Culture,"Museum of Visual Arts in Santiago, Chile",https://instagram.com/mavi,,True,https://www.youtube.com/@MAVISantiago,,True,,,,2025-09-11,Yes,Yes,Yes
+88,@mali,MALI,Culture,Lima Art Museum showcasing Peruvian art,,,,,,,,,,2025-09-11,No,No,No
+89,@canaloncetv,Canal Once TV,Media,Mexican public television channel focusing on culture and education,,,,https://www.youtube.com/@CanalOnceIPN,,True,,,,2025-09-11,No,Yes,No
+90,@canal22,Canal 22,Media,Mexican cultural television channel,https://instagram.com/canal22oficial,276000,,https://www.youtube.com/@Canal22,,True,,,,2025-09-11,Yes,Yes,Yes
+91,@televisa,Televisa,Media,Mexico's largest media company and television network,https://instagram.com/televisa,,True,https://www.youtube.com/@televisa,,True,,,,2025-09-11,Yes,Yes,Yes
+92,@lasestrellas,Las Estrellas,Media,Flagship entertainment channel of Televisa,https://instagram.com/canalestrellas,4000000,,https://www.youtube.com/@LasEstrellas,,True,,,,2025-09-11,Yes,Yes,Yes
+93,@canal5,Canal 5,Media,Mexican television channel focusing on entertainment,https://instagram.com/micanalcinco,,True,https://www.youtube.com/@canal5mexico,,True,,,,2025-09-11,Yes,Yes,Yes
+94,@forotv,Foro TV,Media,Mexican 24-hour news television channel,https://instagram.com/forotv,,True,https://www.youtube.com/@ForoTV,,True,,,,2025-09-11,Yes,Yes,Yes
+95,@aztecauno,Azteca Uno,Media,Flagship channel of TV Azteca Mexico,https://instagram.com/aztecauno,,True,https://www.youtube.com/@AztecaUno,,True,,,,2025-09-11,Yes,Yes,Yes
+96,@azteca7,Azteca 7,Media,Mexican television channel owned by TV Azteca,https://instagram.com/azteca7,,True,https://www.youtube.com/@Azteca7,,True,,,,2025-09-11,Yes,Yes,Yes
+97,@imagentv,Imagen TV,Media,Mexican television network focusing on news and entertainment,https://instagram.com/imagentvmex,,,,,,,,,2025-09-11,Yes,No,No
+98,@multimedios,Multimedios,Media,Mexican media conglomerate with television and radio stations,https://instagram.com/multimediostv,928000,,https://www.youtube.com/@multimedios,,True,,,,2025-09-11,Yes,Yes,Yes
+99,@univision,Univision,Media,Leading Spanish-language television network in the United States,https://instagram.com/univision,7000000,,https://www.youtube.com/@univision,,True,,,,2025-09-11,Yes,Yes,Yes
+100,@unimas,UniMás,Media,Spanish-language television network in the United States,https://instagram.com/unimas,,True,https://www.youtube.com/@UniMas,,True,,,,2025-09-11,Yes,Yes,Yes
+101,@galavision,Galavisión,Media,Spanish-language television network featuring entertainment programming,https://instagram.com/galavision,,True,https://www.youtube.com/@Galavision,,True,,,,2025-09-11,Yes,Yes,Yes
+102,@tudn,TUDN,Sports,Spanish-language sports television network,https://instagram.com/tudnmex,2000000,,,,,,,,2025-09-11,Yes,No,No
+103,@telemundo,Telemundo,Media,Spanish-language television network in the United States,https://instagram.com/telemundo,15000000,,https://www.youtube.com/@Telemundo,,True,,,,2025-09-11,Yes,Yes,Yes
+104,@ipn,IPN México,Education,National Polytechnic Institute of Mexico,https://instagram.com/ipn_oficial,205000,,https://www.youtube.com/@IPN_MX,,True,,,,2025-09-11,Yes,Yes,Yes
+105,@unam,UNAM,Education,National Autonomous University of Mexico,https://instagram.com/unam_mx,,True,https://www.youtube.com/@UNAM_MX,,True,,,,2025-09-11,Yes,Yes,Yes
+106,@uamx,UAM México,Education,Metropolitan Autonomous University of Mexico,https://instagram.com/uam_mx,,True,,,,,,,2025-09-11,Yes,No,No
+107,@itesm,Tec de Monterrey,Education,Monterrey Institute of Technology and Higher Education,https://instagram.com/tecnologicodemonterrey,,True,,,,,,,2025-09-11,Yes,No,No
+108,@unal,Universidad Nacional Colombia,Education,National University of Colombia,https://instagram.com/unaloficial,125000,,,,,,,,2025-09-11,Yes,No,No
+109,@uniandes,Universidad de los Andes,Education,"University of the Andes in Bogotá, Colombia",https://instagram.com/uniandes,149000,,https://www.youtube.com/@uniandes,,True,,,,2025-09-11,Yes,Yes,Yes
+110,@javeriana,Pontificia Javeriana,Education,Pontifical Javeriana University in Colombia,https://instagram.com/unijaveriana,107000,,https://www.youtube.com/@javerianatvco,,True,,,,2025-09-11,Yes,Yes,Yes
+111,@uba,UBA,Education,"University of Buenos Aires, Argentina",https://instagram.com/uba_ar,,True,https://www.youtube.com/@UBAonline,,True,,,,2025-09-11,Yes,Yes,Yes
+112,@uchile,Universidad de Chile,Education,University of Chile in Santiago,https://instagram.com/uchile,,True,https://www.youtube.com/@uchile,,True,,,,2025-09-11,Yes,Yes,Yes
+113,@pucchile,PUC Chile,Education,Pontifical Catholic University of Chile,https://instagram.com/ucatolicaoficial,122000,,,,,,,,2025-09-11,Yes,No,No
+114,@pucp,PUCP,Education,Pontifical Catholic University of Peru,https://instagram.com/pucp,144000,,https://www.youtube.com/@pucp,,True,,,,2025-09-11,Yes,Yes,Yes
+115,@usp,USP,Education,"University of São Paulo, Brazil",https://instagram.com/usp.oficial,451000,,https://www.youtube.com/@canalusp,,True,,,,2025-09-11,Yes,Yes,Yes
+116,@eluniversal,El Universal México,News,Leading Mexican newspaper and news organization,https://instagram.com/eluniversalmx,,True,https://www.youtube.com/@ElUniversalMex,,True,,,,2025-09-11,Yes,Yes,Yes
+117,@reforma,Reforma,News,Mexican daily newspaper covering national and international news,https://instagram.com/reformacom,,True,https://www.youtube.com/@reforma,,True,,,,2025-09-11,Yes,Yes,Yes
+118,@milenio,Milenio Noticias,News,Mexican multimedia news organization,https://instagram.com/milenio,979000,,,,,,,,2025-09-11,Yes,No,No
+119,@excelsior,Excélsior,News,Mexican newspaper and news organization,https://instagram.com/periodicoexcelsior,204000,,https://www.youtube.com/@ExcelsiorMex,,True,,,,2025-09-11,Yes,Yes,Yes
+120,@elfinanciero,El Financiero,News,Mexican business and financial news organization,https://instagram.com/elfinanciero_mx,464000,,https://www.youtube.com/@ElFinancieroTV,,True,,,,2025-09-11,Yes,Yes,Yes
+121,@jornada,La Jornada,News,Mexican daily newspaper with progressive editorial stance,https://instagram.com/lajornadaonline,,True,https://www.youtube.com/@LaJornada,,True,,,,2025-09-11,Yes,Yes,Yes
+122,@proceso,Proceso,News,Mexican weekly news magazine focusing on investigative journalism,https://instagram.com/revistaproceso,,True,https://www.youtube.com/@ProcesoMx,,True,,,,2025-09-11,Yes,Yes,Yes
+123,@eltiempo,El Tiempo,News,Colombia's leading newspaper and news organization,https://instagram.com/eltiempo,3000000,,,,,,,,2025-09-11,Yes,No,No
+124,@elespectador,El Espectador,News,Colombian newspaper with focus on investigative journalism,https://instagram.com/elespectador,2000000,,https://www.youtube.com/@ElEspectador,,True,,,,2025-09-11,Yes,Yes,Yes
+125,@semana,Revista Semana,News,Colombian weekly news magazine covering politics and current affairs,,,,https://www.youtube.com/@RevistaSemana,,True,,,,2025-09-11,No,Yes,No
+126,@clarin,Clarín,News,Argentina's leading newspaper and news organization,https://instagram.com/clarincom,,True,https://www.youtube.com/@clarincom,,True,,,,2025-09-11,Yes,Yes,Yes
+127,@lanacion,La Nación,News,Argentine daily newspaper with conservative editorial stance,https://instagram.com/lanacioncom,,True,https://www.youtube.com/@lanacion,,True,,,,2025-09-11,Yes,Yes,Yes
+128,@elcomercio,El Comercio,News,Leading Peruvian newspaper and news organization,https://instagram.com/elcomercio,2000000,,,,,,,,2025-09-11,Yes,No,No
+129,@elmercurio,El Mercurio,News,Chile's oldest and most influential newspaper,https://instagram.com/elmercurio_dep,,,https://www.youtube.com/@elmercurio,,True,,,,2025-09-11,Yes,Yes,Yes
+130,@latercera,La Tercera,News,Chilean daily newspaper covering national and international news,https://instagram.com/laterceracom,678000,,https://www.youtube.com/@latercera,,True,,,,2025-09-11,Yes,Yes,Yes
+131,@ligamx,Liga MX,Sports,Mexican professional football league,https://instagram.com/ligabbvamx,,True,https://www.youtube.com/@LigaBBVAMX,,True,,,,2025-09-11,Yes,Yes,Yes
+132,@fcfseleccioncol,Selección Colombia,Sports,Colombian national football team,https://instagram.com/fcfseleccioncol,,True,https://www.youtube.com/@FCFSeleccionCol,,True,,,,2025-09-11,Yes,Yes,Yes
+133,@afa,AFA Argentina,Sports,Argentine Football Association and national team,https://instagram.com/afaseleccion,15000000,,,,,,,,2025-09-11,Yes,No,No
+134,@anfp,ANFP Chile,Sports,National Association of Professional Football of Chile,https://instagram.com/anfp_chile,,,https://www.youtube.com/@ANFPChileOficial,,True,,,,2025-09-11,Yes,Yes,Yes
+135,@fpf,FPF Perú,Sports,Peruvian Football Federation,https://instagram.com/tufpf_oficial,37000,,https://www.youtube.com/@FPFOficial,,True,,,,2025-09-11,Yes,Yes,Yes
+136,@fedmexfut,FMF México,Sports,Mexican Football Federation,https://instagram.com/fmf,340000,,https://www.youtube.com/@FMF,,True,,,,2025-09-11,Yes,Yes,Yes
+137,@volaris,Volaris,Transportation,Mexican low-cost airline,https://instagram.com/volaris,,True,https://www.youtube.com/@Volaris,,True,,,,2025-09-11,Yes,Yes,Yes
+138,@vivaaerobus,VivaAerobus,Transportation,Mexican low-cost airline,https://instagram.com/vivaaerobus,,True,,,,,,,2025-09-11,Yes,No,No
+139,@avianca,Avianca,Transportation,Colombian flagship airline serving Latin America,https://instagram.com/avianca,1000000,,,,,,,,2025-09-11,Yes,No,No
+140,@latam,LATAM Airlines,Transportation,Latin American airline group serving the region,https://instagram.com/latamairlines,,True,,,,,,,2025-09-11,Yes,No,No
+141,@copa,Copa Airlines,Transportation,Panamanian airline with extensive Latin American network,https://instagram.com/copaairlines,,True,https://www.youtube.com/@CopaAirlines,,True,,,,2025-09-11,Yes,Yes,Yes
+142,@bbvamexico,BBVA México,Banking,Spanish multinational bank operating in Mexico,https://instagram.com/bbva_mexico,,True,https://www.youtube.com/@BBVAMexico,,True,,,,2025-09-11,Yes,Yes,Yes
+143,@santandermexico,Santander México,Banking,Spanish bank's Mexican operations,https://instagram.com/santandermx,,True,,,,,,,2025-09-11,Yes,No,No
+144,@scotiabank,Scotiabank México,Banking,Canadian bank's Mexican operations,https://instagram.com/scotiabankmx,24000,,,,,,,,2025-09-11,Yes,No,No
+145,@hsbc,HSBC México,Banking,British bank's Mexican operations,https://instagram.com/hsbc_mexico,,True,,,,,,,2025-09-11,Yes,No,No
+146,@davivienda,Davivienda,Banking,Colombian commercial bank,https://instagram.com/davivienda,,True,https://www.youtube.com/@Davivienda,,True,,,,2025-09-11,Yes,Yes,Yes
+147,@metrocdmx,Metro CDMX,Transportation,Mexico City Metro system,https://instagram.com/metrocdmx,,True,,,,,,,2025-09-11,Yes,No,No
+148,@metromedellin,Metro Medellín,Transportation,Medellín Metro system in Colombia,https://instagram.com/metromedellin,,True,https://www.youtube.com/@metrodemedellin,,True,,,,2025-09-11,Yes,Yes,Yes
+149,@metrosantiago,Metro Santiago,Transportation,Santiago Metro system in Chile,https://instagram.com/metrodesantiago,376000,,,,,,,,2025-09-11,Yes,No,No
+150,@metrolima,Metro Lima,Transportation,Lima Metro system in Peru,https://instagram.com/linea1oficial,12000,,,,,,,,2025-09-11,Yes,No,No
+151,@metroquito,Metro Quito,Transportation,Quito Metro system in Ecuador,https://instagram.com/metroquito,,True,,,,,,,2025-09-11,Yes,No,No
+152,@transmilenio,TransMilenio,Transportation,Bogotá's bus rapid transit system,https://instagram.com/oficialtransmilenio,73000,,https://www.youtube.com/@TransMilenio,,True,,,,2025-09-11,Yes,Yes,Yes
+153,@teatrocolonbogota,Teatro Colón Bogotá,Culture,Historic opera house and cultural venue in Bogotá,https://instagram.com/teatrocolonbogota,,True,,,,,,,2025-09-11,Yes,No,No
+154,@teatrocolon,Teatro Colón,Culture,"Famous opera house in Buenos Aires, Argentina",https://instagram.com/teatrocolon,,True,https://www.youtube.com/@TeatroColonOficial,,True,,,,2025-09-11,Yes,Yes,Yes
+155,@teatrosolis,Teatro Solís,Culture,Principal theater of Uruguay in Montevideo,https://instagram.com/teatrosolis,,True,,,,,,,2025-09-11,Yes,No,No
+156,@cenart,CENART,Culture,National Center for the Arts of Mexico,https://instagram.com/cenartmx,,,,,,,,,2025-09-11,Yes,No,No
+157,@ccemx,CCE México,Culture,Cultural Center of Spain in Mexico,https://instagram.com/ccemx_,,,,,,,,,2025-09-11,Yes,No,No
+158,@casaamerica,Casa de América,Culture,Institution promoting Ibero-American culture in Spain,https://instagram.com/casaamerica,,True,,,,,,,2025-09-11,Yes,No,No
+159,@bibliotecanalco,Biblioteca Nacional Colombia,Culture,National Library of Colombia,https://instagram.com/bibliotecanalco,,True,,,,,,,2025-09-11,Yes,No,No
+160,@bibliotecanalchile,Biblioteca Nacional Chile,Culture,National Library of Chile,https://instagram.com/bnchile,,True,https://www.youtube.com/@bibliotecanacionaldechile,,True,,,,2025-09-11,Yes,Yes,Yes
+161,@bibliotecanalargentina,Biblioteca Nacional Argentina,Culture,National Library of Argentina,https://instagram.com/bibliotecanalargentina,,True,,,,,,,2025-09-11,Yes,No,No
+162,@bibliotecavasconcelos,Biblioteca Vasconcelos,Culture,José Vasconcelos Library in Mexico City,https://instagram.com/bibliotecavasconcelos,,True,,,,,,,2025-09-11,Yes,No,No
+163,@liverpool,Liverpool,Retail,Mexican luxury department store chain,https://instagram.com/liverpool_mexico,2000000,,,,,,,,2025-09-11,Yes,No,No
+164,@palaciodehierro,El Palacio de Hierro,Retail,Mexican upscale department store chain,,,,https://www.youtube.com/@ElPalacioDeHierro,,True,,,,2025-09-11,No,Yes,No
+165,@sanborns,Sanborns,Retail,Mexican retail chain with restaurants and stores,https://instagram.com/solosanborns,363000,,https://www.youtube.com/@Sanborns,,True,,,,2025-09-11,Yes,Yes,Yes
+166,@oxxo,OXXO,Retail,Mexican convenience store chain,https://instagram.com/tiendasoxxo,,True,https://www.youtube.com/@OXXOTiendas,,True,,,,2025-09-11,Yes,Yes,Yes
+167,@elektra,Elektra,Retail,Mexican retail chain specializing in electronics and appliances,https://instagram.com/elektra_mx,,True,https://www.youtube.com/@Elektra,,True,,,,2025-09-11,Yes,Yes,Yes
+168,@coppel,Coppel,Retail,Mexican retail chain with credit services,https://instagram.com/coppel,644000,,,,,,,,2025-09-11,Yes,No,No
+169,@falabella,Falabella,Retail,Chilean multinational retail chain in Latin America,https://instagram.com/falabella_cl,1000000,,https://www.youtube.com/@falabella,,True,,,,2025-09-11,Yes,Yes,Yes
+170,@exito,Almacenes Éxito,Retail,Colombian retail chain and supermarket company,https://instagram.com/exito,599000,,https://www.youtube.com/@almacenesexito,,True,,,,2025-09-11,Yes,Yes,Yes
+171,@edomex,Estado de México,Government,Government of the State of Mexico,https://instagram.com/gobierno.edomex,,True,,,,,,,2025-09-11,Yes,No,No
+172,@nuevoleon,Nuevo León,Government,Government of Nuevo León state in Mexico,https://instagram.com/nuevoleon.mx,,True,,,,,,,2025-09-11,Yes,No,No
+173,@jalisco,Jalisco,Government,Government of Jalisco state in Mexico,https://instagram.com/gobiernojalisco,,True,,,,,,,2025-09-11,Yes,No,No
+174,@puebla,Puebla,Government,Government of Puebla state in Mexico,https://instagram.com/gobiernopuebla,,True,,,,,,,2025-09-11,Yes,No,No
+175,@veracruz,Veracruz,Government,Government of Veracruz state in Mexico,https://instagram.com/gobiernodeveracruz,8956,,,,,,,,2025-09-11,Yes,No,No
+176,@oaxaca,Oaxaca,Government,Government of Oaxaca state in Mexico,https://instagram.com/goboaxaca,,True,,,,,,,2025-09-11,Yes,No,No
+177,@chiapas,Chiapas,Government,Government of Chiapas state in Mexico,,,,https://www.youtube.com/@GobiernoChiapas,,True,,,,2025-09-11,No,Yes,No
+178,@yucatan,Yucatán,Government,Government of Yucatán state in Mexico,https://instagram.com/gobyuc,,True,,,,,,,2025-09-11,Yes,No,No
+179,@queretaro,Querétaro,Government,Government of Querétaro state in Mexico,https://instagram.com/gobqro,,True,,,,,,,2025-09-11,Yes,No,No
+180,@guanajuato,Guanajuato,Government,Government of Guanajuato state in Mexico,https://instagram.com/gobiernogto,31000,,,,,,,,2025-09-11,Yes,No,No
+181,@cundinamarca,Cundinamarca,Government,Government of Cundinamarca department in Colombia,https://instagram.com/cundinamarcagob,62000,,,,,,,,2025-09-11,Yes,No,No
+182,@antioquia,Antioquia,Government,Government of Antioquia department in Colombia,https://instagram.com/gobantioquia,247000,,https://www.youtube.com/@GobAntioquia,,True,,,,2025-09-11,Yes,Yes,Yes
+183,@valledelcauca,Valle del Cauca,Government,Government of Valle del Cauca department in Colombia,,,,https://www.youtube.com/@GobValle,,True,,,,2025-09-11,No,Yes,No
+184,@atlantico,Atlántico,Government,Government of Atlántico department in Colombia,https://instagram.com/gobatlantico,138000,,,,,,,,2025-09-11,Yes,No,No
+185,@santander,Santander,Government,Government of Santander department in Colombia,,,,,,,,,,2025-09-11,No,No,No
+186,@bolivar,Bolívar,Government,Government of Bolívar department in Colombia,,,,,,,,,,2025-09-11,No,No,No
+187,@casarealtv,Casa Real TV,Government,Official channel of the Spanish Royal House,,,,,,,,,,2025-09-11,No,No,No
+188,@institutocervantes,Instituto Cervantes,Culture,Spanish government institution promoting Spanish language and culture worldwide,,,,,,,,,,2025-09-11,No,No,No
+189,@tvsenado,TV Senado,Government,Television channel of the Mexican Senate,,,,https://www.youtube.com/@tvsenado,,True,,,,2025-09-11,No,Yes,No
+190,@canaldelcongreso,Canal del Congreso,Government,Television channel of the Mexican Congress,,,,,,,,,,2025-09-11,No,No,No
+191,@policianalco,Policía Nacional Colombia,Government,Colombian National Police,,,,https://www.youtube.com/@PoliciaColombia,,True,,,,2025-09-11,No,Yes,No
+192,@guardianacionalmx,Guardia Nacional México,Government,Mexican National Guard,,,,,,,,,,2025-09-11,No,No,No
+193,@ejercitomexicano,Ejército Mexicano,Government,Mexican Army,,,,https://www.youtube.com/@ejercitomexicano,,True,,,,2025-09-11,No,Yes,No
+194,@cervantino,Festival Cervantino,Culture,"International Cervantino Festival in Guanajuato, Mexico",https://instagram.com/cervantino,67000,,https://www.youtube.com/@cervantino,,True,,,,2025-09-11,Yes,Yes,Yes
+195,@vivelatino,Vive Latino,Culture,Latin American music festival in Mexico City,https://instagram.com/vivelatino,522000,,https://www.youtube.com/@vivelatino,,True,,,,2025-09-11,Yes,Yes,Yes
+196,@rockalsparque,Rock al Parque,Culture,"Free rock festival in Bogotá, Colombia",,,,https://www.youtube.com/@rockalsparque,,True,,,,2025-09-11,No,Yes,No
+197,@america,Club América,Sports,Mexican professional football club from Mexico City,,,,,,,,,,2025-09-11,No,No,No
+198,@chivas,Chivas,Sports,Club de Fútbol Guadalajara professional football team,https://instagram.com/chivas,4000000,,,,,,,,2025-09-11,Yes,No,No
+199,@pumas,Pumas UNAM,Sports,Mexican professional football club affiliated with UNAM,https://instagram.com/pumasmx,1000000,,,,,,,,2025-09-11,Yes,No,No
+200,@boca,Boca Juniors,Sports,Argentine professional football club from Buenos Aires,,,,https://www.youtube.com/@boca,,True,,,,2025-09-11,No,Yes,No
+201,@river,River Plate,Sports,Argentine professional football club from Buenos Aires,,,,,,,,,,2025-09-11,No,No,No
+202,@wradio,W Radio,Media,Colombian radio network with news and entertainment,https://instagram.com/wradioco,899000,,https://www.youtube.com/@wradio,,True,,,,2025-09-11,Yes,Yes,Yes
+203,@radioformula,Radio Fórmula,Media,Mexican radio network with news and talk shows,https://instagram.com/radioformulamx,497000,,https://www.youtube.com/@RadioFormula,,True,,,,2025-09-11,Yes,Yes,Yes
+204,@caracolradio,Caracol Radio,Media,Colombian radio network with news and entertainment,https://instagram.com/caracolradio,921000,,https://www.youtube.com/@CaracolRadio,,True,,,,2025-09-11,Yes,Yes,Yes
+205,@grupomodelo,Grupo Modelo,Food,Mexican brewery company producing Corona and other beers,,,,https://www.youtube.com/@grupomodelo7363,,True,,,,2025-09-11,No,Yes,No
+206,@corona,Corona,Food,Mexican beer brand popular worldwide,,,,https://www.youtube.com/@corona,,True,,,,2025-09-11,No,Yes,No
+207,@bimbo,Grupo Bimbo,Food,Mexican multinational bakery company,https://instagram.com/bimbo_mexico,119000,,,,,,,,2025-09-11,Yes,No,No
+208,,Coca-Cola Colombia,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+209,,Pepsi Colombia,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+210,,Doritos Colombia,Food & Beverage,,https://www.instagram.com/doritoscol,,True,,,,,,,2025-09-11,Yes,No,No
+211,,Oreo Colombia,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+212,,Nutella Colombia,Food & Beverage,,https://www.instagram.com/nutella_col,,True,,,,,,,2025-09-11,Yes,No,No
+213,,KitKat Colombia,Food & Beverage,,https://www.instagram.com/kitkatcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+214,,Snickers Colombia,Food & Beverage,,https://www.instagram.com/snickers_col,,True,,,,,,,2025-09-11,Yes,No,No
+215,,M&M's Colombia,Food & Beverage,,https://www.instagram.com/mmscolombiaoficial,,True,,,,,,,2025-09-11,Yes,No,No
+216,,Pringles Colombia,Food & Beverage,,https://www.instagram.com/pringles_col,,True,,,,,,,2025-09-11,Yes,No,No
+217,,Red Bull Colombia,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+218,,Monster Energy Colombia,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+219,,Gatorade Colombia,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+220,,Samsung Colombia,Technology,,https://www.instagram.com/samsungco,,True,,,,,,,2025-09-11,Yes,No,No
+221,,Apple Colombia,Technology,,,,,,,,,,,2025-09-11,No,No,No
+222,,HP Colombia,Technology,,https://www.instagram.com/hpcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+223,,Dell Colombia,Technology,,https://www.instagram.com/dellcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+224,,Lenovo Colombia,Technology,,https://www.instagram.com/lenovocolombia,,True,,,,,,,2025-09-11,Yes,No,No
+225,,Sony Colombia,Technology,,https://www.instagram.com/sonycolombia,,True,,,,,,,2025-09-11,Yes,No,No
+226,,LG Colombia,Technology,,https://www.instagram.com/lgcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+227,,Huawei Colombia,Technology,,,,,,,,,,,2025-09-11,No,No,No
+228,,Xiaomi Colombia,Technology,,,,,,,,,,,2025-09-11,No,No,No
+229,,Nike Colombia,Sports & Apparel,,,,,,,,,,,2025-09-11,No,No,No
+230,,Adidas Colombia,Sports & Apparel,,https://www.instagram.com/adidasco,,True,,,,,,,2025-09-11,Yes,No,No
+231,,Puma Colombia,Sports & Apparel,,,,,,,,,,,2025-09-11,No,No,No
+232,,Reebok Colombia,Sports & Apparel,,https://www.instagram.com/reebokcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+233,,Under Armour Colombia,Sports & Apparel,,https://www.instagram.com/underarmourcol,,True,,,,,,,2025-09-11,Yes,No,No
+234,,New Balance Colombia,Sports & Apparel,,https://www.instagram.com/newbalancecol,,True,,,,,,,2025-09-11,Yes,No,No
+235,,Converse Colombia,Sports & Apparel,,https://www.instagram.com/conversecolombia,,True,,,,,,,2025-09-11,Yes,No,No
+236,,Vans Colombia,Sports & Apparel,,https://www.instagram.com/vanscolombia,,True,,,,,,,2025-09-11,Yes,No,No
+237,,The North Face Colombia,Sports & Apparel,,,,,,,,,,,2025-09-11,No,No,No
+238,,Columbia Sportswear Colombia,Sports & Apparel,,,,,,,,,,,2025-09-11,No,No,No
+239,,Netflix Colombia,Entertainment,,,,,,,,,,,2025-09-11,No,No,No
+240,,HBO Latinoamérica,Entertainment,,https://www.instagram.com/hbolatam,,True,,,,,,,2025-09-11,Yes,No,No
+241,,Disney+ Latinoamérica,Entertainment,,,,,,,,,,,2025-09-11,No,No,No
+242,,Amazon Prime Video Latinoamérica,Entertainment,,https://www.instagram.com/primevideolat,,True,,,,,,,2025-09-11,Yes,No,No
+243,,Spotify Colombia,Entertainment,,https://www.instagram.com/spotifycolombia,,True,,,,,,,2025-09-11,Yes,No,No
+244,,YouTube Colombia,Entertainment,,https://www.instagram.com/youtubecolombia,,True,,,,,,,2025-09-11,Yes,No,No
+245,,TikTok Colombia,Entertainment,,https://www.instagram.com/tiktokcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+246,,Warner Bros Colombia,Entertainment,,https://www.instagram.com/wbpicturescol,,True,,,,,,,2025-09-11,Yes,No,No
+247,,Universal Pictures Colombia,Entertainment,,,,,,,,,,,2025-09-11,No,No,No
+248,,Sony Pictures Colombia,Entertainment,,,,,,,,,,,2025-09-11,No,No,No
+249,,L'Oréal Colombia,Beauty & Personal Care,,,,,,,,,,,2025-09-11,No,No,No
+250,,Maybelline Colombia,Beauty & Personal Care,,https://www.instagram.com/maybellinecol,,True,,,,,,,2025-09-11,Yes,No,No
+251,,MAC Cosmetics Colombia,Beauty & Personal Care,,,,,,,,,,,2025-09-11,No,No,No
+252,,Clinique Colombia,Beauty & Personal Care,,https://www.instagram.com/cliniquecolombia,,True,,,,,,,2025-09-11,Yes,No,No
+253,,Estée Lauder Colombia,Beauty & Personal Care,,https://www.instagram.com/esteelaudercol,,True,,,,,,,2025-09-11,Yes,No,No
+254,,Lancôme Colombia,Beauty & Personal Care,,https://www.instagram.com/lancomecolombia,,True,,,,,,,2025-09-11,Yes,No,No
+255,,Dove Colombia,Beauty & Personal Care,,https://www.instagram.com/dovecolombia,,True,,,,,,,2025-09-11,Yes,No,No
+256,,Nivea Colombia,Beauty & Personal Care,,https://www.instagram.com/niveacolombia,,True,,,,,,,2025-09-11,Yes,No,No
+257,,Head & Shoulders Colombia,Beauty & Personal Care,,,,,,,,,,,2025-09-11,No,No,No
+258,,Pantene Colombia,Beauty & Personal Care,,,,,,,,,,,2025-09-11,No,No,No
+259,,Toyota Colombia,Automotive,,,,,,,,,,,2025-09-11,No,No,No
+260,,Mazda Colombia,Automotive,,https://www.instagram.com/mazdacolombia,,True,,,,,,,2025-09-11,Yes,No,No
+261,,Nissan Colombia,Automotive,,,,,,,,,,,2025-09-11,No,No,No
+262,,Chevrolet Colombia,Automotive,,https://www.instagram.com/chevroletcol,,True,,,,,,,2025-09-11,Yes,No,No
+263,,Ford Colombia,Automotive,,https://www.instagram.com/fordcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+264,,Renault Colombia,Automotive,,https://www.instagram.com/renaultcol,,True,,,,,,,2025-09-11,Yes,No,No
+265,,Volkswagen Colombia,Automotive,,https://www.instagram.com/volkswagencol,,True,,,,,,,2025-09-11,Yes,No,No
+266,,BMW Colombia,Automotive,,https://www.instagram.com/bmwcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+267,,Mercedes-Benz Colombia,Automotive,,,,,,,,,,,2025-09-11,No,No,No
+268,,Audi Colombia,Automotive,,,,,,,,,,,2025-09-11,No,No,No
+269,,IKEA Colombia,Retail,,,,,,,,,,,2025-09-11,No,No,No
+270,,Zara Colombia,Retail,,https://www.instagram.com/zara,,True,,,,,,,2025-09-11,Yes,No,No
+271,,H&M Colombia,Retail,,,,,,,,,,,2025-09-11,No,No,No
+272,,Forever 21 Colombia,Retail,,https://www.instagram.com/forever21col,,True,,,,,,,2025-09-11,Yes,No,No
+273,,Mango Colombia,Retail,,https://www.instagram.com/mangocolombia,,True,,,,,,,2025-09-11,Yes,No,No
+274,,Pull&Bear Colombia,Retail,,https://www.instagram.com/pullandbear,,True,,,,,,,2025-09-11,Yes,No,No
+275,,Bershka Colombia,Retail,,https://www.instagram.com/bershka,,True,,,,,,,2025-09-11,Yes,No,No
+276,,Stradivarius Colombia,Retail,,https://www.instagram.com/stradivarius,,True,,,,,,,2025-09-11,Yes,No,No
+277,,Massimo Dutti Colombia,Retail,,,,,,,,,,,2025-09-11,No,No,No
+278,,Gap Colombia,Retail,,,,,,,,,,,2025-09-11,No,No,No
+279,,Bancolombia,Banking,,,,,,,,,,,2025-09-11,No,No,No
+280,,Banco de Bogotá,Banking,,https://www.instagram.com/bancodebogota,,True,,,,,,,2025-09-11,Yes,No,No
+281,,Davivienda,Banking,,,,,,,,,,,2025-09-11,No,No,No
+282,,BBVA Colombia,Banking,,https://www.instagram.com/bbvacolombia,,True,,,,,,,2025-09-11,Yes,No,No
+283,,Banco de Occidente,Banking,,https://www.instagram.com/bancodeoccidente,,True,,,,,,,2025-09-11,Yes,No,No
+284,,Scotiabank Colpatria,Banking,,https://www.instagram.com/scotiabankcolpatria,,True,,,,,,,2025-09-11,Yes,No,No
+285,,Banco Popular Colombia,Banking,,https://www.instagram.com/bancopopularco,,True,,,,,,,2025-09-11,Yes,No,No
+286,,Banco AV Villas,Banking,,https://www.instagram.com/bancoavvillas,,True,,,,,,,2025-09-11,Yes,No,No
+287,,Banco Caja Social,Banking,,,,,,,,,,,2025-09-11,No,No,No
+288,,Itaú Colombia,Banking,,,,,,,,,,,2025-09-11,No,No,No
+289,,Avianca,Transportation,,,,,,,,,,,2025-09-11,No,No,No
+290,,LATAM Colombia,Transportation,,https://www.instagram.com/latamcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+291,,Copa Airlines Colombia,Transportation,,,,,,,,,,,2025-09-11,No,No,No
+292,,Viva Air Colombia,Transportation,,https://www.instagram.com/vivaairco,,True,,,,,,,2025-09-11,Yes,No,No
+293,,EasyFly,Transportation,,https://www.instagram.com/easyflyoficial,,True,,,,,,,2025-09-11,Yes,No,No
+294,,Satena,Transportation,,https://www.instagram.com/vuelasatena,,True,,,,,,,2025-09-11,Yes,No,No
+295,,Wingo,Transportation,,https://www.instagram.com/somoswingo,,True,,,,,,,2025-09-11,Yes,No,No
+296,,JetSMART Colombia,Transportation,,https://www.instagram.com/jetsmartairlines,,True,,,,,,,2025-09-11,Yes,No,No
+297,,Ultra Air,Transportation,,,,,,,,,,,2025-09-11,No,No,No
+298,,ADA Aerolínea de Antioquia,Transportation,,,,,,,,,,,2025-09-11,No,No,No
+299,,Claro Colombia,Telecommunications,,,,,,,,,,,2025-09-11,No,No,No
+300,,Movistar Colombia,Telecommunications,,https://www.instagram.com/movistarcol,,True,,,,,,,2025-09-11,Yes,No,No
+301,,Tigo Colombia,Telecommunications,,,,,,,,,,,2025-09-11,No,No,No
+302,,Virgin Mobile Colombia,Telecommunications,,https://www.instagram.com/virginmobilecol,,True,,,,,,,2025-09-11,Yes,No,No
+303,,WOM Colombia,Telecommunications,,https://www.instagram.com/womcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+304,,Flash Mobile Colombia,Telecommunications,,https://www.instagram.com/flashmobilecol,,True,,,,,,,2025-09-11,Yes,No,No
+305,,ETB,Telecommunications,,https://www.instagram.com/etb_oficial,,True,,,,,,,2025-09-11,Yes,No,No
+306,,Une EPM Telecomunicaciones,Telecommunications,,https://www.instagram.com/somosune,,True,,,,,,,2025-09-11,Yes,No,No
+307,,DirecTV Colombia,Telecommunications,,,,,,,,,,,2025-09-11,No,No,No
+308,,Claro TV Colombia,Telecommunications,,,,,,,,,,,2025-09-11,No,No,No
+309,,Éxito,Retail,,,,,,,,,,,2025-09-11,No,No,No
+310,,Carulla,Retail,,https://www.instagram.com/carullacolombia,,True,,,,,,,2025-09-11,Yes,No,No
+311,,Jumbo Colombia,Retail,,,,,,,,,,,2025-09-11,No,No,No
+312,,Alkosto,Retail,,https://www.instagram.com/alkostocolombia,,True,,,,,,,2025-09-11,Yes,No,No
+313,,Falabella Colombia,Retail,,https://www.instagram.com/falabellacol,,True,,,,,,,2025-09-11,Yes,No,No
+314,,Homecenter,Retail,,https://www.instagram.com/homecentercol,,True,,,,,,,2025-09-11,Yes,No,No
+315,,Easy Colombia,Retail,,https://www.instagram.com/easycolombia,,True,,,,,,,2025-09-11,Yes,No,No
+316,,Olímpica,Retail,,https://www.instagram.com/olimpicaco,,True,,,,,,,2025-09-11,Yes,No,No
+317,,D1 Colombia,Retail,,,,,,,,,,,2025-09-11,No,No,No
+318,,Ara,Retail,,,,,,,,,,,2025-09-11,No,No,No
+319,,EPM (Empresas Públicas de Medellín),Utilities,,,,,,,,,,,2025-09-11,No,No,No
+320,,Ecopetrol,Energy,,https://www.instagram.com/ecopetroloficial,,True,,,,,,,2025-09-11,Yes,No,No
+321,,ISA (Interconexión Eléctrica S.A.),Energy,,,,,,,,,,,2025-09-11,No,No,No
+322,,Grupo Energía Bogotá,Energy,,https://www.instagram.com/grupoenergiabogota,,True,,,,,,,2025-09-11,Yes,No,No
+323,,Celsia,Energy,,https://www.instagram.com/celsia_energia,,True,,,,,,,2025-09-11,Yes,No,No
+324,,Codensa,Energy,,https://www.instagram.com/enelcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+325,,Emgesa,Energy,,https://www.instagram.com/enelcolombia,,,,,,,,,2025-09-11,Yes,No,No
+326,,Gas Natural Fenosa Colombia,Energy,,https://www.instagram.com/gasnaturalcol,,True,,,,,,,2025-09-11,Yes,No,No
+327,,TGI (Transportadora de Gas Internacional),Energy,,https://www.instagram.com/tgicolombia,,True,,,,,,,2025-09-11,Yes,No,No
+328,,XM (Expertos en Mercados),Energy,,,,,,,,,,,2025-09-11,No,No,No
+329,,Postobón,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+330,,Bavaria,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+331,,Alpina,Food & Beverage,,https://www.instagram.com/alpina_colombia,,True,,,,,,,2025-09-11,Yes,No,No
+332,,Colanta,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+333,,Grupo Nutresa,Food & Beverage,,https://www.instagram.com/grupo_nutresa,,True,,,,,,,2025-09-11,Yes,No,No
+334,,Colombina,Food & Beverage,,https://www.instagram.com/colombinaoficial,,True,,,,,,,2025-09-11,Yes,No,No
+335,,Ramo,Food & Beverage,,https://www.instagram.com/productosramo,,True,,,,,,,2025-09-11,Yes,No,No
+336,,Bimbo Colombia,Food & Beverage,,https://www.instagram.com/bimbocolombia,,True,,,,,,,2025-09-11,Yes,No,No
+337,,Alquería,Food & Beverage,,https://www.instagram.com/alqueria,,True,,,,,,,2025-09-11,Yes,No,No
+338,,Diana,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+339,,Juan Valdez Café,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+340,,Oma (Café),Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+341,,Tostao' Café,Food & Beverage,,https://www.instagram.com/tostaocafe,,True,,,,,,,2025-09-11,Yes,No,No
+342,,Crepes & Waffles,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+343,,El Corral,Food & Beverage,,https://www.instagram.com/elcorral,,True,,,,,,,2025-09-11,Yes,No,No
+344,,Frisby,Food & Beverage,,https://www.instagram.com/frisby_col,,True,,,,,,,2025-09-11,Yes,No,No
+345,,Kokoriko,Food & Beverage,,https://www.instagram.com/kokorikocolombia,,True,,,,,,,2025-09-11,Yes,No,No
+346,,Jeno's Pizza,Food & Beverage,,https://www.instagram.com/jenospizza,,True,,,,,,,2025-09-11,Yes,No,No
+347,,Archie's,Food & Beverage,,https://www.instagram.com/archiesoficial,,True,,,,,,,2025-09-11,Yes,No,No
+348,,Sandwich Qbano,Food & Beverage,,,,,,,,,,,2025-09-11,No,No,No
+349,,Sura,Insurance,,,,,,,,,,,2025-09-11,No,No,No
+350,,Seguros Bolívar,Insurance,,,,,,,,,,,2025-09-11,No,No,No
+351,,Allianz Colombia,Insurance,,https://www.instagram.com/allianzcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+352,,Liberty Seguros Colombia,Insurance,,,,,,,,,,,2025-09-11,No,No,No
+353,,Mapfre Colombia,Insurance,,https://www.instagram.com/mapfrecolombia,,True,,,,,,,2025-09-11,Yes,No,No
+354,,AXA Colpatria,Insurance,,https://www.instagram.com/axacolpatria,,True,,,,,,,2025-09-11,Yes,No,No
+355,,Seguros del Estado,Insurance,,https://www.instagram.com/segurosdelestado,,True,,,,,,,2025-09-11,Yes,No,No
+356,,Positiva Compañía de Seguros,Insurance,,https://www.instagram.com/positivacol,,True,,,,,,,2025-09-11,Yes,No,No
+357,,La Equidad Seguros,Insurance,,https://www.instagram.com/laequidadseguros,,True,,,,,,,2025-09-11,Yes,No,No
+358,,Aseguradora Solidaria,Insurance,,,,,,,,,,,2025-09-11,No,No,No
+359,,Universidad Nacional de Colombia,Education,,,,,,,,,,,2025-09-11,No,No,No
+360,,Universidad de los Andes,Education,,,,,,,,,,,2025-09-11,No,No,No
+361,,Universidad Javeriana,Education,,https://www.instagram.com/unijaveriana,,True,,,,,,,2025-09-11,Yes,No,No
+362,,Universidad del Rosario,Education,,,,,,,,,,,2025-09-11,No,No,No
+363,,Universidad de Antioquia,Education,,https://www.instagram.com/udea,,True,,,,,,,2025-09-11,Yes,No,No
+364,,Universidad del Valle,Education,,https://www.instagram.com/univallecol,,True,,,,,,,2025-09-11,Yes,No,No
+365,,Universidad Industrial de Santander,Education,,https://www.instagram.com/uis,,True,,,,,,,2025-09-11,Yes,No,No
+366,,Universidad Externado,Education,,https://www.instagram.com/uexternado,,True,,,,,,,2025-09-11,Yes,No,No
+367,,Universidad de la Sabana,Education,,https://www.instagram.com/unisabana,,True,,,,,,,2025-09-11,Yes,No,No
+368,,Universidad EAFIT,Education,,,,,,,,,,,2025-09-11,No,No,No
+369,,Ministerio de Relaciones Exteriores de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+370,,Ministerio de Defensa Nacional de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+371,,Ministerio del Interior de Colombia,Government,,https://www.instagram.com/mininteriorcol,,True,,,,,,,2025-09-11,Yes,No,No
+372,,Ministerio de Hacienda de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+373,,Ministerio de Justicia de Colombia,Government,,https://www.instagram.com/minjusticia,,True,,,,,,,2025-09-11,Yes,No,No
+374,,Ministerio de Educación Nacional de Colombia,Government,,https://www.instagram.com/mineducacioncol,,True,,,,,,,2025-09-11,Yes,No,No
+375,,Ministerio de Salud de Colombia,Government,,https://www.instagram.com/minsaludcol,,True,,,,,,,2025-09-11,Yes,No,No
+376,,Ministerio de Trabajo de Colombia,Government,,https://www.instagram.com/mintrabajocol,,True,,,,,,,2025-09-11,Yes,No,No
+377,,Ministerio de Comercio de Colombia,Government,,https://www.instagram.com/mincomerciocol,,True,,,,,,,2025-09-11,Yes,No,No
+378,,Ministerio de Agricultura de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+379,,Ministerio de Ambiente de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+380,,Ministerio de Vivienda de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+381,,Ministerio de Transporte de Colombia,Government,,https://www.instagram.com/mintransporteco,,True,,,,,,,2025-09-11,Yes,No,No
+382,,Ministerio de Minas y Energía de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+383,,Ministerio de Tecnologías de Colombia,Government,,https://www.instagram.com/ministerio_tic,,True,,,,,,,2025-09-11,Yes,No,No
+384,,Ministerio de Cultura de Colombia,Government,,https://www.instagram.com/mincultura,,True,,,,,,,2025-09-11,Yes,No,No
+385,,Ministerio del Deporte de Colombia,Government,,https://www.instagram.com/mindeportecol,,True,,,,,,,2025-09-11,Yes,No,No
+386,,Ministerio de Ciencia de Colombia,Government,,https://www.instagram.com/mincienciascol,,True,,,,,,,2025-09-11,Yes,No,No
+387,,Departamento Nacional de Planeación,Government,,https://www.instagram.com/dnp_colombia,,True,,,,,,,2025-09-11,Yes,No,No
+388,,DANE Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+389,,DIAN Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+390,,Procuraduría General de la Nación,Government,,,,,,,,,,,2025-09-11,No,No,No
+391,,Contraloría General de la República,Government,,https://www.instagram.com/contraloriagr,,True,,,,,,,2025-09-11,Yes,No,No
+392,,Fiscalía General de la Nación,Government,,,,,,,,,,,2025-09-11,No,No,No
+393,,Defensoría del Pueblo Colombia,Government,,https://www.instagram.com/defensoria_colombia,,True,,,,,,,2025-09-11,Yes,No,No
+394,,Registraduría Nacional,Government,,https://www.instagram.com/registraduriacol,,True,,,,,,,2025-09-11,Yes,No,No
+395,,ICBF (Instituto Colombiano de Bienestar Familiar),Government,,https://www.instagram.com/icbfcolombiaoficial,,True,,,,,,,2025-09-11,Yes,No,No
+396,,SENA Colombia,Government,,https://www.instagram.com/senacomunica,,True,,,,,,,2025-09-11,Yes,No,No
+397,,Colpensiones,Government,,https://www.instagram.com/colpensiones,,True,,,,,,,2025-09-11,Yes,No,No
+398,,INVIMA,Government,,,,,,,,,,,2025-09-11,No,No,No
+399,,Superintendencia de Industria y Comercio,Government,,,,,,,,,,,2025-09-11,No,No,No
+400,,Superintendencia Financiera de Colombia,Government,,,,,,,,,,,2025-09-11,No,No,No
+401,,Superintendencia de Salud,Government,,https://www.instagram.com/supersaludcol,,True,,,,,,,2025-09-11,Yes,No,No
+402,,Superintendencia de Servicios Públicos,Government,,,,,,,,,,,2025-09-11,No,No,No
+403,,Superintendencia de Transporte,Government,,https://www.instagram.com/supertransporte,,True,,,,,,,2025-09-11,Yes,No,No
+404,,Superintendencia de Notariado y Registro,Government,,https://www.instagram.com/supernotariado,,True,,,,,,,2025-09-11,Yes,No,No
+405,,Agencia Nacional de Infraestructura,Government,,https://www.instagram.com/anicolombia,,True,,,,,,,2025-09-11,Yes,No,No
+406,,Agencia Nacional de Tierras,Government,,https://www.instagram.com/agenciatierrasco,,True,,,,,,,2025-09-11,Yes,No,No
+407,,Unidad Nacional para la Gestión del Riesgo,Government,,https://www.instagram.com/ungrdcol,,True,,,,,,,2025-09-11,Yes,No,No
+408,,Instituto Geográfico Agustín Codazzi,Government,,,,,,,,,,,2025-09-11,No,No,No
+409,,Embajada de Colombia en Estados Unidos,Diplomatic,,,,,,,,,,,2025-09-11,No,No,No
+410,,Embajada de Colombia en México,Diplomatic,,,,,,,,,,,2025-09-11,No,No,No
+411,,Embajada de Colombia en España,Diplomatic,,https://www.instagram.com/embajadacolombiaespana,,True,,,,,,,2025-09-11,Yes,No,No
+412,,Embajada de Colombia en Francia,Diplomatic,,,,,,,,,,,2025-09-11,No,No,No
+413,,Embajada de Colombia en Reino Unido,Diplomatic,,https://www.instagram.com/colombiaenru,,True,,,,,,,2025-09-11,Yes,No,No
+414,,Embajada de Colombia en Alemania,Diplomatic,,https://www.instagram.com/colombiaenalemania,,True,,,,,,,2025-09-11,Yes,No,No
+415,,Embajada de Colombia en Italia,Diplomatic,,https://www.instagram.com/colombiaenitalia,,True,,,,,,,2025-09-11,Yes,No,No
+416,,Embajada de Colombia en Brasil,Diplomatic,,https://www.instagram.com/colombiaenbrasil,,True,,,,,,,2025-09-11,Yes,No,No
+417,,Embajada de Colombia en Argentina,Diplomatic,,https://www.instagram.com/colombiaenargentina,,True,,,,,,,2025-09-11,Yes,No,No
+418,,Embajada de Colombia en Chile,Diplomatic,,,,,,,,,,,2025-09-11,No,No,No
+419,,Consulado de Colombia en Miami,Diplomatic,,,,,,,,,,,2025-09-11,No,No,No
+420,,Consulado de Colombia en Nueva York,Diplomatic,,,,,,,,,,,2025-09-11,No,No,No
+421,,Consulado de Colombia en Los Ángeles,Diplomatic,,https://www.instagram.com/consuladocolombiaLA,,True,,,,,,,2025-09-11,Yes,No,No
+422,,Consulado de Colombia en Madrid,Diplomatic,,,,,,,,,,,2025-09-11,No,No,No
+423,,Consulado de Colombia en Barcelona,Diplomatic,,https://www.instagram.com/consuladocolombiabarcelona,,True,,,,,,,2025-09-11,Yes,No,No
+424,,Museo Nacional de Colombia,Culture,,https://www.instagram.com/museonacionalcolombia,,True,,,,,,,2025-09-11,Yes,No,No
+425,,Museo del Oro,Culture,,https://www.instagram.com/museodeloro,,True,,,,,,,2025-09-11,Yes,No,No
+426,,Museo Botero,Culture,,https://www.instagram.com/museobotero,,True,,,,,,,2025-09-11,Yes,No,No
+427,,MAMBO (Museo de Arte Moderno de Bogotá),Culture,,https://www.instagram.com/mambogota,,True,,,,,,,2025-09-11,Yes,No,No
+428,,Museo de Antioquia,Culture,,,,,,,,,,,2025-09-11,No,No,No
+429,,MAMM (Museo de Arte Moderno de Medellín),Culture,,,,,,,,,,,2025-09-11,No,No,No
+430,,Biblioteca Nacional de Colombia,Culture,,,,,,,,,,,2025-09-11,No,No,No
+431,,Biblioteca Luis Ángel Arango,Culture,,https://www.instagram.com/banrepcultural,,True,,,,,,,2025-09-11,Yes,No,No
+432,,Teatro Colón Bogotá,Culture,,,,,,,,,,,2025-09-11,No,No,No
+433,,Teatro Mayor Julio Mario Santo Domingo,Culture,,https://www.instagram.com/teatromayor,,True,,,,,,,2025-09-11,Yes,No,No
+434,,Empresas Polar,Food & Beverage,,https://www.instagram.com/empresaspolar,,True,,,,,,,2025-09-11,Yes,No,No
+435,,Banco de Venezuela,Banking,,https://www.instagram.com/bancodevenezuela,,True,,,,,,,2025-09-11,Yes,No,No
+436,,Banesco,Banking,,https://www.instagram.com/banesco,,True,,,,,,,2025-09-11,Yes,No,No
+437,,Mercantil Banco,Banking,,https://www.instagram.com/mercantilbanco,,True,,,,,,,2025-09-11,Yes,No,No
+438,,CANTV,Telecommunications,,,,,,,,,,,2025-09-11,No,No,No
+439,,Movistar Venezuela,Telecommunications,,,,,,,,,,,2025-09-11,No,No,No
+440,,Digitel,Telecommunications,,,,,,,,,,,2025-09-11,No,No,No
+441,,Conviasa,Transportation,,https://www.instagram.com/conviasa,,True,,,,,,,2025-09-11,Yes,No,No
+442,,Avior Airlines,Transportation,,,,,,,,,,,2025-09-11,No,No,No
+443,@maccosmeticsco,MAC Cosmetics Colombia,Beauty,MAC Cosmetics official account for Colombia,https://instagram.com/maccosmeticsco,85000,,,,,,,,2025-09-11,Yes,No,No
+444,@toyotacol,Toyota Colombia,Automotive,Toyota official account for Colombia,https://instagram.com/toyotacolombia,158000,,,,,,,,2025-09-11,Yes,No,No
+445,@nissancol,Nissan Colombia,Automotive,Nissan official account for Colombia,https://instagram.com/nissancolombia,130000,,,,,,,,2025-09-11,Yes,No,No
+446,@ikeacol,IKEA Colombia,Retail,IKEA furniture and home goods in Colombia,https://instagram.com/ikeacolombia,298000,,,,,,,,2025-09-11,Yes,No,No
+447,@clarocol,Claro Colombia,Telecommunications,Claro telecommunications services in Colombia,https://instagram.com/clarocolombia,237000,,,,,,,,2025-09-11,Yes,No,No
+448,@grupoexito,Grupo Éxito,Retail,Grupo Éxito retail corporation,https://instagram.com/grupoexito,67000,,,,,,,,2025-09-11,Yes,No,No
+449,@postobon,Postobón,Beverages,Postobón beverages company,https://instagram.com/postobonempresa,79000,,,,,,,,2025-09-11,Yes,No,No
+450,@juanvaldez,Juan Valdez Café,Food & Beverage,Juan Valdez Colombian coffee shops and products,https://instagram.com/juanvaldezcafe,564000,,,,,,,,2025-09-11,Yes,No,No
+451,@segurossura,Seguros SURA,Insurance,SURA insurance services in Colombia,https://instagram.com/segurossura,98000,,,,,,,,2025-09-11,Yes,No,No
+452,@unalbogota,UNAL Bogotá,Education,Universidad Nacional de Colombia - Bogotá campus,https://instagram.com/bogotaunal,25000,,,,,,,,2025-09-11,Yes,No,No
+453,@loreallatam,L'Oréal Latin America,Beauty,L'Oréal Group official account for Latin America region,https://instagram.com/lorealgroupe_latam,120000,,,,,,,,2025-09-11,Yes,No,No
+454,@headandshouldersla,Head & Shoulders LATAM,Beauty,Head & Shoulders official account for Latin America,https://instagram.com/headandshouldersla,98000,,,,,,,,2025-09-11,Yes,No,No
+455,@panteneco,Pantene Colombia,Beauty,Pantene official account for Colombia,https://instagram.com/panteneco,45000,,,,,,,,2025-09-11,Yes,No,No
+456,@mercedesbenzcol,Mercedes-Benz Colombia,Automotive,Mercedes-Benz official account for Colombia,https://instagram.com/mercedesbenzcolombia,141000,,,,,,,,2025-09-11,Yes,No,No
+457,@audicol,Audi Colombia,Automotive,Audi official account for Colombia,https://instagram.com/audi.colombia,97000,,,,,,,,2025-09-11,Yes,No,No
+458,@bancolombia,Bancolombia,Banking,Bancolombia - Leading Colombian bank,https://instagram.com/bancolombia,496000,,,,,,,,2025-09-11,Yes,No,No
+459,@bancocajasocial,Banco Caja Social,Banking,Banco Caja Social - Colombian social bank,https://instagram.com/bancocajasocial,58000,,,,,,,,2025-09-11,Yes,No,No
+460,@itaucol,Itaú Colombia,Banking,Itaú Bank Colombia,https://instagram.com/itaucol,26000,,,,,,,,2025-09-11,Yes,No,No
+461,@tigocol,Tigo Colombia,Telecommunications,Tigo telecommunications services in Colombia,https://instagram.com/tigocolombia,139000,,,,,,,,2025-09-11,Yes,No,No

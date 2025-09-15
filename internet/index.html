@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Internet Infrastructure Map | Real-time Global Network Visualization</title>
+    <link rel="stylesheet" href="./src/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-globe">
+                <div class="orbit orbit-1"></div>
+                <div class="orbit orbit-2"></div>
+                <div class="orbit orbit-3"></div>
+                <div class="core"></div>
+            </div>
+            <h1>Initializing Global Infrastructure</h1>
+            <p class="loading-status">Connecting to data sources...</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app">
+        <!-- Header with Stats -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M2 12h20M12 2c2.5 5 2.5 14 0 20M12 2c-2.5 5-2.5 14 0 20"/>
+                    </svg>
+                    <h1>Internet Infrastructure Map</h1>
+                </div>
+                
+                <div class="stats-bar">
+                    <div class="stat">
+                        <span class="stat-value" id="cable-count">0</span>
+                        <span class="stat-label">Submarine Cables</span>
+                        <span class="accuracy-indicator" title="Live Data">●</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="datacenter-count">0</span>
+                        <span class="stat-label">Data Centers</span>
+                        <span class="accuracy-indicator estimated" title="Estimated">◐</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 3D Globe Container -->
+        <div id="globe-container" class="globe-container"></div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="panel-header">
+                <h3>Visualization Layers</h3>
+                <div class="panel-controls">
+                    <!-- Cable Data Table Button -->
+                    <button class="data-table-toggle" id="cable-table-toggle" title="View Cable Data Table">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <!-- Table icon for cables -->
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="3" y1="15" x2="21" y2="15"/>
+                            <line x1="9" y1="9" x2="9" y2="21"/>
+                            <line x1="15" y1="9" x2="15" y2="21"/>
+                        </svg>
+                        <span class="button-label">Cables</span>
+                    </button>
+                    
+                    <!-- Data Center Table Button -->
+                    <button class="data-table-toggle" id="datacenter-table-toggle" title="View Data Center Table">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <!-- Server rack icon for data centers -->
+                            <rect x="4" y="4" width="16" height="4" rx="1"/>
+                            <rect x="4" y="10" width="16" height="4" rx="1"/>
+                            <rect x="4" y="16" width="16" height="4" rx="1"/>
+                            <circle cx="7" cy="6" r="1" fill="currentColor"/>
+                            <circle cx="7" cy="12" r="1" fill="currentColor"/>
+                            <circle cx="7" cy="18" r="1" fill="currentColor"/>
+                        </svg>
+                        <span class="button-label">Centers</span>
+                    </button>
+                    
+                    <!-- Globe Rotation Toggle -->
+                    <button class="rotation-toggle" id="rotation-toggle" title="Pause/Play Rotation">
+                        <svg class="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display: none;">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="6" y="4" width="4" height="16"/>
+                            <rect x="14" y="4" width="4" height="16"/>
+                        </svg>
+                    </button>
+                    
+                    <!-- Panel Collapse/Expand Toggle -->
+                    <button class="panel-toggle" id="panel-toggle" title="Hide Panel">
+                        <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <!-- Chevron pointing right initially (panel is shown) -->
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="toggle-cables" checked>
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">Submarine Cables</span>
+                    </label>
+                    <div class="sub-controls">
+                        <select id="cable-filter" class="filter-select">
+                            <option value="all" selected>All Cables</option>
+                            <option value="live">Live/Verified Only</option>
+                            <option value="estimated">Estimated Only</option>
+                        </select>
+                        
+                        <select id="region-filter" class="filter-select" style="margin-top: 8px;">
+                            <option value="all" selected>All Regions</option>
+                            <option value="transatlantic">Trans-Atlantic Cables</option>
+                            <option value="transpacific">Trans-Pacific Cables</option>
+                            <option value="europe-asia">Europe-Asia Cables</option>
+                            <option value="americas-internal">Americas Internal</option>
+                            <option value="europe-internal">Europe Internal</option>
+                            <option value="asia-internal">Asia Internal</option>
+                            <option value="africa-connected">Africa Connected</option>
+                        </select>
+                        
+                        <div class="control-group-header">
+                            <span class="control-group-title">Cable Capacity</span>
+                            <button type="button" class="info-icon" id="capacity-info" title="About Cable Capacities">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <select id="capacity-filter" class="filter-select">
+                            <option value="all" selected>All Capacities</option>
+                            <option value="high">High (&gt;150 Tbps)</option>
+                            <option value="medium">Medium (50-150 Tbps)</option>
+                            <option value="low">Low (&lt;50 Tbps)</option>
+                        </select>
+                        
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="show-major-only">
+                                <span>Major Cables Only</span>
+                                <button type="button" class="info-icon" id="major-cables-info" title="What are Major Cables?">
+                                    <svg viewBox="0 0 16 16" fill="currentColor">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                    </svg>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="toggle-datacenters" checked>
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">Data Centers</span>
+                    </label>
+                    <div class="sub-controls">
+                        <div class="control-group-header">
+                            <span class="control-group-title">Data Center Tiers</span>
+                            <button type="button" class="info-icon" id="tiers-info" title="About Data Center Tiers">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <select id="datacenter-filter" class="filter-select">
+                            <option value="all">All Tiers</option>
+                            <option value="tier1">Tier 1 Only</option>
+                            <option value="tier2">Tier 2 Only</option>
+                            <option value="tier3">Tier 3 Only</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <h4>Visual Settings</h4>
+                    <label class="toggle">
+                        <input type="checkbox" id="toggle-atmosphere" checked>
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">Atmosphere</span>
+                    </label>
+                    <div class="tip-box">
+                        <p class="tip-text">
+                            <strong>Tip:</strong> Press 'R' to reset view
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Panel (shows on hover/click) -->
+        <div id="info-panel" class="info-panel hidden">
+            <button class="info-close">&times;</button>
+            <h3 id="info-title">Infrastructure Details</h3>
+            <div id="info-content"></div>
+            <div class="accuracy-notice">
+                <span class="accuracy-icon">ℹ</span>
+                <span id="accuracy-text">Data accuracy varies by source</span>
+            </div>
+        </div>
+
+        <!-- List View Modal -->
+        <div id="list-view-modal" class="list-view-modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Cable Infrastructure List</h2>
+                    <div class="modal-controls">
+                        <button id="export-csv" class="export-btn" title="Export to CSV">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Export
+                        </button>
+                        <button class="modal-close" id="list-view-close">&times;</button>
+                    </div>
+                </div>
+                <div class="modal-stats">
+                    <span>Showing <strong id="filtered-count">0</strong> of <strong id="total-count">0</strong> cables</span>
+                </div>
+                <div class="table-container">
+                    <table id="cable-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="name">Name <span class="sort-icon">↕</span></th>
+                                <th class="sortable" data-sort="capacity">Capacity (Tbps) <span class="sort-icon">↕</span></th>
+                                <th class="sortable" data-sort="distance">Distance (km) <span class="sort-icon">↕</span></th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th class="sortable" data-sort="status">Status <span class="sort-icon">↕</span></th>
+                                <th>Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cable-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Center List View Modal -->
+        <div id="datacenter-list-modal" class="list-view-modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Data Center Infrastructure</h2>
+                    <div class="modal-controls">
+                        <button id="datacenter-export-csv" class="export-btn" title="Export to CSV">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Export
+                        </button>
+                        <button class="modal-close" id="datacenter-list-close">&times;</button>
+                    </div>
+                </div>
+                <div class="modal-stats">
+                    <span>Showing <strong id="datacenter-filtered-count">0</strong> of <strong id="datacenter-total-count">0</strong> data centers</span>
+                </div>
+                <div class="table-container">
+                    <table id="datacenter-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="city">City <span class="sort-icon">↕</span></th>
+                                <th class="sortable" data-sort="country">Country <span class="sort-icon">↕</span></th>
+                                <th class="sortable" data-sort="tier">Tier <span class="sort-icon">↕</span></th>
+                                <th class="sortable" data-sort="provider">Provider <span class="sort-icon">↕</span></th>
+                                <th>Coordinates</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="datacenter-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h4>Visual Indicators</h4>
+            
+            <div class="legend-section">
+                <h5>Cable Colors by Capacity</h5>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="cable-indicator high-capacity"></span>
+                        <span>High (&gt;150 Tbps)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="cable-indicator medium-capacity"></span>
+                        <span>Medium (50-150 Tbps)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="cable-indicator low-capacity"></span>
+                        <span>Low (&lt;50 Tbps)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legend-section">
+                <h5>Data Center Tiers</h5>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="datacenter-indicator tier1"></span>
+                        <span>Tier 1 (Major Hub)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="datacenter-indicator tier2"></span>
+                        <span>Tier 2 (Regional)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="datacenter-indicator tier3"></span>
+                        <span>Tier 3 (Local)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="legend-section">
+                <h5>Data Accuracy</h5>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="accuracy-indicator">●</span>
+                        <span>Live/Verified</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="accuracy-indicator estimated">◐</span>
+                        <span>Estimated</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="accuracy-indicator offline">○</span>
+                        <span>Historical</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-sources">
+                <h5>Data Sources</h5>
+                <ul>
+                    <li><a href="https://www.peeringdb.com/" target="_blank" rel="noopener noreferrer">PeeringDB (Live)</a></li>
+                    <li><a href="https://bgp.he.net/" target="_blank" rel="noopener noreferrer">Hurricane Electric (Live)</a></li>
+                    <li><a href="https://www.submarinecablemap.com/" target="_blank" rel="noopener noreferrer">Submarine Cable Map</a></li>
+                    <li><a href="https://radar.cloudflare.com/" target="_blank" rel="noopener noreferrer">CloudFlare Radar (Live)</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tooltips moved to app level for proper display -->
+        <!-- Capacity Info Tooltip -->
+        <div id="capacity-tooltip" class="info-tooltip">
+            <div class="tooltip-header">
+                <h4>Cable Capacity Explained</h4>
+                <button class="tooltip-close" id="close-capacity-tooltip">&times;</button>
+            </div>
+            <div class="tooltip-content">
+                <p><strong>Cable capacity is measured in Terabits per second (Tbps):</strong></p>
+                <ul>
+                    <li><strong>High Capacity (&gt;150 Tbps):</strong>
+                        <ul>
+                            <li>Latest generation cables</li>
+                            <li>Can handle 15+ million simultaneous HD video streams</li>
+                            <li>Examples: Grace Hopper (250 Tbps), 2Africa (180 Tbps)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Medium Capacity (50-150 Tbps):</strong>
+                        <ul>
+                            <li>Modern backbone cables</li>
+                            <li>5-15 million simultaneous HD streams</li>
+                            <li>Most trans-oceanic cables built 2015-2020</li>
+                        </ul>
+                    </li>
+                    <li><strong>Low Capacity (&lt;50 Tbps):</strong>
+                        <ul>
+                            <li>Older or regional cables</li>
+                            <li>Under 5 million simultaneous HD streams</li>
+                            <li>Still critical for regional connectivity</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="tooltip-note">For reference: 1 Tbps can support approximately 100,000 simultaneous HD video streams or 40 million web page loads per second.</p>
+            </div>
+        </div>
+
+        <!-- Major Cables Tooltip -->
+        <div id="major-cables-tooltip" class="info-tooltip">
+            <div class="tooltip-header">
+                <h4>Major Cables Definition</h4>
+                <button class="tooltip-close" id="close-major-tooltip">&times;</button>
+            </div>
+            <div class="tooltip-content">
+                <p><strong>Major cables are defined as:</strong></p>
+                <ul>
+                    <li>Capacity exceeding <strong>100 Tbps</strong></li>
+                    <li>Key intercontinental routes (Trans-Atlantic, Trans-Pacific)</li>
+                    <li>Strategic cables like:
+                        <ul>
+                            <li>MAREA (Microsoft-Facebook)</li>
+                            <li>Grace Hopper (Google)</li>
+                            <li>2Africa (Meta)</li>
+                            <li>Dunant (Google)</li>
+                            <li>FASTER (Google consortium)</li>
+                        </ul>
+                    </li>
+                    <li>Critical regional backbone cables</li>
+                </ul>
+                <p class="tooltip-note">These cables carry the majority of international internet traffic and are essential for global connectivity.</p>
+            </div>
+        </div>
+
+        <!-- Data Center Tiers Tooltip -->
+        <div id="tiers-tooltip" class="info-tooltip">
+            <div class="tooltip-header">
+                <h4>Data Center Tier Classification</h4>
+                <button class="tooltip-close" id="close-tiers-tooltip">&times;</button>
+            </div>
+            <div class="tooltip-content">
+                <p><strong>Data centers are classified by size, connectivity, and importance:</strong></p>
+                <ul>
+                    <li><strong>Tier 1 - Major Hubs:</strong>
+                        <ul>
+                            <li>Global internet exchange points</li>
+                            <li>100+ network carriers present</li>
+                            <li>Hyperscale facilities (Google, AWS, Microsoft)</li>
+                            <li>Locations: Singapore, Frankfurt, Ashburn, London</li>
+                            <li>99.995% uptime guarantee</li>
+                        </ul>
+                    </li>
+                    <li><strong>Tier 2 - Regional Centers:</strong>
+                        <ul>
+                            <li>Regional connectivity hubs</li>
+                            <li>20-100 network carriers</li>
+                            <li>Serve multiple cities/countries</li>
+                            <li>Examples: Miami, Amsterdam, Mumbai</li>
+                            <li>99.98% uptime guarantee</li>
+                        </ul>
+                    </li>
+                    <li><strong>Tier 3 - Local Facilities:</strong>
+                        <ul>
+                            <li>City-level data centers</li>
+                            <li>5-20 network carriers</li>
+                            <li>Edge computing locations</li>
+                            <li>Content delivery networks (CDN)</li>
+                            <li>99.95% uptime guarantee</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="tooltip-note">Note: This visualization uses a simplified tier system based on connectivity and traffic volume, not the official Uptime Institute certification.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="./src/main-clean.js"></script>
+</body>
+</html>

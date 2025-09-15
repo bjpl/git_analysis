@@ -1,0 +1,389 @@
+{
+  "displayTechnologies": {
+    "lcd-tn": {
+      "id": "lcd-tn",
+      "name": "TN LCD (Twisted Nematic)",
+      "category": "LCD",
+      "subcategory": "TN",
+      "specifications": {
+        "resolution": {
+          "typical": "1920x1080",
+          "maximum": "2560x1440",
+          "pixelDensity": 92,
+          "aspectRatios": ["16:9", "16:10"]
+        },
+        "refreshRate": {
+          "standard": 60,
+          "maximum": 240,
+          "variableRefresh": true
+        },
+        "colorGamut": {
+          "sRGB": 95,
+          "adobeRGB": 70,
+          "dciP3": 72,
+          "rec2020": 45
+        },
+        "brightness": {
+          "typical": 250,
+          "peak": 400,
+          "hdr": false
+        },
+        "contrast": {
+          "static": "600:1",
+          "dynamic": "50000:1",
+          "blackLevel": 0.4
+        },
+        "responseTime": {
+          "grayToGray": 1,
+          "blackToWhite": 5
+        },
+        "viewingAngle": {
+          "horizontal": 90,
+          "vertical": 65
+        },
+        "powerConsumption": {
+          "typical": 25,
+          "peak": 35
+        }
+      }
+    },
+    "lcd-ips": {
+      "id": "lcd-ips",
+      "name": "IPS LCD (In-Plane Switching)",
+      "category": "LCD",
+      "subcategory": "IPS",
+      "specifications": {
+        "resolution": {
+          "typical": "1920x1080",
+          "maximum": "5120x2880",
+          "pixelDensity": 218,
+          "aspectRatios": ["16:9", "16:10", "21:9"]
+        },
+        "refreshRate": {
+          "standard": 60,
+          "maximum": 165,
+          "variableRefresh": true
+        },
+        "colorGamut": {
+          "sRGB": 100,
+          "adobeRGB": 95,
+          "dciP3": 98,
+          "rec2020": 72
+        },
+        "brightness": {
+          "typical": 350,
+          "peak": 600,
+          "hdr": true
+        },
+        "contrast": {
+          "static": "1000:1",
+          "dynamic": "100000:1",
+          "blackLevel": 0.35
+        },
+        "responseTime": {
+          "grayToGray": 4,
+          "blackToWhite": 8
+        },
+        "viewingAngle": {
+          "horizontal": 178,
+          "vertical": 178
+        },
+        "powerConsumption": {
+          "typical": 35,
+          "peak": 50
+        }
+      }
+    },
+    "oled": {
+      "id": "oled",
+      "name": "OLED (Organic Light Emitting Diode)",
+      "category": "OLED",
+      "subcategory": "Standard OLED",
+      "specifications": {
+        "resolution": {
+          "typical": "1920x1080",
+          "maximum": "7680x4320",
+          "pixelDensity": 458,
+          "aspectRatios": ["16:9", "18:9", "19.5:9"]
+        },
+        "refreshRate": {
+          "standard": 60,
+          "maximum": 120,
+          "variableRefresh": true
+        },
+        "colorGamut": {
+          "sRGB": 100,
+          "adobeRGB": 100,
+          "dciP3": 100,
+          "rec2020": 95
+        },
+        "brightness": {
+          "typical": 400,
+          "peak": 1000,
+          "hdr": true
+        },
+        "contrast": {
+          "static": "1000000:1",
+          "dynamic": "∞",
+          "blackLevel": 0.0001
+        },
+        "responseTime": {
+          "grayToGray": 0.1,
+          "blackToWhite": 0.1
+        },
+        "viewingAngle": {
+          "horizontal": 180,
+          "vertical": 180
+        },
+        "powerConsumption": {
+          "typical": 45,
+          "peak": 80
+        }
+      }
+    },
+    "microled": {
+      "id": "microled",
+      "name": "MicroLED",
+      "category": "MicroLED",
+      "subcategory": "Standard MicroLED",
+      "specifications": {
+        "resolution": {
+          "typical": "1920x1080",
+          "maximum": "15360x8640",
+          "pixelDensity": 664,
+          "aspectRatios": ["16:9", "21:9"]
+        },
+        "refreshRate": {
+          "standard": 60,
+          "maximum": 240,
+          "variableRefresh": true
+        },
+        "colorGamut": {
+          "sRGB": 100,
+          "adobeRGB": 100,
+          "dciP3": 100,
+          "rec2020": 100
+        },
+        "brightness": {
+          "typical": 1000,
+          "peak": 10000,
+          "hdr": true
+        },
+        "contrast": {
+          "static": "1000000:1",
+          "dynamic": "∞",
+          "blackLevel": 0
+        },
+        "responseTime": {
+          "grayToGray": 0.01,
+          "blackToWhite": 0.01
+        },
+        "viewingAngle": {
+          "horizontal": 180,
+          "vertical": 180
+        },
+        "powerConsumption": {
+          "typical": 30,
+          "peak": 100
+        }
+      }
+    },
+    "e-paper": {
+      "id": "e-paper",
+      "name": "E-Paper (Electronic Paper)",
+      "category": "E-Paper",
+      "subcategory": "E Ink",
+      "specifications": {
+        "resolution": {
+          "typical": "1872x1404",
+          "maximum": "3200x1800",
+          "pixelDensity": 300,
+          "aspectRatios": ["4:3", "16:10"]
+        },
+        "refreshRate": {
+          "standard": 1,
+          "maximum": 60,
+          "variableRefresh": false
+        },
+        "colorGamut": {
+          "sRGB": 85,
+          "adobeRGB": 60,
+          "dciP3": 65,
+          "rec2020": 40
+        },
+        "brightness": {
+          "typical": 200,
+          "peak": 300,
+          "hdr": false
+        },
+        "contrast": {
+          "static": "15:1",
+          "dynamic": "15:1",
+          "blackLevel": 15
+        },
+        "responseTime": {
+          "grayToGray": 300,
+          "blackToWhite": 200
+        },
+        "viewingAngle": {
+          "horizontal": 180,
+          "vertical": 180
+        },
+        "powerConsumption": {
+          "typical": 0.1,
+          "peak": 2
+        }
+      }
+    },
+    "quantum-dot": {
+      "id": "quantum-dot",
+      "name": "Quantum Dot Display (QLED)",
+      "category": "Quantum Dot",
+      "subcategory": "QLED",
+      "specifications": {
+        "resolution": {
+          "typical": "3840x2160",
+          "maximum": "7680x4320",
+          "pixelDensity": 163,
+          "aspectRatios": ["16:9", "21:9"]
+        },
+        "refreshRate": {
+          "standard": 60,
+          "maximum": 120,
+          "variableRefresh": true
+        },
+        "colorGamut": {
+          "sRGB": 100,
+          "adobeRGB": 100,
+          "dciP3": 100,
+          "rec2020": 90
+        },
+        "brightness": {
+          "typical": 600,
+          "peak": 4000,
+          "hdr": true
+        },
+        "contrast": {
+          "static": "3000:1",
+          "dynamic": "1000000:1",
+          "blackLevel": 0.2
+        },
+        "responseTime": {
+          "grayToGray": 2,
+          "blackToWhite": 6
+        },
+        "viewingAngle": {
+          "horizontal": 178,
+          "vertical": 178
+        },
+        "powerConsumption": {
+          "typical": 40,
+          "peak": 70
+        }
+      }
+    },
+    "miniled": {
+      "id": "miniled",
+      "name": "Mini LED",
+      "category": "MiniLED",
+      "subcategory": "Mini LED Backlit LCD",
+      "specifications": {
+        "resolution": {
+          "typical": "3840x2160",
+          "maximum": "7680x4320",
+          "pixelDensity": 264,
+          "aspectRatios": ["16:9", "16:10"]
+        },
+        "refreshRate": {
+          "standard": 60,
+          "maximum": 144,
+          "variableRefresh": true
+        },
+        "colorGamut": {
+          "sRGB": 100,
+          "adobeRGB": 98,
+          "dciP3": 100,
+          "rec2020": 85
+        },
+        "brightness": {
+          "typical": 800,
+          "peak": 3000,
+          "hdr": true
+        },
+        "contrast": {
+          "static": "10000:1",
+          "dynamic": "1000000:1",
+          "blackLevel": 0.08
+        },
+        "responseTime": {
+          "grayToGray": 3,
+          "blackToWhite": 7
+        },
+        "viewingAngle": {
+          "horizontal": 178,
+          "vertical": 178
+        },
+        "powerConsumption": {
+          "typical": 50,
+          "peak": 85
+        }
+      }
+    }
+  },
+  "comparativeMetrics": {
+    "brightnessRanking": [
+      {"technology": "microled", "peak": 10000},
+      {"technology": "quantum-dot", "peak": 4000},
+      {"technology": "miniled", "peak": 3000},
+      {"technology": "oled", "peak": 1000},
+      {"technology": "lcd-ips", "peak": 600},
+      {"technology": "lcd-tn", "peak": 400},
+      {"technology": "e-paper", "peak": 300}
+    ],
+    "contrastRanking": [
+      {"technology": "microled", "ratio": "∞"},
+      {"technology": "oled", "ratio": "1000000:1"},
+      {"technology": "miniled", "ratio": "10000:1"},
+      {"technology": "quantum-dot", "ratio": "3000:1"},
+      {"technology": "lcd-ips", "ratio": "1000:1"},
+      {"technology": "lcd-tn", "ratio": "600:1"},
+      {"technology": "e-paper", "ratio": "15:1"}
+    ],
+    "responseTimeRanking": [
+      {"technology": "microled", "time": 0.01},
+      {"technology": "oled", "time": 0.1},
+      {"technology": "lcd-tn", "time": 1},
+      {"technology": "quantum-dot", "time": 2},
+      {"technology": "miniled", "time": 3},
+      {"technology": "lcd-ips", "time": 4},
+      {"technology": "e-paper", "time": 300}
+    ],
+    "powerEfficiencyRanking": [
+      {"technology": "e-paper", "typical": 0.1},
+      {"technology": "microled", "typical": 30},
+      {"technology": "lcd-tn", "typical": 25},
+      {"technology": "lcd-ips", "typical": 35},
+      {"technology": "quantum-dot", "typical": 40},
+      {"technology": "oled", "typical": 45},
+      {"technology": "miniled", "typical": 50}
+    ]
+  },
+  "evolutionTimeline": {
+    "2000": ["lcd-tn"],
+    "2005": ["lcd-ips"],
+    "2007": ["oled"],
+    "2013": ["quantum-dot"],
+    "2017": ["miniled"],
+    "2021": ["microled"],
+    "2008": ["e-paper"]
+  },
+  "metadata": {
+    "lastUpdated": "2025-01-15T00:00:00Z",
+    "version": "1.0.0",
+    "sources": [
+      "Display Industry Standards",
+      "IEEE Display Technology Reports",
+      "SID (Society for Information Display) Publications"
+    ]
+  }
+}

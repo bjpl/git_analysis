@@ -1,0 +1,61 @@
+# Descripciones de Tecnologías en Español
+technologies:
+  # Frameworks y Librerías
+  "Next.js 14": "Framework de React para apps web con SSR/SSG en producción"
+  "Jekyll 4.3": "Generador de sitios estáticos para webs rápidas y seguras"
+  "Three.js": "Librería JavaScript 3D para renderizado WebGL"
+  "React Query": "Sincronización de datos potente para apps React"
+  "D3.js": "Librería de visualización para gráficos dinámicos"
+  
+  # Lenguajes
+  "TypeScript": "JavaScript con tipado estático para código más seguro"
+  "Python 3.8+": "Lenguaje versátil para aplicaciones AI/ML"
+  "Ruby 3.x": "Lenguaje dinámico que impulsa Jekyll y Rails"
+  
+  # Bases de Datos y Backend
+  "Supabase": "Alternativa open-source a Firebase con PostgreSQL"
+  "SQLite": "Motor de base de datos embebido ligero"
+  "Vercel KV": "Almacén clave-valor compatible con Redis"
+  "Vercel Serverless": "Plataforma de funciones serverless auto-escalables"
+  
+  # IA y ML
+  "OpenAI GPT-4": "Modelo de lenguaje avanzado para generación de texto"
+  "Spaced Repetition Algorithm": "Optimización del aprendizaje mediante repaso espaciado"
+  "TBLT Methodology": "Metodología de enseñanza basada en tareas"
+  
+  # Gestión de Estado
+  "Zustand": "Gestión de estado ligera para React"
+  
+  # UI/UX
+  "Radix UI": "Componentes React accesibles sin estilos"
+  "Tailwind CSS": "Framework CSS utility-first para estilado rápido"
+  "Tkinter": "Kit de herramientas GUI estándar de Python"
+  "SASS/SCSS": "Preprocesador CSS con variables y anidamiento"
+  "Semantic HTML5": "Marcado HTML significativo para accesibilidad"
+  
+  # APIs y Servicios
+  "Unsplash API": "Servicio de fotos de stock de alta calidad"
+  "Stripe Payments": "Plataforma segura de procesamiento de pagos"
+  "GitHub Pages": "Hosting gratuito de sitios estáticos"
+  
+  # Herramientas de Build
+  "Vite": "Herramienta de build rápida con HMR"
+  "Liquid Templating": "Lenguaje de plantillas basado en Ruby"
+  
+  # Rendimiento y Optimización
+  "Lazy Loading": "Carga diferida para mejor rendimiento"
+  "Performance Optimization": "Técnicas para tiempos de carga rápidos"
+  "WebGL": "Librería de gráficos web para renderizado 3D"
+  "GSAP": "Librería profesional de animación web"
+  "Particle Systems": "Efectos visuales con simulación de partículas"
+  
+  # Datos y Visualización
+  "Geospatial Data Processing": "Manejo de datos de coordenadas geográficas"
+  "Globe.gl": "Librería de visualización de globo WebGL"
+  
+  # Móvil y Pagos
+  "Apple Pay/Google Pay": "Sistemas de pago móvil sin contacto"
+  "Static HTML/JS": "Frontend puro sin dependencias de servidor"
+  
+  # Patrones de Arquitectura
+  "Zero-Infrastructure Design": "Arquitectura serverless sin costos de hosting"

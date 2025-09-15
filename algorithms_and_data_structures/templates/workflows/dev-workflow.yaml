@@ -1,0 +1,282 @@
+name: Development Automation Workflow
+version: "1.0.0"
+description: Complete development workflow with code generation, testing, and deployment
+variables:
+  projectPath: "./project"
+  testCommand: "npm test"
+  buildCommand: "npm run build"
+  deployTarget: "staging"
+  notificationChannel: "#dev-team"
+
+triggers:
+  - type: webhook
+    config:
+      path: "/webhook/dev-workflow"
+      method: POST
+      secret: "${WEBHOOK_SECRET}"
+      variables:
+        branch: "main"
+        repository: "my-project"
+
+tasks:
+  # 1. Setup and validation
+  - id: validate-environment
+    name: Validate Development Environment
+    type: shell:exec
+    config:
+      command: |
+        echo "Validating environment..."
+        node --version
+        npm --version
+        git --version
+      cwd: "{{projectPath}}"
+    timeout: 30000
+    retries: 2
+
+  # 2. Clone or update repository
+  - id: update-repository
+    name: Update Repository
+    type: git:clone
+    config:
+      url: "https://github.com/{{repository}}.git"
+      path: "{{projectPath}}"
+      branch: "{{branch}}"
+    dependsOn: ["validate-environment"]
+    continueOnError: false
+
+  # 3. Install dependencies
+  - id: install-dependencies
+    name: Install Dependencies
+    type: npm:install
+    config:
+      cwd: "{{projectPath}}"
+    dependsOn: ["update-repository"]
+    timeout: 300000
+
+  # 4. Run linting
+  - id: lint-code
+    name: Lint Code
+    type: npm:script
+    config:
+      script: "lint"
+      cwd: "{{projectPath}}"
+    dependsOn: ["install-dependencies"]
+    parallel: true
+    continueOnError: true
+
+  # 5. Run type checking
+  - id: type-check
+    name: Type Check
+    type: npm:script
+    config:
+      script: "typecheck"
+      cwd: "{{projectPath}}"
+    dependsOn: ["install-dependencies"]
+    parallel: true
+    continueOnError: true
+
+  # 6. Run unit tests
+  - id: run-unit-tests
+    name: Run Unit Tests
+    type: shell:exec
+    config:
+      command: "{{testCommand}} -- --coverage"
+      cwd: "{{projectPath}}"
+    dependsOn: ["lint-code", "type-check"]
+    timeout: 600000
+
+  # 7. Build application
+  - id: build-application
+    name: Build Application
+    type: shell:exec
+    config:
+      command: "{{buildCommand}}"
+      cwd: "{{projectPath}}"
+      env:
+        NODE_ENV: production
+    dependsOn: ["run-unit-tests"]
+    timeout: 600000
+
+  # 8. Run integration tests
+  - id: run-integration-tests
+    name: Run Integration Tests
+    type: npm:script
+    config:
+      script: "test:integration"
+      cwd: "{{projectPath}}"
+    dependsOn: ["build-application"]
+    timeout: 900000
+
+  # 9. Security audit
+  - id: security-audit
+    name: Security Audit
+    type: npm:script
+    config:
+      script: "audit"
+      args: ["--audit-level", "moderate"]
+      cwd: "{{projectPath}}"
+    dependsOn: ["build-application"]
+    parallel: true
+    continueOnError: true
+
+  # 10. Generate documentation
+  - id: generate-docs
+    name: Generate Documentation
+    type: npm:script
+    config:
+      script: "docs:generate"
+      cwd: "{{projectPath}}"
+    dependsOn: ["build-application"]
+    parallel: true
+    continueOnError: true
+
+  # 11. Deploy to staging
+  - id: deploy-staging
+    name: Deploy to Staging
+    type: shell:exec
+    config:
+      command: |
+        echo "Deploying to {{deployTarget}}..."
+        npm run deploy:{{deployTarget}}
+      cwd: "{{projectPath}}"
+      env:
+        DEPLOY_TARGET: "{{deployTarget}}"
+    dependsOn: ["run-integration-tests", "security-audit"]
+    condition:
+      expression: "deployTarget !== 'production'"
+
+  # 12. Run smoke tests
+  - id: smoke-tests
+    name: Run Smoke Tests
+    type: http:request
+    config:
+      url: "https://{{deployTarget}}.example.com/health"
+      method: GET
+      timeout: 30000
+    dependsOn: ["deploy-staging"]
+    retries: 3
+
+  # 13. Performance tests
+  - id: performance-tests
+    name: Performance Tests
+    type: shell:exec
+    config:
+      command: "npm run test:performance"
+      cwd: "{{projectPath}}"
+    dependsOn: ["deploy-staging"]
+    parallel: true
+    timeout: 1800000
+
+  # 14. Update project status
+  - id: update-status
+    name: Update Project Status
+    type: data:transform
+    config:
+      data:
+        status: "deployed"
+        environment: "{{deployTarget}}"
+        timestamp: "{{new Date().toISOString()}}"
+        tests_passed: true
+        build_number: "{{BUILD_NUMBER || 'dev'}}"
+      expression: "JSON.stringify(data, null, 2)"
+    dependsOn: ["smoke-tests", "performance-tests"]
+
+# Success handlers
+onSuccess:
+  - id: notify-success
+    name: Notify Success
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      headers:
+        Content-Type: "application/json"
+      data:
+        channel: "{{notificationChannel}}"
+        text: |
+          ✅ Development workflow completed successfully!
+          
+          Repository: {{repository}}
+          Branch: {{branch}}
+          Environment: {{deployTarget}}
+          Build: {{BUILD_NUMBER || 'dev'}}
+          
+          All tests passed and deployment successful.
+        username: "DevOps Bot"
+        icon_emoji: ":rocket:"
+
+  - id: create-release-notes
+    name: Create Release Notes
+    type: file:write
+    config:
+      path: "{{projectPath}}/RELEASE_NOTES.md"
+      content: |
+        # Release Notes - {{new Date().toISOString().split('T')[0]}}
+        
+        ## Changes
+        - Automated build and deployment
+        - All tests passed
+        - Security audit completed
+        
+        ## Environment
+        - Target: {{deployTarget}}
+        - Branch: {{branch}}
+        - Build: {{BUILD_NUMBER || 'dev'}}
+        
+        ## Test Results
+        - Unit tests: ✅ Passed
+        - Integration tests: ✅ Passed  
+        - Security audit: ✅ Passed
+        - Performance tests: ✅ Passed
+        - Smoke tests: ✅ Passed
+
+# Failure handlers
+onFailure:
+  - id: notify-failure
+    name: Notify Failure
+    type: http:request
+    config:
+      url: "{{SLACK_WEBHOOK_URL}}"
+      method: POST
+      headers:
+        Content-Type: "application/json"
+      data:
+        channel: "{{notificationChannel}}"
+        text: |
+          ❌ Development workflow failed!
+          
+          Repository: {{repository}}
+          Branch: {{branch}}
+          Environment: {{deployTarget}}
+          
+          Please check the logs and fix the issues.
+        username: "DevOps Bot"
+        icon_emoji: ":warning:"
+
+  - id: rollback-deployment
+    name: Rollback Deployment
+    type: shell:exec
+    config:
+      command: "npm run rollback:{{deployTarget}}"
+      cwd: "{{projectPath}}"
+    condition:
+      expression: "deployTarget !== 'local'"
+    continueOnError: true
+
+# Rollback tasks (executed on failure)
+rollback:
+  - id: restore-previous-version
+    name: Restore Previous Version
+    type: shell:exec
+    config:
+      command: |
+        echo "Rolling back to previous version..."
+        git checkout HEAD~1
+        npm install
+        npm run build
+        npm run deploy:{{deployTarget}}
+      cwd: "{{projectPath}}"
+    continueOnError: true
+
+timeout: 3600000  # 1 hour timeout for entire workflow
+retries: 1

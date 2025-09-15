@@ -1,0 +1,545 @@
+{
+  "id": "main-menu",
+  "title": "Algorithm & Data Structure CLI",
+  "description": "Interactive command-line interface for algorithms and data structures",
+  "searchable": true,
+  "breadcrumbs": true,
+  "style": {
+    "type": "list",
+    "theme": "default",
+    "showIcons": true,
+    "showShortcuts": true,
+    "showDescriptions": true,
+    "animations": true
+  },
+  "items": [
+    {
+      "id": "algorithms",
+      "title": "Algorithms",
+      "description": "Explore and implement various algorithms",
+      "icon": {
+        "type": "emoji",
+        "value": "🔥"
+      },
+      "shortcut": {
+        "key": "a",
+        "ctrl": true,
+        "description": "Quick access to algorithms"
+      },
+      "submenu": [
+        {
+          "id": "sorting",
+          "title": "Sorting Algorithms",
+          "description": "Various sorting techniques and implementations",
+          "icon": {
+            "type": "emoji",
+            "value": "📈"
+          },
+          "action": "openSortingMenu",
+          "submenu": [
+            {
+              "id": "quicksort",
+              "title": "Quick Sort",
+              "description": "Divide-and-conquer sorting algorithm",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(n log n)",
+                "category": "divide-conquer"
+              }
+            },
+            {
+              "id": "mergesort",
+              "title": "Merge Sort",
+              "description": "Stable divide-and-conquer sorting",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(n log n)",
+                "category": "divide-conquer"
+              }
+            },
+            {
+              "id": "heapsort",
+              "title": "Heap Sort",
+              "description": "In-place sorting using binary heap",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(n log n)",
+                "category": "comparison"
+              }
+            },
+            {
+              "id": "radixsort",
+              "title": "Radix Sort",
+              "description": "Non-comparison integer sorting",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(d × n)",
+                "category": "non-comparison"
+              }
+            }
+          ]
+        },
+        {
+          "id": "searching",
+          "title": "Search Algorithms",
+          "description": "Efficient searching techniques",
+          "icon": {
+            "type": "emoji",
+            "value": "🔍"
+          },
+          "submenu": [
+            {
+              "id": "binary-search",
+              "title": "Binary Search",
+              "description": "Logarithmic search in sorted arrays",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(log n)",
+                "prerequisite": "sorted array"
+              }
+            },
+            {
+              "id": "linear-search",
+              "title": "Linear Search",
+              "description": "Sequential search through elements",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(n)",
+                "prerequisite": "none"
+              }
+            },
+            {
+              "id": "ternary-search",
+              "title": "Ternary Search",
+              "description": "Divide array into three parts",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(log n)",
+                "prerequisite": "sorted array"
+              }
+            }
+          ]
+        },
+        {
+          "id": "graph",
+          "title": "Graph Algorithms",
+          "description": "Algorithms for graph traversal and analysis",
+          "icon": {
+            "type": "emoji",
+            "value": "🌐"
+          },
+          "submenu": [
+            {
+              "id": "dfs",
+              "title": "Depth-First Search (DFS)",
+              "description": "Explore graph depth-wise",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(V + E)",
+                "type": "traversal"
+              }
+            },
+            {
+              "id": "bfs",
+              "title": "Breadth-First Search (BFS)",
+              "description": "Explore graph breadth-wise",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(V + E)",
+                "type": "traversal"
+              }
+            },
+            {
+              "id": "dijkstra",
+              "title": "Dijkstra's Algorithm",
+              "description": "Shortest path from single source",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O((V + E) log V)",
+                "type": "shortest-path"
+              }
+            },
+            {
+              "id": "floyd-warshall",
+              "title": "Floyd-Warshall",
+              "description": "All-pairs shortest paths",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(V³)",
+                "type": "shortest-path"
+              }
+            }
+          ]
+        },
+        {
+          "id": "dynamic-programming",
+          "title": "Dynamic Programming",
+          "description": "Optimization using overlapping subproblems",
+          "icon": {
+            "type": "emoji",
+            "value": "🧠"
+          },
+          "submenu": [
+            {
+              "id": "fibonacci",
+              "title": "Fibonacci Sequence",
+              "description": "Classic DP problem demonstration",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(n)",
+                "space": "O(1)"
+              }
+            },
+            {
+              "id": "knapsack",
+              "title": "0-1 Knapsack",
+              "description": "Optimal item selection problem",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(nW)",
+                "type": "optimization"
+              }
+            },
+            {
+              "id": "lcs",
+              "title": "Longest Common Subsequence",
+              "description": "Find LCS of two sequences",
+              "action": "runAlgorithm",
+              "metadata": {
+                "complexity": "O(mn)",
+                "type": "string"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data-structures",
+      "title": "Data Structures",
+      "description": "Implement and explore data structures",
+      "icon": {
+        "type": "emoji",
+        "value": "📁"
+      },
+      "shortcut": {
+        "key": "d",
+        "ctrl": true,
+        "description": "Quick access to data structures"
+      },
+      "submenu": [
+        {
+          "id": "linear",
+          "title": "Linear Data Structures",
+          "description": "Sequential data organization",
+          "icon": {
+            "type": "emoji",
+            "value": "🗋"
+          },
+          "submenu": [
+            {
+              "id": "array",
+              "title": "Array",
+              "description": "Fixed-size sequential collection",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "access": "O(1)",
+                "search": "O(n)",
+                "insertion": "O(n)"
+              }
+            },
+            {
+              "id": "linked-list",
+              "title": "Linked List",
+              "description": "Dynamic linear data structure",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "access": "O(n)",
+                "search": "O(n)",
+                "insertion": "O(1)"
+              }
+            },
+            {
+              "id": "stack",
+              "title": "Stack",
+              "description": "Last-In-First-Out (LIFO) structure",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "push": "O(1)",
+                "pop": "O(1)",
+                "peek": "O(1)"
+              }
+            },
+            {
+              "id": "queue",
+              "title": "Queue",
+              "description": "First-In-First-Out (FIFO) structure",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "enqueue": "O(1)",
+                "dequeue": "O(1)",
+                "front": "O(1)"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trees",
+          "title": "Tree Data Structures",
+          "description": "Hierarchical data organization",
+          "icon": {
+            "type": "emoji",
+            "value": "🌳"
+          },
+          "submenu": [
+            {
+              "id": "binary-tree",
+              "title": "Binary Tree",
+              "description": "Tree with at most two children per node",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "height": "O(n) worst, O(log n) balanced",
+                "type": "hierarchical"
+              }
+            },
+            {
+              "id": "bst",
+              "title": "Binary Search Tree",
+              "description": "Ordered binary tree for efficient searching",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "search": "O(log n) average, O(n) worst",
+                "insert": "O(log n) average"
+              }
+            },
+            {
+              "id": "avl-tree",
+              "title": "AVL Tree",
+              "description": "Self-balancing binary search tree",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "search": "O(log n)",
+                "balance": "automatic"
+              }
+            },
+            {
+              "id": "red-black-tree",
+              "title": "Red-Black Tree",
+              "description": "Self-balancing BST with color properties",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "search": "O(log n)",
+                "balance": "color-based rules"
+              }
+            }
+          ]
+        },
+        {
+          "id": "hash-structures",
+          "title": "Hash-based Structures",
+          "description": "Fast access using hash functions",
+          "icon": {
+            "type": "emoji",
+            "value": "⚡"
+          },
+          "submenu": [
+            {
+              "id": "hash-table",
+              "title": "Hash Table",
+              "description": "Key-value storage with O(1) access",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "access": "O(1) average",
+                "collision-handling": "chaining/probing"
+              }
+            },
+            {
+              "id": "hash-set",
+              "title": "Hash Set",
+              "description": "Unique element collection",
+              "action": "exploreDataStructure",
+              "metadata": {
+                "lookup": "O(1) average",
+                "duplicates": "not allowed"
+              }
+            }
+          ]
+        },
+        {
+          "id": "heap",
+          "title": "Heap",
+          "description": "Complete binary tree with heap property",
+          "icon": {
+            "type": "emoji",
+            "value": "🏔️"
+          },
+          "action": "exploreDataStructure",
+          "metadata": {
+            "insert": "O(log n)",
+            "extract-max": "O(log n)",
+            "peek": "O(1)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "complexity",
+      "title": "Complexity Analysis",
+      "description": "Time and space complexity tools",
+      "icon": {
+        "type": "emoji",
+        "value": "📊"
+      },
+      "shortcut": {
+        "key": "c",
+        "ctrl": true,
+        "description": "Analyze algorithmic complexity"
+      },
+      "submenu": [
+        {
+          "id": "big-o-calculator",
+          "title": "Big O Calculator",
+          "description": "Calculate and compare time complexities",
+          "action": "openBigOCalculator"
+        },
+        {
+          "id": "complexity-visualizer",
+          "title": "Complexity Visualizer",
+          "description": "Visual representation of algorithm growth",
+          "action": "openComplexityVisualizer"
+        },
+        {
+          "id": "benchmarks",
+          "title": "Performance Benchmarks",
+          "description": "Compare real-world algorithm performance",
+          "action": "runBenchmarks"
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "title": "Practice Problems",
+      "description": "Coding challenges and exercises",
+      "icon": {
+        "type": "emoji",
+        "value": "🏆"
+      },
+      "shortcut": {
+        "key": "p",
+        "ctrl": true,
+        "description": "Access practice problems"
+      },
+      "badge": "New",
+      "submenu": [
+        {
+          "id": "easy",
+          "title": "Easy Problems",
+          "description": "Beginner-friendly challenges",
+          "badge": "15",
+          "action": "openPracticeLevel",
+          "metadata": {
+            "difficulty": "easy",
+            "estimated-time": "5-15 minutes"
+          }
+        },
+        {
+          "id": "medium",
+          "title": "Medium Problems",
+          "description": "Intermediate algorithmic challenges",
+          "badge": "23",
+          "action": "openPracticeLevel",
+          "metadata": {
+            "difficulty": "medium",
+            "estimated-time": "15-45 minutes"
+          }
+        },
+        {
+          "id": "hard",
+          "title": "Hard Problems",
+          "description": "Advanced algorithmic puzzles",
+          "badge": "8",
+          "action": "openPracticeLevel",
+          "metadata": {
+            "difficulty": "hard",
+            "estimated-time": "45+ minutes"
+          }
+        },
+        {
+          "id": "contests",
+          "title": "Programming Contests",
+          "description": "Timed competitive programming",
+          "action": "openContests",
+          "metadata": {
+            "type": "competitive",
+            "format": "timed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "visualizations",
+      "title": "Visualizations",
+      "description": "Interactive algorithm and data structure visualizations",
+      "icon": {
+        "type": "emoji",
+        "value": "🎆"
+      },
+      "shortcut": {
+        "key": "v",
+        "ctrl": true,
+        "description": "Open visualizations"
+      },
+      "action": "openVisualizations"
+    },
+    {
+      "id": "tools",
+      "title": "Development Tools",
+      "description": "Utilities and helper tools",
+      "icon": {
+        "type": "emoji",
+        "value": "🔧"
+      },
+      "shortcut": {
+        "key": "t",
+        "ctrl": true,
+        "description": "Access development tools"
+      },
+      "action": "openToolsMenu"
+    },
+    {
+      "id": "settings",
+      "title": "Settings",
+      "description": "Configure CLI preferences and options",
+      "icon": {
+        "type": "emoji",
+        "value": "⚙️"
+      },
+      "shortcut": {
+        "key": "s",
+        "ctrl": true,
+        "description": "Open settings"
+      },
+      "action": "openSettingsMenu"
+    },
+    {
+      "id": "help",
+      "title": "Help & Documentation",
+      "description": "Usage guide, examples, and API reference",
+      "icon": {
+        "type": "emoji",
+        "value": "❓"
+      },
+      "shortcut": {
+        "key": "h",
+        "ctrl": true,
+        "description": "Show help"
+      },
+      "action": "showHelp"
+    }
+  ],
+  "validation": {
+    "maxDepth": 4,
+    "maxItems": 100,
+    "requiredFields": ["id", "title"]
+  }
+}

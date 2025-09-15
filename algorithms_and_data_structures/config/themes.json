@@ -1,0 +1,183 @@
+{
+  "currentTheme": "default",
+  "fallbackTheme": "default",
+  "accessibilityMode": null,
+  "customThemePaths": [
+    "./src/ui/themes/custom.theme.ts"
+  ],
+  "userPreferences": {
+    "autoDetectTerminal": true,
+    "gracefulDegradation": true,
+    "persistSettings": true
+  },
+  "availableThemes": {
+    "default": {
+      "name": "default",
+      "displayName": "Default Light",
+      "description": "Clean, professional light theme with excellent readability",
+      "path": "./src/ui/themes/default.theme.ts",
+      "requirements": {
+        "minColors": 16,
+        "requiresTrueColor": false,
+        "requiresUnicode": false
+      }
+    },
+    "dark": {
+      "name": "dark",
+      "displayName": "Dark Professional",
+      "description": "Modern dark theme optimized for extended coding sessions",
+      "path": "./src/ui/themes/dark.theme.ts",
+      "requirements": {
+        "minColors": 256,
+        "requiresTrueColor": false,
+        "requiresUnicode": false
+      }
+    },
+    "high-contrast": {
+      "name": "high-contrast",
+      "displayName": "High Contrast",
+      "description": "Maximum contrast theme for accessibility and low-vision users",
+      "path": "./src/ui/themes/high-contrast.theme.ts",
+      "requirements": {
+        "minColors": 8,
+        "requiresTrueColor": false,
+        "requiresUnicode": false
+      }
+    },
+    "custom": {
+      "name": "custom",
+      "displayName": "Custom User Theme",
+      "description": "User-customizable theme template",
+      "path": "./src/ui/themes/custom.theme.ts",
+      "requirements": {
+        "minColors": 256,
+        "requiresTrueColor": true,
+        "requiresUnicode": true
+      }
+    }
+  },
+  "accessibilityOptions": {
+    "protanopia": {
+      "name": "protanopia",
+      "displayName": "Protanopia Support",
+      "description": "Color adjustments for red-green colorblindness (missing L-cones)"
+    },
+    "deuteranopia": {
+      "name": "deuteranopia", 
+      "displayName": "Deuteranopia Support",
+      "description": "Color adjustments for red-green colorblindness (missing M-cones)"
+    },
+    "tritanopia": {
+      "name": "tritanopia",
+      "displayName": "Tritanopia Support", 
+      "description": "Color adjustments for blue-yellow colorblindness (missing S-cones)"
+    },
+    "highContrast": {
+      "name": "highContrast",
+      "displayName": "High Contrast Mode",
+      "description": "Enhanced contrast for better visibility"
+    }
+  },
+  "terminalProfiles": {
+    "vscode": {
+      "name": "VS Code Terminal",
+      "capabilities": {
+        "trueColor": true,
+        "color256": true,
+        "color16": true,
+        "color8": true,
+        "unicode": true
+      },
+      "recommendedThemes": ["default", "dark", "custom"]
+    },
+    "iterm2": {
+      "name": "iTerm2",
+      "capabilities": {
+        "trueColor": true,
+        "color256": true,
+        "color16": true,
+        "color8": true,
+        "unicode": true
+      },
+      "recommendedThemes": ["default", "dark", "custom"]
+    },
+    "windowsTerminal": {
+      "name": "Windows Terminal",
+      "capabilities": {
+        "trueColor": true,
+        "color256": true,
+        "color16": true,
+        "color8": true,
+        "unicode": true
+      },
+      "recommendedThemes": ["default", "dark", "custom"]
+    },
+    "gnomeTerminal": {
+      "name": "GNOME Terminal",
+      "capabilities": {
+        "trueColor": true,
+        "color256": true,
+        "color16": true,
+        "color8": true,
+        "unicode": true
+      },
+      "recommendedThemes": ["default", "dark"]
+    },
+    "basic": {
+      "name": "Basic Terminal",
+      "capabilities": {
+        "trueColor": false,
+        "color256": false,
+        "color16": true,
+        "color8": true,
+        "unicode": false
+      },
+      "recommendedThemes": ["high-contrast", "default"]
+    },
+    "minimal": {
+      "name": "Minimal Terminal",
+      "capabilities": {
+        "trueColor": false,
+        "color256": false,
+        "color16": false,
+        "color8": true,
+        "unicode": false
+      },
+      "recommendedThemes": ["high-contrast"]
+    }
+  },
+  "themeValidation": {
+    "requiredFields": [
+      "name",
+      "displayName",
+      "description",
+      "palette",
+      "palette.primary",
+      "palette.secondary",
+      "palette.success",
+      "palette.warning",
+      "palette.error",
+      "palette.info",
+      "palette.background",
+      "palette.text"
+    ],
+    "colorFields": [
+      "hex",
+      "ansi256",
+      "ansi16",
+      "ansi8",
+      "name"
+    ]
+  },
+  "examples": {
+    "switchTheme": "themeManager.switchTheme('dark')",
+    "setAccessibility": "themeManager.setAccessibilityMode('protanopia')",
+    "customization": "themeManager.createCustomTheme('my-theme', 'My Theme', { colors: {...} })"
+  },
+  "documentation": {
+    "setup": "Import { themeManager } from './src/ui/themes/ThemeManager'",
+    "basicUsage": "Use themeManager.getCurrentTheme() to get active theme",
+    "styling": "Use styleDefinitions.applyStyle(text, style) to apply colors",
+    "events": "Use themeManager.onThemeChange(listener) to listen for changes"
+  }
+}

@@ -1,0 +1,61 @@
+# Technology Descriptions for Tooltips
+technologies:
+  # Frameworks & Libraries
+  "Next.js 14": "React framework for production-grade web apps with SSR/SSG"
+  "Jekyll 4.3": "Static site generator for fast, secure websites"
+  "Three.js": "JavaScript 3D library for WebGL rendering"
+  "React Query": "Powerful data synchronization for React apps"
+  "D3.js": "Data visualization library for dynamic graphics"
+  
+  # Languages
+  "TypeScript": "JavaScript with static typing for safer code"
+  "Python 3.8+": "Versatile programming language for AI/ML applications"
+  "Ruby 3.x": "Dynamic language powering Jekyll and Rails"
+  
+  # Databases & Backend
+  "Supabase": "Open-source Firebase alternative with PostgreSQL"
+  "SQLite": "Lightweight embedded database engine"
+  "Vercel KV": "Redis-compatible key-value store by Vercel"
+  "Vercel Serverless": "Auto-scaling serverless functions platform"
+  
+  # AI & ML
+  "OpenAI GPT-4": "Advanced language model for text generation"
+  "Spaced Repetition Algorithm": "Learning optimization through timed review"
+  "TBLT Methodology": "Task-Based Language Teaching approach"
+  
+  # State Management
+  "Zustand": "Lightweight state management for React"
+  
+  # UI/UX
+  "Radix UI": "Unstyled, accessible React component library"
+  "Tailwind CSS": "Utility-first CSS framework for rapid styling"
+  "Tkinter": "Python's standard GUI toolkit"
+  "SASS/SCSS": "CSS preprocessor with variables and nesting"
+  "Semantic HTML5": "Meaningful HTML markup for accessibility"
+  
+  # APIs & Services
+  "Unsplash API": "High-quality stock photo service"
+  "Stripe Payments": "Secure payment processing platform"
+  "GitHub Pages": "Free static website hosting from GitHub"
+  
+  # Build Tools
+  "Vite": "Fast build tool with hot module replacement"
+  "Liquid Templating": "Ruby-based template language for Jekyll"
+  
+  # Performance & Optimization
+  "Lazy Loading": "Deferred loading for better performance"
+  "Performance Optimization": "Techniques for faster load times"
+  "WebGL": "Web Graphics Library for 3D rendering"
+  "GSAP": "Professional animation library for the web"
+  "Particle Systems": "Visual effects using particle simulation"
+  
+  # Data & Visualization
+  "Geospatial Data Processing": "Handling geographic coordinate data"
+  "Globe.gl": "WebGL globe visualization library"
+  
+  # Mobile & Payments
+  "Apple Pay/Google Pay": "Mobile contactless payment systems"
+  "Static HTML/JS": "Pure frontend without server dependencies"
+  
+  # Architecture Patterns
+  "Zero-Infrastructure Design": "Serverless architecture with no hosting costs"

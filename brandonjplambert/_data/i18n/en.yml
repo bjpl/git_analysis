@@ -1,0 +1,84 @@
+# English translations
+site:
+  title: Brandon JP Lambert
+  tagline: Language Learning & Teaching
+  description: Fourth-generation educator with MA-TESOL and 10 years in language education and edtech.
+
+navigation:
+  home: Home
+  work: Work
+  ai_projects: AI Projects
+  resources: Resources
+  contact: Contact
+  language_toggle: ES
+
+sections:
+  hero:
+    title: Welcome
+    subtitle: Exploring the intersection of language, education, and technology
+  featured:
+    title: Featured Work
+    view_all: View All Work
+  teaching_philosophy:
+    title: Teaching Philosophy
+    expand: Show More
+    collapse: Show Less
+  education:
+    title: Education
+    degree: Degree
+    institution: Institution
+    dates: Dates
+  career:
+    title: Career Timeline
+    duration: Duration
+    organization: Organization
+  projects:
+    title: AI Projects
+    status: Status
+    technologies: Technologies
+    view_project: View Project
+    github: GitHub
+    demo: Live Demo
+  resources:
+    title: Learning Resources
+    tools_tab: Learning Tools
+    accounts_tab: Spanish Accounts
+    effectiveness: Effectiveness
+    category: Category
+  
+buttons:
+  learn_more: Learn More
+  view_details: View Details
+  contact_me: Contact Me
+  download_cv: Download CV
+  filter_by: Filter by
+
+forms:
+  name: Name
+  email: Email
+  message: Message
+  send: Send Message
+  sending: Sending...
+  success: Message sent successfully!
+  error: Error sending message. Please try again.
+
+footer:
+  copyright: All rights reserved
+  built_with: Built with Jekyll and hosted on GitHub Pages
+
+metadata:
+  author: Author
+  published: Published
+  updated: Last Updated
+  reading_time: min read
+
+status:
+  active: Active
+  completed: Completed
+  in_progress: In Progress
+
+errors:
+  404_title: Page Not Found
+  404_message: Sorry, the page you're looking for doesn't exist.
+  404_home: Return Home
+  generic: An error occurred. Please try again.

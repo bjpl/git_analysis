@@ -1,0 +1,42 @@
+issue_category,problem,diagnostic_step,command,expected_result,next_action,tools_required,common_cause
+No Internet,Physical disconnection,Check cable connection,Visual inspection,Link lights on,Check next layer,None,Loose cable
+No Internet,No IP address,Check DHCP,ipconfig /all or ifconfig,Valid IP assigned,Check DHCP server,Command line,DHCP server down
+No Internet,No gateway connectivity,Ping gateway,ping [gateway_ip],Successful ping,Check routing,Command line,Gateway misconfigured
+No Internet,No external connectivity,Ping public IP,ping 8.8.8.8,Successful ping,Check DNS,Command line,ISP issue
+No Internet,DNS not working,Test DNS resolution,nslookup google.com,IP address returned,Check application,Command line,DNS server down
+Slow Performance,High latency,Measure RTT,ping -t [destination],<50ms local,Check packet loss,Command line,Network congestion
+Slow Performance,Packet loss,Extended ping test,ping -c 100 [destination],<0.1% loss,Check path,Command line,Bad cable or interference
+Slow Performance,DNS delays,Time DNS lookup,dig +stats [domain],<50ms response,Use faster DNS,dig/nslookup,Slow DNS server
+Slow Performance,Bandwidth issues,Test throughput,iperf3 -c [server],Expected bandwidth,Check duplex settings,iperf3,Congestion
+Slow Performance,TCP problems,Check retransmissions,netstat -s,Low retransmit rate,Check window size,netstat,Packet loss
+Connection Issues,Connection refused,Check service status,telnet [host] [port],Connection established,Check firewall,telnet/nc,Service not running
+Connection Issues,Connection timeout,Test connectivity,traceroute [destination],Complete path,Check firewall,traceroute,Firewall blocking
+Connection Issues,Connection reset,Check application logs,Check system logs,No errors,Check server status,Log files,Application crash
+DNS Issues,NXDOMAIN,Verify domain exists,dig [domain],Valid response,Check spelling,dig,Domain doesn't exist
+DNS Issues,SERVFAIL,Try different resolver,dig @8.8.8.8 [domain],Successful query,Change DNS server,dig,DNS server error
+DNS Issues,Slow resolution,Measure DNS time,time dig [domain],<100ms,Enable caching,dig,No caching
+DNS Issues,Wrong IP returned,Check all resolvers,dig @[various] [domain],Consistent results,Flush DNS cache,dig,Cache poisoning
+HTTP Issues,404 Not Found,Verify URL,curl -I [url],200 OK expected,Check path,curl,Wrong URL
+HTTP Issues,500 Server Error,Check server logs,tail -f error.log,Error details,Fix server issue,Server access,Application error
+HTTP Issues,SSL/TLS errors,Check certificate,openssl s_client -connect [host]:443,Valid cert,Update certificate,openssl,Expired certificate
+HTTP Issues,Timeout,Test with curl,curl -w "%{time_total}" [url],<2 seconds,Check server load,curl,Server overload
+TCP States,Connection stuck,Check socket state,netstat -tan,ESTABLISHED,Check application,netstat,Application hang
+TCP States,TIME_WAIT accumulation,Count TIME_WAIT,netstat -tan | grep TIME_WAIT | wc -l,<1000,Tune TCP settings,netstat,Rapid connections
+TCP States,CLOSE_WAIT accumulation,Count CLOSE_WAIT,netstat -tan | grep CLOSE_WAIT | wc -l,<100,Fix application,netstat,Application not closing
+Packet Loss,Physical layer,Check interface errors,ip -s link show,No errors,Replace cable,ip/ifconfig,Bad cable
+Packet Loss,Network congestion,Check interface drops,netstat -i,No drops,Increase bandwidth,netstat,Buffer overflow
+Packet Loss,MTU issues,Test MTU,ping -M do -s 1472 [destination],Successful ping,Adjust MTU,ping,MTU mismatch
+Security,Firewall blocking,Test port access,nc -zv [host] [port],Connection succeeded,Check firewall rules,netcat,Firewall misconfigured
+Security,Certificate issues,Verify certificate,openssl s_client -connect [host]:443,Valid certificate,Update cert,openssl,Expired/invalid cert
+Security,Authentication failure,Check credentials,Check auth logs,Successful auth,Reset credentials,Log access,Wrong credentials
+Routing,No route to host,Check routing table,ip route show or route -n,Route exists,Add route,ip/route,Missing route
+Routing,Wrong gateway,Verify default route,ip route | grep default,Correct gateway,Update gateway,ip/route,Misconfiguration
+Routing,Asymmetric routing,Trace both directions,traceroute + reverse trace,Same path,Check routing policy,traceroute,Multiple paths
+Application,Service not responding,Check process,ps aux | grep [service],Process running,Check logs,ps,Service crashed
+Application,High CPU usage,Check top processes,top,Normal CPU usage,Optimize/restart,top,Resource leak
+Application,Memory issues,Check memory usage,free -h,Available memory,Add memory/optimize,free,Memory leak
+Application,Disk full,Check disk space,df -h,Space available,Clean up disk,df,Logs/temp files
+Network Tools,Ping alternatives,Use mtr,mtr [destination],Path and loss data,Analyze results,mtr,Various
+Network Tools,Port scanning,Use nmap,nmap -p [ports] [host],Open ports shown,Verify services,nmap,Discovery
+Network Tools,Packet capture,Use tcpdump,tcpdump -i any,Packets captured,Analyze traffic,tcpdump,Deep analysis
+Network Tools,DNS debugging,Use dig +trace,dig +trace [domain],Full resolution path,Find failure point,dig,DNS delegation

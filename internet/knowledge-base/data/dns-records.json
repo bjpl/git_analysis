@@ -1,0 +1,235 @@
+{
+  "dns_records": {
+    "record_types": {
+      "A": {
+        "name": "Address Record",
+        "purpose": "Maps domain name to IPv4 address",
+        "format": "hostname IN A IPv4_address",
+        "example": "www.example.com. IN A 192.0.2.1",
+        "ttl_typical": 300,
+        "multiple_allowed": true,
+        "use_cases": ["Primary website hosting", "Load balancing with multiple IPs"]
+      },
+      "AAAA": {
+        "name": "IPv6 Address Record",
+        "purpose": "Maps domain name to IPv6 address",
+        "format": "hostname IN AAAA IPv6_address",
+        "example": "www.example.com. IN AAAA 2001:db8::1",
+        "ttl_typical": 300,
+        "multiple_allowed": true,
+        "use_cases": ["IPv6 connectivity", "Dual-stack hosting"]
+      },
+      "CNAME": {
+        "name": "Canonical Name Record",
+        "purpose": "Alias pointing to another domain name",
+        "format": "alias IN CNAME canonical_name",
+        "example": "www.example.com. IN CNAME example.com.",
+        "ttl_typical": 3600,
+        "restrictions": ["Cannot be at zone apex", "Cannot coexist with other records"],
+        "use_cases": ["CDN integration", "Service aliases", "Subdomain management"]
+      },
+      "MX": {
+        "name": "Mail Exchanger Record",
+        "purpose": "Specifies mail servers for domain",
+        "format": "domain IN MX priority mail_server",
+        "example": "example.com. IN MX 10 mail.example.com.",
+        "ttl_typical": 3600,
+        "priority": {
+          "range": "0-65535",
+          "lower_preferred": true
+        },
+        "use_cases": ["Email routing", "Backup mail servers", "Mail service providers"]
+      },
+      "NS": {
+        "name": "Name Server Record",
+        "purpose": "Delegates subdomain to name servers",
+        "format": "domain IN NS nameserver",
+        "example": "example.com. IN NS ns1.example.com.",
+        "ttl_typical": 86400,
+        "minimum_required": 2,
+        "use_cases": ["DNS delegation", "Subdomain management", "DNS hosting"]
+      },
+      "TXT": {
+        "name": "Text Record",
+        "purpose": "Arbitrary text data",
+        "format": "domain IN TXT \"text string\"",
+        "example": "example.com. IN TXT \"v=spf1 include:_spf.google.com ~all\"",
+        "ttl_typical": 300,
+        "max_length": 255,
+        "use_cases": {
+          "SPF": "Email sender authorization",
+          "DKIM": "Email signing verification",
+          "DMARC": "Email authentication policy",
+          "Domain_verification": "Ownership verification",
+          "CAA": "Certificate authority authorization"
+        }
+      },
+      "SOA": {
+        "name": "Start of Authority Record",
+        "purpose": "Authoritative information about DNS zone",
+        "format": "domain IN SOA primary_ns admin_email serial refresh retry expire minimum",
+        "example": "example.com. IN SOA ns1.example.com. admin.example.com. 2024010101 3600 1800 604800 86400",
+        "ttl_typical": 86400,
+        "fields": {
+          "serial": "Version number (YYYYMMDDnn format)",
+          "refresh": "Secondary check interval (seconds)",
+          "retry": "Retry interval on failure (seconds)",
+          "expire": "Zone expiry time (seconds)",
+          "minimum": "Negative cache TTL (seconds)"
+        },
+        "required": "One per zone"
+      },
+      "PTR": {
+        "name": "Pointer Record",
+        "purpose": "Reverse DNS lookup (IP to hostname)",
+        "format": "reversed_ip.in-addr.arpa. IN PTR hostname",
+        "example": "1.2.0.192.in-addr.arpa. IN PTR host.example.com.",
+        "ttl_typical": 86400,
+        "use_cases": ["Email server validation", "Network diagnostics", "Security logging"]
+      },
+      "SRV": {
+        "name": "Service Record",
+        "purpose": "Specifies location of services",
+        "format": "_service._proto.domain IN SRV priority weight port target",
+        "example": "_sip._tcp.example.com. IN SRV 10 60 5060 sipserver.example.com.",
+        "ttl_typical": 3600,
+        "fields": {
+          "priority": "Server selection order",
+          "weight": "Load distribution for same priority",
+          "port": "Service port number",
+          "target": "Hostname providing service"
+        },
+        "use_cases": ["SIP/VoIP", "XMPP", "Minecraft servers", "Service discovery"]
+      },
+      "CAA": {
+        "name": "Certificate Authority Authorization",
+        "purpose": "Specifies which CAs can issue certificates",
+        "format": "domain IN CAA flags tag value",
+        "example": "example.com. IN CAA 0 issue \"letsencrypt.org\"",
+        "ttl_typical": 3600,
+        "tags": {
+          "issue": "Authorize CA for certificates",
+          "issuewild": "Authorize CA for wildcard certificates",
+          "iodef": "Report violations to URL"
+        },
+        "security_benefit": "Prevents unauthorized certificate issuance"
+      }
+    },
+    "dnssec_records": {
+      "DNSKEY": {
+        "purpose": "Contains public key for DNSSEC",
+        "flags": {
+          "256": "Zone Signing Key (ZSK)",
+          "257": "Key Signing Key (KSK)"
+        },
+        "algorithm_numbers": {
+          "8": "RSA/SHA-256",
+          "13": "ECDSA Curve P-256 with SHA-256",
+          "15": "Ed25519"
+        }
+      },
+      "DS": {
+        "purpose": "Delegation signer - links to DNSKEY in child zone",
+        "location": "Parent zone",
+        "creates": "Chain of trust"
+      },
+      "RRSIG": {
+        "purpose": "Resource record signature",
+        "signs": "RRsets (all records of same type)",
+        "validity": "Signature expiration time"
+      },
+      "NSEC": {
+        "purpose": "Authenticated denial of existence",
+        "reveals": "Zone contents (zone walking possible)",
+        "replacement": "NSEC3"
+      },
+      "NSEC3": {
+        "purpose": "Authenticated denial with hashed names",
+        "advantage": "Prevents zone enumeration",
+        "uses": "Salted hash of domain names"
+      }
+    },
+    "modern_records": {
+      "HTTPS": {
+        "purpose": "HTTPS service binding",
+        "rfc": "RFC 9460",
+        "benefits": ["Encrypted ClientHello", "Connection coalescing", "Alt-Svc in DNS"],
+        "format": "domain IN HTTPS priority target parameters",
+        "example": "example.com. IN HTTPS 1 . alpn=h3,h2"
+      },
+      "SVCB": {
+        "purpose": "Generic service binding",
+        "use_cases": "Foundation for HTTPS record",
+        "extensible": true
+      },
+      "TLSA": {
+        "purpose": "TLS authentication via DANE",
+        "format": "_port._proto.domain IN TLSA usage selector matching_type certificate_data",
+        "example": "_443._tcp.example.com. IN TLSA 3 1 1 [hash]",
+        "benefit": "Pin certificates in DNS"
+      },
+      "SMIMEA": {
+        "purpose": "S/MIME certificate association",
+        "similar_to": "TLSA but for email certificates"
+      },
+      "OPENPGPKEY": {
+        "purpose": "OpenPGP public keys in DNS",
+        "lookup": "SHA-256 hash of email local part"
+      }
+    },
+    "email_authentication": {
+      "SPF": {
+        "record_type": "TXT",
+        "purpose": "Authorize sending mail servers",
+        "syntax": "v=spf1 [mechanisms] [modifiers]",
+        "mechanisms": ["ip4", "ip6", "a", "mx", "include", "all"],
+        "qualifiers": {
+          "+": "Pass (default)",
+          "-": "Fail",
+          "~": "SoftFail",
+          "?": "Neutral"
+        },
+        "example": "v=spf1 ip4:192.0.2.0/24 include:_spf.google.com -all"
+      },
+      "DKIM": {
+        "record_type": "TXT",
+        "location": "selector._domainkey.domain",
+        "purpose": "Cryptographic email signatures",
+        "format": "v=DKIM1; k=rsa; p=[public_key]",
+        "selector": "Allows multiple keys"
+      },
+      "DMARC": {
+        "record_type": "TXT",
+        "location": "_dmarc.domain",
+        "purpose": "Email authentication policy",
+        "format": "v=DMARC1; p=policy; rua=mailto:reports@example.com",
+        "policies": {
+          "none": "Monitor only",
+          "quarantine": "Treat as suspicious",
+          "reject": "Reject failing messages"
+        }
+      }
+    },
+    "best_practices": {
+      "ttl_recommendations": {
+        "static_content": 86400,
+        "dynamic_content": 300,
+        "mx_records": 3600,
+        "ns_records": 86400,
+        "during_migration": 300
+      },
+      "security": {
+        "implement_dnssec": "Sign zones for authentication",
+        "use_caa": "Restrict certificate issuance",
+        "monitor_changes": "Alert on unexpected modifications",
+        "validate_spf": "Prevent email spoofing"
+      },
+      "performance": {
+        "minimize_lookups": "Reduce number of DNS queries",
+        "optimize_ttl": "Balance freshness vs cache efficiency",
+        "use_cdn_cname": "Delegate to CDN for geographic routing",
+        "implement_dns_load_balancing": "Multiple A records for distribution"
+      }
+    }
+  }
+}

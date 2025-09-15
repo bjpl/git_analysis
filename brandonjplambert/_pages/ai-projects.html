@@ -1,0 +1,783 @@
+---
+layout: page
+title: AI Projects
+permalink: /ai-projects/
+lang: en
+description: Machine learning and AI-powered applications for education and language learning
+---
+<!-- Updated: Force rebuild -->
+
+<!-- Filter Controls -->
+<section class="mb-6">
+  <div class="flex flex-wrap gap-2">
+    <button class="btn btn-secondary filter-btn active" data-filter="all">All Projects</button>
+    <button class="btn btn-secondary filter-btn" data-filter="Educational">Educational</button>
+    <button class="btn btn-secondary filter-btn" data-filter="Data Visualization">Data Visualization</button>
+    <button class="btn btn-secondary filter-btn" data-filter="Creative Platform">Creative Platform</button>
+    <button class="btn btn-secondary filter-btn" data-filter="E-commerce Innovation">E-commerce</button>
+  </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="projects-grid">
+  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-5 max-w-4xl mx-auto" id="projects-container">
+    {% for project in site.data.ai_projects.projects %}
+    <div class="card project-card" data-category="{{ project.category }}" id="{{ project.id }}">
+      {% if project.image %}
+      <div class="project-image-placeholder mb-3">
+        <img src="{{ project.image }}" alt="{{ project.name }} preview" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      {% endif %}
+      
+      <div class="flex justify-between items-start mb-3">
+        <h3 class="card-title">{{ project.name }}</h3>
+        <span class="badge {% if project.status == 'Active' %}badge-success{% elsif project.status == 'Completed' %}badge-primary{% else %}badge-warning{% endif %}">
+          {{ project.status }}
+        </span>
+      </div>
+      
+      <p class="card-description">{{ project.description }}</p>
+      
+      {% if project.features %}
+      <div class="mb-3">
+        <h4 class="text-sm font-semibold mb-2">Key Features:</h4>
+        <ul class="text-sm text-muted feature-list">
+          {% for feature in project.features limit:3 %}
+          <li>{{ feature }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      
+      <div class="mb-3">
+        <h4 class="text-sm font-semibold mb-2">{{ site.data.i18n[page.lang].sections.projects.technologies }}:</h4>
+        <div class="flex flex-wrap gap-1">
+          {% for tech in project.technologies limit:5 %}
+          <span class="badge tech-badge">
+            <span>{{ tech }}</span>
+            {% if site.data.tech_descriptions.technologies[tech] %}
+            <span class="tech-info" data-tooltip="{{ site.data.tech_descriptions.technologies[tech] }}">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 1.5a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zm-.75 3.5a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0zm.75 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 1 .5-.5z"/>
+              </svg>
+            </span>
+            {% endif %}
+          </span>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="flex gap-3 mt-4">
+        {% if project.github_url %}
+        <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+          {{ site.data.i18n[page.lang].sections.projects.github }} →
+        </a>
+        {% endif %}
+        {% if project.demo_url %}
+        <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          {{ site.data.i18n[page.lang].sections.projects.demo }}
+        </a>
+        {% endif %}
+        {% if site.data.project_histories.histories[project.id] %}
+        <button class="btn btn-secondary btn-history" data-project-id="{{ project.id }}" title="View development history">
+          📖 History
+        </button>
+        {% endif %}
+      </div>
+      
+      {% if project.last_updated %}
+      <p class="text-xs text-muted mt-3">
+        {{ site.data.i18n[page.lang].metadata.updated }}: {{ project.last_updated | date: "%B %Y" }}
+      </p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Coming Soon Section -->
+<section class="mt-8 text-center">
+  <div class="card">
+    <h3 class="mb-3">More Projects Coming Soon</h3>
+    <p class="text-muted">I'm actively working on new AI-powered educational tools and language learning applications. Check back soon for updates!</p>
+    <div class="mt-4">
+      <a href="{{ site.data.profile.social.github }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        Follow on GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Development History Modal -->
+<div id="history-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="history-title"></h2>
+      <button class="modal-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body" id="history-content">
+      <!-- Content will be dynamically inserted here -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Store project histories data
+const projectHistories = {
+  {% for history in site.data.project_histories.histories %}
+  '{{ history[0] }}': {{ history[1] | jsonify }},
+  {% endfor %}
+};
+
+// Project filtering
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Filter projects
+      projectCards.forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+  
+  // Development History Modal
+  const modal = document.getElementById('history-modal');
+  const modalTitle = document.getElementById('history-title');
+  const modalContent = document.getElementById('history-content');
+  const historyButtons = document.querySelectorAll('.btn-history');
+  const closeButton = document.querySelector('.modal-close');
+  
+  function renderHistory(history) {
+    let html = `
+      <div class="history-overview">
+        <p class="history-summary">${history.summary}</p>
+        ${history.status ? `<div class="history-status">Status: <strong>${history.status}</strong></div>` : ''}
+        ${history.current_state ? `<div class="history-note">${history.current_state}</div>` : ''}
+      </div>
+    `;
+    
+    if (history.timeline) {
+      html += '<div class="history-timeline">';
+      history.timeline.forEach(phase => {
+        html += `
+          <div class="timeline-phase">
+            <div class="phase-header">
+              <div class="phase-meta">
+                <h3>${phase.phase}</h3>
+                <span class="phase-date">${phase.period}</span>
+              </div>
+            </div>
+            <p class="phase-description"><strong>${phase.focus}</strong></p>
+            ${phase.key_work ? `
+              <ul class="phase-achievements">
+                ${phase.key_work.map(a => `<li>${a}</li>`).join('')}
+              </ul>
+            ` : ''}
+          </div>
+        `;
+      });
+      html += '</div>';
+    }
+    
+    if (history.technical_reality) {
+      html += '<div class="history-transformation">';
+      html += '<h3>Technical Reality</h3>';
+      html += '<div class="transformation-grid">';
+      
+      if (history.technical_reality.strengths) {
+        html += '<div class="transform-from"><h4>Strengths</h4><ul>';
+        history.technical_reality.strengths.forEach(item => {
+          html += `<li>${item}</li>`;
+        });
+        html += '</ul></div>';
+      }
+      
+      if (history.technical_reality.challenges) {
+        html += '<div class="transform-to"><h4>Challenges</h4><ul>';
+        history.technical_reality.challenges.forEach(item => {
+          html += `<li>${item}</li>`;
+        });
+        html += '</ul></div>';
+      }
+      
+      html += '</div></div>';
+    }
+    
+    if (history.metrics) {
+      html += '<div class="history-stats">';
+      html += '<h3>📊 Metrics</h3>';
+      html += '<div class="stats-grid">';
+      Object.entries(history.metrics).forEach(([key, value]) => {
+        const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        html += `<div class="stat-item"><span class="stat-label">${label}:</span> <strong>${value}</strong></div>`;
+      });
+      html += '</div></div>';
+    }
+    
+    return html;
+  }
+  
+  historyButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const projectId = this.getAttribute('data-project-id');
+      const history = projectHistories[projectId];
+      
+      if (history) {
+        modalTitle.textContent = history.title;
+        modalContent.innerHTML = renderHistory(history);
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+  
+  closeButton.addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+  
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  });
+  
+  // Technology Tooltips
+  const techInfoElements = document.querySelectorAll('.tech-info');
+  
+  techInfoElements.forEach(element => {
+    let tooltip = null;
+    
+    element.addEventListener('mouseenter', function() {
+      const tooltipText = this.getAttribute('data-tooltip');
+      if (tooltipText) {
+        tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = tooltipText;
+        this.appendChild(tooltip);
+        
+        // Force reflow to enable transition
+        void tooltip.offsetHeight;
+        
+        // Check if tooltip goes off screen and adjust
+        const rect = tooltip.getBoundingClientRect();
+        if (rect.left < 10) {
+          tooltip.style.left = '0';
+          tooltip.style.transform = 'translateX(0) translateY(4px)';
+        } else if (rect.right > window.innerWidth - 10) {
+          tooltip.style.left = 'auto';
+          tooltip.style.right = '0';
+          tooltip.style.transform = 'translateX(0) translateY(4px)';
+        }
+        
+        tooltip.classList.add('active');
+      }
+    });
+    
+    element.addEventListener('mouseleave', function() {
+      if (tooltip) {
+        tooltip.classList.remove('active');
+        setTimeout(() => {
+          if (tooltip && tooltip.parentNode) {
+            tooltip.parentNode.removeChild(tooltip);
+          }
+          tooltip = null;
+        }, 200);
+      }
+    });
+    
+    // Mobile touch support
+    element.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Remove any existing tooltips
+      document.querySelectorAll('.tooltip').forEach(t => {
+        if (t !== tooltip) {
+          t.classList.remove('active');
+          setTimeout(() => t.remove(), 200);
+        }
+      });
+      
+      if (!tooltip || !tooltip.classList.contains('active')) {
+        const tooltipText = this.getAttribute('data-tooltip');
+        if (tooltipText) {
+          if (tooltip) {
+            tooltip.remove();
+          }
+          tooltip = document.createElement('div');
+          tooltip.className = 'tooltip';
+          tooltip.textContent = tooltipText;
+          this.appendChild(tooltip);
+          
+          void tooltip.offsetHeight;
+          tooltip.classList.add('active');
+          
+          // Auto-hide after 3 seconds on mobile
+          setTimeout(() => {
+            if (tooltip) {
+              tooltip.classList.remove('active');
+              setTimeout(() => {
+                if (tooltip && tooltip.parentNode) {
+                  tooltip.remove();
+                }
+                tooltip = null;
+              }, 200);
+            }
+          }, 3000);
+        }
+      } else {
+        tooltip.classList.remove('active');
+        setTimeout(() => {
+          if (tooltip && tooltip.parentNode) {
+            tooltip.remove();
+          }
+          tooltip = null;
+        }, 200);
+      }
+    });
+  });
+  
+  // Close tooltips when clicking elsewhere
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.tech-info')) {
+      document.querySelectorAll('.tooltip.active').forEach(tooltip => {
+        tooltip.classList.remove('active');
+        setTimeout(() => tooltip.remove(), 200);
+      });
+    }
+  });
+});
+</script>
+
+<style>
+.filter-btn.active {
+  background-color: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.project-card {
+  transition: all var(--transition-base);
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.project-image-placeholder {
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Development History Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.modal-body {
+  padding: 32px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* History Content Styles */
+.history-overview {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.history-summary {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.history-status {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #4a90e2;
+  color: white;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.history-note {
+  padding: 12px 16px;
+  background: #fff3cd;
+  color: #856404;
+  border-radius: 6px;
+  margin-top: 12px;
+  border-left: 4px solid #ffc107;
+}
+
+/* Timeline Styles */
+.history-timeline {
+  margin: 32px 0;
+}
+
+.timeline-phase {
+  margin-bottom: 28px;
+  padding-left: 20px;
+  border-left: 3px solid #e5e5e5;
+  position: relative;
+}
+
+.timeline-phase:before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4a90e2;
+  border: 2px solid white;
+}
+
+.phase-header {
+  margin-bottom: 12px;
+}
+
+.phase-meta h3 {
+  margin: 0 0 4px 0;
+  color: #333;
+  font-size: 1.125rem;
+}
+
+.phase-date {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.phase-description {
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.phase-achievements {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.phase-achievements li {
+  padding: 6px 0;
+  padding-left: 24px;
+  position: relative;
+  color: #555;
+  line-height: 1.5;
+}
+
+.phase-achievements li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Stats Grid */
+.history-stats {
+  margin: 32px 0;
+  padding: 24px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.history-stats h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.stat-item {
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.875rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-item strong {
+  color: #4a90e2;
+  font-size: 1.25rem;
+}
+
+/* Transformation Grid */
+.history-transformation {
+  margin: 32px 0;
+}
+
+.history-transformation h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.transformation-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.transform-from, .transform-to {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.transform-from h4, .transform-to h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.transform-from ul, .transform-to ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transform-from li, .transform-to li {
+  padding: 6px 0;
+  color: #555;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.transform-from li:last-child, .transform-to li:last-child {
+  border-bottom: none;
+}
+
+.transform-arrow {
+  font-size: 2rem;
+  color: #4a90e2;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }
+  
+  .transformation-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .transform-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+  
+  .timeline-phase {
+    padding-left: 48px;
+  }
+  
+  .phase-icon {
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.btn-history {
+  font-size: 0.875rem;
+  padding: 6px 12px;
+}
+
+.feature-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.feature-list li {
+  padding-left: 1.25rem;
+  position: relative;
+  margin-bottom: 0.25rem;
+}
+
+.feature-list li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent, #4a90e2);
+}
+
+/* Technology Badge Tooltips */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  position: relative;
+}
+
+.tech-info {
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  color: #6b7280;
+}
+
+.tech-info:hover {
+  opacity: 0.9;
+  color: #3b82f6;
+}
+
+.tech-info svg {
+  display: block;
+}
+
+/* Tooltip Styles */
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2d3748;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: normal;
+  min-width: 180px;
+  max-width: 250px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateX(-50%) translateY(4px);
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.tooltip.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #2d3748;
+}
+
+/* Responsive tooltip */
+@media (max-width: 768px) {
+  .tooltip {
+    min-width: 150px;
+    max-width: 200px;
+    font-size: 11px;
+  }
+}
+</style>

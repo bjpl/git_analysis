@@ -1,0 +1,72 @@
+port,protocol,service,description,encrypted,category,risk_level,common_attacks
+20,TCP,FTP-DATA,File Transfer Protocol Data,No,File Transfer,Medium,Data interception
+21,TCP,FTP,File Transfer Protocol Control,No,File Transfer,Medium,Credential theft
+22,TCP,SSH,Secure Shell,Yes,Remote Access,Low,Brute force
+23,TCP,Telnet,Unencrypted remote access,No,Remote Access,Critical,Clear text passwords
+25,TCP,SMTP,Simple Mail Transfer Protocol,No*,Email,Medium,Spam relay
+53,TCP/UDP,DNS,Domain Name System,No*,Core Services,Low,DNS poisoning
+67,UDP,DHCP-Server,Dynamic Host Configuration Server,No,Core Services,Low,Rogue DHCP
+68,UDP,DHCP-Client,Dynamic Host Configuration Client,No,Core Services,Low,DHCP starvation
+69,UDP,TFTP,Trivial File Transfer Protocol,No,File Transfer,High,Unauthorized access
+80,TCP,HTTP,Hypertext Transfer Protocol,No,Web,Medium,Man-in-the-middle
+110,TCP,POP3,Post Office Protocol v3,No*,Email,Medium,Credential theft
+119,TCP,NNTP,Network News Transfer Protocol,No,Legacy,Low,Information disclosure
+123,UDP,NTP,Network Time Protocol,No,Core Services,Low,NTP amplification
+135,TCP,RPC,Microsoft RPC Endpoint Mapper,No,Windows,Critical,Remote exploits
+137,UDP,NetBIOS-NS,NetBIOS Name Service,No,Windows,High,Name poisoning
+138,UDP,NetBIOS-DGM,NetBIOS Datagram,No,Windows,High,Information disclosure
+139,TCP,NetBIOS-SSN,NetBIOS Session,No,Windows,High,Null sessions
+143,TCP,IMAP,Internet Message Access Protocol,No*,Email,Medium,Credential theft
+161,UDP,SNMP,Simple Network Management Protocol,No,Management,Medium,Information disclosure
+162,UDP,SNMPTRAP,SNMP Trap,No,Management,Low,False alerts
+179,TCP,BGP,Border Gateway Protocol,No*,Routing,Medium,Route hijacking
+389,TCP,LDAP,Lightweight Directory Access Protocol,No,Directory,Medium,Information disclosure
+443,TCP,HTTPS,HTTP Secure,Yes,Web,Low,SSL/TLS vulnerabilities
+445,TCP,SMB,Server Message Block,No*,File Sharing,Critical,"Ransomware, worms"
+465,TCP,SMTPS,SMTP Secure,Yes,Email,Low,Misconfiguration
+500,UDP,IKE,Internet Key Exchange,Yes,VPN,Low,DDoS
+514,UDP,Syslog,System Logging Protocol,No,Logging,Low,Log injection
+515,TCP,LPD,Line Printer Daemon,No,Printing,Low,Print job interception
+520,UDP,RIP,Routing Information Protocol,No,Routing,Medium,Route poisoning
+587,TCP,Submission,Mail Submission,No*,Email,Low,Requires auth
+636,TCP,LDAPS,LDAP Secure,Yes,Directory,Low,Certificate issues
+853,TCP,DoT,DNS over TLS,Yes,Core Services,Low,Privacy focused
+989,TCP,FTPS-DATA,FTP Secure Data,Yes,File Transfer,Low,Configuration complexity
+990,TCP,FTPS,FTP Secure Control,Yes,File Transfer,Low,Configuration complexity
+993,TCP,IMAPS,IMAP Secure,Yes,Email,Low,Certificate issues
+995,TCP,POP3S,POP3 Secure,Yes,Email,Low,Certificate issues
+1080,TCP,SOCKS,SOCKS Proxy,No,Proxy,Medium,Open proxy abuse
+1194,UDP/TCP,OpenVPN,OpenVPN Default,Yes,VPN,Low,Misconfiguration
+1433,TCP,MS-SQL,Microsoft SQL Server,No,Database,High,"SQL injection, brute force"
+1521,TCP,Oracle,Oracle Database,No,Database,High,TNS poisoning
+1701,UDP,L2TP,Layer 2 Tunneling Protocol,No,VPN,Medium,Requires IPSec
+1723,TCP,PPTP,Point-to-Point Tunneling,Weak,VPN,High,Broken encryption
+1883,TCP,MQTT,Message Queue Telemetry Transport,No,IoT,Medium,Unauthorized access
+2049,TCP/UDP,NFS,Network File System,No,File Sharing,High,Unauthorized access
+3000,TCP,Dev-Server,Common development port,No,Development,Medium,Exposed in production
+3128,TCP,Squid,Squid Proxy,No,Proxy,Medium,Open proxy
+3306,TCP,MySQL,MySQL Database,No,Database,High,"SQL injection, brute force"
+3389,TCP,RDP,Remote Desktop Protocol,No,Remote Access,Critical,"Brute force, BlueKeep"
+4369,TCP,EPMD,Erlang Port Mapper,No,Development,Low,Service discovery
+5000,TCP,Flask,Flask default,No,Development,Medium,Debug mode exposure
+5432,TCP,PostgreSQL,PostgreSQL Database,No,Database,High,Brute force
+5672,TCP,AMQP,RabbitMQ,No,Messaging,Medium,Unauthorized access
+5900,TCP,VNC,Virtual Network Computing,No,Remote Access,High,Weak authentication
+5984,TCP,CouchDB,Apache CouchDB,No,Database,Medium,Admin party mode
+6379,TCP,Redis,Redis Database,No,Database,High,No auth by default
+6443,TCP,Kubernetes,Kubernetes API,Yes,Orchestration,Medium,Misconfiguration
+6667,TCP,IRC,Internet Relay Chat,No,Chat,Medium,Botnet C&C
+6697,TCP,IRC-SSL,IRC over SSL,Yes,Chat,Low,Still used by botnets
+7000,TCP,Cassandra,Cassandra Internode,No,Database,Medium,Cluster compromise
+8080,TCP,HTTP-Proxy,HTTP Proxy/Alternative,No,Web,Medium,Often unsecured
+8086,TCP,InfluxDB,InfluxDB HTTP,No,Database,Medium,Time series injection
+8443,TCP,HTTPS-Alt,Alternative HTTPS,Yes,Web,Low,Non-standard port
+8883,TCP,MQTT-SSL,MQTT over SSL,Yes,IoT,Low,Certificate management
+9042,TCP,Cassandra-Native,Cassandra Native,No,Database,Medium,NoSQL injection
+9092,TCP,Kafka,Apache Kafka,No,Messaging,Medium,Message interception
+9200,TCP,Elasticsearch,Elasticsearch HTTP,No,Database,High,Data exposure
+9300,TCP,Elasticsearch-Transport,Elasticsearch Transport,No,Database,High,Cluster takeover
+10050,TCP,Zabbix-Agent,Zabbix Agent,No,Monitoring,Low,Information disclosure
+11211,TCP/UDP,Memcached,Memcached,No,Caching,High,Cache poisoning
+27017,TCP,MongoDB,MongoDB Database,No,Database,High,NoSQL injection
+51820,UDP,WireGuard,WireGuard VPN,Yes,VPN,Low,Modern secure design

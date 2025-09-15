@@ -1,0 +1,46 @@
+NEW ACCOUNTS ADDED TO DATASET
+==================================================
+Generated: 2025-09-11 21:15:25
+Total new accounts: 10
+
+Accounts added (sorted by followers):
+- Juan Valdez Café: 564,000 followers
+  Category: Food & Beverage
+  Instagram: https://instagram.com/juanvaldezcafe
+
+- IKEA Colombia: 298,000 followers
+  Category: Retail
+  Instagram: https://instagram.com/ikeacolombia
+
+- Claro Colombia: 237,000 followers
+  Category: Telecommunications
+  Instagram: https://instagram.com/clarocolombia
+
+- Toyota Colombia: 158,000 followers
+  Category: Automotive
+  Instagram: https://instagram.com/toyotacolombia
+
+- Nissan Colombia: 130,000 followers
+  Category: Automotive
+  Instagram: https://instagram.com/nissancolombia
+
+- Seguros SURA: 98,000 followers
+  Category: Insurance
+  Instagram: https://instagram.com/segurossura
+
+- MAC Cosmetics Colombia: 85,000 followers
+  Category: Beauty
+  Instagram: https://instagram.com/maccosmeticsco
+
+- Postobón: 79,000 followers
+  Category: Beverages
+  Instagram: https://instagram.com/postobonempresa
+
+- Grupo Éxito: 67,000 followers
+  Category: Retail
+  Instagram: https://instagram.com/grupoexito
+
+- UNAL Bogotá: 25,000 followers
+  Category: Education
+  Instagram: https://instagram.com/bogotaunal
+

@@ -1,0 +1,484 @@
+{
+  "monitoring": {
+    "performance": {
+      "enabled": true,
+      "updateInterval": 100,
+      "maxDataPoints": 300,
+      "thresholds": {
+        "fps": {
+          "warning": 30,
+          "critical": 15
+        },
+        "memory": {
+          "warning": 0.8,
+          "critical": 0.95
+        },
+        "cpu": {
+          "warning": 80,
+          "critical": 95
+        },
+        "networkLatency": {
+          "warning": 200,
+          "critical": 1000
+        },
+        "frameTime": {
+          "warning": 33,
+          "critical": 66
+        }
+      },
+      "metrics": [
+        {
+          "name": "fps",
+          "displayName": "Frames Per Second",
+          "unit": "fps",
+          "color": "#3b82f6",
+          "enabled": true
+        },
+        {
+          "name": "memory_usage",
+          "displayName": "Memory Usage",
+          "unit": "MB",
+          "color": "#ef4444",
+          "enabled": true
+        },
+        {
+          "name": "cpu_usage",
+          "displayName": "CPU Usage",
+          "unit": "%",
+          "color": "#10b981",
+          "enabled": true
+        },
+        {
+          "name": "network_latency",
+          "displayName": "Network Latency",
+          "unit": "ms",
+          "color": "#f59e0b",
+          "enabled": true
+        },
+        {
+          "name": "render_time",
+          "displayName": "Render Time",
+          "unit": "ms",
+          "color": "#8b5cf6",
+          "enabled": true
+        }
+      ]
+    },
+    "userAnalytics": {
+      "enabled": true,
+      "sessionTimeout": 1800000,
+      "maxNavigationHistory": 1000,
+      "maxErrorHistory": 500,
+      "enableLocalStorage": true,
+      "enableServerSync": false,
+      "heartbeatInterval": 60000,
+      "autoFlushInterval": 300000,
+      "trackingCategories": {
+        "commands": true,
+        "navigation": true,
+        "errors": true,
+        "features": true,
+        "preferences": true,
+        "engagement": true
+      }
+    },
+    "realTimeMetrics": {
+      "enabled": true,
+      "websocketUrl": "ws://localhost:8080/metrics",
+      "reconnectInterval": 5000,
+      "maxRetries": 10,
+      "batchUpdates": true,
+      "batchSize": 10,
+      "bufferSize": 1000,
+      "compressionEnabled": true,
+      "enablePersistence": true,
+      "standardMetrics": [
+        {
+          "name": "cpu_usage",
+          "type": "gauge",
+          "unit": "percent",
+          "thresholds": {
+            "warning": 70,
+            "critical": 90
+          }
+        },
+        {
+          "name": "memory_usage",
+          "type": "gauge",
+          "unit": "bytes",
+          "thresholds": {
+            "warning": 858993459200,
+            "critical": 966367641600
+          }
+        },
+        {
+          "name": "request_count",
+          "type": "counter",
+          "unit": "count",
+          "labels": ["method", "status"]
+        },
+        {
+          "name": "response_time",
+          "type": "histogram",
+          "unit": "ms",
+          "thresholds": {
+            "warning": 500,
+            "critical": 1000
+          }
+        },
+        {
+          "name": "error_count",
+          "type": "counter",
+          "unit": "count",
+          "labels": ["type", "severity"]
+        },
+        {
+          "name": "active_users",
+          "type": "gauge",
+          "unit": "count"
+        }
+      ]
+    },
+    "errorMonitor": {
+      "enabled": true,
+      "maxBreadcrumbs": 100,
+      "maxErrors": 1000,
+      "samplingRate": 1.0,
+      "enableStackTrace": true,
+      "enableBreadcrumbs": true,
+      "enablePerformanceMetrics": true,
+      "enableAutomaticRecovery": true,
+      "enableReporting": false,
+      "reportingEndpoint": "",
+      "ignorePatterns": [
+        "ResizeObserver loop limit exceeded",
+        "Non-Error promise rejection captured",
+        "Loading chunk \\d+ failed"
+      ],
+      "severityRules": [
+        {
+          "pattern": "TypeError|ReferenceError",
+          "severity": "high"
+        },
+        {
+          "pattern": "Network Error|Failed to fetch",
+          "severity": "medium"
+        },
+        {
+          "pattern": "Warning",
+          "severity": "low"
+        }
+      ],
+      "recoverySuggestions": [
+        {
+          "errorType": "TypeError",
+          "pattern": "Cannot read property .* of undefined",
+          "suggestion": "Check if object exists before accessing property. Use optional chaining (?.)",
+          "confidence": 0.9,
+          "automatable": false
+        },
+        {
+          "errorType": "NetworkError",
+          "pattern": "Failed to fetch",
+          "suggestion": "Check network connectivity and implement retry logic",
+          "confidence": 0.7,
+          "automatable": true,
+          "script": "fetch(url).catch(() => fetch(url))"
+        },
+        {
+          "errorType": "ChunkLoadError",
+          "pattern": "Loading chunk .* failed",
+          "suggestion": "Reload the page to fetch updated chunks",
+          "confidence": 0.8,
+          "automatable": true,
+          "script": "window.location.reload()"
+        }
+      ]
+    },
+    "systemHealth": {
+      "enabled": true,
+      "checkInterval": 30000,
+      "alertThreshold": 0.8,
+      "criticalThreshold": 0.5,
+      "autoRecoveryEnabled": true,
+      "maxConcurrentRecoveries": 3,
+      "historicalDataRetention": 86400000,
+      "enableNotifications": true,
+      "healthChecks": [
+        {
+          "name": "memory_usage",
+          "type": "custom",
+          "timeout": 5000,
+          "interval": 30000,
+          "retries": 2,
+          "critical": true,
+          "description": "Monitor memory usage and detect leaks"
+        },
+        {
+          "name": "error_rate",
+          "type": "custom",
+          "timeout": 5000,
+          "interval": 60000,
+          "retries": 1,
+          "critical": false,
+          "description": "Monitor application error rate"
+        },
+        {
+          "name": "performance",
+          "type": "custom",
+          "timeout": 5000,
+          "interval": 30000,
+          "retries": 2,
+          "critical": false,
+          "description": "Monitor application performance metrics"
+        },
+        {
+          "name": "local_storage",
+          "type": "custom",
+          "timeout": 5000,
+          "interval": 300000,
+          "retries": 1,
+          "critical": false,
+          "description": "Test local storage functionality"
+        }
+      ],
+      "recoveryActions": [
+        {
+          "name": "memory_cleanup",
+          "trigger": {
+            "component": "memory_usage",
+            "condition": "unhealthy",
+            "threshold": 90
+          },
+          "cooldown": 60000,
+          "maxAttempts": 3,
+          "description": "Attempts to free up memory by clearing caches and running garbage collection"
+        },
+        {
+          "name": "page_reload",
+          "trigger": {
+            "component": "overall",
+            "condition": "unhealthy",
+            "threshold": 30
+          },
+          "cooldown": 300000,
+          "maxAttempts": 1,
+          "description": "Reloads the page as a last resort recovery mechanism"
+        }
+      ]
+    },
+    "dashboard": {
+      "enabled": true,
+      "title": "System Monitoring Dashboard",
+      "layout": "grid",
+      "refreshInterval": 1000,
+      "theme": "auto",
+      "responsive": true,
+      "exportEnabled": true,
+      "charts": [
+        {
+          "id": "performance_overview",
+          "title": "Performance Overview",
+          "type": "line",
+          "metrics": ["fps", "memory_usage", "cpu_usage"],
+          "timeRange": 60000,
+          "position": { "row": 0, "col": 0, "width": 6, "height": 4 },
+          "config": {
+            "showGrid": true,
+            "showLegend": true,
+            "animate": true
+          }
+        },
+        {
+          "id": "network_metrics",
+          "title": "Network & Latency",
+          "type": "area",
+          "metrics": ["network_latency", "response_time"],
+          "timeRange": 300000,
+          "position": { "row": 0, "col": 6, "width": 6, "height": 4 },
+          "config": {
+            "showGrid": true,
+            "showLegend": true
+          }
+        },
+        {
+          "id": "system_health_gauge",
+          "title": "System Health",
+          "type": "gauge",
+          "metrics": ["health_score"],
+          "timeRange": 60000,
+          "position": { "row": 4, "col": 0, "width": 3, "height": 3 },
+          "config": {
+            "min": 0,
+            "max": 100,
+            "unit": "%"
+          }
+        },
+        {
+          "id": "error_distribution",
+          "title": "Error Distribution",
+          "type": "pie",
+          "metrics": ["javascript_errors", "network_errors", "security_errors"],
+          "timeRange": 3600000,
+          "position": { "row": 4, "col": 3, "width": 3, "height": 3 },
+          "config": {
+            "showLegend": true
+          }
+        },
+        {
+          "id": "real_time_alerts",
+          "title": "Recent Activity",
+          "type": "log",
+          "metrics": ["alerts", "errors"],
+          "timeRange": 1800000,
+          "position": { "row": 4, "col": 6, "width": 6, "height": 3 }
+        }
+      ],
+      "widgets": [
+        {
+          "id": "system_status",
+          "type": "status",
+          "title": "System Status",
+          "size": "medium",
+          "position": { "row": 7, "col": 0, "width": 4, "height": 2 },
+          "dataSource": "system_health",
+          "refreshInterval": 5000
+        },
+        {
+          "id": "active_alerts",
+          "type": "alert",
+          "title": "Active Alerts",
+          "size": "large",
+          "position": { "row": 7, "col": 4, "width": 4, "height": 2 },
+          "dataSource": "alerts",
+          "refreshInterval": 1000
+        },
+        {
+          "id": "key_metrics_table",
+          "type": "table",
+          "title": "Key Metrics",
+          "size": "large",
+          "position": { "row": 7, "col": 8, "width": 4, "height": 2 },
+          "dataSource": "metrics_summary",
+          "refreshInterval": 2000
+        }
+      ],
+      "filters": [
+        {
+          "id": "timeRange",
+          "type": "timeRange",
+          "label": "Time Range",
+          "values": ["1m", "5m", "15m", "1h", "6h", "24h"],
+          "defaultValue": "15m"
+        },
+        {
+          "id": "metrics",
+          "type": "metric",
+          "label": "Metrics",
+          "values": ["fps", "memory_usage", "cpu_usage", "network_latency", "error_rate"],
+          "defaultValue": ["fps", "memory_usage", "cpu_usage"]
+        },
+        {
+          "id": "severity",
+          "type": "severity",
+          "label": "Alert Severity",
+          "values": ["info", "warning", "error", "critical"],
+          "defaultValue": ["warning", "error", "critical"]
+        }
+      ]
+    },
+    "alertPanel": {
+      "enabled": true,
+      "position": "top-right",
+      "maxAlerts": 10,
+      "autoHide": false,
+      "autoHideDelay": 5000,
+      "showTimestamp": true,
+      "enableNotifications": true,
+      "enableSound": true,
+      "groupSimilar": true,
+      "persistAlerts": true,
+      "theme": "auto",
+      "severityColors": {
+        "info": "#3b82f6",
+        "warning": "#f59e0b",
+        "error": "#ef4444",
+        "critical": "#dc2626"
+      },
+      "soundConfig": {
+        "info": { "frequency": 400, "duration": 200 },
+        "warning": { "frequency": 600, "duration": 300 },
+        "error": { "frequency": 800, "duration": 400 },
+        "critical": { "frequency": 1000, "duration": 500 }
+      }
+    },
+    "visualization": {
+      "defaultColors": [
+        "#3b82f6", "#ef4444", "#10b981", "#f59e0b", 
+        "#8b5cf6", "#ec4899", "#06b6d4", "#84cc16",
+        "#f97316", "#6366f1", "#14b8a6", "#eab308"
+      ],
+      "chartDefaults": {
+        "animate": true,
+        "responsive": true,
+        "showGrid": true,
+        "showLegend": true,
+        "showTooltip": true,
+        "maxDataPoints": 60,
+        "updateInterval": 1000
+      },
+      "themes": {
+        "light": {
+          "background": "#ffffff",
+          "text": "#111827",
+          "grid": "#e5e7eb",
+          "border": "#d1d5db"
+        },
+        "dark": {
+          "background": "#111827",
+          "text": "#f9fafb",
+          "grid": "#374151",
+          "border": "#4b5563"
+        }
+      }
+    },
+    "export": {
+      "formats": ["json", "csv", "pdf"],
+      "defaultFormat": "json",
+      "includeMetadata": true,
+      "compressionEnabled": true,
+      "maxExportSize": 104857600,
+      "autoExportInterval": 0,
+      "autoExportPath": "./exports/"
+    },
+    "integration": {
+      "webhooks": {
+        "enabled": false,
+        "endpoints": [],
+        "retryPolicy": {
+          "maxRetries": 3,
+          "backoffMs": 1000,
+          "maxBackoffMs": 30000
+        }
+      },
+      "apis": {
+        "enabled": false,
+        "endpoints": {
+          "metrics": "/api/metrics",
+          "alerts": "/api/alerts",
+          "health": "/api/health"
+        },
+        "authentication": {
+          "type": "none"
+        }
+      },
+      "logging": {
+        "enabled": true,
+        "level": "info",
+        "destination": "console",
+        "format": "json",
+        "includeStackTrace": true
+      }
+    }
+  }
+}

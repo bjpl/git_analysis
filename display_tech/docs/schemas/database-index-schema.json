@@ -1,0 +1,269 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Display Technology Database Index Schema",
+  "description": "Master index schema for cross-referencing all display technology databases",
+  "type": "object",
+  "properties": {
+    "databaseIndex": {
+      "type": "object",
+      "required": ["databases", "crossReferences", "searchIndex"],
+      "properties": {
+        "databases": {
+          "type": "object",
+          "properties": {
+            "displayTechnologies": {
+              "type": "object",
+              "properties": {
+                "file": {"type": "string"},
+                "description": {"type": "string"},
+                "schema": {"type": "string"},
+                "lastUpdated": {"type": "string", "format": "date-time"},
+                "recordCount": {"type": "number"},
+                "primaryKey": {"type": "string"}
+              }
+            },
+            "performanceMetrics": {
+              "type": "object",
+              "properties": {
+                "file": {"type": "string"},
+                "description": {"type": "string"},
+                "schema": {"type": "string"},
+                "lastUpdated": {"type": "string", "format": "date-time"},
+                "recordCount": {"type": "number"},
+                "primaryKey": {"type": "string"}
+              }
+            },
+            "manufacturingProcesses": {
+              "type": "object",
+              "properties": {
+                "file": {"type": "string"},
+                "description": {"type": "string"},
+                "schema": {"type": "string"},
+                "lastUpdated": {"type": "string", "format": "date-time"},
+                "recordCount": {"type": "number"},
+                "primaryKey": {"type": "string"}
+              }
+            },
+            "materialsDatabase": {
+              "type": "object",
+              "properties": {
+                "file": {"type": "string"},
+                "description": {"type": "string"},
+                "schema": {"type": "string"},
+                "lastUpdated": {"type": "string", "format": "date-time"},
+                "recordCount": {"type": "number"},
+                "primaryKey": {"type": "string"}
+              }
+            },
+            "glossary": {
+              "type": "object",
+              "properties": {
+                "file": {"type": "string"},
+                "description": {"type": "string"},
+                "schema": {"type": "string"},
+                "lastUpdated": {"type": "string", "format": "date-time"},
+                "recordCount": {"type": "number"},
+                "primaryKey": {"type": "string"}
+              }
+            }
+          }
+        },
+        "crossReferences": {
+          "type": "object",
+          "properties": {
+            "technologyToMaterials": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
+              }
+            },
+            "technologyToProcesses": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
+              }
+            },
+            "materialToApplications": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
+              }
+            },
+            "processToEquipment": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
+              }
+            },
+            "glossaryTermReferences": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "object",
+                  "properties": {
+                    "databases": {"type": "array", "items": {"type": "string"}},
+                    "fields": {"type": "array", "items": {"type": "string"}},
+                    "relatedTerms": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "searchIndex": {
+          "type": "object",
+          "properties": {
+            "keywords": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z0-9-_]+$": {
+                  "type": "object",
+                  "properties": {
+                    "databases": {"type": "array", "items": {"type": "string"}},
+                    "fields": {"type": "array", "items": {"type": "string"}},
+                    "frequency": {"type": "number"},
+                    "importance": {"type": "number", "minimum": 0, "maximum": 1}
+                  }
+                }
+              }
+            },
+            "categories": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-zA-Z0-9\\s-_]+$": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
+              }
+            },
+            "tags": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "database": {"type": "string"},
+                      "recordId": {"type": "string"},
+                      "relevance": {"type": "number", "minimum": 0, "maximum": 1}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "relationships": {
+          "type": "object",
+          "properties": {
+            "hierarchical": {
+              "type": "object",
+              "description": "Parent-child relationships",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "object",
+                  "properties": {
+                    "parent": {"type": "string"},
+                    "children": {"type": "array", "items": {"type": "string"}},
+                    "level": {"type": "number"}
+                  }
+                }
+              }
+            },
+            "associative": {
+              "type": "object",
+              "description": "Related concepts with strength",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "related": {"type": "string"},
+                      "strength": {"type": "number", "minimum": 0, "maximum": 1},
+                      "type": {"type": "string", "enum": ["similar", "complementary", "dependent", "alternative"]}
+                    }
+                  }
+                }
+              }
+            },
+            "temporal": {
+              "type": "object",
+              "description": "Time-based relationships",
+              "patternProperties": {
+                "^[a-z0-9-]+$": {
+                  "type": "object",
+                  "properties": {
+                    "predecessors": {"type": "array", "items": {"type": "string"}},
+                    "successors": {"type": "array", "items": {"type": "string"}},
+                    "era": {"type": "string"},
+                    "timeframe": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dataQuality": {
+          "type": "object",
+          "properties": {
+            "validation": {
+              "type": "object",
+              "properties": {
+                "schemaCompliance": {"type": "boolean"},
+                "dataCompleteness": {"type": "number", "minimum": 0, "maximum": 1},
+                "crossReferenceIntegrity": {"type": "boolean"},
+                "lastValidated": {"type": "string", "format": "date-time"}
+              }
+            },
+            "statistics": {
+              "type": "object",
+              "properties": {
+                "totalRecords": {"type": "number"},
+                "averageRecordSize": {"type": "number"},
+                "duplicateDetection": {"type": "object"},
+                "missingFields": {"type": "object"}
+              }
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "version": {"type": "string"},
+            "created": {"type": "string", "format": "date-time"},
+            "lastUpdated": {"type": "string", "format": "date-time"},
+            "maintainer": {"type": "string"},
+            "license": {"type": "string"},
+            "access": {"type": "string", "enum": ["public", "restricted", "private"]},
+            "changelog": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "version": {"type": "string"},
+                  "date": {"type": "string", "format": "date-time"},
+                  "changes": {"type": "array", "items": {"type": "string"}},
+                  "author": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

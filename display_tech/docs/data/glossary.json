@@ -1,0 +1,635 @@
+{
+  "glossary": {
+    "a": {
+      "active-matrix": {
+        "term": "Active Matrix",
+        "definition": "A display technology where each pixel is controlled by its own transistor switch, allowing for precise control of individual pixels",
+        "category": "Display Technology",
+        "relatedTerms": ["TFT", "Passive Matrix", "Pixel"],
+        "applications": ["LCD", "OLED"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["AM", "Active Matrix Display"]
+      },
+      "aperture-ratio": {
+        "term": "Aperture Ratio",
+        "definition": "The percentage of pixel area that allows light to pass through, excluding areas occupied by transistors and interconnects",
+        "category": "Display Metrics",
+        "relatedTerms": ["Fill Factor", "Pixel", "Transparency"],
+        "applications": ["LCD", "Transmissive Displays"],
+        "formula": "AR = (Light-transmitting area / Total pixel area) × 100%",
+        "units": "Percentage (%)",
+        "synonyms": ["Fill Factor", "Transmission Ratio"]
+      },
+      "amorphous-silicon": {
+        "term": "Amorphous Silicon",
+        "definition": "Non-crystalline form of silicon used in thin-film transistors, lacking long-range atomic order",
+        "category": "Materials",
+        "relatedTerms": ["TFT", "Crystalline Silicon", "Hydrogenated"],
+        "applications": ["LCD TFTs", "Solar Cells"],
+        "formula": "a-Si:H (hydrogenated)",
+        "units": null,
+        "synonyms": ["a-Si", "a-Si:H"]
+      },
+      "anisotropy": {
+        "term": "Anisotropy",
+        "definition": "Property of materials having different characteristics in different directions",
+        "category": "Materials Science",
+        "relatedTerms": ["Birefringence", "Liquid Crystal", "Optical Properties"],
+        "applications": ["LCD", "Polarizers"],
+        "formula": "Δn = ne - no (birefringence)",
+        "units": "Dimensionless",
+        "synonyms": ["Directional Dependence"]
+      }
+    },
+    "b": {
+      "backlight": {
+        "term": "Backlight",
+        "definition": "Light source positioned behind the LCD panel to illuminate the display, as LCDs do not emit light themselves",
+        "category": "Display Components",
+        "relatedTerms": ["LCD", "LED", "CCFL", "Light Guide"],
+        "applications": ["LCD Displays", "Monitors"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["Backlighting System"]
+      },
+      "birefringence": {
+        "term": "Birefringence",
+        "definition": "Optical property where a material has two different refractive indices for light polarized in perpendicular directions",
+        "category": "Optical Properties",
+        "relatedTerms": ["Liquid Crystal", "Polarization", "Retardation"],
+        "applications": ["LCD", "Optical Films"],
+        "formula": "Δn = ne - no",
+        "units": "Dimensionless",
+        "synonyms": ["Double Refraction", "Optical Anisotropy"]
+      },
+      "black-matrix": {
+        "term": "Black Matrix",
+        "definition": "Opaque material that separates color sub-pixels to prevent light leakage and improve contrast",
+        "category": "Display Components",
+        "relatedTerms": ["Color Filter", "Contrast", "Sub-pixel"],
+        "applications": ["LCD", "Color Displays"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["BM", "Light Shield"]
+      },
+      "brightness": {
+        "term": "Brightness",
+        "definition": "Measure of light intensity emitted or reflected from a display surface",
+        "category": "Display Metrics",
+        "relatedTerms": ["Luminance", "Nits", "cd/m²"],
+        "applications": ["All Displays"],
+        "formula": "L = I/A (luminance)",
+        "units": "cd/m² (candela per square meter)",
+        "synonyms": ["Luminance"]
+      }
+    },
+    "c": {
+      "color-gamut": {
+        "term": "Color Gamut",
+        "definition": "Range of colors that a display can reproduce, typically expressed as percentage coverage of a color space standard",
+        "category": "Display Metrics",
+        "relatedTerms": ["sRGB", "DCI-P3", "Rec.2020", "Color Space"],
+        "applications": ["All Color Displays"],
+        "formula": null,
+        "units": "Percentage of color space (%)",
+        "synonyms": ["Color Space Coverage"]
+      },
+      "contrast-ratio": {
+        "term": "Contrast Ratio",
+        "definition": "Ratio between the brightest white and darkest black that a display can produce",
+        "category": "Display Metrics",
+        "relatedTerms": ["Brightness", "Black Level", "Dynamic Range"],
+        "applications": ["All Displays"],
+        "formula": "CR = Lwhite / Lblack",
+        "units": "Ratio (e.g., 1000:1)",
+        "synonyms": ["CR"]
+      },
+      "cvd": {
+        "term": "Chemical Vapor Deposition",
+        "definition": "Manufacturing process where thin films are deposited through chemical reactions of gaseous precursors",
+        "category": "Manufacturing",
+        "relatedTerms": ["Thin Film", "PECVD", "MOCVD"],
+        "applications": ["Semiconductor Processing"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["CVD"]
+      },
+      "crt": {
+        "term": "Cathode Ray Tube",
+        "definition": "Legacy display technology using electron beams to excite phosphors on a screen",
+        "category": "Display Technology",
+        "relatedTerms": ["Phosphor", "Electron Gun", "Legacy"],
+        "applications": ["Old TVs", "Computer Monitors"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["CRT", "Picture Tube"]
+      }
+    },
+    "d": {
+      "dielectric": {
+        "term": "Dielectric",
+        "definition": "Insulating material that can be polarized by an electric field, used in capacitive structures",
+        "category": "Materials",
+        "relatedTerms": ["Insulator", "Capacitor", "Permittivity"],
+        "applications": ["TFT Gates", "Storage Capacitors"],
+        "formula": "C = εA/d (capacitance)",
+        "units": "Farad (F)",
+        "synonyms": ["Insulator"]
+      },
+      "doping": {
+        "term": "Doping",
+        "definition": "Process of adding impurities to pure semiconductors to modify their electrical properties",
+        "category": "Semiconductor",
+        "relatedTerms": ["n-type", "p-type", "Impurity"],
+        "applications": ["Semiconductor Devices"],
+        "formula": null,
+        "units": "atoms/cm³",
+        "synonyms": ["Impurity Addition"]
+      },
+      "duty-cycle": {
+        "term": "Duty Cycle",
+        "definition": "Percentage of time a signal is active during one complete cycle",
+        "category": "Electronics",
+        "relatedTerms": ["PWM", "Frequency", "Pulse Width"],
+        "applications": ["Backlight Control", "Switching"],
+        "formula": "DC = (ton/T) × 100%",
+        "units": "Percentage (%)",
+        "synonyms": ["Duty Ratio"]
+      }
+    },
+    "e": {
+      "electroluminescence": {
+        "term": "Electroluminescence",
+        "definition": "Emission of light from a material when electric current or electric field is applied",
+        "category": "Physics",
+        "relatedTerms": ["OLED", "EL", "Light Emission"],
+        "applications": ["OLED", "EL Displays"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["EL"]
+      },
+      "epitaxy": {
+        "term": "Epitaxy",
+        "definition": "Process of growing crystalline layers on a crystalline substrate with controlled orientation",
+        "category": "Manufacturing",
+        "relatedTerms": ["MOCVD", "MBE", "Crystal Growth"],
+        "applications": ["LED", "Semiconductor"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["Epitaxial Growth"]
+      },
+      "etching": {
+        "term": "Etching",
+        "definition": "Process of removing material from substrate surface using chemical or physical methods",
+        "category": "Manufacturing",
+        "relatedTerms": ["Dry Etch", "Wet Etch", "RIE"],
+        "applications": ["Pattern Transfer", "Semiconductor"],
+        "formula": null,
+        "units": "nm/min (etch rate)",
+        "synonyms": ["Material Removal"]
+      }
+    },
+    "f": {
+      "frame-rate": {
+        "term": "Frame Rate",
+        "definition": "Number of complete images displayed per second on a screen",
+        "category": "Display Performance",
+        "relatedTerms": ["Refresh Rate", "FPS", "Motion Blur"],
+        "applications": ["All Displays"],
+        "formula": null,
+        "units": "Hz (Hertz) or fps",
+        "synonyms": ["Refresh Rate", "FPS"]
+      },
+      "field-effect": {
+        "term": "Field Effect",
+        "definition": "Control of electrical conductivity through application of electric field",
+        "category": "Physics",
+        "relatedTerms": ["FET", "TFT", "Gate Voltage"],
+        "applications": ["Transistors"],
+        "formula": "Id = μCox(W/L)(Vgs-Vth)Vds",
+        "units": "Ampere (A)",
+        "synonyms": ["Electric Field Control"]
+      }
+    },
+    "g": {
+      "gamma": {
+        "term": "Gamma",
+        "definition": "Relationship between input signal and display brightness, affecting image appearance",
+        "category": "Display Calibration",
+        "relatedTerms": ["Brightness", "Curve", "Calibration"],
+        "applications": ["All Displays"],
+        "formula": "Lout = Lin^γ",
+        "units": "Dimensionless",
+        "synonyms": ["Gamma Curve"]
+      },
+      "gate": {
+        "term": "Gate",
+        "definition": "Control electrode in field-effect transistors that modulates current flow",
+        "category": "Electronics",
+        "relatedTerms": ["TFT", "Source", "Drain", "Voltage"],
+        "applications": ["Transistors"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["Control Electrode"]
+      }
+    },
+    "h": {
+      "hdr": {
+        "term": "High Dynamic Range",
+        "definition": "Technology that provides greater range between darkest and brightest parts of an image",
+        "category": "Display Technology",
+        "relatedTerms": ["Brightness", "Contrast", "Wide Color Gamut"],
+        "applications": ["Modern Displays"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["HDR"]
+      },
+      "hysteresis": {
+        "term": "Hysteresis",
+        "definition": "Dependence of system output on both current input and history of past inputs",
+        "category": "Physics",
+        "relatedTerms": ["Threshold", "Switching", "Memory Effect"],
+        "applications": ["LC Switching", "Transistors"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["Memory Effect"]
+      }
+    },
+    "i": {
+      "ips": {
+        "term": "In-Plane Switching",
+        "definition": "LCD technology where liquid crystal molecules rotate in plane parallel to substrate",
+        "category": "Display Technology",
+        "relatedTerms": ["LCD", "Viewing Angle", "TN", "VA"],
+        "applications": ["LCD Displays"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["IPS"]
+      },
+      "ito": {
+        "term": "Indium Tin Oxide",
+        "definition": "Transparent conducting oxide used as electrode material in displays",
+        "category": "Materials",
+        "relatedTerms": ["TCO", "Electrode", "Transparency"],
+        "applications": ["Touch Screens", "Displays"],
+        "formula": "In2O3:SnO2 (90:10)",
+        "units": "Ω/sq (sheet resistance)",
+        "synonyms": ["ITO"]
+      }
+    },
+    "j": {
+      "junction": {
+        "term": "Junction",
+        "definition": "Interface between different materials or doped regions in semiconductor devices",
+        "category": "Semiconductor",
+        "relatedTerms": ["p-n Junction", "Diode", "Barrier"],
+        "applications": ["Diodes", "LEDs"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["Interface"]
+      }
+    },
+    "k": {
+      "kelvin": {
+        "term": "Kelvin",
+        "definition": "Unit of thermodynamic temperature and color temperature measurement",
+        "category": "Units",
+        "relatedTerms": ["Color Temperature", "White Point"],
+        "applications": ["Color Calibration"],
+        "formula": "K = °C + 273.15",
+        "units": "K (Kelvin)",
+        "synonyms": ["Color Temperature"]
+      }
+    },
+    "l": {
+      "lcd": {
+        "term": "Liquid Crystal Display",
+        "definition": "Display technology using liquid crystal material to modulate light transmission",
+        "category": "Display Technology",
+        "relatedTerms": ["Liquid Crystal", "Backlight", "TFT"],
+        "applications": ["Monitors", "TVs", "Mobile"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["LCD"]
+      },
+      "luminance": {
+        "term": "Luminance",
+        "definition": "Photometric measure of luminous intensity per unit area in a given direction",
+        "category": "Photometry",
+        "relatedTerms": ["Brightness", "cd/m²", "Nit"],
+        "applications": ["Display Measurement"],
+        "formula": "L = dΦ/(dA·cosθ·dΩ)",
+        "units": "cd/m² (candela per square meter)",
+        "synonyms": ["Brightness"]
+      }
+    },
+    "m": {
+      "microled": {
+        "term": "MicroLED",
+        "definition": "Display technology using microscopic LEDs as individual pixels",
+        "category": "Display Technology",
+        "relatedTerms": ["LED", "Emissive", "Self-Luminous"],
+        "applications": ["Next-gen Displays"],
+        "formula": null,
+        "units": "μm (pixel size)",
+        "synonyms": ["μLED"]
+      },
+      "mobility": {
+        "term": "Mobility",
+        "definition": "Measure of how fast charge carriers move through material under electric field",
+        "category": "Semiconductor",
+        "relatedTerms": ["Conductivity", "Electric Field", "Drift"],
+        "applications": ["Transistor Performance"],
+        "formula": "μ = v/E = σ/(nq)",
+        "units": "cm²/V·s",
+        "synonyms": ["Charge Mobility"]
+      }
+    },
+    "n": {
+      "nematic": {
+        "term": "Nematic",
+        "definition": "Phase of liquid crystal with orientational order but no positional order",
+        "category": "Liquid Crystal",
+        "relatedTerms": ["Smectic", "Isotropic", "Phase"],
+        "applications": ["LCD"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["N Phase"]
+      },
+      "nits": {
+        "term": "Nits",
+        "definition": "Unit of luminance measurement equal to one candela per square meter",
+        "category": "Units",
+        "relatedTerms": ["Luminance", "cd/m²", "Brightness"],
+        "applications": ["Display Specifications"],
+        "formula": "1 nit = 1 cd/m²",
+        "units": "cd/m²",
+        "synonyms": ["cd/m²"]
+      }
+    },
+    "o": {
+      "oled": {
+        "term": "Organic Light Emitting Diode",
+        "definition": "Display technology using organic compounds that emit light when electric current is applied",
+        "category": "Display Technology",
+        "relatedTerms": ["Organic", "Electroluminescence", "Emissive"],
+        "applications": ["Smartphones", "TVs"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["OLED"]
+      },
+      "optical-density": {
+        "term": "Optical Density",
+        "definition": "Measure of opacity of material, related to light absorption",
+        "category": "Optics",
+        "relatedTerms": ["Absorption", "Transmittance", "Beer's Law"],
+        "applications": ["Filter Design", "Polarizers"],
+        "formula": "OD = log10(I0/I)",
+        "units": "Dimensionless",
+        "synonyms": ["Absorbance"]
+      }
+    },
+    "p": {
+      "pixel": {
+        "term": "Pixel",
+        "definition": "Smallest controllable element of display, typically composed of red, green, and blue sub-pixels",
+        "category": "Display Components",
+        "relatedTerms": ["Sub-pixel", "Resolution", "Pitch"],
+        "applications": ["All Digital Displays"],
+        "formula": null,
+        "units": "μm (size)",
+        "synonyms": ["Picture Element"]
+      },
+      "polarizer": {
+        "term": "Polarizer",
+        "definition": "Optical filter that allows light waves of specific polarization to pass through",
+        "category": "Optical Components",
+        "relatedTerms": ["Polarization", "LCD", "Extinction Ratio"],
+        "applications": ["LCD", "Optical Systems"],
+        "formula": "I = I0cos²θ (Malus' Law)",
+        "units": null,
+        "synonyms": ["Polarizing Filter"]
+      }
+    },
+    "q": {
+      "quantum-efficiency": {
+        "term": "Quantum Efficiency",
+        "definition": "Ratio of number of charge carriers or photons collected to number of photons incident",
+        "category": "Physics",
+        "relatedTerms": ["LED", "Photodetector", "Efficiency"],
+        "applications": ["LEDs", "Sensors"],
+        "formula": "QE = (electrons out)/(photons in)",
+        "units": "Percentage (%)",
+        "synonyms": ["QE"]
+      },
+      "quenching": {
+        "term": "Quenching",
+        "definition": "Process that reduces light emission efficiency in luminescent materials",
+        "category": "Physics",
+        "relatedTerms": ["OLED", "Phosphorescence", "Efficiency"],
+        "applications": ["OLED Design"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["Efficiency Loss"]
+      }
+    },
+    "r": {
+      "resolution": {
+        "term": "Resolution",
+        "definition": "Number of pixels in each dimension that can be displayed",
+        "category": "Display Specifications",
+        "relatedTerms": ["PPI", "Pixel", "Sharpness"],
+        "applications": ["All Displays"],
+        "formula": "Total pixels = width × height",
+        "units": "pixels",
+        "synonyms": ["Pixel Count"]
+      },
+      "response-time": {
+        "term": "Response Time",
+        "definition": "Time required for pixel to change from one brightness level to another",
+        "category": "Display Performance",
+        "relatedTerms": ["Switching Speed", "Motion Blur", "GTG"],
+        "applications": ["All Displays"],
+        "formula": null,
+        "units": "milliseconds (ms)",
+        "synonyms": ["Switching Time"]
+      }
+    },
+    "s": {
+      "sputtering": {
+        "term": "Sputtering",
+        "definition": "Physical vapor deposition process where atoms are ejected from target material by ion bombardment",
+        "category": "Manufacturing",
+        "relatedTerms": ["PVD", "Thin Film", "Magnetron"],
+        "applications": ["Electrode Deposition"],
+        "formula": null,
+        "units": "Å/min (deposition rate)",
+        "synonyms": ["Sputter Deposition"]
+      },
+      "subpixel": {
+        "term": "Sub-pixel",
+        "definition": "Individual color component (typically red, green, or blue) within a pixel",
+        "category": "Display Components",
+        "relatedTerms": ["Pixel", "RGB", "Color Filter"],
+        "applications": ["Color Displays"],
+        "formula": null,
+        "units": null,
+        "synonyms": ["Color Component"]
+      }
+    },
+    "t": {
+      "tft": {
+        "term": "Thin Film Transistor",
+        "definition": "Type of field-effect transistor made by depositing thin films on substrate",
+        "category": "Electronics",
+        "relatedTerms": ["Active Matrix", "Gate", "Source", "Drain"],
+        "applications": ["LCD", "OLED"],
+        "formula": "Id = μCox(W/L)(Vgs-Vth)²",
+        "units": "Ampere (A)",
+        "synonyms": ["TFT"]
+      },
+      "transmittance": {
+        "term": "Transmittance",
+        "definition": "Fraction of incident light that passes through a material",
+        "category": "Optics",
+        "relatedTerms": ["Transparency", "Absorption", "Reflectance"],
+        "applications": ["Optical Design"],
+        "formula": "T = I/I0",
+        "units": "Percentage (%) or decimal",
+        "synonyms": ["Transmission"]
+      }
+    },
+    "u": {
+      "uniformity": {
+        "term": "Uniformity",
+        "definition": "Measure of how consistent display properties are across the screen area",
+        "category": "Display Quality",
+        "relatedTerms": ["Brightness", "Color", "Variation"],
+        "applications": ["Display Testing"],
+        "formula": "U = (max - min)/(max + min)",
+        "units": "Percentage (%)",
+        "synonyms": ["Consistency"]
+      }
+    },
+    "v": {
+      "viewing-angle": {
+        "term": "Viewing Angle",
+        "definition": "Range of angles from which display can be viewed with acceptable image quality",
+        "category": "Display Specifications",
+        "relatedTerms": ["Contrast Ratio", "Color Shift", "IPS"],
+        "applications": ["Display Design"],
+        "formula": null,
+        "units": "degrees (°)",
+        "synonyms": ["Observation Angle"]
+      },
+      "voltage": {
+        "term": "Voltage",
+        "definition": "Electric potential difference between two points",
+        "category": "Electronics",
+        "relatedTerms": ["Current", "Power", "Electric Field"],
+        "applications": ["All Electronics"],
+        "formula": "V = I × R (Ohm's Law)",
+        "units": "Volt (V)",
+        "synonyms": ["Electric Potential"]
+      }
+    },
+    "w": {
+      "white-point": {
+        "term": "White Point",
+        "definition": "Color temperature of white color that display produces at maximum brightness",
+        "category": "Color Science",
+        "relatedTerms": ["Color Temperature", "Kelvin", "Calibration"],
+        "applications": ["Display Calibration"],
+        "formula": null,
+        "units": "Kelvin (K)",
+        "synonyms": ["White Balance"]
+      },
+      "work-function": {
+        "term": "Work Function",
+        "definition": "Minimum energy needed to remove electron from surface of material",
+        "category": "Materials Science",
+        "relatedTerms": ["Electron Affinity", "Band Structure", "Contact"],
+        "applications": ["Electrode Design"],
+        "formula": "Φ = Evacuum - EFermi",
+        "units": "electron Volt (eV)",
+        "synonyms": ["Φ"]
+      }
+    },
+    "x": {
+      "x-ray": {
+        "term": "X-ray",
+        "definition": "High-energy electromagnetic radiation used in characterization and inspection",
+        "category": "Characterization",
+        "relatedTerms": ["Diffraction", "Analysis", "Structure"],
+        "applications": ["Material Analysis"],
+        "formula": "λ = h/p",
+        "units": "Angstrom (Å)",
+        "synonyms": ["X-radiation"]
+      }
+    },
+    "y": {
+      "yield": {
+        "term": "Yield",
+        "definition": "Percentage of manufactured devices that meet specifications",
+        "category": "Manufacturing",
+        "relatedTerms": ["Quality", "Defects", "Cost"],
+        "applications": ["Manufacturing"],
+        "formula": "Yield = (Good units / Total units) × 100%",
+        "units": "Percentage (%)",
+        "synonyms": ["Manufacturing Yield"]
+      }
+    },
+    "z": {
+      "zno": {
+        "term": "Zinc Oxide",
+        "definition": "Wide bandgap semiconductor material used in transparent electronics",
+        "category": "Materials",
+        "relatedTerms": ["TCO", "Semiconductor", "Transparent"],
+        "applications": ["Transparent TFTs"],
+        "formula": "ZnO",
+        "units": null,
+        "synonyms": ["ZnO"]
+      }
+    }
+  },
+  "categories": {
+    "Display Technology": ["Active Matrix", "LCD", "OLED", "MicroLED", "IPS", "HDR"],
+    "Display Metrics": ["Brightness", "Contrast Ratio", "Color Gamut", "Resolution", "Response Time"],
+    "Materials": ["Amorphous Silicon", "ITO", "GaN", "Dielectric", "ZnO"],
+    "Manufacturing": ["CVD", "Sputtering", "Epitaxy", "Etching", "Yield"],
+    "Physics": ["Electroluminescence", "Birefringence", "Field Effect", "Quantum Efficiency"],
+    "Optics": ["Transmittance", "Polarizer", "Optical Density", "Viewing Angle"],
+    "Electronics": ["TFT", "Gate", "Voltage", "Junction"],
+    "Units": ["Nits", "Kelvin", "cd/m²"]
+  },
+  "crossReferences": {
+    "LCD": ["Liquid Crystal", "Backlight", "TFT", "Polarizer", "Color Filter"],
+    "OLED": ["Organic", "Electroluminescence", "Emissive", "Work Function"],
+    "TFT": ["Gate", "Source", "Drain", "Mobility", "Threshold Voltage"],
+    "Color": ["Gamut", "White Point", "Color Temperature", "sRGB"],
+    "Manufacturing": ["CVD", "Sputtering", "Etching", "Yield", "Quality Control"]
+  },
+  "formulas": {
+    "luminance": "L = dΦ/(dA·cosθ·dΩ)",
+    "contrast_ratio": "CR = Lwhite / Lblack",
+    "birefringence": "Δn = ne - no",
+    "capacitance": "C = εA/d",
+    "mobility": "μ = v/E = σ/(nq)",
+    "malus_law": "I = I0cos²θ",
+    "transmittance": "T = I/I0",
+    "optical_density": "OD = log10(I0/I)",
+    "yield": "Yield = (Good units / Total units) × 100%"
+  },
+  "metadata": {
+    "lastUpdated": "2025-01-15T00:00:00Z",
+    "version": "1.0.0",
+    "totalTerms": 64,
+    "categories": 8,
+    "sources": [
+      "Display Technology Standards",
+      "IEEE Display Dictionary",
+      "Materials Science Glossary"
+    ]
+  }
+}

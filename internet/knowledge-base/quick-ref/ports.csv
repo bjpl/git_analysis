@@ -1,0 +1,98 @@
+port,protocol,service,description,encrypted,category,range_type
+20,TCP,FTP-DATA,File Transfer Protocol (Data),No,Essential Services,Well-Known
+21,TCP,FTP,File Transfer Protocol (Control),No,Essential Services,Well-Known
+22,TCP,SSH,Secure Shell,Yes,Essential Services,Well-Known
+23,TCP,Telnet,Unencrypted remote access,No,Essential Services,Well-Known
+25,TCP,SMTP,Simple Mail Transfer Protocol,No*,Essential Services,Well-Known
+53,TCP/UDP,DNS,Domain Name System,No*,Essential Services,Well-Known
+67,UDP,DHCP,Dynamic Host Configuration (Server),No,Essential Services,Well-Known
+68,UDP,DHCP,Dynamic Host Configuration (Client),No,Essential Services,Well-Known
+69,UDP,TFTP,Trivial File Transfer Protocol,No,Essential Services,Well-Known
+80,TCP,HTTP,Hypertext Transfer Protocol,No,Essential Services,Well-Known
+110,TCP,POP3,Post Office Protocol v3,No*,Essential Services,Well-Known
+119,TCP,NNTP,Network News Transfer Protocol,No,Essential Services,Well-Known
+123,UDP,NTP,Network Time Protocol,No,Essential Services,Well-Known
+135,TCP,RPC,Microsoft RPC,No,Essential Services,Well-Known
+137,UDP,NetBIOS,NetBIOS Name Service,No,Essential Services,Well-Known
+138,UDP,NetBIOS,NetBIOS Datagram,No,Essential Services,Well-Known
+139,TCP,NetBIOS,NetBIOS Session,No,Essential Services,Well-Known
+143,TCP,IMAP,Internet Message Access Protocol,No*,Essential Services,Well-Known
+161,UDP,SNMP,Simple Network Management Protocol,No,Essential Services,Well-Known
+162,UDP,SNMPTRAP,SNMP Trap,No,Essential Services,Well-Known
+179,TCP,BGP,Border Gateway Protocol,No*,Essential Services,Well-Known
+389,TCP,LDAP,Lightweight Directory Access Protocol,No,Essential Services,Well-Known
+443,TCP,HTTPS,HTTP Secure,Yes,Essential Services,Well-Known
+445,TCP,SMB,Server Message Block,No*,Essential Services,Well-Known
+465,TCP,SMTPS,SMTP Secure (deprecated),Yes,Essential Services,Well-Known
+500,UDP,IKE,Internet Key Exchange (IPSec),Yes,Essential Services,Well-Known
+514,UDP,Syslog,System Logging,No,Essential Services,Well-Known
+515,TCP,LPD,Line Printer Daemon,No,Essential Services,Well-Known
+520,UDP,RIP,Routing Information Protocol,No,Essential Services,Well-Known
+587,TCP,SMTP,Mail Submission,No*,Essential Services,Well-Known
+636,TCP,LDAPS,LDAP Secure,Yes,Essential Services,Well-Known
+853,TCP,DoT,DNS over TLS,Yes,Essential Services,Well-Known
+989,TCP,FTPS,FTP Secure (Data),Yes,Essential Services,Well-Known
+990,TCP,FTPS,FTP Secure (Control),Yes,Essential Services,Well-Known
+993,TCP,IMAPS,IMAP Secure,Yes,Essential Services,Well-Known
+995,TCP,POP3S,POP3 Secure,Yes,Essential Services,Well-Known
+1080,TCP,SOCKS,SOCKS Proxy,No,Web Services,Registered
+1194,TCP/UDP,OpenVPN,OpenVPN Default,Yes,Remote Access,Registered
+1433,TCP,MS SQL,Microsoft SQL Server,No,Database Services,Registered
+1521,TCP,Oracle,Oracle Database,No,Database Services,Registered
+1701,UDP,L2TP,Layer 2 Tunneling Protocol,No,Remote Access,Registered
+1723,TCP,PPTP,Point-to-Point Tunneling,No,Remote Access,Registered
+1883,TCP,MQTT,Message Queue Telemetry Transport,No,Messaging,Registered
+2049,TCP/UDP,NFS,Network File System,No,Remote Access,Registered
+2082,TCP,cPanel,cPanel Control Panel,No,Remote Access,Registered
+2083,TCP,cPanel SSL,cPanel Secure,Yes,Remote Access,Registered
+2086,TCP,WHM,Web Host Manager,No,Remote Access,Registered
+2087,TCP,WHM SSL,WHM Secure,Yes,Remote Access,Registered
+2375,TCP,Docker,Docker REST API,No,Container,Registered
+2376,TCP,Docker SSL,Docker REST API Secure,Yes,Container,Registered
+2377,TCP,Docker Swarm,Swarm Management,No,Container,Registered
+3000,TCP,Dev Server,Common development port,No,Web Services,Registered
+3128,TCP,Squid,Squid Proxy,No,Web Services,Registered
+3306,TCP,MySQL,MySQL Database,No,Database Services,Registered
+3389,TCP,RDP,Remote Desktop Protocol,No,Remote Access,Registered
+4000,TCP,Dev Server,Common development port,No,Web Services,Registered
+4222,TCP,NATS,NATS Messaging,No,Messaging,Registered
+4369,TCP,EPMD,Erlang Port Mapper,No,Remote Access,Registered
+4789,UDP,VXLAN,Docker Overlay Network,No,Container,Registered
+5000,TCP,Dev Server,Flask default,No,Web Services,Registered
+5222,TCP,XMPP,XMPP Client,No,Messaging,Registered
+5269,TCP,XMPP,XMPP Server,No,Messaging,Registered
+5432,TCP,PostgreSQL,PostgreSQL Database,No,Database Services,Registered
+5672,TCP,AMQP,RabbitMQ,No,Messaging,Registered
+5900,TCP,VNC,Virtual Network Computing,No,Remote Access,Registered
+5901-5910,TCP,VNC,VNC Display 1-10,No,Remote Access,Registered
+5984,TCP,CouchDB,Apache CouchDB,No,Database Services,Registered
+6379,TCP,Redis,Redis Database,No,Database Services,Registered
+6443,TCP,Kubernetes,Kubernetes API Server,Yes,Container,Registered
+6667,TCP,IRC,Internet Relay Chat,No,Messaging,Registered
+6697,TCP,IRC SSL,IRC Secure,Yes,Messaging,Registered
+7000,TCP,Cassandra,Apache Cassandra,No,Database Services,Registered
+7001,TCP,Cassandra,Cassandra SSL,Yes,Database Services,Registered
+7946,TCP/UDP,Docker,Container Network Discovery,No,Container,Registered
+8000,TCP,HTTP Alt,Alternative HTTP,No,Web Services,Registered
+8008,TCP,HTTP Alt,Alternative HTTP,No,Web Services,Registered
+8080,TCP,HTTP Proxy,HTTP Proxy/Alternative,No,Web Services,Registered
+8081,TCP,HTTP Alt,Alternative HTTP,No,Web Services,Registered
+8086,TCP,InfluxDB,InfluxDB Time Series,No,Database Services,Registered
+8443,TCP,HTTPS Alt,Alternative HTTPS,Yes,Web Services,Registered
+8472,UDP,Flannel,Kubernetes Flannel VXLAN,No,Container,Registered
+8883,TCP,MQTT SSL,MQTT Secure,Yes,Messaging,Registered
+8888,TCP,HTTP Alt,Alternative HTTP,No,Web Services,Registered
+9000,TCP,PHP-FPM,PHP FastCGI,No,Web Services,Registered
+9042,TCP,Cassandra,Cassandra Native,No,Database Services,Registered
+9092,TCP,Kafka,Apache Kafka,No,Messaging,Registered
+9200,TCP,Elasticsearch,Elasticsearch HTTP,No,Database Services,Registered
+9300,TCP,Elasticsearch,Elasticsearch Transport,No,Database Services,Registered
+10050,TCP,Zabbix,Zabbix Agent,No,Remote Access,Registered
+10051,TCP,Zabbix,Zabbix Server,No,Remote Access,Registered
+10250,TCP,Kubelet,Kubernetes Kubelet API,No,Container,Registered
+10251,TCP,Kube-scheduler,Kubernetes Scheduler,No,Container,Registered
+10252,TCP,Kube-controller,Kubernetes Controller,No,Container,Registered
+15672,TCP,RabbitMQ,RabbitMQ Management,No,Messaging,Registered
+27017,TCP,MongoDB,MongoDB Database,No,Database Services,Registered
+51820,UDP,WireGuard,WireGuard VPN,Yes,Remote Access,Registered
+49152-65535,TCP/UDP,Dynamic,Ephemeral client connections,Varies,Dynamic,Dynamic/Private
