@@ -1,74 +1,182 @@
-# LangTool
+# GHD - GitHub Data Tool
 
-**LangTool** is a terminal-based language learning assistant powered by GPT-4o. It helps you:
+A powerful CLI tool for tracking and analyzing GitHub repository activity, providing insights into development patterns, commit history, and project metrics.
 
-- Chat and role-play with realistic conversational presets (WhatsApp, Slack).  
-- Run grammar drills and quizzes.  
-- Collect flashcards and export them to CSV/TSV for Anki.  
-- Log tutoring sessions and video/series watch notes.  
-- Customize settings on the fly (API key, theme, language, export options).  
-- Navigate efficiently via keyboard shortcuts, command palette, and side panels.  
+## 🚀 Features
 
-## Installation
+- **Repository Analytics** - Track commits, PRs, issues, and contributor activity
+- **Development Insights** - Analyze coding patterns and project velocity
+- **Daily Summaries** - Get quick overviews of recent repository activity
+- **Focus Mode** - Deep dive into specific repositories or time periods
+- **Rich Terminal UI** - Beautiful, interactive displays with charts and tables
+- **Caching** - Smart caching for improved performance
+- **Multiple Output Formats** - Export data as JSON, CSV, or formatted reports
 
-1. **Clone the repository**  
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/bjpl/ghd.git
+cd ghd
+
+# Install using pip
+pip install -e .
+
+# Or install dependencies directly
+pip install -r requirements.txt
+```
+
+## 🔧 Configuration
+
+1. **Set up your GitHub token**:
    ```bash
-   git clone https://github.com/yourusername/langtool.git
-   cd langtool
+   # Create a .env file
+   cp .env.example .env
 
-    Install dependencies
+   # Add your GitHub personal access token
+   echo "GITHUB_TOKEN=your_token_here" >> .env
+   ```
 
-poetry install
+2. **Generate a GitHub Personal Access Token**:
+   - Go to GitHub Settings → Developer settings → Personal access tokens
+   - Generate a new token with `repo` and `read:user` permissions
+   - Copy the token to your `.env` file
 
-Configure
+## 💻 Usage
 
-    Copy .env.example to .env and add your OpenAI API key:
+### Basic Commands
 
-        cp .env.example .env
-        # Then edit .env and set OPENAI_API_KEY
+```bash
+# Show today's activity across all repos
+ghd today
 
-        Or set OPENAI_API_KEY in langtool/config.toml under [api].
+# Get a recap of recent activity
+ghd recap
 
-Usage
+# List all repositories
+ghd repos
 
-Run the CLI via the langtool command (installed by Poetry):
+# Focus on a specific repository
+ghd focus owner/repo
 
-# Start a chat session
-langtool chat
+# Show the dashboard
+ghd dashboard
 
-# Role-play with a preset
-langtool roleplay --preset "Informal WhatsApp"
+# Clean up cache
+ghd cleanup
+```
 
-# Grammar drills
-langtool drills
+### Examples
 
-# Manage logs
-langtool logs tutor   # Tutor session logs
-langtool logs video   # Video/series logs
+```bash
+# View activity for the last week
+ghd recap --days 7
 
-# Export flashcards
-langtool export
+# Focus on a specific repo with detailed stats
+ghd focus bjpl/ghd --detailed
 
-# Edit runtime settings
-langtool settings
+# Export repository data as JSON
+ghd repos --format json > repos.json
 
-# (Future) Show dashboard summary
-langtool dashboard
+# Get help for any command
+ghd help
+ghd help focus
+```
 
-Development
+## 🎨 Features in Detail
 
-    Run tests:
+### Today Command
+Shows a summary of today's GitHub activity including:
+- Commits pushed
+- Pull requests opened/merged
+- Issues created/closed
+- Code review activity
 
+### Recap Command
+Provides a comprehensive overview of recent activity:
+- Contribution graphs
+- Language statistics
+- Most active repositories
+- Contributor leaderboard
+
+### Focus Command
+Deep dive into a specific repository:
+- Commit history analysis
+- PR/Issue metrics
+- Contributor statistics
+- Code frequency graphs
+- Activity heatmaps
+
+### Dashboard
+Interactive terminal dashboard showing:
+- Real-time activity feed
+- Repository health metrics
+- Trending repositories
+- Personal productivity stats
+
+## 🏗️ Architecture
+
+```
+ghd/
+├── src/
+│   └── ghd/
+│       ├── api/          # GitHub API integration
+│       ├── commands/     # CLI command implementations
+│       ├── formatters/   # Output formatting and display
+│       ├── utils/        # Utility functions
+│       └── cli.py        # Main CLI entry point
+├── docs/                 # Documentation
+├── tests/               # Test suite
+└── .env.example         # Environment configuration template
+```
+
+## 🧪 Development
+
+```bash
+# Run tests
 pytest
 
-Lint and type-check:
+# Run with debug logging
+GHD_DEBUG=1 ghd today
 
-    flake8
-    mypy
+# Development installation
+pip install -e ".[dev]"
 
-Contributing
+# Code formatting
+black src/
+flake8 src/
+```
 
-Contributions are welcome! Please fork, create a feature branch, and submit a pull request.
-License
+## 📊 Data Storage
 
-This project is licensed under the MIT License. See LICENSE for details.
+GHD stores cached data and configurations in:
+- **Unix/Linux**: `~/.ghd/`
+- **Windows**: `%APPDATA%\ghd\`
+- **macOS**: `~/Library/Application Support/ghd/`
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🔗 Related Projects
+
+- [git_analysis](https://github.com/bjpl/git_analysis) - Repository for ad-hoc GitHub analysis
+- [GitHub CLI](https://cli.github.com/) - Official GitHub command-line tool
+
+## 📧 Contact
+
+For questions or suggestions, please open an issue on GitHub.
+
+---
+
+**Note**: This tool requires a GitHub personal access token to function. Ensure you keep your token secure and never commit it to version control.
