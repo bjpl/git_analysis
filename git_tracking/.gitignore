@@ -35,6 +35,7 @@ env/
 .DS_Store
 
 # Project specific
+github_repos/
 reports/*.html
 reports/*.json
 data/repos/*.json

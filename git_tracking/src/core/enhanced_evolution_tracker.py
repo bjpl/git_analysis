@@ -170,9 +170,26 @@ class EnhancedEvolutionTracker:
 
     def _analyze_contributors(self) -> Dict[str, Any]:
         """Analyze contributor patterns and metrics."""
+        # Try shortlog with timeout (can be slow on large repos)
         contributors_raw = self._run_git_command([
-            'shortlog', '-sne', '--all'
-        ]).strip()
+            'shortlog', '-sne', '--all', '--no-merges'
+        ], timeout=10).strip()
+
+        # Fallback if shortlog times out or fails
+        if not contributors_raw:
+            print("Using fallback contributor analysis...")
+            # Get last 500 commits only for faster processing
+            contributors_raw = self._run_git_command([
+                'log', '--format=%aN', '-n', '500'
+            ], timeout=5).strip()
+
+            if contributors_raw:
+                # Count occurrences manually
+                from collections import Counter
+                names = contributors_raw.split('\n')
+                counts = Counter(names)
+                # Format like shortlog output
+                contributors_raw = '\n'.join([f"    {count}\t{name}" for name, count in counts.most_common()])
 
         contributors = self._parse_contributors(contributors_raw)
 
@@ -722,17 +739,23 @@ class EnhancedEvolutionTracker:
         '''
 
     # Helper methods for git operations
-    def _run_git_command(self, args: List[str]) -> str:
-        """Run a git command and return output."""
+    def _run_git_command(self, args: List[str], timeout: int = 30) -> str:
+        """Run a git command with timeout to prevent hanging."""
         try:
             result = subprocess.run(
                 ['git'] + args,
                 cwd=self.repo_path,
                 capture_output=True,
                 text=True,
-                check=False
+                check=False,
+                timeout=timeout  # Add timeout to prevent hanging
             )
+            if result.returncode != 0 and 'log' not in args and 'shortlog' not in args:
+                print(f"Git command warning: {' '.join(args)}: {result.stderr[:200]}")
             return result.stdout
+        except subprocess.TimeoutExpired:
+            print(f"⏱️ Git command timed out after {timeout}s: {' '.join(args)}")
+            return ""
         except Exception as e:
             print(f"Error running git command: {e}")
             return ""
@@ -747,13 +770,23 @@ class EnhancedEvolutionTracker:
         contributors = []
         for line in raw_contributors.split('\n'):
             if line.strip():
+                # Try to match format with email: "    5  John Doe <john@example.com>"
                 match = re.match(r'\s*(\d+)\s+(.+?)\s+<(.+?)>', line)
                 if match:
                     contributors.append({
                         'commits': int(match.group(1)),
-                        'name': match.group(2),
+                        'name': match.group(2).strip(),
                         'email': match.group(3)
                     })
+                else:
+                    # Try simpler format without email: "    5\tJohn Doe" or "    5  John Doe"
+                    parts = re.split(r'\s+', line.strip(), 1)
+                    if len(parts) == 2 and parts[0].isdigit():
+                        contributors.append({
+                            'commits': int(parts[0]),
+                            'name': parts[1].strip(),
+                            'email': ''
+                        })
         return contributors
 
     def _get_current_files(self) -> List[str]:
