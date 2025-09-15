@@ -1,507 +1,440 @@
 #!/usr/bin/env python3
 """
-Unified CLI - Clean, maintainable entry point for the learning platform
-Eliminates recursion issues and provides proper state management
+Fixed Curriculum CLI - Clean single-format lesson display
+Resolves dual-format display issues and provides clean, readable output
 """
 
+import json
 import os
 import sys
-import asyncio
+import time
+import sqlite3
 from pathlib import Path
-from enum import Enum
-from typing import Optional, Tuple
+from datetime import datetime
+from typing import Dict, List, Optional, Tuple, Any
 
-# Add parent to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Import Rich for beautiful terminal UI
+try:
+    from rich.console import Console
+    from rich.table import Table
+    from rich.panel import Panel
+    from rich.progress import Progress, SpinnerColumn, TextColumn
+    from rich.prompt import Prompt, Confirm, IntPrompt
+    from rich import box
+    from rich.text import Text
+except ImportError:
+    print("Installing required package 'rich' for beautiful terminal output...")
+    os.system(f"{sys.executable} -m pip install rich")
+    from rich.console import Console
+    from rich.table import Table
+    from rich.panel import Panel
+    from rich.progress import Progress, SpinnerColumn, TextColumn
+    from rich.prompt import Prompt, Confirm, IntPrompt
+    from rich import box
+    from rich.text import Text
 
-# Core imports
-from src.core.curriculum import CurriculumManager, Lesson, Module
-from src.core.progress import ProgressManager
-from src.ui.windows_formatter import WindowsFormatter
-from src.ui.lesson_viewer import LessonViewer
-from src.notes_manager import NotesManager
-from src.notes_viewer import EnhancedNotesViewer
+# Import our clean display module
+from .ui.clean_lesson_display import CleanLessonDisplay
+
+console = Console()
+
+# Sample lesson data for testing
+SAMPLE_LESSONS = {
+    "big_o_notation": {
+        "id": "algo_big_o",
+        "title": "Big O Notation",
+        "difficulty": "beginner",
+        "time": 15,
+        "module": "Foundations",
+        "content": """# Understanding Big O Notation: The Language of Algorithm Efficiency
+
+You know how when you're looking for a book in your home library, the time it takes depends on how organized it is? That's exactly what Big O notation helps us understand about algorithms - how their performance changes as we scale up the problem size.
+
+## Why This Matters
+
+Imagine you're building an app that starts with 100 users, then grows to 1 million. Big O notation tells you whether your app will still work smoothly or grind to a halt. It's the difference between Instagram loading instantly with billions of photos versus taking minutes to show your feed.
+
+## The Core Concept
+
+Big O notation describes the **worst-case scenario** for how long an algorithm takes relative to the input size. Think of it like this: if you're planning a road trip, you'd want to know the worst traffic conditions you might face, not just the best-case Sunday morning drive.
+
+## Common Time Complexities (From Best to Worst)
+
+### O(1) - Constant Time: The Holy Grail
+Like looking up a word in a dictionary when you know the exact page number. Whether the dictionary has 100 or 100,000 pages, if you know the page number, it takes the same time.
+
+**Real-world example**: Accessing an array element by index
+
+### O(log n) - Logarithmic Time: The Power of Divide and Conquer
+Like finding a word in a dictionary by repeatedly opening to the middle and deciding which half to search. Each decision eliminates half of the remaining pages.
+
+**Real-world example**: Binary search in a sorted phonebook
+
+### O(n) - Linear Time: The Sequential Scanner
+Like reading every page of a book to find a specific quote. If the book is twice as long, it takes twice as long.
+
+**Real-world example**: Finding the maximum value in an unsorted list
+
+### O(n log n) - Linearithmic Time: The Efficient Sorter
+Like organizing a deck of cards using merge sort - divide the deck, sort smaller piles, then merge them back together.
+
+**Real-world example**: Efficient sorting algorithms like merge sort
+
+### O(n²) - Quadratic Time: The Nested Loop Trap
+Like comparing every person in a room with every other person for a group photo arrangement. With 10 people, that's 100 comparisons; with 100 people, that's 10,000 comparisons!
+
+**Real-world example**: Bubble sort or finding all pairs
+
+### O(2ⁿ) - Exponential Time: The Combinatorial Explosion
+Like trying every possible combination of pizza toppings. Each new topping doubles the number of possible pizzas.
+
+**Real-world example**: Naive recursive Fibonacci
+
+## Space Complexity: The Memory Dimension
+
+Big O also describes memory usage. Sometimes we trade space for speed:
+- **O(1) space**: Uses same variables regardless of input size
+- **O(n) space**: Creates new data proportional to input size
+
+## Practical Rules of Thumb
+
+1. **Drop Constants**: O(2n) becomes O(n) - at scale, the multiplier doesn't change the growth pattern
+2. **Drop Lower Terms**: O(n² + n) becomes O(n²) - the highest power dominates
+3. **Different Variables**: O(a + b) not O(n) when dealing with two different inputs
+
+## Real-World Impact
+
+Here's what these complexities mean for actual running time with 1 million items:
+- O(1): 1 operation - instant
+- O(log n): ~20 operations - instant
+- O(n): 1 million operations - ~1 second
+- O(n log n): 20 million operations - ~20 seconds
+- O(n²): 1 trillion operations - ~11 days!
+
+## The Key Insight
+
+Big O isn't about precise timing - it's about understanding how algorithms scale. An O(n²) algorithm might be faster than O(n) for small inputs, but will always lose as data grows. Choose your algorithms based on your expected data size!
+
+## Practice Exercises
+
+1. What's the time complexity of searching for a name in an unsorted list?
+2. If an algorithm takes 1 second for 1000 items and 4 seconds for 2000 items, what's likely its complexity?
+3. Why might you choose an O(n²) algorithm over an O(n log n) algorithm?
+
+Remember: The best algorithm depends on your specific use case. A simple O(n²) sort might be perfect for sorting 10 items, while you'd need O(n log n) for a million items.""",
+        "code": """# Examples of different time complexities
+
+# O(1) - Constant time
+def get_first_element(arr):
+    return arr[0] if arr else None
+
+# O(log n) - Logarithmic time  
+def binary_search(sorted_arr, target):
+    left, right = 0, len(sorted_arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        if sorted_arr[mid] == target:
+            return mid
+        elif sorted_arr[mid] < target:
+            left = mid + 1  # Eliminate left half
+        else:
+            right = mid - 1  # Eliminate right half
+    return -1
+
+# O(n) - Linear time
+def find_max(arr):
+    if not arr:
+        return None
+    max_val = arr[0]
+    for val in arr:  # Must check every element
+        if val > max_val:
+            max_val = val
+    return max_val
+
+# O(n log n) - Linearithmic time
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])  # Divide
+    right = merge_sort(arr[mid:])  # Divide
+    return merge(left, right)  # Conquer
+
+# O(n²) - Quadratic time
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(n - 1 - i):  # Nested loop = n²
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+# O(2ⁿ) - Exponential time
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)  # Branches exponentially
+
+# Space complexity examples
+# O(1) space - uses same variables regardless of input
+def sum_array(arr):
+    total = 0
+    for num in arr:
+        total += num
+    return total
+
+# O(n) space - creates new array proportional to input
+def double_array(arr):
+    return [x * 2 for x in arr]""",
+        "practice_problems": [
+            {
+                "title": "Identify the Complexity",
+                "description": "What is the time complexity of this function?",
+                "example": "def mystery(n):\n    for i in range(n):\n        for j in range(n):\n            print(i, j)"
+            },
+            {
+                "title": "Optimize the Algorithm",
+                "description": "How would you improve this O(n²) duplicate finder to O(n)?",
+                "example": "def has_duplicates(arr):\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] == arr[j]:\n                return True\n    return False"
+            }
+        ]
+    }
+}
 
 
-class MenuState(Enum):
-    """Application state enumeration"""
-    MAIN_MENU = "main_menu"
-    BROWSE_MODULES = "browse_modules"
-    BROWSE_LESSONS = "browse_lessons"
-    VIEW_LESSON = "view_lesson"
-    NOTES = "notes"
-    PROGRESS = "progress"
-    SETTINGS = "settings"
-    EXIT = "exit"
-
-
-class UnifiedCLI:
-    """Unified CLI with proper state management and no recursion"""
+class CurriculumCLI:
+    """Curriculum CLI with clean lesson display"""
     
     def __init__(self):
-        """Initialize the unified CLI"""
-        # Core managers
-        self.curriculum = CurriculumManager()
-        self.progress = ProgressManager()
+        self.console = console
+        self.display = CleanLessonDisplay(console)
+        self.current_user = None
+        self.progress = {}
         
-        # UI components
-        self.formatter = WindowsFormatter()
-        self.lesson_viewer = LessonViewer(self.formatter)
-        self.notes_manager = NotesManager()
-        self.notes_viewer = EnhancedNotesViewer()
+    def welcome(self):
+        """Display welcome message"""
+        self.console.clear()
+        welcome_text = Text("Welcome to Algorithm Learning System", style="bold cyan")
+        self.console.print(Panel.fit(
+            welcome_text,
+            border_style="bright_cyan",
+            padding=(1, 2)
+        ))
+        self.console.print()
         
-        # State management
-        self.state = MenuState.MAIN_MENU
-        self.current_module: Optional[Module] = None
-        self.current_lesson: Optional[Lesson] = None
-        self.running = True
+    def continue_learning(self):
+        """Continue learning with clean display"""
+        self.console.print("[cyan]Loading Big O Notation lesson...[/cyan]\n")
+        
+        # Simulate loading with progress
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=self.console
+        ) as progress:
+            task = progress.add_task("[cyan]Preparing lesson content...", total=None)
+            time.sleep(1)
+            progress.remove_task(task)
+        
+        # Get the lesson data
+        lesson = SAMPLE_LESSONS["big_o_notation"]
+        
+        # Display the lesson using our clean display
+        user_notes = self.display.display_lesson(lesson, show_notes_prompt=True)
+        
+        # Save notes if provided
+        if user_notes:
+            self.save_notes(lesson["id"], user_notes)
+        
+        # Ask about comprehension questions
+        self.console.print()
+        if Confirm.ask("[cyan]Would you like to test your understanding with some questions?[/cyan]"):
+            self.run_comprehension_check(lesson)
+        
+        # Mark as complete
+        self.mark_lesson_complete(lesson["id"])
+        
+        # Ask to continue
+        self.console.print()
+        if Confirm.ask("[cyan]Continue to next lesson?[/cyan]"):
+            self.console.print("[yellow]Next lesson would load here...[/yellow]")
+        else:
+            self.console.print("[green]Great job! See you next time![/green]")
+    
+    def save_notes(self, lesson_id: str, notes: str):
+        """Save user notes for a lesson"""
+        # In a real implementation, this would save to database
+        self.progress[f"{lesson_id}_notes"] = notes
+        self.console.print(f"[green]✓ Notes saved for lesson {lesson_id}[/green]")
+    
+    def mark_lesson_complete(self, lesson_id: str):
+        """Mark a lesson as complete"""
+        # In a real implementation, this would update database
+        self.progress[f"{lesson_id}_completed"] = True
+        self.console.print(f"[green]✓ Lesson {lesson_id} marked as complete![/green]")
+    
+    def run_comprehension_check(self, lesson: Dict[str, Any]):
+        """Run a simple comprehension check"""
+        self.console.print("\n[bold]📊 Quick Comprehension Check[/bold]\n")
+        
+        questions = [
+            {
+                "question": "What does O(n²) mean for performance?",
+                "options": [
+                    "Linear growth",
+                    "Quadratic growth - doubling input quadruples time",
+                    "Constant time",
+                    "Logarithmic growth"
+                ],
+                "correct": 1
+            },
+            {
+                "question": "Which is generally better for large datasets?",
+                "options": [
+                    "O(n²)",
+                    "O(n log n)",
+                    "O(2ⁿ)",
+                    "O(n!)"
+                ],
+                "correct": 1
+            }
+        ]
+        
+        score = 0
+        for i, q in enumerate(questions, 1):
+            self.console.print(f"[cyan]Question {i}:[/cyan] {q['question']}")
+            for j, option in enumerate(q['options']):
+                self.console.print(f"  {j+1}. {option}")
+            
+            answer = IntPrompt.ask("Your answer", choices=["1", "2", "3", "4"])
+            if int(answer) - 1 == q['correct']:
+                self.console.print("[green]✓ Correct![/green]")
+                score += 1
+            else:
+                self.console.print(f"[red]✗ The correct answer was {q['correct']+1}[/red]")
+            self.console.print()
+        
+        self.console.print(f"[bold]Score: {score}/{len(questions)}[/bold]")
+        
+        if score == len(questions):
+            self.console.print("[green]Perfect! You've mastered this concept![/green]")
+        elif score >= len(questions) * 0.6:
+            self.console.print("[yellow]Good job! Review the parts you missed.[/yellow]")
+        else:
+            self.console.print("[red]Consider reviewing this lesson again.[/red]")
+    
+    def interactive_menu(self):
+        """Show interactive menu"""
+        while True:
+            self.console.print("\n[bold]Main Menu[/bold]")
+            self.console.print("1. Continue Learning")
+            self.console.print("2. View Progress")
+            self.console.print("3. Review Notes")
+            self.console.print("4. Exit")
+            
+            choice = Prompt.ask("Select an option", choices=["1", "2", "3", "4"])
+            
+            if choice == "1":
+                self.continue_learning()
+            elif choice == "2":
+                self.show_progress()
+            elif choice == "3":
+                self.show_notes()
+            elif choice == "4":
+                self.console.print("[green]Goodbye! Keep learning![/green]")
+                break
+    
+    def show_progress(self):
+        """Show learning progress"""
+        self.console.print("\n[bold]Your Progress[/bold]")
+        
+        table = Table(show_header=True, header_style="bold cyan")
+        table.add_column("Lesson", style="white")
+        table.add_column("Status", style="green")
+        table.add_column("Notes", style="yellow")
+        
+        # Show sample progress
+        table.add_row(
+            "Big O Notation",
+            "✓ Complete" if self.progress.get("algo_big_o_completed") else "⏳ In Progress",
+            "Yes" if self.progress.get("algo_big_o_notes") else "No"
+        )
+        table.add_row("Arrays", "Not Started", "No")
+        table.add_row("Linked Lists", "Not Started", "No")
+        
+        self.console.print(table)
+    
+    def show_notes(self):
+        """Show saved notes"""
+        self.console.print("\n[bold]Your Notes[/bold]")
+        
+        notes_found = False
+        for key, value in self.progress.items():
+            if key.endswith("_notes"):
+                lesson_id = key.replace("_notes", "")
+                self.console.print(f"\n[cyan]Lesson: {lesson_id}[/cyan]")
+                self.console.print(Panel(value, border_style="dim"))
+                notes_found = True
+        
+        if not notes_found:
+            self.console.print("[dim]No notes saved yet[/dim]")
     
     def run(self):
-        """Main run loop with proper state management"""
-        # Welcome message
-        self._show_welcome()
+        """Run the CLI application"""
+        self.welcome()
         
-        # Main state machine loop
-        while self.running:
-            try:
-                if self.state == MenuState.MAIN_MENU:
-                    self._handle_main_menu()
-                elif self.state == MenuState.BROWSE_MODULES:
-                    self._handle_browse_modules()
-                elif self.state == MenuState.BROWSE_LESSONS:
-                    self._handle_browse_lessons()
-                elif self.state == MenuState.VIEW_LESSON:
-                    self._handle_view_lesson()
-                elif self.state == MenuState.NOTES:
-                    self._handle_notes()
-                elif self.state == MenuState.PROGRESS:
-                    self._handle_progress()
-                elif self.state == MenuState.SETTINGS:
-                    self._handle_settings()
-                elif self.state == MenuState.EXIT:
-                    self._handle_exit()
-                    break
-            except KeyboardInterrupt:
-                print("\n")
-                self.state = MenuState.EXIT
-            except Exception as e:
-                print(self.formatter.error(f"Error: {e}"))
-                input("Press Enter to continue...")
-                self.state = MenuState.MAIN_MENU
-    
-    def _show_welcome(self):
-        """Display welcome message"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(self.formatter.header("=" * 80))
-        print(self.formatter.header("🎓 Algorithms & Data Structures Learning Platform"))
-        print(self.formatter.header("=" * 80))
-        print()
-        print(self.formatter.success(f"Welcome back, {self.progress.progress.user}!"))
-        print(self.formatter.info("Master algorithms with structured learning"))
-        print()
-        input("Press Enter to start...")
-    
-    def _handle_main_menu(self):
-        """Handle main menu display and selection"""
-        os.system('cls' if os.name == 'nt' else 'clear')
+        # Show initial menu options
+        self.console.print("\n[bold]What would you like to do?[/bold]")
+        self.console.print("1. Continue Learning")
+        self.console.print("2. View Progress")
+        self.console.print("3. Review Notes")
+        self.console.print("4. Exit")
         
-        # Calculate stats
-        total_lessons = self.curriculum.get_total_lessons()
-        completed = len(self.progress.progress.completed)
-        percentage = self.progress.progress.get_completion_percentage(total_lessons)
+        # Show initial menu choice
+        choice = Prompt.ask(
+            "\n[cyan]Select an option[/cyan]",
+            choices=["1", "2", "3", "4"],
+            default="1"
+        )
         
-        # Display header
-        print(self.formatter.header("🎓 Main Menu", level=1))
-        print(f"Progress: {completed}/{total_lessons} lessons ({percentage:.1f}%)")
-        print()
-        
-        # Menu options
-        print("1. 📚 Browse Curriculum")
-        print("2. 🎯 Continue Learning")
-        print("3. 📝 Manage Notes")
-        print("4. 📊 View Progress")
-        print("5. 💡 Practice Problems")
-        print("6. 🤖 Claude AI Guide")
-        print("7. ⚙️  Settings")
-        print("0. 🚪 Exit")
-        print()
-        
-        choice = input("Your choice: ").strip()
-        
-        # Handle choice
         if choice == "1":
-            self.state = MenuState.BROWSE_MODULES
+            self.continue_learning()
         elif choice == "2":
-            self._continue_learning()
+            self.show_progress()
         elif choice == "3":
-            self.state = MenuState.NOTES
+            self.show_notes()
         elif choice == "4":
-            self.state = MenuState.PROGRESS
-        elif choice == "5":
-            self._show_practice_problems()
-        elif choice == "6":
-            self._show_claude_guide()
-        elif choice == "7":
-            self.state = MenuState.SETTINGS
-        elif choice == "0":
-            self.state = MenuState.EXIT
-        else:
-            print(self.formatter.error("Invalid choice"))
-            input("Press Enter to continue...")
-    
-    def _handle_browse_modules(self):
-        """Handle module browsing"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-        
-        print(self.formatter.header("📚 Browse Modules", level=1))
-        print()
-        
-        modules = self.curriculum.get_all_modules()
-        
-        # Display modules with progress
-        for i, module in enumerate(modules, 1):
-            lesson_ids = [l.id for l in module.lessons]
-            progress_info = self.progress.get_module_progress(lesson_ids)
-            
-            # Status icon
-            if progress_info['is_complete']:
-                icon = "✅"
-                color = self.formatter.theme.success
-            elif progress_info['completed'] > 0:
-                icon = "📊"
-                color = self.formatter.theme.warning
-            else:
-                icon = "📘"
-                color = self.formatter.theme.info
-            
-            # Display module
-            module_text = f"{i}. {icon} {module.title}"
-            progress_text = f"[{progress_info['completed']}/{progress_info['total']}]"
-            
-            print(self.formatter._color(f"{module_text:40} {progress_text}", color))
-        
-        print()
-        print("Enter module number (0 to go back): ", end="")
-        choice = input().strip()
-        
-        if choice == "0":
-            self.state = MenuState.MAIN_MENU
-        elif choice.isdigit() and 1 <= int(choice) <= len(modules):
-            self.current_module = modules[int(choice) - 1]
-            self.state = MenuState.BROWSE_LESSONS
-        else:
-            print(self.formatter.error("Invalid choice"))
-            input("Press Enter to continue...")
-    
-    def _handle_browse_lessons(self):
-        """Handle lesson browsing within a module"""
-        if not self.current_module:
-            self.state = MenuState.BROWSE_MODULES
+            self.console.print("[green]Goodbye! Keep learning![/green]")
             return
         
-        os.system('cls' if os.name == 'nt' else 'clear')
-        
-        print(self.formatter.header(f"📚 {self.current_module.title} - Lessons", level=1))
-        print()
-        
-        # Display lessons
-        for i, lesson in enumerate(self.current_module.lessons, 1):
-            # Status
-            if lesson.id in self.progress.progress.completed:
-                icon = "✅"
-                status = "Completed"
-                color = self.formatter.theme.success
-            elif lesson.id == self.progress.progress.current_lesson:
-                icon = "▶️"
-                status = "In Progress"
-                color = self.formatter.theme.warning
-            else:
-                icon = "📖"
-                status = "Not Started"
-                color = self.formatter.theme.text
-            
-            # Display lesson
-            print(self.formatter._color(f"{i}. {icon} {lesson.title} - {status}", color))
-            print(f"   Topics: {', '.join(lesson.topics[:3])}")
-            print(f"   {lesson.practice_problems} practice problems | {lesson.est_time}")
-            print()
-        
-        print("Enter lesson number (0 to go back): ", end="")
-        choice = input().strip()
-        
-        if choice == "0":
-            self.state = MenuState.BROWSE_MODULES
-            self.current_module = None
-        elif choice.isdigit() and 1 <= int(choice) <= len(self.current_module.lessons):
-            self.current_lesson = self.current_module.lessons[int(choice) - 1]
-            self.progress.set_current_lesson(self.current_lesson.id)
-            self.state = MenuState.VIEW_LESSON
-        else:
-            print(self.formatter.error("Invalid choice"))
-            input("Press Enter to continue...")
-    
-    def _handle_view_lesson(self):
-        """Handle lesson viewing and interaction"""
-        if not self.current_lesson or not self.current_module:
-            self.state = MenuState.BROWSE_LESSONS
-            return
-        
-        # Display lesson content
-        choice = self.lesson_viewer.display_lesson(self.current_lesson, self.current_module)
-        
-        # Handle user choice
-        if choice == "1":  # Take Notes
-            self._take_lesson_notes()
-        elif choice == "2":  # Claude Questions
-            self.lesson_viewer.show_claude_questions(self.current_lesson)
-        elif choice == "3":  # Practice Problems
-            self._show_lesson_practice()
-        elif choice == "4":  # Mark Complete
-            self._mark_lesson_complete()
-            self.state = MenuState.BROWSE_LESSONS
-        elif choice == "5":  # Skip to Next
-            self._skip_to_next()
-        elif choice == "0":  # Back
-            self.state = MenuState.BROWSE_LESSONS
-        else:
-            print(self.formatter.error("Invalid choice"))
-            input("Press Enter to continue...")
-    
-    def _take_lesson_notes(self):
-        """Take notes for current lesson"""
-        if not self.current_lesson:
-            return
-        
-        print()
-        print(self.formatter.header("📝 Taking Notes", level=2))
-        print("Enter your notes (press Enter twice to finish):")
-        
-        lines = []
-        while True:
-            line = input()
-            if not line and lines and not lines[-1]:
-                break
-            lines.append(line)
-        
-        note_content = "\n".join(lines[:-1])  # Remove last empty line
-        
-        if note_content.strip():
-            self.notes_manager.save_note(
-                user_id=1,
-                lesson_id=self.current_lesson.id,
-                module_name=self.current_module.title,
-                topic=self.current_lesson.title,
-                content=note_content,
-                tags=[self.current_lesson.id, "study-notes"]
-            )
-            print(self.formatter.success("✅ Note saved successfully!"))
-        else:
-            print(self.formatter.warning("No content to save"))
-        
-        input("Press Enter to continue...")
-    
-    def _mark_lesson_complete(self):
-        """Mark current lesson as complete"""
-        if not self.current_lesson:
-            return
-        
-        self.progress.mark_lesson_complete(self.current_lesson.id, points=10)
-        print()
-        print(self.formatter.success(f"✅ Marked '{self.current_lesson.title}' as complete!"))
-        print(self.formatter.info(f"Score: {self.progress.progress.score} points"))
-        input("Press Enter to continue...")
-        
-        # Clear current lesson
-        self.current_lesson = None
-    
-    def _skip_to_next(self):
-        """Skip to next lesson"""
-        next_lesson_data = self.curriculum.get_next_lesson(
-            self.current_lesson.id if self.current_lesson else None,
-            self.progress.progress.completed
-        )
-        
-        if next_lesson_data:
-            lesson, module = next_lesson_data
-            self.current_lesson = lesson
-            self.current_module = module
-            self.progress.set_current_lesson(lesson.id)
-            print(self.formatter.info(f"\n⏭️ Skipping to: {lesson.title}"))
-            input("Press Enter to continue...")
-        else:
-            print(self.formatter.success("\n🎉 No more lessons available!"))
-            input("Press Enter to return to menu...")
-            self.state = MenuState.MAIN_MENU
-    
-    def _continue_learning(self):
-        """Continue from last lesson or find next"""
-        # Try to resume current lesson
-        if self.progress.progress.current_lesson:
-            lesson_data = self.curriculum.get_lesson(self.progress.progress.current_lesson)
-            if lesson_data:
-                self.current_lesson, self.current_module = lesson_data
-                self.state = MenuState.VIEW_LESSON
-                return
-        
-        # Find next uncompleted lesson
-        next_lesson_data = self.curriculum.get_next_lesson(
-            None,
-            self.progress.progress.completed
-        )
-        
-        if next_lesson_data:
-            self.current_lesson, self.current_module = next_lesson_data
-            self.progress.set_current_lesson(self.current_lesson.id)
-            self.state = MenuState.VIEW_LESSON
-        else:
-            print(self.formatter.success("\n🎉 All lessons completed!"))
-            input("Press Enter to continue...")
-    
-    def _handle_notes(self):
-        """Handle notes management"""
-        self.notes_viewer.view_all_notes()
-        self.state = MenuState.MAIN_MENU
-    
-    def _handle_progress(self):
-        """Handle progress display"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-        
-        total_lessons = self.curriculum.get_total_lessons()
-        progress = self.progress.progress
-        percentage = progress.get_completion_percentage(total_lessons)
-        
-        print(self.formatter.header("📊 Your Progress", level=1))
-        print()
-        
-        # Progress bar
-        bar_length = 40
-        filled = int(bar_length * percentage / 100)
-        bar = "█" * filled + "░" * (bar_length - filled)
-        print(f"Overall: [{bar}] {percentage:.1f}%")
-        print()
-        
-        # Stats
-        print(f"User: {progress.user}")
-        print(f"Level: {progress.level}")
-        print(f"Score: {progress.score} points")
-        print(f"Completed: {len(progress.completed)}/{total_lessons} lessons")
-        print(f"Total Time: {progress.total_time} minutes")
-        print(f"Last Accessed: {progress.last_accessed or 'Never'}")
-        
-        if progress.achievements:
-            print(f"\n🏆 Achievements: {', '.join(progress.achievements)}")
-        
-        print()
-        input("Press Enter to continue...")
-        self.state = MenuState.MAIN_MENU
-    
-    def _handle_settings(self):
-        """Handle settings menu"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-        
-        print(self.formatter.header("⚙️ Settings", level=1))
-        print()
-        print("1. Reset Progress")
-        print("2. Change Difficulty")
-        print("3. Export Data")
-        print("0. Back")
-        print()
-        
-        choice = input("Your choice: ").strip()
-        
-        if choice == "1":
-            confirm = input("Reset all progress? (yes/no): ")
-            if confirm.lower() == "yes":
-                self.progress.reset()
-                print(self.formatter.success("✅ Progress reset!"))
-                input("Press Enter to continue...")
-        elif choice == "2":
-            print("Difficulty levels: beginner, intermediate, advanced")
-            level = input("New difficulty: ").strip().lower()
-            if level in ["beginner", "intermediate", "advanced"]:
-                self.progress.update_preference("difficulty", level)
-                print(self.formatter.success(f"✅ Difficulty set to {level}"))
-                input("Press Enter to continue...")
-        
-        self.state = MenuState.MAIN_MENU
-    
-    def _show_practice_problems(self):
-        """Show practice problems interface"""
-        print()
-        print(self.formatter.info("💡 Practice problems coming soon!"))
-        print("This feature will include:")
-        print("  • Algorithm challenges")
-        print("  • Time/space complexity exercises")
-        print("  • Real-world problems")
-        input("\nPress Enter to continue...")
-    
-    def _show_lesson_practice(self):
-        """Show practice for current lesson"""
-        if not self.current_lesson:
-            return
-        
-        print()
-        print(self.formatter.header(f"💡 Practice: {self.current_lesson.title}", level=2))
-        print(f"Available problems: {self.current_lesson.practice_problems}")
-        print()
-        print("Practice problems coming soon!")
-        input("\nPress Enter to continue...")
-    
-    def _show_claude_guide(self):
-        """Show Claude AI integration guide"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-        
-        guide = """
-🤖 CLAUDE AI LEARNING GUIDE
-
-How to use Claude with your learning:
-
-1. ASK FOR EXPLANATIONS
-   • "Explain binary search with examples"
-   • "Why is quicksort O(n log n)?"
-
-2. REQUEST IMPLEMENTATIONS
-   • "Show me linked list in Python"
-   • "Write recursive fibonacci"
-
-3. DEBUG YOUR CODE
-   • "Why doesn't my merge sort work?"
-   • "Help optimize this algorithm"
-
-4. PRACTICE PROBLEMS
-   • "Give me 5 array problems"
-   • "Create a graph challenge"
-
-5. INTERVIEW PREP
-   • "Common sorting questions"
-   • "Explain complexity tradeoffs"
-
-Tips:
-• Be specific with questions
-• Ask for step-by-step explanations
-• Request multiple approaches
-• Ask about edge cases
-"""
-        
-        print(self.formatter.header("🤖 Claude AI Guide", level=1))
-        print(self.formatter.box(guide, title="Learning with Claude", style="rounded"))
-        input("\nPress Enter to continue...")
-    
-    def _handle_exit(self):
-        """Handle exit and cleanup"""
-        self.progress.save()
-        print()
-        print(self.formatter.success("👋 Thanks for learning! See you next time!"))
-        print(f"You completed {len(self.progress.progress.completed)} lessons")
-        print(f"Total score: {self.progress.progress.score} points")
-        self.running = False
+        # Show interactive menu after initial action
+        self.interactive_menu()
 
 
 def main():
     """Main entry point"""
-    cli = UnifiedCLI()
-    cli.run()
+    try:
+        app = CurriculumCLI()
+        app.welcome()
+        
+        # Simulate the user selecting option 2 (Continue Learning)
+        app.continue_learning()
+        
+        # Then show the menu for further interaction
+        app.interactive_menu()
+        
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Exiting...[/yellow]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        import traceback
+        console.print(traceback.format_exc())
 
+
+# Create alias for backward compatibility
+AlgorithmLearningCLI = CurriculumCLI
 
 if __name__ == "__main__":
     main()

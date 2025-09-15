@@ -4,15 +4,38 @@ layout: default
 <article class="poem">
   <header class="poem-header">
     <h1 class="poem-title">{{ page.title }}</h1>
+    {% comment %}
     {% if page.date %}
     <time class="poem-date" datetime="{{ page.date | date_to_xmlschema }}">
       {{ page.date | date: "%B %d, %Y" }}
     </time>
     {% endif %}
+    {% endcomment %}
     {% if page.collection_name %}
     <span class="poem-collection">{{ page.collection_name }}</span>
     {% endif %}
   </header>
+
+  {% if page.sketch %}
+  <div class="poem-sketch">
+    {% assign file_ext = page.sketch | split: '.' | last | downcase %}
+    {% if file_ext == 'mp4' or file_ext == 'webm' or file_ext == 'mov' %}
+      <video src="{{ '/assets/sketches/' | append: page.sketch | relative_url }}"
+             autoplay
+             loop
+             muted
+             playsinline
+             class="sketch-video"
+             onclick="togglePoemVideo(this)">
+      </video>
+    {% else %}
+      <img src="{{ '/assets/sketches/' | append: page.sketch | relative_url }}" 
+           alt="Artistic sketch accompanying {{ page.title }}" 
+           loading="lazy"
+           decoding="async">
+    {% endif %}
+  </div>
+  {% endif %}
 
   <div class="poem-content">
     {{ content }}
@@ -42,3 +65,4 @@ layout: default
     {% endfor %}
   </nav>
 </article>
+

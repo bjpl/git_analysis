@@ -1,0 +1,3202 @@
+accounts:
+- handle: '@infopresidencia'
+  name: Presidencia de Colombia
+  instagram_url: https://instagram.com/infopresidencia
+  category: Government
+  description: Official account of the Presidency of Colombia - Casa de Nariño
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexeua'
+  name: Mexico in USA
+  instagram_url: https://instagram.com/embamexeua
+  youtube_url: https://www.youtube.com/@embamexeua
+  category: Diplomatic
+  description: Mexican Embassy in Washington DC, USA
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@consulmexsea'
+  name: Mexican Consulate Seattle
+  instagram_url: https://instagram.com/consulmexsea
+  category: Diplomatic
+  description: Mexican Consulate in Seattle, Washington
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@mincultura'
+  name: MinCultura Colombia
+  instagram_url: https://instagram.com/mincultura
+  youtube_url: https://www.youtube.com/@MinisterioCulturaColombia
+  category: Government
+  description: Ministry of Culture of Colombia - promoting Colombian cultural heritage
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@mineducacion'
+  name: MinEducación Colombia
+  instagram_url: https://instagram.com/mineducacioncol
+  youtube_url: https://www.youtube.com/@Mineducacion
+  category: Government
+  description: Ministry of National Education of Colombia
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@alcaldiabogota'
+  name: Alcaldía de Bogotá
+  instagram_url: https://instagram.com/alcaldiabogota
+  youtube_url: https://www.youtube.com/@AlcaldiaBogota
+  category: Government
+  description: Mayor's Office of Bogotá - local government of Colombia's capital
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@sremx'
+  name: SRE Mexico
+  instagram_url: https://instagram.com/sre_mx
+  category: Government
+  description: Ministry of Foreign Affairs of Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@gobmexico'
+  name: Gobierno de México
+  instagram_url: https://instagram.com/gobmexico
+  youtube_url: https://www.youtube.com/@GobiernoMX
+  category: Government
+  description: Official account of the Government of Mexico
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@mindefensa'
+  name: MinDefensa Colombia
+  instagram_url: https://instagram.com/mindefensaco
+  category: Government
+  description: Ministry of National Defense of Colombia
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@minhacienda'
+  name: MinHacienda Colombia
+  youtube_url: https://www.youtube.com/@MinHaciendaColombia
+  category: Government
+  description: Ministry of Finance and Public Credit of Colombia
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/minhacienda
+  instagram_manually_added: true
+- handle: '@minsaludcol'
+  name: MinSalud Colombia
+  instagram_url: https://instagram.com/minsaludcol
+  youtube_url: https://www.youtube.com/@MinSaludColombia
+  category: Government
+  description: Ministry of Health and Social Protection of Colombia
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@minticscolombia'
+  name: MinTIC Colombia
+  category: Government
+  description: Ministry of Information and Communication Technologies of Colombia
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/ministerio_tic
+  instagram_manually_added: true
+- handle: '@mintrabajocol'
+  name: MinTrabajo Colombia
+  instagram_url: https://instagram.com/mintrabajocol
+  category: Government
+  description: Ministry of Labor of Colombia
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@mintransporteco'
+  name: MinTransporte Colombia
+  youtube_url: https://www.youtube.com/@Mintransporte
+  category: Government
+  description: Ministry of Transportation of Colombia
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/mintransporteco
+  instagram_manually_added: true
+- handle: '@presidenciamx'
+  name: Presidencia México
+  youtube_url: https://www.youtube.com/@PresidenciaMexico
+  category: Government
+  description: Official account of the Presidency of Mexico
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/gobmexico
+  instagram_manually_added: true
+- handle: '@sepgobmx'
+  name: SEP México
+  instagram_url: https://instagram.com/sepmx
+  category: Government
+  description: Ministry of Public Education of Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@saludmexico'
+  name: Salud México
+  instagram_url: https://instagram.com/ssalud_mx
+  category: Government
+  description: Ministry of Health of Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@hacienda_mexico'
+  name: Hacienda México
+  category: Government
+  description: Ministry of Finance and Public Credit of Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/shcp_mx
+  instagram_manually_added: true
+- handle: '@sct_mx'
+  name: SCT México
+  category: Government
+  description: Ministry of Communications and Transportation of Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/sict_mx
+  instagram_manually_added: true
+- handle: '@semarnat_mexico'
+  name: SEMARNAT México
+  category: Government
+  description: Ministry of Environment and Natural Resources of Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/semarnat_mexico
+  instagram_manually_added: true
+- handle: '@economía.mexico'
+  name: Economía México
+  category: Government
+  description: Ministry of Economy of Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/secretariaeconomia
+  instagram_manually_added: true
+- handle: '@usembassymex'
+  name: USA Embassy Mexico
+  instagram_url: https://instagram.com/usembassymex
+  category: Diplomatic
+  description: United States Embassy in Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@franciaenmexico'
+  name: France Embassy Mexico
+  instagram_url: https://instagram.com/franciaenmexico
+  youtube_url: https://www.youtube.com/@FranciaenMexico
+  category: Diplomatic
+  description: Embassy of France in Mexico
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexcan'
+  name: Mexico in Canada
+  instagram_url: https://instagram.com/embamexcan
+  youtube_url: https://www.youtube.com/@embamexcan
+  category: Diplomatic
+  description: Embassy of Mexico in Canada
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexchi'
+  name: Mexico in Chile
+  instagram_url: https://instagram.com/embamexchi
+  category: Diplomatic
+  description: Embassy of Mexico in Chile
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexcol'
+  name: Mexico in Colombia
+  instagram_url: https://instagram.com/embamexcol
+  youtube_url: https://www.youtube.com/@embamexcol
+  category: Diplomatic
+  description: Embassy of Mexico in Colombia
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexgua'
+  name: Mexico in Guatemala
+  instagram_url: https://instagram.com/embamexgua
+  category: Diplomatic
+  description: Embassy of Mexico in Guatemala
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamex_italia'
+  name: Mexico in Italy
+  instagram_url: https://instagram.com/embamex_italia
+  category: Diplomatic
+  description: Embassy of Mexico in Italy
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexjp'
+  name: Mexico in Japan
+  instagram_url: https://instagram.com/embamexjp
+  youtube_url: https://www.youtube.com/@embamexjp
+  category: Diplomatic
+  description: Embassy of Mexico in Japan
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexlibano'
+  name: Mexico in Lebanon
+  instagram_url: https://instagram.com/embamexlibano
+  category: Diplomatic
+  description: Embassy of Mexico in Lebanon
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexperu'
+  name: Mexico in Peru
+  instagram_url: https://instagram.com/embamexperu
+  youtube_url: https://www.youtube.com/@embamexperu
+  category: Diplomatic
+  description: Embassy of Mexico in Peru
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexesp'
+  name: Mexico in Spain
+  instagram_url: https://instagram.com/embamexesp
+  category: Diplomatic
+  description: Embassy of Mexico in Spain
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexur'
+  name: Mexico in Uruguay
+  instagram_url: https://instagram.com/embamexur
+  category: Diplomatic
+  description: Embassy of Mexico in Uruguay
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@embamexvenezuela'
+  name: Mexico in Venezuela
+  instagram_url: https://instagram.com/embamexvenezuela
+  category: Diplomatic
+  description: Embassy of Mexico in Venezuela
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@consulmexla'
+  name: Mexican Consulate LA
+  instagram_url: https://instagram.com/consulmexlan
+  youtube_url: https://www.youtube.com/@ConsulmexLA
+  category: Diplomatic
+  description: Mexican Consulate General in Los Angeles
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@consulmexny'
+  name: Mexican Consulate NY
+  instagram_url: https://instagram.com/consulmexny
+  youtube_url: https://www.youtube.com/@ConsulmexNY
+  category: Diplomatic
+  description: Mexican Consulate General in New York
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@consulmexhou'
+  name: Mexican Consulate Houston
+  instagram_url: https://instagram.com/consulmexhouston
+  category: Diplomatic
+  description: Mexican Consulate General in Houston
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@consulmexchi'
+  name: Mexican Consulate Chicago
+  instagram_url: https://instagram.com/consulmexchi
+  youtube_url: https://www.youtube.com/@ConsulmexChicago
+  category: Diplomatic
+  description: Mexican Consulate General in Chicago
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@cdmx'
+  name: CDMX
+  instagram_url: https://instagram.com/cdmx
+  category: Government
+  description: Government of Mexico City (Ciudad de México)
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@guadalajaramx'
+  name: Guadalajara
+  instagram_url: https://instagram.com/guadalajaramx
+  category: Government
+  description: Municipal Government of Guadalajara, Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@monterreymx'
+  name: Monterrey
+  instagram_url: https://instagram.com/monterreymx
+  category: Government
+  description: Municipal Government of Monterrey, Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@udea'
+  name: Universidad de Antioquia
+  instagram_url: https://instagram.com/udea
+  category: Education
+  description: University of Antioquia - Leading Colombian university in Medellín
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@instituto_humboldt'
+  name: Instituto Humboldt
+  instagram_url: https://instagram.com/instituto_humboldt
+  category: Research
+  description: Alexander von Humboldt Biological Resources Research Institute
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@laprofemonica'
+  name: La Profe Mónica
+  instagram_url: https://instagram.com/laprofemonica
+  category: Language Learning
+  description: Spanish language teacher sharing educational content
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museodeloro'
+  name: Museo del Oro
+  category: Culture
+  description: Gold Museum of Colombia showcasing pre-Columbian artifacts
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/museodeloro
+  instagram_manually_added: true
+- handle: '@elmamm'
+  name: MAMM Medellín
+  category: Art
+  description: Museum of Modern Art of Medellín
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/elmamm
+  instagram_manually_added: true
+- handle: '@bibliotecaluisangelarango'
+  name: Biblioteca Luis Ángel Arango
+  category: Culture
+  description: Major cultural library in Bogotá with events and exhibitions
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/bibliotecaluisangelarango
+  instagram_manually_added: true
+- handle: '@museodeartemoderno'
+  name: Museo de Arte Moderno MX
+  instagram_url: https://instagram.com/museoartemodernomx
+  category: Culture
+  description: Museum of Modern Art showcasing contemporary Mexican and international art
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museumofmodernart'
+  name: MoMA
+  youtube_url: https://www.youtube.com/@MoMAvideos
+  category: Culture
+  description: Museum of Modern Art - world-renowned art museum in New York
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/themuseumofmodernart
+  instagram_manually_added: true
+- handle: '@imcine'
+  name: IMCINE
+  instagram_url: https://instagram.com/imcine
+  category: Culture
+  description: Mexican Institute of Cinematography - promoting Mexican cinema
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@elcorraloficial'
+  name: El Corral
+  instagram_url: https://instagram.com/elcorraloficial
+  category: Food
+  description: Colombian burger restaurant chain - local favorite
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@colcafe'
+  name: Colcafé
+  instagram_url: https://instagram.com/colcafe
+  category: Food
+  description: Colombian coffee brand and culture
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@visitbogota.co'
+  name: Visit Bogotá
+  instagram_url: https://instagram.com/visitbogota.co
+  category: Tourism
+  description: Official Bogotá tourism account with city highlights
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@visitarmedellin'
+  name: Visitar Medellín
+  category: Tourism
+  description: Medellín tourism and local experiences
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/medellin_travel
+  instagram_manually_added: true
+- handle: '@medellin_guru'
+  name: Medellín Guru
+  category: Tourism
+  description: Comprehensive Medellín travel guide and tips
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/medellin_guru
+  instagram_manually_added: true
+- handle: '@parquescolombia'
+  name: Parques Nacionales Colombia
+  category: Nature
+  description: National Parks of Colombia - natural beauty and conservation
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/parquescolombia
+  instagram_manually_added: true
+- handle: '@visitmexico'
+  name: Visit Mexico
+  instagram_url: https://instagram.com/visitmexico
+  category: Tourism
+  description: Official tourism promotion of Mexico - destinations and experiences
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@colombiatravel'
+  name: Colombia Travel
+  instagram_url: https://instagram.com/colombia.travel
+  youtube_url: https://www.youtube.com/@colombiatravel
+  category: Tourism
+  description: Official tourism promotion of Colombia - showcasing the country's beauty
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@nomadafrustrada'
+  name: Nómada Frustrada
+  instagram_url: https://instagram.com/nomadafrustrada
+  category: Tourism
+  description: Digital nomad travel content and lifestyle
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@viajandoempelota'
+  name: Viajando Empelota
+  instagram_url: https://instagram.com/viajandoempelota
+  category: Tourism
+  description: Backpacking adventures across Latin America
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bogotacomidas'
+  name: Bogotá Comidas
+  instagram_url: https://instagram.com/bogotacomidas
+  category: Food
+  description: Food guide and restaurant recommendations in Bogotá
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bogotaplan'
+  name: Bogotá Plan
+  instagram_url: https://instagram.com/bogotaplan
+  category: Culture
+  description: Events, culture, and activities in Bogotá
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@colombianfamily'
+  name: Colombian Family
+  category: Lifestyle
+  description: Colombian family travel and lifestyle content
+  last_updated: '2025-09-11'
+- handle: '@visitperu'
+  name: Visit Peru
+  youtube_url: https://www.youtube.com/@visitperu
+  category: Tourism
+  description: Official tourism promotion of Peru
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/peru
+  instagram_manually_added: true
+- handle: '@chiletravel'
+  name: Chile Travel
+  youtube_url: https://www.youtube.com/@chiletravel
+  category: Tourism
+  description: Official tourism promotion of Chile
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/chiletravel
+  instagram_manually_added: true
+- handle: '@visitpanama'
+  name: Visit Panama
+  instagram_url: https://instagram.com/visitpanama
+  youtube_url: https://www.youtube.com/@multimediavisitpma
+  category: Tourism
+  description: Official tourism promotion of Panama
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@visitcostarica'
+  name: Visit Costa Rica
+  youtube_url: https://www.youtube.com/@visitcostarica
+  category: Tourism
+  description: Official tourism promotion of Costa Rica
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/visit_costarica
+  instagram_manually_added: true
+- handle: '@ecuadortravel'
+  name: Ecuador Travel
+  instagram_url: https://instagram.com/ecuadortravel
+  youtube_url: https://www.youtube.com/@EcuadorTravel
+  category: Tourism
+  description: Official tourism promotion of Ecuador
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@visitargentina'
+  name: Visit Argentina
+  instagram_url: https://instagram.com/visitargentina
+  youtube_url: https://www.youtube.com/@visitargentina
+  category: Tourism
+  description: Official tourism promotion of Argentina
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@brasilturismo'
+  name: Brasil Turismo
+  instagram_url: https://instagram.com/brasilturismo
+  youtube_url: https://www.youtube.com/@brasilturismo
+  category: Tourism
+  description: Official tourism promotion of Brazil
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@uruguaynatural'
+  name: Uruguay Natural
+  category: Tourism
+  description: Official tourism promotion of Uruguay
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/uruguaynaturalmt
+  instagram_manually_added: true
+- handle: '@museonacional'
+  name: Museo Nacional Mexico
+  category: Culture
+  description: National Museum of Mexico showcasing Mexican history and culture
+  last_updated: '2025-09-11'
+- handle: '@malba'
+  name: MALBA
+  instagram_url: https://instagram.com/malba
+  category: Culture
+  description: Museum of Latin American Art of Buenos Aires
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museolarco'
+  name: Museo Larco
+  instagram_url: https://instagram.com/museolarco
+  category: Culture
+  description: Museum showcasing pre-Columbian art in Lima, Peru
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museobotero'
+  name: Museo Botero
+  instagram_url: https://instagram.com/museobotero
+  category: Culture
+  description: Museum dedicated to Fernando Botero's works in Bogotá
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museoantropo'
+  name: Museo de Antropología
+  instagram_url: https://instagram.com/museoantropo
+  youtube_url: https://www.youtube.com/@museoantropologia
+  category: Culture
+  description: National Museum of Anthropology showcasing ancient cultures
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@museodelprado'
+  name: Museo del Prado
+  instagram_url: https://instagram.com/museoprado
+  youtube_url: https://www.youtube.com/@museodelprado
+  category: Culture
+  description: Spain's premier art museum in Madrid
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museoreinasofia'
+  name: Museo Reina Sofía
+  youtube_url: https://www.youtube.com/@museoreinasofia
+  category: Culture
+  description: Spanish national museum of modern and contemporary art
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/museoreinasofia
+  instagram_manually_added: true
+- handle: '@mna'
+  name: MNA
+  youtube_url: https://www.youtube.com/@museonacionaldeantropologia
+  category: Culture
+  description: National Museum of Anthropology - Mexico's premier archaeological museum
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@inahmx'
+  name: INAH México
+  youtube_url: https://www.youtube.com/@INAHTV
+  category: Culture
+  description: National Institute of Anthropology and History of Mexico
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/inahmx
+  instagram_manually_added: true
+- handle: '@inba'
+  name: INBA
+  youtube_url: https://www.youtube.com/@INBAmx
+  category: Culture
+  description: National Institute of Fine Arts and Literature of Mexico
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museofridakahlo'
+  name: Museo Frida Kahlo
+  youtube_url: https://www.youtube.com/@museofridakahlo
+  category: Culture
+  description: Casa Azul - Frida Kahlo Museum in Mexico City
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/museofridakahlo
+  instagram_manually_added: true
+- handle: '@munal'
+  name: MUNAL
+  instagram_url: https://instagram.com/munal
+  category: Culture
+  description: National Art Museum of Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@museoevita'
+  name: Museo Evita
+  instagram_url: https://instagram.com/museoevita
+  youtube_url: https://www.youtube.com/@museoevita
+  category: Culture
+  description: Museum dedicated to Eva Perón in Buenos Aires
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@mnba'
+  name: MNBA Chile
+  instagram_url: https://instagram.com/mnbachile
+  category: Culture
+  description: National Museum of Fine Arts of Chile
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@macchile'
+  name: MAC Chile
+  instagram_url: https://instagram.com/macchile
+  category: Culture
+  description: Museum of Contemporary Art of Chile
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@mavi'
+  name: MAVI
+  instagram_url: https://instagram.com/mavi
+  youtube_url: https://www.youtube.com/@MAVISantiago
+  category: Culture
+  description: Museum of Visual Arts in Santiago, Chile
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@mali'
+  name: MALI
+  category: Culture
+  description: Lima Art Museum showcasing Peruvian art
+  last_updated: '2025-09-11'
+- handle: '@canaloncetv'
+  name: Canal Once TV
+  youtube_url: https://www.youtube.com/@CanalOnceIPN
+  category: Media
+  description: Mexican public television channel focusing on culture and education
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@canal22'
+  name: Canal 22
+  youtube_url: https://www.youtube.com/@Canal22
+  category: Media
+  description: Mexican cultural television channel
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/canal22oficial
+  instagram_followers: 276000
+  instagram_manually_added: true
+- handle: '@televisa'
+  name: Televisa
+  instagram_url: https://instagram.com/televisa
+  youtube_url: https://www.youtube.com/@televisa
+  category: Media
+  description: Mexico's largest media company and television network
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@lasestrellas'
+  name: Las Estrellas
+  youtube_url: https://www.youtube.com/@LasEstrellas
+  category: Media
+  description: Flagship entertainment channel of Televisa
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/canalestrellas
+  instagram_followers: 4000000
+  instagram_manually_added: true
+- handle: '@canal5'
+  name: Canal 5
+  instagram_url: https://instagram.com/micanalcinco
+  youtube_url: https://www.youtube.com/@canal5mexico
+  category: Media
+  description: Mexican television channel focusing on entertainment
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@forotv'
+  name: Foro TV
+  instagram_url: https://instagram.com/forotv
+  youtube_url: https://www.youtube.com/@ForoTV
+  category: Media
+  description: Mexican 24-hour news television channel
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@aztecauno'
+  name: Azteca Uno
+  instagram_url: https://instagram.com/aztecauno
+  youtube_url: https://www.youtube.com/@AztecaUno
+  category: Media
+  description: Flagship channel of TV Azteca Mexico
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@azteca7'
+  name: Azteca 7
+  instagram_url: https://instagram.com/azteca7
+  youtube_url: https://www.youtube.com/@Azteca7
+  category: Media
+  description: Mexican television channel owned by TV Azteca
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_verified: true
+- handle: '@imagentv'
+  name: Imagen TV
+  category: Media
+  description: Mexican television network focusing on news and entertainment
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/imagentvmex
+  instagram_manually_added: true
+- handle: '@multimedios'
+  name: Multimedios
+  youtube_url: https://www.youtube.com/@multimedios
+  category: Media
+  description: Mexican media conglomerate with television and radio stations
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/multimediostv
+  instagram_followers: 928000
+  instagram_manually_added: true
+- handle: '@univision'
+  name: Univision
+  youtube_url: https://www.youtube.com/@univision
+  category: Media
+  description: Leading Spanish-language television network in the United States
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/univision
+  instagram_followers: 7000000
+  instagram_manually_added: true
+- handle: '@unimas'
+  name: UniMás
+  instagram_url: https://instagram.com/unimas
+  youtube_url: https://www.youtube.com/@UniMas
+  category: Media
+  description: Spanish-language television network in the United States
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@galavision'
+  name: Galavisión
+  instagram_url: https://instagram.com/galavision
+  youtube_url: https://www.youtube.com/@Galavision
+  category: Media
+  description: Spanish-language television network featuring entertainment programming
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@tudn'
+  name: TUDN
+  category: Sports
+  description: Spanish-language sports television network
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/tudnmex
+  instagram_followers: 2000000
+  instagram_manually_added: true
+- handle: '@telemundo'
+  name: Telemundo
+  youtube_url: https://www.youtube.com/@Telemundo
+  category: Media
+  description: Spanish-language television network in the United States
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/telemundo
+  instagram_followers: 15000000
+  instagram_manually_added: true
+- handle: '@ipn'
+  name: IPN México
+  youtube_url: https://www.youtube.com/@IPN_MX
+  category: Education
+  description: National Polytechnic Institute of Mexico
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/ipn_oficial
+  instagram_followers: 205000
+  instagram_manually_added: true
+- handle: '@unam'
+  name: UNAM
+  instagram_url: https://instagram.com/unam_mx
+  youtube_url: https://www.youtube.com/@UNAM_MX
+  category: Education
+  description: National Autonomous University of Mexico
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@uamx'
+  name: UAM México
+  instagram_url: https://instagram.com/uam_mx
+  category: Education
+  description: Metropolitan Autonomous University of Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@itesm'
+  name: Tec de Monterrey
+  instagram_url: https://instagram.com/tecnologicodemonterrey
+  category: Education
+  description: Monterrey Institute of Technology and Higher Education
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@unal'
+  name: Universidad Nacional Colombia
+  category: Education
+  description: National University of Colombia
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/unaloficial
+  instagram_followers: 125000
+  instagram_manually_added: true
+- handle: '@uniandes'
+  name: Universidad de los Andes
+  youtube_url: https://www.youtube.com/@uniandes
+  category: Education
+  description: University of the Andes in Bogotá, Colombia
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/uniandes
+  instagram_followers: 149000
+  instagram_manually_added: true
+- handle: '@javeriana'
+  name: Pontificia Javeriana
+  youtube_url: https://www.youtube.com/@javerianatvco
+  category: Education
+  description: Pontifical Javeriana University in Colombia
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/unijaveriana
+  instagram_followers: 107000
+  instagram_manually_added: true
+- handle: '@uba'
+  name: UBA
+  instagram_url: https://instagram.com/uba_ar
+  youtube_url: https://www.youtube.com/@UBAonline
+  category: Education
+  description: University of Buenos Aires, Argentina
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@uchile'
+  name: Universidad de Chile
+  instagram_url: https://instagram.com/uchile
+  youtube_url: https://www.youtube.com/@uchile
+  category: Education
+  description: University of Chile in Santiago
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@pucchile'
+  name: PUC Chile
+  category: Education
+  description: Pontifical Catholic University of Chile
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/ucatolicaoficial
+  instagram_followers: 122000
+  instagram_manually_added: true
+- handle: '@pucp'
+  name: PUCP
+  youtube_url: https://www.youtube.com/@pucp
+  category: Education
+  description: Pontifical Catholic University of Peru
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/pucp
+  instagram_followers: 144000
+  instagram_manually_added: true
+- handle: '@usp'
+  name: USP
+  youtube_url: https://www.youtube.com/@canalusp
+  category: Education
+  description: University of São Paulo, Brazil
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/usp.oficial
+  instagram_followers: 451000
+  instagram_manually_added: true
+- handle: '@eluniversal'
+  name: El Universal México
+  instagram_url: https://instagram.com/eluniversalmx
+  youtube_url: https://www.youtube.com/@ElUniversalMex
+  category: News
+  description: Leading Mexican newspaper and news organization
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@reforma'
+  name: Reforma
+  instagram_url: https://instagram.com/reformacom
+  youtube_url: https://www.youtube.com/@reforma
+  category: News
+  description: Mexican daily newspaper covering national and international news
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@milenio'
+  name: Milenio Noticias
+  category: News
+  description: Mexican multimedia news organization
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/milenio
+  instagram_followers: 979000
+  instagram_manually_added: true
+- handle: '@excelsior'
+  name: Excélsior
+  youtube_url: https://www.youtube.com/@ExcelsiorMex
+  category: News
+  description: Mexican newspaper and news organization
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/periodicoexcelsior
+  instagram_followers: 204000
+  instagram_manually_added: true
+- handle: '@elfinanciero'
+  name: El Financiero
+  youtube_url: https://www.youtube.com/@ElFinancieroTV
+  category: News
+  description: Mexican business and financial news organization
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/elfinanciero_mx
+  instagram_followers: 464000
+  instagram_manually_added: true
+- handle: '@jornada'
+  name: La Jornada
+  instagram_url: https://instagram.com/lajornadaonline
+  youtube_url: https://www.youtube.com/@LaJornada
+  category: News
+  description: Mexican daily newspaper with progressive editorial stance
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@proceso'
+  name: Proceso
+  instagram_url: https://instagram.com/revistaproceso
+  youtube_url: https://www.youtube.com/@ProcesoMx
+  category: News
+  description: Mexican weekly news magazine focusing on investigative journalism
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@eltiempo'
+  name: El Tiempo
+  category: News
+  description: Colombia's leading newspaper and news organization
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/eltiempo
+  instagram_followers: 3000000
+  instagram_manually_added: true
+- handle: '@elespectador'
+  name: El Espectador
+  youtube_url: https://www.youtube.com/@ElEspectador
+  category: News
+  description: Colombian newspaper with focus on investigative journalism
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/elespectador
+  instagram_followers: 2000000
+  instagram_manually_added: true
+- handle: '@semana'
+  name: Revista Semana
+  youtube_url: https://www.youtube.com/@RevistaSemana
+  category: News
+  description: Colombian weekly news magazine covering politics and current affairs
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@clarin'
+  name: Clarín
+  instagram_url: https://instagram.com/clarincom
+  youtube_url: https://www.youtube.com/@clarincom
+  category: News
+  description: Argentina's leading newspaper and news organization
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@lanacion'
+  name: La Nación
+  instagram_url: https://instagram.com/lanacioncom
+  youtube_url: https://www.youtube.com/@lanacion
+  category: News
+  description: Argentine daily newspaper with conservative editorial stance
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@elcomercio'
+  name: El Comercio
+  category: News
+  description: Leading Peruvian newspaper and news organization
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/elcomercio
+  instagram_followers: 2000000
+  instagram_manually_added: true
+- handle: '@elmercurio'
+  name: El Mercurio
+  youtube_url: https://www.youtube.com/@elmercurio
+  category: News
+  description: Chile's oldest and most influential newspaper
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/elmercurio_dep
+  instagram_manually_added: true
+- handle: '@latercera'
+  name: La Tercera
+  youtube_url: https://www.youtube.com/@latercera
+  category: News
+  description: Chilean daily newspaper covering national and international news
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/laterceracom
+  instagram_followers: 678000
+  instagram_manually_added: true
+- handle: '@ligamx'
+  name: Liga MX
+  instagram_url: https://instagram.com/ligabbvamx
+  youtube_url: https://www.youtube.com/@LigaBBVAMX
+  category: Sports
+  description: Mexican professional football league
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@fcfseleccioncol'
+  name: Selección Colombia
+  instagram_url: https://instagram.com/fcfseleccioncol
+  youtube_url: https://www.youtube.com/@FCFSeleccionCol
+  category: Sports
+  description: Colombian national football team
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@afa'
+  name: AFA Argentina
+  category: Sports
+  description: Argentine Football Association and national team
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/afaseleccion
+  instagram_followers: 15000000
+  instagram_manually_added: true
+- handle: '@anfp'
+  name: ANFP Chile
+  youtube_url: https://www.youtube.com/@ANFPChileOficial
+  category: Sports
+  description: National Association of Professional Football of Chile
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/anfp_chile
+  instagram_manually_added: true
+- handle: '@fpf'
+  name: FPF Perú
+  youtube_url: https://www.youtube.com/@FPFOficial
+  category: Sports
+  description: Peruvian Football Federation
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/tufpf_oficial
+  instagram_followers: 37000
+  instagram_manually_added: true
+- handle: '@fedmexfut'
+  name: FMF México
+  youtube_url: https://www.youtube.com/@FMF
+  category: Sports
+  description: Mexican Football Federation
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/fmf
+  instagram_followers: 340000
+  instagram_manually_added: true
+- handle: '@volaris'
+  name: Volaris
+  instagram_url: https://instagram.com/volaris
+  youtube_url: https://www.youtube.com/@Volaris
+  category: Transportation
+  description: Mexican low-cost airline
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@vivaaerobus'
+  name: VivaAerobus
+  instagram_url: https://instagram.com/vivaaerobus
+  category: Transportation
+  description: Mexican low-cost airline
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@avianca'
+  name: Avianca
+  category: Transportation
+  description: Colombian flagship airline serving Latin America
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/avianca
+  instagram_followers: 1000000
+  instagram_manually_added: true
+- handle: '@latam'
+  name: LATAM Airlines
+  instagram_url: https://instagram.com/latamairlines
+  category: Transportation
+  description: Latin American airline group serving the region
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@copa'
+  name: Copa Airlines
+  instagram_url: https://instagram.com/copaairlines
+  youtube_url: https://www.youtube.com/@CopaAirlines
+  category: Transportation
+  description: Panamanian airline with extensive Latin American network
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bbvamexico'
+  name: BBVA México
+  instagram_url: https://instagram.com/bbva_mexico
+  youtube_url: https://www.youtube.com/@BBVAMexico
+  category: Banking
+  description: Spanish multinational bank operating in Mexico
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@santandermexico'
+  name: Santander México
+  instagram_url: https://instagram.com/santandermx
+  category: Banking
+  description: Spanish bank's Mexican operations
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@scotiabank'
+  name: Scotiabank México
+  category: Banking
+  description: Canadian bank's Mexican operations
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/scotiabankmx
+  instagram_followers: 24000
+  instagram_manually_added: true
+- handle: '@hsbc'
+  name: HSBC México
+  instagram_url: https://instagram.com/hsbc_mexico
+  category: Banking
+  description: British bank's Mexican operations
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@davivienda'
+  name: Davivienda
+  instagram_url: https://instagram.com/davivienda
+  youtube_url: https://www.youtube.com/@Davivienda
+  category: Banking
+  description: Colombian commercial bank
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@metrocdmx'
+  name: Metro CDMX
+  instagram_url: https://instagram.com/metrocdmx
+  category: Transportation
+  description: Mexico City Metro system
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@metromedellin'
+  name: Metro Medellín
+  instagram_url: https://instagram.com/metromedellin
+  youtube_url: https://www.youtube.com/@metrodemedellin
+  category: Transportation
+  description: Medellín Metro system in Colombia
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@metrosantiago'
+  name: Metro Santiago
+  category: Transportation
+  description: Santiago Metro system in Chile
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/metrodesantiago
+  instagram_followers: 376000
+  instagram_manually_added: true
+- handle: '@metrolima'
+  name: Metro Lima
+  category: Transportation
+  description: Lima Metro system in Peru
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/linea1oficial
+  instagram_followers: 12000
+  instagram_manually_added: true
+- handle: '@metroquito'
+  name: Metro Quito
+  instagram_url: https://instagram.com/metroquito
+  category: Transportation
+  description: Quito Metro system in Ecuador
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@transmilenio'
+  name: TransMilenio
+  youtube_url: https://www.youtube.com/@TransMilenio
+  category: Transportation
+  description: Bogotá's bus rapid transit system
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/oficialtransmilenio
+  instagram_followers: 73000
+  instagram_manually_added: true
+  instagram_corrected: true
+- handle: '@teatrocolonbogota'
+  name: Teatro Colón Bogotá
+  instagram_url: https://instagram.com/teatrocolonbogota
+  category: Culture
+  description: Historic opera house and cultural venue in Bogotá
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@teatrocolon'
+  name: Teatro Colón
+  instagram_url: https://instagram.com/teatrocolon
+  youtube_url: https://www.youtube.com/@TeatroColonOficial
+  category: Culture
+  description: Famous opera house in Buenos Aires, Argentina
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@teatrosolis'
+  name: Teatro Solís
+  instagram_url: https://instagram.com/teatrosolis
+  category: Culture
+  description: Principal theater of Uruguay in Montevideo
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@cenart'
+  name: CENART
+  category: Culture
+  description: National Center for the Arts of Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/cenartmx
+  instagram_manually_added: true
+- handle: '@ccemx'
+  name: CCE México
+  category: Culture
+  description: Cultural Center of Spain in Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/ccemx_
+  instagram_manually_added: true
+- handle: '@casaamerica'
+  name: Casa de América
+  instagram_url: https://instagram.com/casaamerica
+  category: Culture
+  description: Institution promoting Ibero-American culture in Spain
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bibliotecanalco'
+  name: Biblioteca Nacional Colombia
+  instagram_url: https://instagram.com/bibliotecanalco
+  category: Culture
+  description: National Library of Colombia
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bibliotecanalchile'
+  name: Biblioteca Nacional Chile
+  instagram_url: https://instagram.com/bnchile
+  youtube_url: https://www.youtube.com/@bibliotecanacionaldechile
+  category: Culture
+  description: National Library of Chile
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bibliotecanalargentina'
+  name: Biblioteca Nacional Argentina
+  instagram_url: https://instagram.com/bibliotecanalargentina
+  category: Culture
+  description: National Library of Argentina
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bibliotecavasconcelos'
+  name: Biblioteca Vasconcelos
+  instagram_url: https://instagram.com/bibliotecavasconcelos
+  category: Culture
+  description: José Vasconcelos Library in Mexico City
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@liverpool'
+  name: Liverpool
+  category: Retail
+  description: Mexican luxury department store chain
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/liverpool_mexico
+  instagram_followers: 2000000
+  instagram_manually_added: true
+- handle: '@palaciodehierro'
+  name: El Palacio de Hierro
+  youtube_url: https://www.youtube.com/@ElPalacioDeHierro
+  category: Retail
+  description: Mexican upscale department store chain
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@sanborns'
+  name: Sanborns
+  youtube_url: https://www.youtube.com/@Sanborns
+  category: Retail
+  description: Mexican retail chain with restaurants and stores
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/solosanborns
+  instagram_followers: 363000
+  instagram_manually_added: true
+- handle: '@oxxo'
+  name: OXXO
+  instagram_url: https://instagram.com/tiendasoxxo
+  youtube_url: https://www.youtube.com/@OXXOTiendas
+  category: Retail
+  description: Mexican convenience store chain
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@elektra'
+  name: Elektra
+  instagram_url: https://instagram.com/elektra_mx
+  youtube_url: https://www.youtube.com/@Elektra
+  category: Retail
+  description: Mexican retail chain specializing in electronics and appliances
+  instagram_verified: true
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@coppel'
+  name: Coppel
+  category: Retail
+  description: Mexican retail chain with credit services
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/coppel
+  instagram_followers: 644000
+  instagram_manually_added: true
+- handle: '@falabella'
+  name: Falabella
+  youtube_url: https://www.youtube.com/@falabella
+  category: Retail
+  description: Chilean multinational retail chain in Latin America
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/falabella_cl
+  instagram_followers: 1000000
+  instagram_manually_added: true
+- handle: '@exito'
+  name: Almacenes Éxito
+  youtube_url: https://www.youtube.com/@almacenesexito
+  category: Retail
+  description: Colombian retail chain and supermarket company
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/exito
+  instagram_followers: 599000
+  instagram_manually_added: true
+- handle: '@edomex'
+  name: Estado de México
+  instagram_url: https://instagram.com/gobierno.edomex
+  category: Government
+  description: Government of the State of Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@nuevoleon'
+  name: Nuevo León
+  instagram_url: https://instagram.com/nuevoleon.mx
+  category: Government
+  description: Government of Nuevo León state in Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@jalisco'
+  name: Jalisco
+  instagram_url: https://instagram.com/gobiernojalisco
+  category: Government
+  description: Government of Jalisco state in Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@puebla'
+  name: Puebla
+  instagram_url: https://instagram.com/gobiernopuebla
+  category: Government
+  description: Government of Puebla state in Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@veracruz'
+  name: Veracruz
+  category: Government
+  description: Government of Veracruz state in Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/gobiernodeveracruz
+  instagram_followers: 8956
+  instagram_manually_added: true
+- handle: '@oaxaca'
+  name: Oaxaca
+  instagram_url: https://instagram.com/goboaxaca
+  category: Government
+  description: Government of Oaxaca state in Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@chiapas'
+  name: Chiapas
+  youtube_url: https://www.youtube.com/@GobiernoChiapas
+  category: Government
+  description: Government of Chiapas state in Mexico
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@yucatan'
+  name: Yucatán
+  instagram_url: https://instagram.com/gobyuc
+  category: Government
+  description: Government of Yucatán state in Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@queretaro'
+  name: Querétaro
+  instagram_url: https://instagram.com/gobqro
+  category: Government
+  description: Government of Querétaro state in Mexico
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- handle: '@guanajuato'
+  name: Guanajuato
+  category: Government
+  description: Government of Guanajuato state in Mexico
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/gobiernogto
+  instagram_followers: 31000
+  instagram_manually_added: true
+- handle: '@cundinamarca'
+  name: Cundinamarca
+  category: Government
+  description: Government of Cundinamarca department in Colombia
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/cundinamarcagob
+  instagram_followers: 62000
+  instagram_manually_added: true
+- handle: '@antioquia'
+  name: Antioquia
+  youtube_url: https://www.youtube.com/@GobAntioquia
+  category: Government
+  description: Government of Antioquia department in Colombia
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/gobantioquia
+  instagram_followers: 247000
+  instagram_manually_added: true
+- handle: '@valledelcauca'
+  name: Valle del Cauca
+  youtube_url: https://www.youtube.com/@GobValle
+  category: Government
+  description: Government of Valle del Cauca department in Colombia
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@atlantico'
+  name: Atlántico
+  category: Government
+  description: Government of Atlántico department in Colombia
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/gobatlantico
+  instagram_followers: 138000
+  instagram_manually_added: true
+- handle: '@santander'
+  name: Santander
+  category: Government
+  description: Government of Santander department in Colombia
+  last_updated: '2025-09-11'
+- handle: '@bolivar'
+  name: Bolívar
+  category: Government
+  description: Government of Bolívar department in Colombia
+  last_updated: '2025-09-11'
+- handle: '@casarealtv'
+  name: Casa Real TV
+  category: Government
+  description: Official channel of the Spanish Royal House
+  last_updated: '2025-09-11'
+- handle: '@institutocervantes'
+  name: Instituto Cervantes
+  category: Culture
+  description: Spanish government institution promoting Spanish language and culture worldwide
+  last_updated: '2025-09-11'
+- handle: '@tvsenado'
+  name: TV Senado
+  youtube_url: https://www.youtube.com/@tvsenado
+  category: Government
+  description: Television channel of the Mexican Senate
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@canaldelcongreso'
+  name: Canal del Congreso
+  category: Government
+  description: Television channel of the Mexican Congress
+  last_updated: '2025-09-11'
+- handle: '@policianalco'
+  name: Policía Nacional Colombia
+  youtube_url: https://www.youtube.com/@PoliciaColombia
+  category: Government
+  description: Colombian National Police
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@guardianacionalmx'
+  name: Guardia Nacional México
+  category: Government
+  description: Mexican National Guard
+  last_updated: '2025-09-11'
+- handle: '@ejercitomexicano'
+  name: Ejército Mexicano
+  youtube_url: https://www.youtube.com/@ejercitomexicano
+  category: Government
+  description: Mexican Army
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@cervantino'
+  name: Festival Cervantino
+  youtube_url: https://www.youtube.com/@cervantino
+  category: Culture
+  description: International Cervantino Festival in Guanajuato, Mexico
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/cervantino
+  instagram_followers: 67000
+  instagram_manually_added: true
+- handle: '@vivelatino'
+  name: Vive Latino
+  youtube_url: https://www.youtube.com/@vivelatino
+  category: Culture
+  description: Latin American music festival in Mexico City
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/vivelatino
+  instagram_followers: 522000
+  instagram_manually_added: true
+- handle: '@rockalsparque'
+  name: Rock al Parque
+  youtube_url: https://www.youtube.com/@rockalsparque
+  category: Culture
+  description: Free rock festival in Bogotá, Colombia
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@america'
+  name: Club América
+  category: Sports
+  description: Mexican professional football club from Mexico City
+  last_updated: '2025-09-11'
+- handle: '@chivas'
+  name: Chivas
+  category: Sports
+  description: Club de Fútbol Guadalajara professional football team
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/chivas
+  instagram_followers: 4000000
+  instagram_manually_added: true
+- handle: '@pumas'
+  name: Pumas UNAM
+  category: Sports
+  description: Mexican professional football club affiliated with UNAM
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/pumasmx
+  instagram_followers: 1000000
+  instagram_manually_added: true
+- handle: '@boca'
+  name: Boca Juniors
+  youtube_url: https://www.youtube.com/@boca
+  category: Sports
+  description: Argentine professional football club from Buenos Aires
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@river'
+  name: River Plate
+  category: Sports
+  description: Argentine professional football club from Buenos Aires
+  last_updated: '2025-09-11'
+- handle: '@wradio'
+  name: W Radio
+  youtube_url: https://www.youtube.com/@wradio
+  category: Media
+  description: Colombian radio network with news and entertainment
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/wradioco
+  instagram_followers: 899000
+  instagram_manually_added: true
+- handle: '@radioformula'
+  name: Radio Fórmula
+  youtube_url: https://www.youtube.com/@RadioFormula
+  category: Media
+  description: Mexican radio network with news and talk shows
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/radioformulamx
+  instagram_followers: 497000
+  instagram_manually_added: true
+- handle: '@caracolradio'
+  name: Caracol Radio
+  youtube_url: https://www.youtube.com/@CaracolRadio
+  category: Media
+  description: Colombian radio network with news and entertainment
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/caracolradio
+  instagram_followers: 921000
+  instagram_manually_added: true
+- handle: '@grupomodelo'
+  name: Grupo Modelo
+  youtube_url: https://www.youtube.com/@grupomodelo7363
+  category: Food
+  description: Mexican brewery company producing Corona and other beers
+  youtube_verified: true
+  last_updated: '2025-09-11'
+  youtube_corrected: true
+- handle: '@corona'
+  name: Corona
+  youtube_url: https://www.youtube.com/@corona
+  category: Food
+  description: Mexican beer brand popular worldwide
+  youtube_verified: true
+  last_updated: '2025-09-11'
+- handle: '@bimbo'
+  name: Grupo Bimbo
+  category: Food
+  description: Mexican multinational bakery company
+  last_updated: '2025-09-11'
+  instagram_url: https://instagram.com/bimbo_mexico
+  instagram_followers: 119000
+  instagram_manually_added: true
+- name: Coca-Cola Colombia
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Pepsi Colombia
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Doritos Colombia
+  instagram_url: https://www.instagram.com/doritoscol
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Oreo Colombia
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Nutella Colombia
+  instagram_url: https://www.instagram.com/nutella_col
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: KitKat Colombia
+  instagram_url: https://www.instagram.com/kitkatcolombia
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Snickers Colombia
+  instagram_url: https://www.instagram.com/snickers_col
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: M&M's Colombia
+  instagram_url: https://www.instagram.com/mmscolombiaoficial
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Pringles Colombia
+  instagram_url: https://www.instagram.com/pringles_col
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Red Bull Colombia
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Monster Energy Colombia
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Gatorade Colombia
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Samsung Colombia
+  instagram_url: https://www.instagram.com/samsungco
+  category: Technology
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Apple Colombia
+  category: Technology
+  last_updated: '2025-09-11'
+- name: HP Colombia
+  instagram_url: https://www.instagram.com/hpcolombia
+  category: Technology
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Dell Colombia
+  instagram_url: https://www.instagram.com/dellcolombia
+  category: Technology
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Lenovo Colombia
+  instagram_url: https://www.instagram.com/lenovocolombia
+  category: Technology
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Sony Colombia
+  instagram_url: https://www.instagram.com/sonycolombia
+  category: Technology
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: LG Colombia
+  instagram_url: https://www.instagram.com/lgcolombia
+  category: Technology
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Huawei Colombia
+  category: Technology
+  last_updated: '2025-09-11'
+- name: Xiaomi Colombia
+  category: Technology
+  last_updated: '2025-09-11'
+- name: Nike Colombia
+  category: Sports & Apparel
+  last_updated: '2025-09-11'
+- name: Adidas Colombia
+  instagram_url: https://www.instagram.com/adidasco
+  category: Sports & Apparel
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Puma Colombia
+  category: Sports & Apparel
+  last_updated: '2025-09-11'
+- name: Reebok Colombia
+  instagram_url: https://www.instagram.com/reebokcolombia
+  category: Sports & Apparel
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Under Armour Colombia
+  instagram_url: https://www.instagram.com/underarmourcol
+  category: Sports & Apparel
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: New Balance Colombia
+  instagram_url: https://www.instagram.com/newbalancecol
+  category: Sports & Apparel
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Converse Colombia
+  instagram_url: https://www.instagram.com/conversecolombia
+  category: Sports & Apparel
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Vans Colombia
+  instagram_url: https://www.instagram.com/vanscolombia
+  category: Sports & Apparel
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: The North Face Colombia
+  category: Sports & Apparel
+  last_updated: '2025-09-11'
+- name: Columbia Sportswear Colombia
+  category: Sports & Apparel
+  last_updated: '2025-09-11'
+- name: Netflix Colombia
+  category: Entertainment
+  last_updated: '2025-09-11'
+- name: HBO Latinoamérica
+  instagram_url: https://www.instagram.com/hbolatam
+  category: Entertainment
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Disney+ Latinoamérica
+  category: Entertainment
+  last_updated: '2025-09-11'
+- name: Amazon Prime Video Latinoamérica
+  instagram_url: https://www.instagram.com/primevideolat
+  category: Entertainment
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Spotify Colombia
+  instagram_url: https://www.instagram.com/spotifycolombia
+  category: Entertainment
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: YouTube Colombia
+  instagram_url: https://www.instagram.com/youtubecolombia
+  category: Entertainment
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: TikTok Colombia
+  instagram_url: https://www.instagram.com/tiktokcolombia
+  category: Entertainment
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Warner Bros Colombia
+  instagram_url: https://www.instagram.com/wbpicturescol
+  category: Entertainment
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Universal Pictures Colombia
+  category: Entertainment
+  last_updated: '2025-09-11'
+- name: Sony Pictures Colombia
+  category: Entertainment
+  last_updated: '2025-09-11'
+- name: L'Oréal Colombia
+  category: Beauty & Personal Care
+  last_updated: '2025-09-11'
+- name: Maybelline Colombia
+  instagram_url: https://www.instagram.com/maybellinecol
+  category: Beauty & Personal Care
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: MAC Cosmetics Colombia
+  category: Beauty & Personal Care
+  last_updated: '2025-09-11'
+- name: Clinique Colombia
+  instagram_url: https://www.instagram.com/cliniquecolombia
+  category: Beauty & Personal Care
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Estée Lauder Colombia
+  instagram_url: https://www.instagram.com/esteelaudercol
+  category: Beauty & Personal Care
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Lancôme Colombia
+  instagram_url: https://www.instagram.com/lancomecolombia
+  category: Beauty & Personal Care
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Dove Colombia
+  instagram_url: https://www.instagram.com/dovecolombia
+  category: Beauty & Personal Care
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Nivea Colombia
+  instagram_url: https://www.instagram.com/niveacolombia
+  category: Beauty & Personal Care
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Head & Shoulders Colombia
+  category: Beauty & Personal Care
+  last_updated: '2025-09-11'
+- name: Pantene Colombia
+  category: Beauty & Personal Care
+  last_updated: '2025-09-11'
+- name: Toyota Colombia
+  category: Automotive
+  last_updated: '2025-09-11'
+- name: Mazda Colombia
+  instagram_url: https://www.instagram.com/mazdacolombia
+  category: Automotive
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Nissan Colombia
+  category: Automotive
+  last_updated: '2025-09-11'
+- name: Chevrolet Colombia
+  instagram_url: https://www.instagram.com/chevroletcol
+  category: Automotive
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ford Colombia
+  instagram_url: https://www.instagram.com/fordcolombia
+  category: Automotive
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Renault Colombia
+  instagram_url: https://www.instagram.com/renaultcol
+  category: Automotive
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Volkswagen Colombia
+  instagram_url: https://www.instagram.com/volkswagencol
+  category: Automotive
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: BMW Colombia
+  instagram_url: https://www.instagram.com/bmwcolombia
+  category: Automotive
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Mercedes-Benz Colombia
+  category: Automotive
+  last_updated: '2025-09-11'
+- name: Audi Colombia
+  category: Automotive
+  last_updated: '2025-09-11'
+- name: IKEA Colombia
+  category: Retail
+  last_updated: '2025-09-11'
+- name: Zara Colombia
+  instagram_url: https://www.instagram.com/zara
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: H&M Colombia
+  category: Retail
+  last_updated: '2025-09-11'
+- name: Forever 21 Colombia
+  instagram_url: https://www.instagram.com/forever21col
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Mango Colombia
+  instagram_url: https://www.instagram.com/mangocolombia
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Pull&Bear Colombia
+  instagram_url: https://www.instagram.com/pullandbear
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Bershka Colombia
+  instagram_url: https://www.instagram.com/bershka
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Stradivarius Colombia
+  instagram_url: https://www.instagram.com/stradivarius
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Massimo Dutti Colombia
+  category: Retail
+  last_updated: '2025-09-11'
+- name: Gap Colombia
+  category: Retail
+  last_updated: '2025-09-11'
+- name: Bancolombia
+  category: Banking
+  last_updated: '2025-09-11'
+- name: Banco de Bogotá
+  instagram_url: https://www.instagram.com/bancodebogota
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Davivienda
+  category: Banking
+  last_updated: '2025-09-11'
+- name: BBVA Colombia
+  instagram_url: https://www.instagram.com/bbvacolombia
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Banco de Occidente
+  instagram_url: https://www.instagram.com/bancodeoccidente
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Scotiabank Colpatria
+  instagram_url: https://www.instagram.com/scotiabankcolpatria
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Banco Popular Colombia
+  instagram_url: https://www.instagram.com/bancopopularco
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Banco AV Villas
+  instagram_url: https://www.instagram.com/bancoavvillas
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Banco Caja Social
+  category: Banking
+  last_updated: '2025-09-11'
+- name: Itaú Colombia
+  category: Banking
+  last_updated: '2025-09-11'
+- name: Avianca
+  category: Transportation
+  last_updated: '2025-09-11'
+- name: LATAM Colombia
+  instagram_url: https://www.instagram.com/latamcolombia
+  category: Transportation
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Copa Airlines Colombia
+  category: Transportation
+  last_updated: '2025-09-11'
+- name: Viva Air Colombia
+  instagram_url: https://www.instagram.com/vivaairco
+  category: Transportation
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: EasyFly
+  instagram_url: https://www.instagram.com/easyflyoficial
+  category: Transportation
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Satena
+  instagram_url: https://www.instagram.com/vuelasatena
+  category: Transportation
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Wingo
+  instagram_url: https://www.instagram.com/somoswingo
+  category: Transportation
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: JetSMART Colombia
+  instagram_url: https://www.instagram.com/jetsmartairlines
+  category: Transportation
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ultra Air
+  category: Transportation
+  last_updated: '2025-09-11'
+- name: ADA Aerolínea de Antioquia
+  category: Transportation
+  last_updated: '2025-09-11'
+- name: Claro Colombia
+  category: Telecommunications
+  last_updated: '2025-09-11'
+- name: Movistar Colombia
+  instagram_url: https://www.instagram.com/movistarcol
+  category: Telecommunications
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Tigo Colombia
+  category: Telecommunications
+  last_updated: '2025-09-11'
+- name: Virgin Mobile Colombia
+  instagram_url: https://www.instagram.com/virginmobilecol
+  category: Telecommunications
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: WOM Colombia
+  instagram_url: https://www.instagram.com/womcolombia
+  category: Telecommunications
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Flash Mobile Colombia
+  instagram_url: https://www.instagram.com/flashmobilecol
+  category: Telecommunications
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: ETB
+  instagram_url: https://www.instagram.com/etb_oficial
+  category: Telecommunications
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Une EPM Telecomunicaciones
+  instagram_url: https://www.instagram.com/somosune
+  category: Telecommunications
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: DirecTV Colombia
+  category: Telecommunications
+  last_updated: '2025-09-11'
+- name: Claro TV Colombia
+  category: Telecommunications
+  last_updated: '2025-09-11'
+- name: Éxito
+  category: Retail
+  last_updated: '2025-09-11'
+- name: Carulla
+  instagram_url: https://www.instagram.com/carullacolombia
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Jumbo Colombia
+  category: Retail
+  last_updated: '2025-09-11'
+- name: Alkosto
+  instagram_url: https://www.instagram.com/alkostocolombia
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Falabella Colombia
+  instagram_url: https://www.instagram.com/falabellacol
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Homecenter
+  instagram_url: https://www.instagram.com/homecentercol
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Easy Colombia
+  instagram_url: https://www.instagram.com/easycolombia
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Olímpica
+  instagram_url: https://www.instagram.com/olimpicaco
+  category: Retail
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: D1 Colombia
+  category: Retail
+  last_updated: '2025-09-11'
+- name: Ara
+  category: Retail
+  last_updated: '2025-09-11'
+- name: EPM (Empresas Públicas de Medellín)
+  category: Utilities
+  last_updated: '2025-09-11'
+- name: Ecopetrol
+  instagram_url: https://www.instagram.com/ecopetroloficial
+  category: Energy
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: ISA (Interconexión Eléctrica S.A.)
+  category: Energy
+  last_updated: '2025-09-11'
+- name: Grupo Energía Bogotá
+  instagram_url: https://www.instagram.com/grupoenergiabogota
+  category: Energy
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Celsia
+  instagram_url: https://www.instagram.com/celsia_energia
+  category: Energy
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Codensa
+  instagram_url: https://www.instagram.com/enelcolombia
+  category: Energy
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Emgesa
+  instagram_url: https://www.instagram.com/enelcolombia
+  category: Energy
+  last_updated: '2025-09-11'
+- name: Gas Natural Fenosa Colombia
+  instagram_url: https://www.instagram.com/gasnaturalcol
+  category: Energy
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: TGI (Transportadora de Gas Internacional)
+  instagram_url: https://www.instagram.com/tgicolombia
+  category: Energy
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: XM (Expertos en Mercados)
+  category: Energy
+  last_updated: '2025-09-11'
+- name: Postobón
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Bavaria
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Alpina
+  instagram_url: https://www.instagram.com/alpina_colombia
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Colanta
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Grupo Nutresa
+  instagram_url: https://www.instagram.com/grupo_nutresa
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Colombina
+  instagram_url: https://www.instagram.com/colombinaoficial
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ramo
+  instagram_url: https://www.instagram.com/productosramo
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Bimbo Colombia
+  instagram_url: https://www.instagram.com/bimbocolombia
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Alquería
+  instagram_url: https://www.instagram.com/alqueria
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Diana
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Juan Valdez Café
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Oma (Café)
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Tostao' Café
+  instagram_url: https://www.instagram.com/tostaocafe
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Crepes & Waffles
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: El Corral
+  instagram_url: https://www.instagram.com/elcorral
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Frisby
+  instagram_url: https://www.instagram.com/frisby_col
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Kokoriko
+  instagram_url: https://www.instagram.com/kokorikocolombia
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Jeno's Pizza
+  instagram_url: https://www.instagram.com/jenospizza
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Archie's
+  instagram_url: https://www.instagram.com/archiesoficial
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Sandwich Qbano
+  category: Food & Beverage
+  last_updated: '2025-09-11'
+- name: Sura
+  category: Insurance
+  last_updated: '2025-09-11'
+- name: Seguros Bolívar
+  category: Insurance
+  last_updated: '2025-09-11'
+- name: Allianz Colombia
+  instagram_url: https://www.instagram.com/allianzcolombia
+  category: Insurance
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Liberty Seguros Colombia
+  category: Insurance
+  last_updated: '2025-09-11'
+- name: Mapfre Colombia
+  instagram_url: https://www.instagram.com/mapfrecolombia
+  category: Insurance
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: AXA Colpatria
+  instagram_url: https://www.instagram.com/axacolpatria
+  category: Insurance
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Seguros del Estado
+  instagram_url: https://www.instagram.com/segurosdelestado
+  category: Insurance
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Positiva Compañía de Seguros
+  instagram_url: https://www.instagram.com/positivacol
+  category: Insurance
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: La Equidad Seguros
+  instagram_url: https://www.instagram.com/laequidadseguros
+  category: Insurance
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Aseguradora Solidaria
+  category: Insurance
+  last_updated: '2025-09-11'
+- name: Universidad Nacional de Colombia
+  category: Education
+  last_updated: '2025-09-11'
+- name: Universidad de los Andes
+  category: Education
+  last_updated: '2025-09-11'
+- name: Universidad Javeriana
+  instagram_url: https://www.instagram.com/unijaveriana
+  category: Education
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Universidad del Rosario
+  category: Education
+  last_updated: '2025-09-11'
+- name: Universidad de Antioquia
+  instagram_url: https://www.instagram.com/udea
+  category: Education
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Universidad del Valle
+  instagram_url: https://www.instagram.com/univallecol
+  category: Education
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Universidad Industrial de Santander
+  instagram_url: https://www.instagram.com/uis
+  category: Education
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Universidad Externado
+  instagram_url: https://www.instagram.com/uexternado
+  category: Education
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Universidad de la Sabana
+  instagram_url: https://www.instagram.com/unisabana
+  category: Education
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Universidad EAFIT
+  category: Education
+  last_updated: '2025-09-11'
+- name: Ministerio de Relaciones Exteriores de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Ministerio de Defensa Nacional de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Ministerio del Interior de Colombia
+  instagram_url: https://www.instagram.com/mininteriorcol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Hacienda de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Ministerio de Justicia de Colombia
+  instagram_url: https://www.instagram.com/minjusticia
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Educación Nacional de Colombia
+  instagram_url: https://www.instagram.com/mineducacioncol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Salud de Colombia
+  instagram_url: https://www.instagram.com/minsaludcol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Trabajo de Colombia
+  instagram_url: https://www.instagram.com/mintrabajocol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Comercio de Colombia
+  instagram_url: https://www.instagram.com/mincomerciocol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Agricultura de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Ministerio de Ambiente de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Ministerio de Vivienda de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Ministerio de Transporte de Colombia
+  instagram_url: https://www.instagram.com/mintransporteco
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Minas y Energía de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Ministerio de Tecnologías de Colombia
+  instagram_url: https://www.instagram.com/ministerio_tic
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Cultura de Colombia
+  instagram_url: https://www.instagram.com/mincultura
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio del Deporte de Colombia
+  instagram_url: https://www.instagram.com/mindeportecol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Ministerio de Ciencia de Colombia
+  instagram_url: https://www.instagram.com/mincienciascol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Departamento Nacional de Planeación
+  instagram_url: https://www.instagram.com/dnp_colombia
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: DANE Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: DIAN Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Procuraduría General de la Nación
+  category: Government
+  last_updated: '2025-09-11'
+- name: Contraloría General de la República
+  instagram_url: https://www.instagram.com/contraloriagr
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Fiscalía General de la Nación
+  category: Government
+  last_updated: '2025-09-11'
+- name: Defensoría del Pueblo Colombia
+  instagram_url: https://www.instagram.com/defensoria_colombia
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Registraduría Nacional
+  instagram_url: https://www.instagram.com/registraduriacol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: ICBF (Instituto Colombiano de Bienestar Familiar)
+  instagram_url: https://www.instagram.com/icbfcolombiaoficial
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: SENA Colombia
+  instagram_url: https://www.instagram.com/senacomunica
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Colpensiones
+  instagram_url: https://www.instagram.com/colpensiones
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: INVIMA
+  category: Government
+  last_updated: '2025-09-11'
+- name: Superintendencia de Industria y Comercio
+  category: Government
+  last_updated: '2025-09-11'
+- name: Superintendencia Financiera de Colombia
+  category: Government
+  last_updated: '2025-09-11'
+- name: Superintendencia de Salud
+  instagram_url: https://www.instagram.com/supersaludcol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Superintendencia de Servicios Públicos
+  category: Government
+  last_updated: '2025-09-11'
+- name: Superintendencia de Transporte
+  instagram_url: https://www.instagram.com/supertransporte
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Superintendencia de Notariado y Registro
+  instagram_url: https://www.instagram.com/supernotariado
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Agencia Nacional de Infraestructura
+  instagram_url: https://www.instagram.com/anicolombia
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Agencia Nacional de Tierras
+  instagram_url: https://www.instagram.com/agenciatierrasco
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Unidad Nacional para la Gestión del Riesgo
+  instagram_url: https://www.instagram.com/ungrdcol
+  category: Government
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Instituto Geográfico Agustín Codazzi
+  category: Government
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Estados Unidos
+  category: Diplomatic
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en México
+  category: Diplomatic
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en España
+  instagram_url: https://www.instagram.com/embajadacolombiaespana
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Francia
+  category: Diplomatic
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Reino Unido
+  instagram_url: https://www.instagram.com/colombiaenru
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Alemania
+  instagram_url: https://www.instagram.com/colombiaenalemania
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Italia
+  instagram_url: https://www.instagram.com/colombiaenitalia
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Brasil
+  instagram_url: https://www.instagram.com/colombiaenbrasil
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Argentina
+  instagram_url: https://www.instagram.com/colombiaenargentina
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Embajada de Colombia en Chile
+  category: Diplomatic
+  last_updated: '2025-09-11'
+- name: Consulado de Colombia en Miami
+  category: Diplomatic
+  last_updated: '2025-09-11'
+- name: Consulado de Colombia en Nueva York
+  category: Diplomatic
+  last_updated: '2025-09-11'
+- name: Consulado de Colombia en Los Ángeles
+  instagram_url: https://www.instagram.com/consuladocolombiaLA
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Consulado de Colombia en Madrid
+  category: Diplomatic
+  last_updated: '2025-09-11'
+- name: Consulado de Colombia en Barcelona
+  instagram_url: https://www.instagram.com/consuladocolombiabarcelona
+  category: Diplomatic
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Museo Nacional de Colombia
+  instagram_url: https://www.instagram.com/museonacionalcolombia
+  category: Culture
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Museo del Oro
+  instagram_url: https://www.instagram.com/museodeloro
+  category: Culture
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Museo Botero
+  instagram_url: https://www.instagram.com/museobotero
+  category: Culture
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: MAMBO (Museo de Arte Moderno de Bogotá)
+  instagram_url: https://www.instagram.com/mambogota
+  category: Culture
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Museo de Antioquia
+  category: Culture
+  last_updated: '2025-09-11'
+- name: MAMM (Museo de Arte Moderno de Medellín)
+  category: Culture
+  last_updated: '2025-09-11'
+- name: Biblioteca Nacional de Colombia
+  category: Culture
+  last_updated: '2025-09-11'
+- name: Biblioteca Luis Ángel Arango
+  instagram_url: https://www.instagram.com/banrepcultural
+  category: Culture
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Teatro Colón Bogotá
+  category: Culture
+  last_updated: '2025-09-11'
+- name: Teatro Mayor Julio Mario Santo Domingo
+  instagram_url: https://www.instagram.com/teatromayor
+  category: Culture
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Empresas Polar
+  instagram_url: https://www.instagram.com/empresaspolar
+  category: Food & Beverage
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Banco de Venezuela
+  instagram_url: https://www.instagram.com/bancodevenezuela
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Banesco
+  instagram_url: https://www.instagram.com/banesco
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Mercantil Banco
+  instagram_url: https://www.instagram.com/mercantilbanco
+  category: Banking
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: CANTV
+  category: Telecommunications
+  last_updated: '2025-09-11'
+- name: Movistar Venezuela
+  category: Telecommunications
+  last_updated: '2025-09-11'
+- name: Digitel
+  category: Telecommunications
+  last_updated: '2025-09-11'
+- name: Conviasa
+  instagram_url: https://www.instagram.com/conviasa
+  category: Transportation
+  instagram_verified: true
+  last_updated: '2025-09-11'
+- name: Avior Airlines
+  category: Transportation
+  last_updated: '2025-09-11'
+- handle: '@maccosmeticsco'
+  name: MAC Cosmetics Colombia
+  instagram_url: https://instagram.com/maccosmeticsco
+  instagram_followers: 85000
+  category: Beauty
+  description: MAC Cosmetics official account for Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@toyotacol'
+  name: Toyota Colombia
+  instagram_url: https://instagram.com/toyotacolombia
+  instagram_followers: 158000
+  category: Automotive
+  description: Toyota official account for Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@nissancol'
+  name: Nissan Colombia
+  instagram_url: https://instagram.com/nissancolombia
+  instagram_followers: 130000
+  category: Automotive
+  description: Nissan official account for Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@ikeacol'
+  name: IKEA Colombia
+  instagram_url: https://instagram.com/ikeacolombia
+  instagram_followers: 298000
+  category: Retail
+  description: IKEA furniture and home goods in Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@clarocol'
+  name: Claro Colombia
+  instagram_url: https://instagram.com/clarocolombia
+  instagram_followers: 237000
+  category: Telecommunications
+  description: Claro telecommunications services in Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@grupoexito'
+  name: Grupo Éxito
+  instagram_url: https://instagram.com/grupoexito
+  instagram_followers: 67000
+  category: Retail
+  description: Grupo Éxito retail corporation
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@postobon'
+  name: Postobón
+  instagram_url: https://instagram.com/postobonempresa
+  instagram_followers: 79000
+  category: Beverages
+  description: Postobón beverages company
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@juanvaldez'
+  name: Juan Valdez Café
+  instagram_url: https://instagram.com/juanvaldezcafe
+  instagram_followers: 564000
+  category: Food & Beverage
+  description: Juan Valdez Colombian coffee shops and products
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@segurossura'
+  name: Seguros SURA
+  instagram_url: https://instagram.com/segurossura
+  instagram_followers: 98000
+  category: Insurance
+  description: SURA insurance services in Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@unalbogota'
+  name: UNAL Bogotá
+  instagram_url: https://instagram.com/bogotaunal
+  instagram_followers: 25000
+  category: Education
+  description: Universidad Nacional de Colombia - Bogotá campus
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@loreallatam'
+  name: L'Oréal Latin America
+  instagram_url: https://instagram.com/lorealgroupe_latam
+  instagram_followers: 120000
+  category: Beauty
+  description: L'Oréal Group official account for Latin America region
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@headandshouldersla'
+  name: Head & Shoulders LATAM
+  instagram_url: https://instagram.com/headandshouldersla
+  instagram_followers: 98000
+  category: Beauty
+  description: Head & Shoulders official account for Latin America
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@panteneco'
+  name: Pantene Colombia
+  instagram_url: https://instagram.com/panteneco
+  instagram_followers: 45000
+  category: Beauty
+  description: Pantene official account for Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@mercedesbenzcol'
+  name: Mercedes-Benz Colombia
+  instagram_url: https://instagram.com/mercedesbenzcolombia
+  instagram_followers: 141000
+  category: Automotive
+  description: Mercedes-Benz official account for Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@audicol'
+  name: Audi Colombia
+  instagram_url: https://instagram.com/audi.colombia
+  instagram_followers: 97000
+  category: Automotive
+  description: Audi official account for Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@bancolombia'
+  name: Bancolombia
+  instagram_url: https://instagram.com/bancolombia
+  instagram_followers: 496000
+  category: Banking
+  description: Bancolombia - Leading Colombian bank
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@bancocajasocial'
+  name: Banco Caja Social
+  instagram_url: https://instagram.com/bancocajasocial
+  instagram_followers: 58000
+  category: Banking
+  description: Banco Caja Social - Colombian social bank
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@itaucol'
+  name: Itaú Colombia
+  instagram_url: https://instagram.com/itaucol
+  instagram_followers: 26000
+  category: Banking
+  description: Itaú Bank Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@tigocol'
+  name: Tigo Colombia
+  instagram_url: https://instagram.com/tigocolombia
+  instagram_followers: 139000
+  category: Telecommunications
+  description: Tigo telecommunications services in Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@policianacional'
+  name: Policía Nacional Colombia
+  instagram_url: https://instagram.com/policianalcolombia
+  category: Government
+  description: Colombian National Police
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@ejercitocol'
+  name: Ejército Colombia
+  instagram_url: https://instagram.com/ejercitocolombia
+  category: Government
+  description: Colombian Army official account
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@conacyt'
+  name: CONACYT México
+  instagram_url: https://instagram.com/conacyt_mx
+  category: Government
+  description: National Council of Science and Technology Mexico
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@profeco'
+  name: PROFECO
+  instagram_url: https://instagram.com/profeco
+  category: Government
+  description: Federal Consumer Protection Agency Mexico
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@cnnespanol'
+  name: CNN Español
+  instagram_url: https://instagram.com/cnnespanol
+  youtube_url: https://youtube.com/@cnnespanol
+  category: Media
+  description: CNN en Español
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@bbcmundo'
+  name: BBC Mundo
+  instagram_url: https://instagram.com/bbcmundo
+  youtube_url: https://youtube.com/@bbcmundo
+  category: Media
+  description: BBC World Service Spanish
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@dwespanol'
+  name: DW Español
+  instagram_url: https://instagram.com/dw_espanol
+  youtube_url: https://youtube.com/@dwespanol
+  category: Media
+  description: Deutsche Welle Spanish
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@noticiascaracol'
+  name: Noticias Caracol
+  instagram_url: https://instagram.com/noticiascaracol
+  youtube_url: https://youtube.com/@noticiascaracol
+  category: Media
+  description: Caracol Noticias Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@noticiasrcn'
+  name: Noticias RCN
+  instagram_url: https://instagram.com/noticiasrcn
+  category: Media
+  description: RCN Noticias Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@museotamayo'
+  name: Museo Tamayo
+  instagram_url: https://instagram.com/museotamayo
+  category: Culture
+  description: Museo Tamayo Mexico City
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@museosoumaya'
+  name: Museo Soumaya
+  instagram_url: https://instagram.com/museosoumaya
+  category: Culture
+  description: Museo Soumaya Mexico
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@clubamericaoficial'
+  name: Club América
+  instagram_url: https://instagram.com/clubamericaoficial
+  category: Sports
+  description: Club América Mexico football
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@bocajrsoficial'
+  name: Boca Juniors
+  instagram_url: https://instagram.com/bocajrsoficial
+  category: Sports
+  description: Boca Juniors Argentina
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@riverplateoficial'
+  name: River Plate
+  instagram_url: https://instagram.com/riverplateoficial
+  category: Sports
+  description: River Plate Argentina
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@millonarios'
+  name: Millonarios FC
+  instagram_url: https://instagram.com/millonariosfcoficial
+  category: Sports
+  description: Millonarios FC Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@atleticonacional'
+  name: Atlético Nacional
+  instagram_url: https://instagram.com/nacionaloficial
+  category: Sports
+  description: Atlético Nacional Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@aeromexico'
+  name: Aeroméxico
+  instagram_url: https://instagram.com/aeromexico
+  youtube_url: https://youtube.com/@aeromexico
+  category: Transportation
+  description: Aeroméxico airline
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@mercadolibre'
+  name: MercadoLibre
+  instagram_url: https://instagram.com/mercadolibre
+  youtube_url: https://youtube.com/@mercadolibre
+  category: Technology
+  description: Latin America e-commerce platform
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@rappi'
+  name: Rappi
+  instagram_url: https://instagram.com/rappi
+  category: Technology
+  description: Latin American delivery app
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@alcaldiacali'
+  name: Alcaldía de Cali
+  instagram_url: https://instagram.com/alcaldiadecali
+  category: Government
+  description: Cali Mayor's Office
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@alcaldiabquilla'
+  name: Alcaldía de Barranquilla
+  instagram_url: https://instagram.com/alcaldiabquilla
+  category: Government
+  description: Barranquilla Mayor's Office
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@alcaldiacartagena'
+  name: Alcaldía de Cartagena
+  instagram_url: https://instagram.com/alcaldiadecartagena
+  category: Government
+  description: Cartagena Mayor's Office
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@armadacol'
+  name: Armada Colombia
+  instagram_url: https://instagram.com/armadacolombia
+  category: Government
+  description: Colombian Navy
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@fuerzaaerea'
+  name: Fuerza Aérea Colombia
+  instagram_url: https://instagram.com/fuerzaaereacol
+  category: Government
+  description: Colombian Air Force
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@migracioncol'
+  name: Migración Colombia
+  instagram_url: https://instagram.com/migracioncolombia
+  category: Government
+  description: Colombian Migration Authority
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@bluradio'
+  name: Blu Radio
+  instagram_url: https://instagram.com/bluradio_co
+  category: Media
+  description: Blu Radio Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@lafm'
+  name: La FM
+  instagram_url: https://instagram.com/lafm
+  category: Media
+  description: La FM Radio Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@presidencialven'
+  name: Presidencia Venezuela
+  instagram_url: https://instagram.com/presidencialven
+  category: Government
+  description: Venezuelan Presidency
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@cancilleriaven'
+  name: Cancillería Venezuela
+  instagram_url: https://instagram.com/cancilleriavenezuela
+  category: Government
+  description: Venezuelan Foreign Ministry
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@venevision'
+  name: Venevisión
+  instagram_url: https://instagram.com/venevision
+  youtube_url: https://youtube.com/@venevision
+  category: Media
+  description: Venevisión TV network
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@globovision'
+  name: Globovisión
+  instagram_url: https://instagram.com/globovision
+  youtube_url: https://youtube.com/@globovision
+  category: Media
+  description: Globovisión news
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@aguilacerveza'
+  name: Águila Cerveza
+  instagram_url: https://instagram.com/aguila_cerveza
+  category: Food & Beverage
+  description: Águila beer Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@clubcolombiabeer'
+  name: Club Colombia
+  instagram_url: https://instagram.com/clubcolombia
+  category: Food & Beverage
+  description: Club Colombia beer
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@pokerbeer'
+  name: Poker Beer
+  instagram_url: https://instagram.com/pokercolombiana
+  category: Food & Beverage
+  description: Poker beer Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@ponymalta'
+  name: Pony Malta
+  instagram_url: https://instagram.com/ponymalta
+  category: Food & Beverage
+  description: Pony Malta beverage
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@cafedecolombia'
+  name: Café de Colombia
+  instagram_url: https://instagram.com/cafedecolombia
+  category: Food & Beverage
+  description: Colombian Coffee Federation
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@pergaminocafe'
+  name: Pergamino Café
+  instagram_url: https://instagram.com/pergaminocafe
+  category: Food & Beverage
+  description: Pergamino Coffee
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@andrescarnederes'
+  name: Andrés Carne de Res
+  instagram_url: https://instagram.com/andrescarnederes
+  category: Food & Beverage
+  description: Famous Colombian restaurant
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@wokco'
+  name: Wok
+  instagram_url: https://instagram.com/wokco
+  category: Food & Beverage
+  description: Wok restaurant chain Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@tecate'
+  name: Tecate
+  instagram_url: https://instagram.com/tecatecerveza
+  category: Food & Beverage
+  description: Tecate beer
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@dossequis'
+  name: Dos Equis
+  instagram_url: https://instagram.com/dossequis
+  category: Food & Beverage
+  description: Dos Equis beer
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@starbuckscol'
+  name: Starbucks Colombia
+  instagram_url: https://instagram.com/starbucks_co
+  category: Food & Beverage
+  description: Starbucks Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@mcdonaldscol'
+  name: McDonald's Colombia
+  instagram_url: https://instagram.com/mcdonalds_col
+  category: Food & Beverage
+  description: McDonald's Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@burgerkingcol'
+  name: Burger King Colombia
+  instagram_url: https://instagram.com/burgerking_col
+  category: Food & Beverage
+  description: Burger King Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@compensar'
+  name: Compensar
+  instagram_url: https://instagram.com/compensarcolombia
+  category: Healthcare
+  description: Compensar health services
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@saludtotal'
+  name: Salud Total
+  instagram_url: https://instagram.com/saludtotaleps
+  category: Healthcare
+  description: Salud Total EPS Colombia
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@cruzverde'
+  name: Cruz Verde
+  instagram_url: https://instagram.com/cruzverdecolombia
+  category: Healthcare
+  description: Cruz Verde pharmacy chain
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@arturocalle'
+  name: Arturo Calle
+  instagram_url: https://instagram.com/arturo_calle
+  category: Fashion
+  description: Arturo Calle Colombian fashion
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@studiof'
+  name: Studio F
+  instagram_url: https://instagram.com/studiofco
+  category: Fashion
+  description: Studio F Colombia fashion
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@velez'
+  name: Vélez
+  instagram_url: https://instagram.com/velez_leather
+  category: Fashion
+  description: Vélez leather goods
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@hbomaxla'
+  name: HBO Max LATAM
+  instagram_url: https://instagram.com/hbomaxla
+  category: Entertainment
+  description: HBO Max Latin America
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@paramountplusla'
+  name: Paramount+ LATAM
+  instagram_url: https://instagram.com/paramountplusla
+  category: Entertainment
+  description: Paramount+ Latin America
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@decameron'
+  name: Decameron Hotels
+  instagram_url: https://instagram.com/decameron
+  category: Tourism
+  description: Decameron Hotels chain
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@hotelesdann'
+  name: Hoteles Dann
+  instagram_url: https://instagram.com/hotelesdann
+  category: Tourism
+  description: Hoteles Dann chain
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@dimayor'
+  name: DIMAYOR
+  instagram_url: https://instagram.com/dimayor
+  category: Sports
+  description: Colombian football division
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@fedecoltenis'
+  name: Fedecoltenis
+  instagram_url: https://instagram.com/fedecoltenis
+  category: Sports
+  description: Colombian Tennis Federation
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@dominospizzacol'
+  name: Domino's Pizza Colombia
+  instagram_url: https://instagram.com/dominospizzacol
+  category: Food & Beverage
+  description: Domino's Pizza Colombia - International pizza delivery chain
+  instagram_manually_added: true
+  last_updated: '2025-09-11'
+- handle: '@teamfoods'
+  name: Team Foods Mexico
+  instagram_url: https://instagram.com/teamfoodsmx
+  category: Food & Beverage
+  description: Team Foods Mexico - Food products company
+  instagram_manually_added: true
+  last_updated: '2025-09-11'

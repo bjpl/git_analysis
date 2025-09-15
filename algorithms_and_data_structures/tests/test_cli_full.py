@@ -23,7 +23,7 @@ colorama.init(autoreset=False, convert=True, strip=False)
 from src.ui.windows_formatter import WindowsFormatter, WindowsColor
 from src.ui.lesson_display import LessonDisplay
 from src.notes_manager import NotesManager
-from src.enhanced_cli import EnhancedCLI
+from src.cli import CurriculumCLI
 
 
 class TestWindowsFormatter(unittest.TestCase):
@@ -90,7 +90,7 @@ class TestEnhancedCLI(unittest.TestCase):
     
     def setUp(self):
         """Set up test CLI instance"""
-        self.cli = EnhancedCLI()
+        self.cli = CurriculumCLI()
     
     def test_initialization(self):
         """Test CLI initializes correctly"""

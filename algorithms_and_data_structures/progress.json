@@ -1,81 +1,17 @@
 {
-  "user_id": "brandon",
-  "created": "2025-01-11T14:30:00Z",
-  "last_updated": "2025-01-11T16:00:00Z",
-  "sessions": [
-    {
-      "date": "2025-01-11",
-      "duration_minutes": 90,
-      "topics": [
-        "big-o-notation",
-        "linear-search",
-        "binary-search"
-      ],
-      "completion_rate": 0.85
-    }
-  ],
-  "topics_completed": [
-    {
-      "id": "big-o-notation",
-      "name": "Big O Notation",
-      "score": 95,
-      "completed_at": "2025-01-11T15:00:00Z"
-    },
-    {
-      "id": "linear-search",
-      "name": "Linear Search",
-      "score": 90,
-      "completed_at": "2025-01-11T15:30:00Z"
-    },
-    {
-      "id": "binary-search-basics",
-      "name": "Binary Search Basics",
-      "score": 88,
-      "completed_at": "2025-01-11T16:00:00Z"
-    }
-  ],
-  "topics_in_progress": [
-    {
-      "id": "hash-tables",
-      "name": "Hash Tables",
-      "progress": 0.75,
-      "started_at": "2025-01-11T16:00:00Z"
-    }
-  ],
-  "quiz_scores": [
-    {
-      "quiz_id": "big-o-quiz-1",
-      "score": 95,
-      "max_score": 100,
-      "date": "2025-01-11"
-    },
-    {
-      "quiz_id": "search-algorithms-quiz",
-      "score": 89,
-      "max_score": 100,
-      "date": "2025-01-11"
-    }
-  ],
-  "stats": {
-    "total_time_minutes": 90,
-    "average_score": 91,
-    "topics_completed": 3,
-    "topics_started": 4,
-    "current_streak_days": 1,
-    "longest_streak_days": 1
-  },
+  "user": "learner",
+  "level": "foundation",
+  "completed": [],
+  "current_lesson": "big-o",
+  "score": 0,
+  "scores": {},
+  "achievements": [],
+  "last_accessed": "2025-09-13T16:16:58.085513",
+  "total_time": 0,
   "preferences": {
     "difficulty": "intermediate",
     "preferred_language": "python",
     "show_hints": true,
     "email_reminders": false
-  },
-  "next_recommended": [
-    "hash-table-implementation",
-    "sorting-algorithms-intro",
-    "recursion-basics"
-  ],
-  "user": "learner",
-  "current_lesson": "big-o",
-  "lastAccessed": "2025-09-13T15:14:43.495903"
+  }
 }

@@ -11,22 +11,23 @@ A beautiful, creative, and accurate real-time visualization of global internet i
 This interactive 3D globe visualization displays the physical infrastructure that powers the internet, including:
 
 - **550+ Submarine Cables** - The undersea fiber optic cables that carry 99% of international data
-- **8,000+ Data Centers** - Major colocation facilities and cloud regions worldwide  
-- **Live BGP Routes** - Real-time visualization of internet traffic flows between autonomous systems
-- **DDoS Attack Monitoring** - Simulated threat intelligence visualization
+- **8,000+ Data Centers** - Major colocation facilities and cloud regions worldwide
 
 ## 🚀 Quick Start
 
 ```bash
-# Install dependencies
-npm install
+# Clone the repository
+git clone https://github.com/bjpl/Internet-Infrastructure-Map.git
+cd Internet-Infrastructure-Map
 
-# Start development server
+# Start development server (dependencies are pre-installed)
 npm run dev
 
 # Build for production
 npm run build
 ```
+
+The project includes all dependencies pre-installed for convenience. No `npm install` needed!
 
 ## 📊 Data Accuracy & Sources
 
@@ -43,9 +44,8 @@ The visualization uses a three-tier accuracy system:
 | Source | Type | Update Frequency | Accuracy |
 |--------|------|-----------------|----------|
 | **PeeringDB** | Data Centers, IXPs | Daily | Live (when available) |
-| **Hurricane Electric** | BGP Routes | Real-time | Live (simulated) |
 | **Submarine Cable Map** | Cable Routes | Monthly | Estimated |
-| **CloudFlare Radar** | DDoS Attacks | Real-time | Simulated |
+| **OpenStreetMap** | Geographic Data | Weekly | Historical |
 
 ### Important Disclaimers
 

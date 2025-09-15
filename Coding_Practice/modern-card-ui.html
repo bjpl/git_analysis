@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Card UI Components</title>
+    <style>
+        /* CSS Variables for theming and consistency */
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary-color: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --transition-fast: 150ms;
+            --transition-normal: 300ms;
+            --transition-slow: 500ms;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-primary: #f3f4f6;
+                --text-secondary: #9ca3af;
+                --bg-primary: #1f2937;
+                --bg-secondary: #111827;
+                --border-color: #374151;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Grid Layout for Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Base Card Styles */
+        .card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Card with Image */
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform var(--transition-slow) ease;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Card Actions */
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast) ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Glass Morphism Card */
+        .card-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        /* Neumorphic Card */
+        .card-neumorphic {
+            background: var(--bg-secondary);
+            box-shadow: 
+                5px 5px 10px rgba(0, 0, 0, 0.1),
+                -5px -5px 10px rgba(255, 255, 255, 0.5);
+            border: none;
+        }
+
+        .card-neumorphic:hover {
+            box-shadow: 
+                2px 2px 5px rgba(0, 0, 0, 0.1),
+                -2px -2px 5px rgba(255, 255, 255, 0.5);
+            transform: none;
+        }
+
+        /* Interactive Card with Skeleton Loading */
+        .card-skeleton {
+            animation: skeleton-loading 1s linear infinite alternate;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-color: hsl(200, 20%, 80%);
+            }
+            100% {
+                background-color: hsl(200, 20%, 95%);
+            }
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--radius-sm);
+            animation: skeleton-loading 1s linear infinite alternate;
+        }
+
+        .skeleton-image {
+            height: 200px;
+            animation: skeleton-loading 1s linear infinite alternate;
+        }
+
+        /* Flip Card */
+        .card-flip-container {
+            perspective: 1000px;
+            height: 400px;
+        }
+
+        .card-flip {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card-flip-container:hover .card-flip {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .card-face-front {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-face-back {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Expandable Card */
+        .card-expandable {
+            cursor: pointer;
+            max-height: 300px;
+            overflow: hidden;
+            transition: max-height var(--transition-slow) ease;
+        }
+
+        .card-expandable.expanded {
+            max-height: 600px;
+        }
+
+        .card-expand-content {
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Animated Gradient Border */
+        .card-gradient-border {
+            background: linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
+                        linear-gradient(135deg, #667eea 0%, #764ba2 100%) border-box;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        /* Performance optimization: will-change */
+        .card-optimized {
+            will-change: transform, box-shadow;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+
+        /* Loading States */
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Micro-interactions */
+        .like-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform var(--transition-fast);
+        }
+
+        .like-button:active {
+            transform: scale(1.2);
+        }
+
+        .like-button.liked {
+            color: #ef4444;
+            animation: heartbeat 0.6s ease;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modern Card UI Components</h1>
+        
+        <h2>Basic Cards with Hover Effects</h2>
+        <div class="card-grid">
+            <!-- Standard Card -->
+            <div class="card card-optimized">
+                <img src="https://via.placeholder.com/400x200/6366f1/ffffff?text=Modern+Card" alt="Card Image" class="card-image">
+                <div class="card-content">
+                    <span class="card-badge">Featured</span>
+                    <h3 class="card-title">Standard Card Component</h3>
+                    <p class="card-description">
+                        This demonstrates a basic card with image, content, and hover effects. 
+                        Uses CSS custom properties for theming.
+                    </p>
+                    <div class="card-meta">
+                        <span>📅 2 days ago</span>
+                        <span>👁️ 1.2k views</span>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-primary">Learn More</button>
+                    <button class="btn btn-secondary">
+                        <span class="like-button" data-liked="false">❤️</span>
+                        Like
+                    </button>
+                </div>
+            </div>
+
+            <!-- Glass Morphism Card -->
+            <div class="card card-glass">
+                <div class="card-content">
+                    <h3 class="card-title">Glass Morphism Design</h3>
+                    <p class="card-description">
+                        Frosted glass effect using backdrop-filter. Popular in modern UI design
+                        for creating depth and hierarchy.
+                    </p>
+                    <div class="card-meta">
+                        <span>✨ Trending</span>
+                        <span>🎨 Design</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neumorphic Card -->
+            <div class="card card-neumorphic">
+                <div class="card-content">
+                    <h3 class="card-title">Neumorphic Style</h3>
+                    <p class="card-description">
+                        Soft UI design with subtle shadows creating an embossed effect.
+                        Best on uniform backgrounds.
+                    </p>
+                    <div class="card-meta">
+                        <span>🎯 Experimental</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Interactive Cards</h2>
+        <div class="card-grid">
+            <!-- Flip Card -->
+            <div class="card-flip-container">
+                <div class="card-flip">
+                    <div class="card-face card-face-front">
+                        <img src="https://via.placeholder.com/400x200/f59e0b/ffffff?text=Hover+to+Flip" alt="Flip Card" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">3D Flip Card</h3>
+                            <p class="card-description">Hover to see the back!</p>
+                        </div>
+                    </div>
+                    <div class="card-face card-face-back">
+                        <div>
+                            <h3>Hidden Content!</h3>
+                            <p>This uses CSS 3D transforms with preserve-3d and backface-visibility.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expandable Card -->
+            <div class="card card-expandable" onclick="toggleExpand(this)">
+                <div class="card-content">
+                    <h3 class="card-title">Expandable Card ↓</h3>
+                    <p class="card-description">
+                        Click to expand and reveal more content. Great for progressive disclosure.
+                    </p>
+                </div>
+                <div class="card-expand-content">
+                    <h4>Additional Details</h4>
+                    <p>This hidden content appears when the card is expanded. You can include:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Detailed specifications</li>
+                        <li>Additional actions</li>
+                        <li>Related content</li>
+                        <li>Comments or metadata</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Gradient Border Card -->
+            <div class="card card-gradient-border">
+                <div class="card-content">
+                    <h3 class="card-title">Animated Gradient Border</h3>
+                    <p class="card-description">
+                        Using multiple backgrounds to create a gradient border effect
+                        without extra DOM elements.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h2>Loading States</h2>
+        <div class="card-grid">
+            <!-- Skeleton Loading Card -->
+            <div class="card">
+                <div class="skeleton-image"></div>
+                <div class="card-content">
+                    <div class="skeleton-text" style="width: 60%;"></div>
+                    <div class="skeleton-text"></div>
+                    <div class="skeleton-text" style="width: 80%;"></div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner Card -->
+            <div class="card">
+                <div class="card-content" style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="loading-spinner"></div>
+                    <span>Loading content...</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>Dynamic Card (JavaScript Enhanced)</h2>
+        <div class="card-grid">
+            <div id="dynamic-card" class="card">
+                <div class="card-content">
+                    <h3 class="card-title">JavaScript-Powered Card</h3>
+                    <p class="card-description">Click buttons to see state changes</p>
+                    <div id="card-stats" style="margin: 1rem 0;">
+                        <p>Likes: <span id="like-count">0</span></p>
+                        <p>Status: <span id="card-status">Ready</span></p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="handleAction('like')">Like</button>
+                        <button class="btn btn-secondary" onclick="handleAction('share')">Share</button>
+                        <button class="btn btn-secondary" onclick="loadMoreData()">Load Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Card Component Class (Object-Oriented Approach)
+        class Card {
+            constructor(element) {
+                this.element = element;
+                this.isExpanded = false;
+                this.likes = 0;
+                this.init();
+            }
+
+            init() {
+                // Add event listeners
+                this.addInteractivity();
+                this.setupObserver();
+            }
+
+            addInteractivity() {
+                // Add ripple effect on click
+                this.element.addEventListener('click', (e) => {
+                    this.createRipple(e);
+                });
+
+                // Track hover time for analytics
+                let hoverStart;
+                this.element.addEventListener('mouseenter', () => {
+                    hoverStart = Date.now();
+                });
+
+                this.element.addEventListener('mouseleave', () => {
+                    const hoverDuration = Date.now() - hoverStart;
+                    console.log(`Card hovered for ${hoverDuration}ms`);
+                });
+            }
+
+            createRipple(event) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                
+                const rect = this.element.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = event.clientX - rect.left - size / 2;
+                const y = event.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+
+                this.element.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            }
+
+            setupObserver() {
+                // Intersection Observer for lazy loading
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('card-visible');
+                            // Load images or content here
+                            this.loadContent();
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                observer.observe(this.element);
+            }
+
+            loadContent() {
+                // Simulate content loading
+                const img = this.element.querySelector('img[data-src]');
+                if (img) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                }
+            }
+        }
+
+        // Initialize all cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => new Card(card));
+        });
+
+        // Expandable card toggle
+        function toggleExpand(card) {
+            card.classList.toggle('expanded');
+        }
+
+        // Like button functionality
+        document.querySelectorAll('.like-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isLiked = this.dataset.liked === 'true';
+                this.dataset.liked = !isLiked;
+                this.classList.toggle('liked');
+                
+                // Haptic feedback simulation
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(50);
+                }
+            });
+        });
+
+        // Dynamic card interactions
+        let likeCount = 0;
+        let cardStatus = 'Ready';
+
+        function handleAction(action) {
+            const statusEl = document.getElementById('card-status');
+            const likeEl = document.getElementById('like-count');
+            
+            switch(action) {
+                case 'like':
+                    likeCount++;
+                    likeEl.textContent = likeCount;
+                    statusEl.textContent = 'Liked!';
+                    animateElement(likeEl);
+                    break;
+                case 'share':
+                    statusEl.textContent = 'Sharing...';
+                    setTimeout(() => {
+                        statusEl.textContent = 'Shared!';
+                        showNotification('Link copied to clipboard!');
+                    }, 1000);
+                    break;
+            }
+        }
+
+        function loadMoreData() {
+            const card = document.getElementById('dynamic-card');
+            const statusEl = document.getElementById('card-status');
+            
+            statusEl.textContent = 'Loading...';
+            card.style.opacity = '0.7';
+            
+            // Simulate API call
+            setTimeout(() => {
+                statusEl.textContent = 'Data loaded!';
+                card.style.opacity = '1';
+                
+                // Add new content
+                const newContent = document.createElement('p');
+                newContent.textContent = `New data loaded at ${new Date().toLocaleTimeString()}`;
+                newContent.style.color = 'var(--primary-color)';
+                card.querySelector('.card-content').appendChild(newContent);
+            }, 1500);
+        }
+
+        function animateElement(element) {
+            element.style.transform = 'scale(1.5)';
+            element.style.transition = 'transform 0.3s';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--primary-color);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-lg);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Performance monitoring
+        const performanceObserver = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+                console.log(`${entry.name}: ${entry.duration}ms`);
+            }
+        });
+        
+        // Observe long tasks
+        if ('PerformanceObserver' in window) {
+            try {
+                performanceObserver.observe({ entryTypes: ['measure'] });
+            } catch (e) {
+                console.log('Performance monitoring not supported');
+            }
+        }
+
+        // Add CSS for ripple effect dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s ease-out;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+            
+            .card {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .card-visible {
+                animation: fadeInUp 0.5s ease;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

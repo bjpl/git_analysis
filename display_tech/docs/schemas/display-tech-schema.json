@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Display Technology Schema",
+  "description": "Comprehensive schema for documenting display technologies",
+  "type": "object",
+  "properties": {
+    "displayTechnology": {
+      "type": "object",
+      "required": ["id", "name", "category", "physics", "specifications"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Unique identifier for the display technology"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the display technology"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["LCD", "OLED", "MicroLED", "MiniLED", "E-Paper", "Quantum Dot", "Plasma", "CRT", "Emerging"],
+          "description": "Primary category of display technology"
+        },
+        "subcategory": {
+          "type": "string",
+          "description": "Specific subcategory or variant"
+        },
+        "physics": {
+          "type": "object",
+          "required": ["principle", "lightGeneration"],
+          "properties": {
+            "principle": {
+              "type": "string",
+              "description": "Fundamental physical principle"
+            },
+            "lightGeneration": {
+              "type": "string",
+              "enum": ["transmissive", "emissive", "reflective", "transflective"],
+              "description": "Method of light generation or manipulation"
+            },
+            "materials": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "role": {"type": "string"},
+                  "properties": {"type": "array", "items": {"type": "string"}}
+                }
+              }
+            },
+            "mechanisms": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Physical mechanisms involved in operation"
+            }
+          }
+        },
+        "specifications": {
+          "type": "object",
+          "properties": {
+            "resolution": {
+              "type": "object",
+              "properties": {
+                "typical": {"type": "string"},
+                "maximum": {"type": "string"},
+                "pixelDensity": {"type": "number", "description": "PPI (pixels per inch)"},
+                "aspectRatios": {"type": "array", "items": {"type": "string"}}
+              }
+            },
+            "refreshRate": {
+              "type": "object",
+              "properties": {
+                "standard": {"type": "number", "description": "Hz"},
+                "maximum": {"type": "number", "description": "Hz"},
+                "variableRefresh": {"type": "boolean"}
+              }
+            },
+            "colorGamut": {
+              "type": "object",
+              "properties": {
+                "sRGB": {"type": "number", "description": "Percentage coverage"},
+                "adobeRGB": {"type": "number", "description": "Percentage coverage"},
+                "dciP3": {"type": "number", "description": "Percentage coverage"},
+                "rec2020": {"type": "number", "description": "Percentage coverage"}
+              }
+            },
+            "brightness": {
+              "type": "object",
+              "properties": {
+                "typical": {"type": "number", "description": "cd/m² (nits)"},
+                "peak": {"type": "number", "description": "cd/m² (nits)"},
+                "hdr": {"type": "boolean"}
+              }
+            },
+            "contrast": {
+              "type": "object",
+              "properties": {
+                "static": {"type": "string", "description": "Static contrast ratio"},
+                "dynamic": {"type": "string", "description": "Dynamic contrast ratio"},
+                "blackLevel": {"type": "number", "description": "cd/m²"}
+              }
+            },
+            "responseTime": {
+              "type": "object",
+              "properties": {
+                "grayToGray": {"type": "number", "description": "milliseconds"},
+                "blackToWhite": {"type": "number", "description": "milliseconds"}
+              }
+            },
+            "viewingAngle": {
+              "type": "object",
+              "properties": {
+                "horizontal": {"type": "number", "description": "degrees"},
+                "vertical": {"type": "number", "description": "degrees"}
+              }
+            },
+            "powerConsumption": {
+              "type": "object",
+              "properties": {
+                "typical": {"type": "number", "description": "watts per square meter"},
+                "peak": {"type": "number", "description": "watts per square meter"}
+              }
+            }
+          }
+        },
+        "manufacturing": {
+          "type": "object",
+          "properties": {
+            "process": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "step": {"type": "string"},
+                  "description": {"type": "string"},
+                  "equipment": {"type": "array", "items": {"type": "string"}},
+                  "temperature": {"type": "number", "description": "Celsius"},
+                  "pressure": {"type": "string"},
+                  "duration": {"type": "string"}
+                }
+              }
+            },
+            "challenges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "issue": {"type": "string"},
+                  "impact": {"type": "string"},
+                  "solutions": {"type": "array", "items": {"type": "string"}}
+                }
+              }
+            },
+            "yield": {
+              "type": "object",
+              "properties": {
+                "typical": {"type": "number", "description": "Percentage"},
+                "factors": {"type": "array", "items": {"type": "string"}}
+              }
+            },
+            "scalability": {
+              "type": "object",
+              "properties": {
+                "minSize": {"type": "string"},
+                "maxSize": {"type": "string"},
+                "costScaling": {"type": "string"}
+              }
+            }
+          }
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {"type": "string"},
+              "examples": {"type": "array", "items": {"type": "string"}},
+              "requirements": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        },
+        "advantages": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "disadvantages": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "marketData": {
+          "type": "object",
+          "properties": {
+            "marketShare": {"type": "number", "description": "Percentage"},
+            "growthRate": {"type": "number", "description": "Annual percentage"},
+            "majorVendors": {"type": "array", "items": {"type": "string"}},
+            "costTrends": {"type": "string"}
+          }
+        },
+        "futureOutlook": {
+          "type": "object",
+          "properties": {
+            "developmentStage": {"type": "string", "enum": ["Research", "Development", "Pilot Production", "Mass Production", "Mature", "Declining"]},
+            "expectedImprovements": {"type": "array", "items": {"type": "string"}},
+            "challenges": {"type": "array", "items": {"type": "string"}},
+            "timeline": {"type": "string"}
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "lastUpdated": {"type": "string", "format": "date-time"},
+            "version": {"type": "string"},
+            "sources": {"type": "array", "items": {"type": "string"}},
+            "tags": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      }
+    }
+  }
+}

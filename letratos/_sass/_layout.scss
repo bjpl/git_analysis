@@ -1,0 +1,107 @@
+// Layout components
+
+// Header
+.site-header {
+  border-bottom: 1px solid $border;
+  padding: $spacing-unit 0;
+  margin-bottom: $spacing-unit * 2;
+}
+
+.site-nav {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 $spacing-unit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-decoration: none;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+  display: inline-block;
+  cursor: pointer;
+  
+  .site-logo {
+    height: 40px;
+    width: auto;
+    display: block;
+    cursor: pointer;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: $spacing-unit;
+  
+  a {
+    color: $text-secondary;
+    text-decoration: none;
+    font-family: $font-sans;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    
+    &:hover,
+    &.active {
+      color: $text-primary;
+    }
+  }
+}
+
+// Main content
+.main-content {
+  flex: 1;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-unit;
+}
+
+// Footer
+.site-footer {
+  margin-top: $spacing-unit * 3;
+  padding: $spacing-unit * 2 0;
+  border-top: 1px solid $border;
+  text-align: center;
+  font-family: $font-sans;
+  font-size: 0.85rem;
+  color: $text-secondary;
+  
+  a {
+    color: $text-secondary;
+    
+    &:hover {
+      color: $text-primary;
+    }
+  }
+}
+
+// Language switcher
+.language-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  
+  a {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid $border;
+    border-radius: 4px;
+    font-family: $font-sans;
+    font-size: 0.85rem;
+    color: $text-secondary;
+    text-decoration: none;
+    transition: all 0.2s;
+    
+    &:hover {
+      background: white;
+      color: $text-primary;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

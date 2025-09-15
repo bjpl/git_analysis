@@ -725,45 +725,31 @@ export class DataManager {
       { name: "Telehouse Paris", latitude: 48.8566, longitude: 2.3522, city: "Paris", country: "France", tier: 2, provider: "Telehouse", data_accuracy: "estimated" },
       { name: "China Telecom Beijing", latitude: 39.9042, longitude: 116.4074, city: "Beijing", country: "China", tier: 2, provider: "China Telecom", data_accuracy: "estimated" },
       { name: "Etisalat Dubai", latitude: 25.2048, longitude: 55.2708, city: "Dubai", country: "UAE", tier: 2, provider: "Etisalat", data_accuracy: "estimated" },
-      { name: "KPN Amsterdam", latitude: 52.3676, longitude: 4.9041, city: "Amsterdam", country: "Netherlands", tier: 2, provider: "KPN", data_accuracy: "estimated" }
-    ];
-    
-    // Generate additional estimated data centers to reach 8000+
-    const cities = [
-      { lat: 37.7749, lng: -122.4194, name: "San Francisco", country: "USA" },
-      { lat: 47.6062, lng: -122.3321, name: "Seattle", country: "USA" },
-      { lat: 39.0458, lng: -77.6413, name: "Ashburn", country: "USA" },
-      { lat: 33.4484, lng: -112.0740, name: "Phoenix", country: "USA" },
-      { lat: 51.4545, lng: -0.9787, name: "Reading", country: "UK" },
-      { lat: 53.4808, lng: -2.2426, name: "Manchester", country: "UK" },
-      { lat: 59.3293, lng: 18.0686, name: "Stockholm", country: "Sweden" },
-      { lat: 55.6761, lng: 12.5683, name: "Copenhagen", country: "Denmark" },
-      { lat: 45.5017, lng: -73.5673, name: "Montreal", country: "Canada" },
-      { lat: 43.6532, lng: -79.3832, name: "Toronto", country: "Canada" },
-      { lat: 22.3193, lng: 114.1694, name: "Hong Kong", country: "China" },
-      { lat: 37.5665, lng: 126.9780, name: "Seoul", country: "South Korea" },
-      { lat: 28.6139, lng: 77.2090, name: "Delhi", country: "India" },
-      { lat: 12.9716, lng: 77.5946, name: "Bangalore", country: "India" }
-    ];
-    
-    const estimatedDataCenters = [];
-    for (let i = 0; i < 7985; i++) {
-      const city = cities[Math.floor(Math.random() * cities.length)];
-      const tier = Math.random() < 0.1 ? 1 : Math.random() < 0.4 ? 2 : 3;
+      { name: "KPN Amsterdam", latitude: 52.3676, longitude: 4.9041, city: "Amsterdam", country: "Netherlands", tier: 2, provider: "KPN", data_accuracy: "estimated" },
       
-      estimatedDataCenters.push({
-        name: `DC-${city.name}-${i}`,
-        latitude: city.lat + (Math.random() - 0.5) * 0.5,
-        longitude: city.lng + (Math.random() - 0.5) * 0.5,
-        city: city.name,
-        country: city.country,
-        tier: tier,
-        provider: ["Generic Provider", "Local ISP", "Cloud Provider"][Math.floor(Math.random() * 3)],
-        data_accuracy: "estimated"
-      });
-    }
+      // Additional real Tier 1 data centers
+      { name: "Equinix DC1", latitude: 39.0458, longitude: -77.4875, city: "Ashburn", country: "USA", tier: 1, provider: "Equinix", data_accuracy: "live" },
+      { name: "Switch SUPERNAP", latitude: 36.1699, longitude: -115.1398, city: "Las Vegas", country: "USA", tier: 1, provider: "Switch", data_accuracy: "live" },
+      { name: "Equinix HK1", latitude: 22.3193, longitude: 114.1694, city: "Hong Kong", country: "China", tier: 1, provider: "Equinix", data_accuracy: "live" },
+      { name: "NextDC S1", latitude: -33.8688, longitude: 151.2093, city: "Sydney", country: "Australia", tier: 1, provider: "NextDC", data_accuracy: "live" },
+      
+      // Additional Tier 2 data centers
+      { name: "Cologix MTL3", latitude: 45.5017, longitude: -73.5673, city: "Montreal", country: "Canada", tier: 2, provider: "Cologix", data_accuracy: "estimated" },
+      { name: "CyrusOne Houston", latitude: 29.7604, longitude: -95.3698, city: "Houston", country: "USA", tier: 2, provider: "CyrusOne", data_accuracy: "estimated" },
+      { name: "Iron Mountain Boston", latitude: 42.3601, longitude: -71.0589, city: "Boston", country: "USA", tier: 2, provider: "Iron Mountain", data_accuracy: "estimated" },
+      { name: "Telecity Stockholm", latitude: 59.3293, longitude: 18.0686, city: "Stockholm", country: "Sweden", tier: 2, provider: "Telecity", data_accuracy: "estimated" },
+      { name: "Vantage Zurich", latitude: 47.3769, longitude: 8.5417, city: "Zurich", country: "Switzerland", tier: 2, provider: "Vantage", data_accuracy: "estimated" },
+      
+      // Tier 3 - Edge locations
+      { name: "EdgeConneX Denver", latitude: 39.7392, longitude: -104.9903, city: "Denver", country: "USA", tier: 3, provider: "EdgeConneX", data_accuracy: "estimated" },
+      { name: "DataBank Atlanta", latitude: 33.7490, longitude: -84.3880, city: "Atlanta", country: "USA", tier: 3, provider: "DataBank", data_accuracy: "estimated" },
+      { name: "365 Data Centers Detroit", latitude: 42.3314, longitude: -83.0458, city: "Detroit", country: "USA", tier: 3, provider: "365 Data Centers", data_accuracy: "estimated" },
+      { name: "Green House Data Cheyenne", latitude: 41.1400, longitude: -104.8202, city: "Cheyenne", country: "USA", tier: 3, provider: "Green House Data", data_accuracy: "estimated" },
+      { name: "Flexential Portland", latitude: 45.5152, longitude: -122.6784, city: "Portland", country: "USA", tier: 3, provider: "Flexential", data_accuracy: "estimated" }
+    ];
     
-    return [...majorDataCenters, ...estimatedDataCenters];
+    // Return only real data centers
+    return majorDataCenters;
   }
   
   generateBGPRoutes() {

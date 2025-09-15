@@ -1,0 +1,114 @@
+# Spanish Learning Tools
+tools:
+  - id: geoguessr
+    name: Geoguessr
+    category: Geographic & Cultural Immersion
+    usage: >-
+      Gamified location guessing for practicing descriptive language and geographical 
+      vocabulary. Provides visual context for real-world Spanish practice.
+    effectiveness: 4
+    
+  - id: google-earth
+    name: Google Earth/Street View/Maps
+    category: Geographic & Cultural Immersion
+    usage: >-
+      Virtual exploration for location-based storytelling and contextual grammar practice. 
+      Enables immersive cultural exploration without travel.
+    effectiveness: 4
+    
+  - id: seterra
+    name: Seterra
+    category: Geographic & Cultural Immersion
+    usage: >-
+      Geography memorization with narrative conversation potential. Helps build 
+      geographical vocabulary and cultural awareness.
+    effectiveness: 3
+    
+  - id: anki
+    name: Anki
+    category: Memory & Retention Systems
+    usage: >-
+      Custom flashcard creation from lesson notes and study materials. Converting 
+      messy notes into structured content with spaced repetition.
+    effectiveness: 5
+    
+  - id: anki-remote
+    name: Anki Remote
+    category: Memory & Retention Systems
+    usage: >-
+      Physical device for hands-free review sessions. Enables practice during 
+      commutes or other activities.
+    effectiveness: 4
+    
+  - id: llms
+    name: LLMs (ChatGPT/Claude)
+    category: AI-Powered Learning Enhancement
+    usage: >-
+      Note transformation, flashcard generation, interactive component creation, 
+      exercise generation, synonym networks, and contextual usage examples.
+    effectiveness: 5
+    
+  - id: unsplash
+    name: Unsplash
+    category: Visual Learning Resources
+    usage: >-
+      High-quality imagery for vocabulary building and scene description practice. 
+      Provides diverse visual prompts for language production.
+    effectiveness: 4
+    
+  - id: personal-photos
+    name: Personal Photos
+    category: Visual Learning Resources
+    usage: >-
+      Emotionally resonant material for authentic conversation practice. Using 
+      personal life as learning material increases engagement.
+    effectiveness: 5
+    
+  - id: figma
+    name: Figma
+    category: Design & Organization Tools
+    usage: >-
+      Vocabulary mapping with sticky notes, scientific/conceptual visualization, 
+      and photo labeling for object vocabulary.
+    effectiveness: 4
+    
+  - id: google-sheets
+    name: Google Sheets/Docs
+    category: Design & Organization Tools
+    usage: >-
+      Productivity vocabulary through real task descriptions. Learning language 
+      through actual work documentation.
+    effectiveness: 3
+    
+  - id: youtube-tutorials
+    name: YouTube Drawing Tutorials
+    category: Multimedia Practice Methods
+    usage: >-
+      Two-phase learning: Watch with audio for comprehension, then mute and 
+      narrate actions for verb/sequence practice.
+    effectiveness: 4
+    
+  - id: music-platforms
+    name: Music Platforms
+    category: Multimedia Practice Methods
+    usage: >-
+      Lyric analysis for figurative language and cultural context. Helps with 
+      colloquial expressions and rhythm.
+    effectiveness: 3
+    
+  - id: instagram
+    name: Instagram/Social Media
+    category: Social Integration
+    usage: >-
+      Personal photo sharing for authentic discussion triggers and emotional 
+      storytelling practice. Creates real communication needs.
+    effectiveness: 4
+    
+  - id: baselang
+    name: BaseLang
+    category: Tutoring
+    usage: >-
+      Unlimited one-on-one Spanish tutoring with native speakers. Provides 
+      personalized conversation practice and grammar explanations with flexible scheduling.
+    website_url: https://baselang.com/
+    effectiveness: 5

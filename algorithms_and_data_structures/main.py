@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Main entry point for the Algorithms & Data Structures Learning Platform
-Uses the new unified CLI with proper state management
+Algorithm Learning System
+Main entry point for the application
 """
 
 import sys
@@ -9,25 +9,22 @@ import os
 from pathlib import Path
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent))
-
-from src.cli import UnifiedCLI
-
+sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 def main():
     """Main entry point"""
+    from src.cli import AlgorithmLearningCLI
+    
     try:
-        # Create and run the unified CLI
-        cli = UnifiedCLI()
-        cli.run()
+        app = AlgorithmLearningCLI()
+        app.run()
     except KeyboardInterrupt:
-        print("\n\n👋 Thanks for learning! See you next time!")
+        print("\n👋 Goodbye!")
         sys.exit(0)
     except Exception as e:
-        print(f"\n❌ An error occurred: {e}")
-        if "--debug" in sys.argv:
-            import traceback
-            traceback.print_exc()
+        print(f"❌ Error: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 

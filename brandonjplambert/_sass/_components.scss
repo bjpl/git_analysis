@@ -1,0 +1,415 @@
+// Components - Reusable UI elements
+
+// Cards
+.card {
+  background-color: white;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--space-4);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+  }
+  
+  .card-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-2);
+  }
+  
+  .card-description {
+    color: var(--color-ink-light);
+    margin-bottom: var(--space-3);
+  }
+  
+  .card-meta {
+    font-size: var(--font-size-sm);
+    color: var(--color-ink-lighter);
+  }
+}
+
+// Buttons - Refined and professional
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: var(--border-width) solid transparent;
+  letter-spacing: 0.01em;
+  
+  &.btn-primary {
+    background-color: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+    
+    &:hover {
+      background-color: var(--color-accent-dark);
+      border-color: var(--color-accent-dark);
+      opacity: 1;
+    }
+  }
+  
+  &.btn-secondary {
+    background-color: transparent;
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    
+    &:hover {
+      background-color: var(--color-accent);
+      color: white;
+      opacity: 1;
+    }
+  }
+  
+  &.btn-text {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    padding: 0;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    
+    &:hover {
+      text-decoration-thickness: 2px;
+      opacity: 1;
+    }
+  }
+  
+  &:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+// Timeline
+.timeline {
+  position: relative;
+  padding-left: var(--space-5);
+  
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--color-border);
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: var(--space-5);
+    
+    &:before {
+      content: "";
+      position: absolute;
+      left: calc(-1 * var(--space-5) - 1px);
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--color-accent);
+      border: 2px solid var(--color-paper);
+    }
+    
+    .timeline-date {
+      font-size: var(--font-size-sm);
+      color: var(--color-ink-lighter);
+      margin-bottom: var(--space-1);
+      white-space: nowrap;
+      
+      @media (max-width: 768px) {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        margin-bottom: var(--space-2);
+      }
+      
+      @media (max-width: 480px) {
+        font-size: 0.7rem;
+      }
+    }
+    
+    .timeline-title {
+      font-size: var(--font-size-md);
+      font-weight: 600;
+      margin-bottom: var(--space-1);
+    }
+    
+    .timeline-organization {
+      color: var(--color-accent);
+      margin-bottom: var(--space-2);
+      
+      .work-badges {
+        margin-left: 1rem;
+        display: inline-flex;
+        gap: 0.5rem;
+        
+        @media (max-width: 768px) {
+          display: flex;
+          margin-left: 0;
+          margin-top: 0.5rem;
+        }
+      }
+    }
+    
+    .timeline-description {
+      color: var(--color-ink-light);
+      line-height: 1.7;
+      
+      // Make bold labels appear on new lines
+      strong {
+        display: block;
+        margin-top: var(--space-2);
+        
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+      
+      // Keep first paragraph text inline
+      p:first-child {
+        margin-bottom: var(--space-2);
+      }
+      
+      // Style line breaks properly
+      br {
+        display: block;
+        content: "";
+        margin-bottom: var(--space-2);
+      }
+      
+      // Style bold text for sections
+      strong {
+        color: var(--color-ink);
+        font-weight: 600;
+        display: inline-block;
+        margin-top: var(--space-2);
+      }
+    }
+  }
+}
+
+// Tabs
+.tabs {
+  .tab-list {
+    display: flex;
+    border-bottom: var(--border-width) solid var(--color-border);
+    margin-bottom: var(--space-4);
+  }
+  
+  .tab-button {
+    background: none;
+    border: none;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-base);
+    color: var(--color-ink-light);
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      color: var(--color-ink);
+    }
+    
+    &.active {
+      color: var(--color-accent);
+      
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: var(--color-accent);
+      }
+    }
+  }
+  
+  .tab-panel {
+    display: none;
+    
+    &.active {
+      display: block;
+    }
+  }
+}
+
+// Badges
+.badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-highlight);
+  color: var(--color-ink);
+  
+  &.badge-primary {
+    background-color: var(--color-accent);
+    color: white;
+  }
+  
+  &.badge-success {
+    background-color: var(--color-success);
+    color: white;
+  }
+  
+  &.badge-warning {
+    background-color: var(--color-warning);
+    color: white;
+  }
+  
+  &.badge-outline {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-ink-lighter);
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    font-weight: normal;
+  }
+}
+
+// Expandable sections
+.expandable {
+  .expandable-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: var(--space-3);
+    background-color: var(--color-highlight);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      background-color: var(--color-border);
+    }
+  }
+  
+  .expandable-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-base);
+    
+    &.expanded {
+      max-height: 2000px;
+      padding-top: var(--space-3);
+    }
+  }
+  
+  .expand-icon {
+    transition: transform var(--transition-fast);
+    
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// Loading skeleton
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-highlight) 25%,
+    var(--color-border) 50%,
+    var(--color-highlight) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--border-radius-sm);
+  
+  &.skeleton-text {
+    height: 1em;
+    margin-bottom: var(--space-2);
+  }
+  
+  &.skeleton-title {
+    height: 2em;
+    margin-bottom: var(--space-3);
+    width: 60%;
+  }
+  
+  &.skeleton-card {
+    height: 200px;
+    border-radius: var(--border-radius);
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Star rating
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  
+  .star {
+    color: var(--color-border);
+    
+    &.filled {
+      color: var(--color-warning);
+    }
+  }
+}
+
+// Education section styling
+.education-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-3);
+  gap: var(--space-3);
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
+
+.education-details {
+  flex: 1;
+  min-width: 0; // Allow text to wrap properly
+}
+
+.education-date-wrapper {
+  flex-shrink: 0;
+  text-align: right;
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+// Education date styling
+.education-date {
+  white-space: nowrap;
+  color: var(--color-ink-lighter);
+  font-size: var(--font-size-sm);
+  
+  // Mobile responsive adjustments
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    display: inline-block;
+    color: var(--color-ink-light);
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+  }
+}

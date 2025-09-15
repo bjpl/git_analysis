@@ -1,0 +1,353 @@
+{
+  "materials": {
+    "substrates": {
+      "glass": {
+        "name": "Borosilicate Glass",
+        "category": "Substrate",
+        "applications": ["LCD", "OLED", "E-Paper"],
+        "physicalProperties": {
+          "density": "2.23 g/cm³",
+          "thermalExpansion": "3.3×10⁻⁶ /K",
+          "meltingPoint": "1650°C",
+          "thermalConductivity": "1.2 W/m·K",
+          "electricalResistivity": "10¹⁴ Ω·cm",
+          "transparency": "92% (visible light)"
+        },
+        "chemicalComposition": {
+          "SiO2": "81%",
+          "B2O3": "13%",
+          "Na2O": "4%",
+          "Al2O3": "2%"
+        },
+        "advantages": ["Excellent optical clarity", "Chemical resistance", "Thermal stability"],
+        "disadvantages": ["Brittle", "Heavy", "Expensive processing"],
+        "suppliers": ["Corning", "AGC", "NEG"],
+        "cost": "$15-50/m²"
+      },
+      "polyimide": {
+        "name": "Polyimide Film",
+        "category": "Flexible Substrate",
+        "applications": ["Flexible OLED", "E-Paper"],
+        "physicalProperties": {
+          "density": "1.42 g/cm³",
+          "thermalExpansion": "20×10⁻⁶ /K",
+          "glassTempTransition": "360°C",
+          "thermalConductivity": "0.12 W/m·K",
+          "electricalResistivity": "10¹⁶ Ω·cm",
+          "transparency": "85% (visible light)"
+        },
+        "chemicalComposition": {
+          "polymer": "Aromatic polyimide",
+          "additives": "UV stabilizers, antistatic agents"
+        },
+        "advantages": ["Flexible", "Lightweight", "High temperature stability"],
+        "disadvantages": ["Moisture absorption", "CTE mismatch", "Processing complexity"],
+        "suppliers": ["DuPont", "Kolon", "UBE"],
+        "cost": "$200-800/m²"
+      }
+    },
+    "conductors": {
+      "ito": {
+        "name": "Indium Tin Oxide",
+        "category": "Transparent Conductor",
+        "applications": ["LCD", "OLED", "Touchscreens"],
+        "physicalProperties": {
+          "density": "7.14 g/cm³",
+          "bandGap": "3.5-4.3 eV",
+          "workFunction": "4.4-4.7 eV",
+          "sheetResistance": "10-100 Ω/sq",
+          "transmittance": "85-95% (visible)",
+          "electronMobility": "20-50 cm²/V·s"
+        },
+        "chemicalComposition": {
+          "In2O3": "90%",
+          "SnO2": "10%"
+        },
+        "advantages": ["High transparency", "Low resistivity", "Established process"],
+        "disadvantages": ["Indium scarcity", "Brittle", "Processing temperature"],
+        "suppliers": ["Mitsui Mining", "Tosoh", "Umicore"],
+        "cost": "$800-1200/kg"
+      },
+      "silver-nanowires": {
+        "name": "Silver Nanowires",
+        "category": "Flexible Transparent Conductor",
+        "applications": ["Flexible displays", "Touch sensors"],
+        "physicalProperties": {
+          "diameter": "20-100 nm",
+          "length": "10-200 μm",
+          "sheetResistance": "10-50 Ω/sq",
+          "transmittance": "90-95% (visible)",
+          "conductivity": "6.3×10⁷ S/m"
+        },
+        "chemicalComposition": {
+          "Ag": "99.9%",
+          "stabilizers": "PVP, citrate"
+        },
+        "advantages": ["Excellent flexibility", "Low temperature processing", "High conductivity"],
+        "disadvantages": ["Silver migration", "Haze", "Stability issues"],
+        "suppliers": ["Cambrios", "Blue Nano", "ACS Material"],
+        "cost": "$3000-5000/kg"
+      }
+    },
+    "semiconductors": {
+      "amorphous-silicon": {
+        "name": "Amorphous Silicon",
+        "category": "TFT Semiconductor",
+        "applications": ["LCD TFTs", "Image sensors"],
+        "physicalProperties": {
+          "bandGap": "1.7-1.8 eV",
+          "electronMobility": "0.5-1.0 cm²/V·s",
+          "holeMobility": "0.01-0.03 cm²/V·s",
+          "density": "2.2 g/cm³",
+          "resistivity": "10⁸-10¹² Ω·cm"
+        },
+        "chemicalComposition": {
+          "Si": "100%",
+          "H": "5-15% (hydrogenated)"
+        },
+        "advantages": ["Low processing temperature", "Large area uniformity", "Mature technology"],
+        "disadvantages": ["Low mobility", "Light soaking effects", "Stability issues"],
+        "suppliers": ["Applied Materials", "Ulvac", "Plasma-Therm"],
+        "cost": "$50-100/m²"
+      },
+      "igzo": {
+        "name": "Indium Gallium Zinc Oxide",
+        "category": "Oxide TFT Semiconductor",
+        "applications": ["High-resolution LCDs", "OLED backplanes"],
+        "physicalProperties": {
+          "bandGap": "3.0-3.2 eV",
+          "electronMobility": "10-50 cm²/V·s",
+          "density": "6.3 g/cm³",
+          "resistivity": "10⁶-10¹⁰ Ω·cm"
+        },
+        "chemicalComposition": {
+          "In2O3": "50-70%",
+          "Ga2O3": "5-15%",
+          "ZnO": "20-40%"
+        },
+        "advantages": ["High mobility", "Low leakage current", "Optical transparency"],
+        "disadvantages": ["Instability under bias", "Complex composition control", "Cost"],
+        "suppliers": ["Sharp", "Samsung", "LG Display"],
+        "cost": "$200-400/m²"
+      },
+      "gan": {
+        "name": "Gallium Nitride",
+        "category": "LED Semiconductor",
+        "applications": ["MicroLED", "Blue/UV LEDs"],
+        "physicalProperties": {
+          "bandGap": "3.4 eV",
+          "electronMobility": "1000-1500 cm²/V·s",
+          "thermalConductivity": "130 W/m·K",
+          "density": "6.15 g/cm³",
+          "meltingPoint": "2500°C"
+        },
+        "chemicalComposition": {
+          "Ga": "69.7%",
+          "N": "30.3%"
+        },
+        "advantages": ["Wide bandgap", "High efficiency", "Thermal stability"],
+        "disadvantages": ["Lattice mismatch", "High cost", "Defect density"],
+        "suppliers": ["Cree", "Nichia", "OSRAM"],
+        "cost": "$500-2000/wafer"
+      }
+    },
+    "organics": {
+      "alq3": {
+        "name": "Tris(8-hydroxyquinolinato)aluminum",
+        "category": "OLED Emitter",
+        "applications": ["Green OLED emitters", "Electron transport"],
+        "physicalProperties": {
+          "molecularWeight": "459.43 g/mol",
+          "meltingPoint": "420°C",
+          "glassTransition": "175°C",
+          "electronMobility": "10⁻⁶ cm²/V·s",
+          "bandGap": "2.7 eV",
+          "emissionPeak": "530 nm"
+        },
+        "chemicalComposition": {
+          "formula": "AlC27H18N3O3",
+          "purity": ">99.9%"
+        },
+        "advantages": ["Stable green emission", "Good electron transport", "High purity available"],
+        "disadvantages": ["Low efficiency", "Color purity", "Thermal stability"],
+        "suppliers": ["Sigma-Aldrich", "TCI", "Lumtec"],
+        "cost": "$500-1000/g"
+      },
+      "npb": {
+        "name": "N,N'-Di(1-naphthyl)-N,N'-diphenyl-(1,1'-biphenyl)-4,4'-diamine",
+        "category": "OLED Hole Transport",
+        "applications": ["Hole transport layer", "Hole injection"],
+        "physicalProperties": {
+          "molecularWeight": "588.72 g/mol",
+          "meltingPoint": "96°C",
+          "glassTransition": "95°C",
+          "holeMobility": "10⁻⁴ cm²/V·s",
+          "ionizationPotential": "5.4 eV"
+        },
+        "chemicalComposition": {
+          "formula": "C44H32N2",
+          "purity": ">99.5%"
+        },
+        "advantages": ["High hole mobility", "Good film forming", "Thermal stability"],
+        "disadvantages": ["Crystallization tendency", "Limited lifetime", "Cost"],
+        "suppliers": ["Lumtec", "e-Ray", "Nichem"],
+        "cost": "$200-500/g"
+      }
+    },
+    "liquidCrystals": {
+      "5cb": {
+        "name": "4-Cyano-4'-pentylbiphenyl",
+        "category": "Nematic Liquid Crystal",
+        "applications": ["LCD displays", "Research"],
+        "physicalProperties": {
+          "clearingPoint": "35°C",
+          "meltingPoint": "24°C",
+          "birefringence": "0.18",
+          "dielectricAnisotropy": "+13.2",
+          "viscosity": "37 mPa·s",
+          "elasticConstants": "K11=6.2, K22=3.0, K33=8.2 pN"
+        },
+        "chemicalComposition": {
+          "formula": "C18H19N",
+          "purity": ">99%"
+        },
+        "advantages": ["Well characterized", "Stable", "Good optical properties"],
+        "disadvantages": ["Low clearing point", "Single compound", "Limited temperature range"],
+        "suppliers": ["Merck", "JNC", "Chisso"],
+        "cost": "$100-300/kg"
+      },
+      "e7": {
+        "name": "E7 Liquid Crystal Mixture",
+        "category": "Eutectic LC Mixture",
+        "applications": ["Research", "Prototype displays"],
+        "physicalProperties": {
+          "clearingPoint": "58°C",
+          "meltingPoint": "-10°C",
+          "birefringence": "0.22",
+          "dielectricAnisotropy": "+13.8",
+          "viscosity": "41 mPa·s"
+        },
+        "chemicalComposition": {
+          "5CB": "51%",
+          "7CB": "21%",
+          "8OCB": "16%",
+          "5CT": "12%"
+        },
+        "advantages": ["Wide nematic range", "Good properties", "Research standard"],
+        "disadvantages": ["Not optimized for displays", "Limited commercial use"],
+        "suppliers": ["Merck", "Synthon Chemicals"],
+        "cost": "$150-400/kg"
+      }
+    },
+    "particles": {
+      "titanium-dioxide": {
+        "name": "Titanium Dioxide",
+        "category": "White Pigment",
+        "applications": ["E-Paper", "White reflectors"],
+        "physicalProperties": {
+          "density": "4.23 g/cm³",
+          "refractiveIndex": "2.7 (rutile)",
+          "particleSize": "150-300 nm",
+          "opacity": "High",
+          "photocatalytic": "Yes"
+        },
+        "chemicalComposition": {
+          "TiO2": ">99%",
+          "surface treatment": "Al2O3, SiO2 coating"
+        },
+        "advantages": ["High opacity", "Chemical stability", "Non-toxic"],
+        "disadvantages": ["Photocatalytic activity", "Aggregation tendency"],
+        "suppliers": ["DuPont", "Cristal", "Venator"],
+        "cost": "$2-5/kg"
+      },
+      "carbon-black": {
+        "name": "Carbon Black",
+        "category": "Black Pigment",
+        "applications": ["E-Paper", "Black matrix"],
+        "physicalProperties": {
+          "density": "1.8-2.1 g/cm³",
+          "particleSize": "10-80 nm",
+          "surfaceArea": "50-1500 m²/g",
+          "conductivity": "10⁻² to 10² S/m"
+        },
+        "chemicalComposition": {
+          "C": ">95%",
+          "volatiles": "<3%"
+        },
+        "advantages": ["Deep black color", "Low cost", "Chemical stability"],
+        "disadvantages": ["Aggregation", "Conductivity variation", "Health concerns"],
+        "suppliers": ["Cabot", "Orion", "Birla Carbon"],
+        "cost": "$1-3/kg"
+      }
+    }
+  },
+  "materialProperties": {
+    "opticalProperties": [
+      "Refractive index",
+      "Absorption coefficient",
+      "Transmittance",
+      "Reflectance",
+      "Birefringence",
+      "Dispersion"
+    ],
+    "electricalProperties": [
+      "Resistivity",
+      "Dielectric constant",
+      "Work function",
+      "Band gap",
+      "Mobility",
+      "Conductivity type"
+    ],
+    "thermalProperties": [
+      "Melting point",
+      "Glass transition",
+      "Thermal expansion",
+      "Thermal conductivity",
+      "Specific heat",
+      "Thermal stability"
+    ],
+    "mechanicalProperties": [
+      "Young's modulus",
+      "Tensile strength",
+      "Flexibility",
+      "Hardness",
+      "Fracture toughness",
+      "Fatigue resistance"
+    ]
+  },
+  "materialCompatibility": {
+    "processingCompatibility": {
+      "highTemperature": ["Glass", "GaN", "Metal oxides"],
+      "lowTemperature": ["Organics", "Polymers", "Some TCOs"],
+      "vacuum": ["Metals", "Inorganics", "Some organics"],
+      "solution": ["Polymers", "Small molecules", "Nanoparticles"]
+    },
+    "chemicalCompatibility": {
+      "acids": ["Polymers", "Noble metals", "Some oxides"],
+      "bases": ["Ceramics", "Some metals", "Stable organics"],
+      "solvents": ["Inorganics", "Crosslinked polymers"],
+      "oxidizing": ["Stable oxides", "Noble metals"]
+    }
+  },
+  "supplyChain": {
+    "criticalMaterials": ["Indium", "Gallium", "Rare earth elements"],
+    "abundantMaterials": ["Silicon", "Aluminum", "Carbon"],
+    "syntheticMaterials": ["Organic semiconductors", "Liquid crystals"],
+    "recyclable": ["Metals", "Glass", "Some polymers"]
+  },
+  "costAnalysis": {
+    "lowCost": ["Carbon black", "TiO2", "Common polymers"],
+    "mediumCost": ["Silicon compounds", "Basic LCs", "Standard TCOs"],
+    "highCost": ["OLED materials", "Pure metals", "Specialty compounds"],
+    "veryHighCost": ["Rare organics", "Custom synthesis", "Ultra-pure materials"]
+  },
+  "metadata": {
+    "lastUpdated": "2025-01-15T00:00:00Z",
+    "version": "1.0.0",
+    "sources": [
+      "Materials Science Handbook",
+      "CRC Materials Properties Database",
+      "Industry Material Specifications"
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+# Site navigation
+main:
+  - title: Home
+    url: /
+    order: 1
+    
+  - title: Work
+    url: /work/
+    order: 2
+    
+  - title: AI Projects
+    url: /ai-projects/
+    order: 3
+    
+  - title: Resources
+    url: /resources/
+    order: 4
+    
+  - title: Contact
+    url: /contact/
+    order: 5
+
+footer:
+  - title: GitHub
+    url: https://github.com/bjpl
+    external: true
+    
+  - title: LinkedIn
+    url: https://linkedin.com/in/brandonjplambert
+    external: true
+    
+  - title: Email
+    url: mailto:brandon.lambert87@gmail.com
+    external: true

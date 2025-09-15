@@ -1,0 +1,106 @@
+# Site settings
+title: Brandon JP Lambert
+email: contact@brandonjplambert.com
+description: >-
+  Academic portfolio and educational resource platform showcasing work in education,
+  technology, and language learning. Bilingual English/Spanish site featuring
+  AI projects, teaching philosophy, and Spanish learning resources.
+baseurl: "" # Empty for custom domain
+url: "https://brandonjplambert.com"
+github_username: bjpl
+repository: bjpl/brandonjplambert
+
+# Build settings
+markdown: kramdown
+theme: null
+encoding: utf-8
+# Force rebuild: 2025-09-12 11:00 PST - New Jekyll workflow active
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-redirect-from
+
+# Pagination
+paginate: 10
+paginate_path: "/blog/page:num/"
+
+# Permalinks
+permalink: pretty
+
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      lang: "en"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+      lang: "en"
+  - scope:
+      path: "es"
+    values:
+      lang: "es"
+
+# Sass/SCSS
+sass:
+  style: compressed
+  sass_dir: _sass
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - .hive-mind
+  - .claude-flow
+  - admin/config.yml.example
+
+# Include in build
+include:
+  - _pages
+  - .htaccess
+  - admin
+  - es
+
+# Language settings
+languages: ["en", "es"]
+default_lang: "en"
+
+# SEO and metadata
+author:
+  name: Brandon JP Lambert
+  twitter: bjpl
+  github: bjpl
+  linkedin: brandonjplambert
+
+# Social links
+social:
+  - platform: github
+    url: https://github.com/bjpl
+  - platform: linkedin
+    url: https://linkedin.com/in/brandonjplambert
+  - platform: twitter
+    url: https://twitter.com/bjpl
+
+# Google Analytics (optional, privacy-friendly alternative preferred)
+# google_analytics: UA-XXXXXXXXX-X
+
+# Timezone
+timezone: America/New_York

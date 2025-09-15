@@ -1,0 +1,193 @@
+# Sveltia CMS Configuration
+backend:
+  name: github
+  repo: bjpl/brandonjplambert
+  branch: main
+
+# Display settings
+display_url: https://bjpl.github.io/brandonjplambert
+logo_url: /assets/images/logo.png
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+# Site settings  
+site_url: https://bjpl.github.io/brandonjplambert
+locale: 'en'
+
+# Collections
+collections:
+  # Profile (Singleton)
+  - name: "profile"
+    label: "Profile"
+    files:
+      - name: "profile"
+        label: "Personal Profile"
+        file: "_data/profile.yml"
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Tagline", name: "tagline", widget: "string"}
+          - {label: "Summary", name: "summary", widget: "text"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Avatar URL", name: "avatar_url", widget: "image"}
+          - label: "Languages"
+            name: "languages"
+            widget: "list"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Level", name: "level", widget: "string"}
+          - label: "Social Links"
+            name: "social"
+            widget: "object"
+            fields:
+              - {label: "GitHub", name: "github", widget: "string", required: false}
+              - {label: "LinkedIn", name: "linkedin", widget: "string", required: false}
+              - {label: "Twitter", name: "twitter", widget: "string", required: false}
+              - {label: "Website", name: "website", widget: "string", required: false}
+
+  # Teaching Principles
+  - name: "teaching_principles"
+    label: "Teaching Principles"
+    file: "_data/teaching_principles.yml"
+    fields:
+      - label: "Principles"
+        name: "principles"
+        widget: "list"
+        fields:
+          - {label: "ID", name: "id", widget: "string"}
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Order", name: "order", widget: "number"}
+          - {label: "Elaboration", name: "elaboration", widget: "text"}
+
+  # Education
+  - name: "education"
+    label: "Education"
+    file: "_data/education.yml"
+    fields:
+      - label: "Education"
+        name: "education"
+        widget: "list"
+        fields:
+          - {label: "Degree", name: "degree", widget: "string"}
+          - {label: "Field", name: "field", widget: "string"}
+          - {label: "Institution", name: "institution", widget: "string"}
+          - {label: "Location", name: "location", widget: "string"}
+          - {label: "Start Date", name: "start_date", widget: "datetime", format: "YYYY-MM"}
+          - {label: "End Date", name: "end_date", widget: "datetime", format: "YYYY-MM", required: false}
+          - {label: "Honors", name: "honors", widget: "string", required: false}
+          - {label: "Thesis", name: "thesis", widget: "string", required: false}
+          - {label: "Notes", name: "notes", widget: "text", required: false}
+
+  # Career Timeline
+  - name: "career"
+    label: "Career Timeline"
+    file: "_data/career_timeline.yml"
+    fields:
+      - label: "Timeline"
+        name: "timeline"
+        widget: "list"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Organization", name: "organization", widget: "string"}
+          - {label: "Location", name: "location", widget: "string"}
+          - {label: "Start Date", name: "start_date", widget: "datetime", format: "YYYY-MM"}
+          - {label: "End Date", name: "end_date", widget: "datetime", format: "YYYY-MM", required: false}
+          - {label: "Description", name: "description", widget: "text"}
+
+  # AI Projects
+  - name: "ai_projects"
+    label: "AI Projects"
+    file: "_data/ai_projects.yml"
+    fields:
+      - label: "Projects"
+        name: "projects"
+        widget: "list"
+        fields:
+          - {label: "ID", name: "id", widget: "string"}
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+          - {label: "GitHub URL", name: "github_url", widget: "string", required: false}
+          - {label: "Demo URL", name: "demo_url", widget: "string", required: false}
+          - label: "Technologies"
+            name: "technologies"
+            widget: "list"
+            field: {label: "Technology", name: "technology", widget: "string"}
+          - label: "Status"
+            name: "status"
+            widget: "select"
+            options: ["Active", "Completed", "In Progress"]
+          - label: "Category"
+            name: "category"
+            widget: "select"
+            options: ["NLP", "Computer Vision", "ML Tools", "Educational", "Other"]
+          - label: "Features"
+            name: "features"
+            widget: "list"
+            field: {label: "Feature", name: "feature", widget: "string"}
+            required: false
+          - {label: "Last Updated", name: "last_updated", widget: "datetime", format: "YYYY-MM", required: false}
+
+  # Learning Tools
+  - name: "learning_tools"
+    label: "Learning Tools"
+    file: "_data/learning_tools.yml"
+    fields:
+      - label: "Tools"
+        name: "tools"
+        widget: "list"
+        fields:
+          - {label: "ID", name: "id", widget: "string"}
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Category", name: "category", widget: "string"}
+          - {label: "Usage", name: "usage", widget: "text"}
+          - {label: "Effectiveness", name: "effectiveness", widget: "number", min: 1, max: 5}
+
+  # Spanish Accounts
+  - name: "spanish_accounts"
+    label: "Spanish Accounts"
+    file: "_data/spanish_accounts.yml"
+    fields:
+      - label: "Accounts"
+        name: "accounts"
+        widget: "list"
+        fields:
+          - {label: "Handle", name: "handle", widget: "string"}
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Instagram URL", name: "instagram_url", widget: "string", required: false}
+          - {label: "YouTube URL", name: "youtube_url", widget: "string", required: false}
+          - {label: "Website URL", name: "website_url", widget: "string", required: false}
+          - {label: "Category", name: "category", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+
+  # Navigation
+  - name: "navigation"
+    label: "Navigation"
+    file: "_data/navigation.yml"
+    fields:
+      - label: "Main Navigation"
+        name: "main"
+        widget: "list"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "URL", name: "url", widget: "string"}
+          - {label: "Order", name: "order", widget: "number"}
+      - label: "Footer Links"
+        name: "footer"
+        widget: "list"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "URL", name: "url", widget: "string"}
+          - {label: "External", name: "external", widget: "boolean", default: false}
+
+  # Featured Work
+  - name: "featured"
+    label: "Featured Work"
+    file: "_data/featured.yml"
+    fields:
+      - label: "Highlights"
+        name: "highlights"
+        widget: "list"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+          - {label: "Link", name: "link", widget: "string"}
+          - {label: "Icon", name: "icon", widget: "string", required: false}

@@ -1,0 +1,397 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-09-10",
+    "description": "Navigation system connecting all knowledge base components",
+    "total_components": 8
+  },
+  "main_menu": {
+    "knowledge_graph": {
+      "title": "Knowledge Graph",
+      "description": "Interactive visualization of display technology relationships",
+      "file": "knowledge-graph.json",
+      "type": "data",
+      "difficulty": "intermediate",
+      "estimated_time": "15-30 minutes",
+      "features": ["node_relationships", "edge_weights", "category_filtering"],
+      "use_cases": ["research", "concept_mapping", "technology_comparison"]
+    },
+    "search_system": {
+      "title": "Smart Search",
+      "description": "Full-text search with intelligent ranking and filtering",
+      "file": "search-index.json",
+      "type": "data",
+      "difficulty": "beginner",
+      "estimated_time": "5-10 minutes",
+      "features": ["full_text_search", "tag_filtering", "relevance_scoring"],
+      "use_cases": ["quick_lookup", "research", "concept_discovery"]
+    },
+    "cross_references": {
+      "title": "Cross-Reference System",
+      "description": "Discover related concepts and prerequisites",
+      "file": "references.json",
+      "type": "data",
+      "difficulty": "intermediate",
+      "estimated_time": "10-20 minutes",
+      "features": ["concept_linking", "prerequisite_mapping", "application_examples"],
+      "use_cases": ["learning_path_planning", "troubleshooting", "specification_analysis"]
+    },
+    "learning_paths": {
+      "title": "Learning Paths",
+      "description": "Structured courses for different user types",
+      "file": "learning-paths.json",
+      "type": "educational",
+      "difficulty": "all_levels",
+      "estimated_time": "4-20 weeks",
+      "features": ["progressive_learning", "user_type_customization", "assessment_tracking"],
+      "use_cases": ["skill_development", "career_advancement", "systematic_learning"]
+    },
+    "quick_references": {
+      "title": "Quick Reference Cards",
+      "description": "Condensed information for key technologies",
+      "type": "reference",
+      "difficulty": "beginner",
+      "estimated_time": "2-5 minutes per card",
+      "items": {
+        "lcd_guide": {
+          "title": "LCD Technology Guide",
+          "file": "quick-refs/lcd-quick-ref.md",
+          "topics": ["components", "operation", "advantages", "limitations", "applications"]
+        },
+        "oled_guide": {
+          "title": "OLED Technology Guide",
+          "file": "quick-refs/oled-quick-ref.md",
+          "topics": ["self_emission", "advantages", "burn_in", "applications", "comparison"]
+        },
+        "metrics_guide": {
+          "title": "Performance Metrics Guide",
+          "file": "quick-refs/metrics-quick-ref.md",
+          "topics": ["brightness", "contrast", "color_gamut", "response_time", "resolution"]
+        },
+        "manufacturing_guide": {
+          "title": "Manufacturing Process Guide",
+          "file": "quick-refs/manufacturing-quick-ref.md",
+          "topics": ["substrate_prep", "thin_films", "photolithography", "assembly", "quality_control"]
+        }
+      }
+    },
+    "interactive_tools": {
+      "title": "Interactive Examples & Tools",
+      "description": "Hands-on calculators and selection guides",
+      "type": "interactive",
+      "difficulty": "beginner",
+      "estimated_time": "5-15 minutes per tool",
+      "items": {
+        "pixel_calculator": {
+          "title": "Pixel Density Calculator",
+          "file": "examples/pixel-calculator.html",
+          "description": "Calculate PPI, viewing distance, and display quality metrics",
+          "inputs": ["screen_size", "resolution", "subpixel_layout"],
+          "outputs": ["ppi", "pixel_pitch", "viewing_distance", "quality_rating"]
+        },
+        "color_converter": {
+          "title": "Color Space Converter",
+          "file": "examples/color-space-converter.html",
+          "description": "Convert between color spaces and visualize gamuts",
+          "inputs": ["color_values", "input_space", "gamma", "white_point"],
+          "outputs": ["color_conversions", "gamut_visualization", "accuracy_analysis"]
+        },
+        "viewing_distance": {
+          "title": "Viewing Distance Calculator",
+          "file": "examples/viewing-distance-calculator.html",
+          "description": "Find optimal viewing distance for health and productivity",
+          "inputs": ["screen_size", "resolution", "use_case", "environment"],
+          "outputs": ["optimal_distance", "health_recommendations", "productivity_tips"]
+        },
+        "tech_selector": {
+          "title": "Display Technology Selector",
+          "file": "examples/technology-selector.html",
+          "description": "Guided wizard to choose the best display technology",
+          "inputs": ["use_case", "environment", "priorities", "budget"],
+          "outputs": ["technology_recommendations", "comparison_matrix", "specifications"]
+        }
+      }
+    }
+  },
+  "navigation_flows": {
+    "beginner_journey": {
+      "title": "New to Display Technology",
+      "description": "Recommended path for beginners",
+      "steps": [
+        {
+          "step": 1,
+          "component": "quick_references",
+          "item": "lcd_guide",
+          "rationale": "Start with familiar LCD technology basics"
+        },
+        {
+          "step": 2,
+          "component": "interactive_tools",
+          "item": "pixel_calculator",
+          "rationale": "Hands-on experience with display metrics"
+        },
+        {
+          "step": 3,
+          "component": "quick_references",
+          "item": "metrics_guide",
+          "rationale": "Understanding performance measurements"
+        },
+        {
+          "step": 4,
+          "component": "interactive_tools",
+          "item": "tech_selector",
+          "rationale": "Apply knowledge to make technology choices"
+        },
+        {
+          "step": 5,
+          "component": "learning_paths",
+          "item": "beginner_path",
+          "rationale": "Structured progression to deeper knowledge"
+        }
+      ]
+    },
+    "professional_research": {
+      "title": "Professional Research & Development",
+      "description": "Path for engineers and researchers",
+      "steps": [
+        {
+          "step": 1,
+          "component": "knowledge_graph",
+          "rationale": "Overview of technology relationships and dependencies"
+        },
+        {
+          "step": 2,
+          "component": "search_system",
+          "rationale": "Targeted search for specific technical information"
+        },
+        {
+          "step": 3,
+          "component": "cross_references",
+          "rationale": "Deep dive into concept relationships and prerequisites"
+        },
+        {
+          "step": 4,
+          "component": "quick_references",
+          "item": "manufacturing_guide",
+          "rationale": "Technical implementation details"
+        },
+        {
+          "step": 5,
+          "component": "learning_paths",
+          "item": "engineer_path",
+          "rationale": "Advanced technical knowledge development"
+        }
+      ]
+    },
+    "product_selection": {
+      "title": "Choosing the Right Display",
+      "description": "For consumers and product managers",
+      "steps": [
+        {
+          "step": 1,
+          "component": "interactive_tools",
+          "item": "tech_selector",
+          "rationale": "Guided selection based on specific needs"
+        },
+        {
+          "step": 2,
+          "component": "quick_references",
+          "item": "metrics_guide",
+          "rationale": "Understanding specifications and their importance"
+        },
+        {
+          "step": 3,
+          "component": "interactive_tools",
+          "item": "viewing_distance",
+          "rationale": "Optimize setup for health and productivity"
+        },
+        {
+          "step": 4,
+          "component": "cross_references",
+          "rationale": "Compare technologies and understand trade-offs"
+        }
+      ]
+    },
+    "troubleshooting": {
+      "title": "Diagnosing Display Issues",
+      "description": "For support and maintenance",
+      "steps": [
+        {
+          "step": 1,
+          "component": "cross_references",
+          "item": "troubleshooting_guides",
+          "rationale": "Symptom-based problem identification"
+        },
+        {
+          "step": 2,
+          "component": "search_system",
+          "rationale": "Search for specific symptoms or error messages"
+        },
+        {
+          "step": 3,
+          "component": "knowledge_graph",
+          "rationale": "Understand component relationships affecting issues"
+        },
+        {
+          "step": 4,
+          "component": "quick_references",
+          "rationale": "Technology-specific troubleshooting information"
+        }
+      ]
+    }
+  },
+  "search_integration": {
+    "global_search": {
+      "enabled": true,
+      "search_across": [
+        "knowledge_graph_nodes",
+        "search_index_documents",
+        "reference_concepts",
+        "learning_path_modules",
+        "quick_reference_content"
+      ],
+      "search_types": ["full_text", "semantic", "tag_based", "conceptual"],
+      "result_ranking": {
+        "relevance_score": 0.4,
+        "user_level_match": 0.2,
+        "content_freshness": 0.1,
+        "user_history": 0.2,
+        "concept_centrality": 0.1
+      }
+    },
+    "contextual_suggestions": {
+      "enabled": true,
+      "suggestion_types": [
+        "related_concepts",
+        "prerequisite_topics",
+        "next_steps",
+        "practical_applications",
+        "troubleshooting_guides"
+      ],
+      "trigger_contexts": [
+        "after_completing_section",
+        "when_viewing_concept",
+        "during_search",
+        "on_error_or_confusion"
+      ]
+    }
+  },
+  "personalization": {
+    "user_profiles": {
+      "beginner": {
+        "default_difficulty": "beginner",
+        "preferred_content": ["quick_references", "interactive_tools"],
+        "navigation_style": "guided",
+        "explanation_level": "detailed"
+      },
+      "intermediate": {
+        "default_difficulty": "intermediate",
+        "preferred_content": ["cross_references", "learning_paths"],
+        "navigation_style": "semi_guided",
+        "explanation_level": "balanced"
+      },
+      "expert": {
+        "default_difficulty": "advanced",
+        "preferred_content": ["knowledge_graph", "search_system"],
+        "navigation_style": "free_form",
+        "explanation_level": "concise"
+      }
+    },
+    "adaptive_features": {
+      "content_recommendation": true,
+      "difficulty_adjustment": true,
+      "progress_tracking": true,
+      "bookmark_system": true,
+      "learning_analytics": true
+    }
+  },
+  "accessibility": {
+    "features": {
+      "screen_reader_support": true,
+      "keyboard_navigation": true,
+      "high_contrast_mode": true,
+      "text_scaling": true,
+      "audio_descriptions": false,
+      "language_localization": false
+    },
+    "content_structure": {
+      "semantic_markup": true,
+      "heading_hierarchy": true,
+      "alt_text_images": true,
+      "descriptive_links": true,
+      "skip_navigation": true
+    }
+  },
+  "integration_apis": {
+    "knowledge_graph_api": {
+      "endpoints": [
+        "/api/nodes",
+        "/api/edges",
+        "/api/shortest-path",
+        "/api/related-concepts"
+      ],
+      "query_types": ["node_lookup", "relationship_query", "path_finding", "similarity_search"]
+    },
+    "search_api": {
+      "endpoints": [
+        "/api/search",
+        "/api/suggest",
+        "/api/filter",
+        "/api/similar"
+      ],
+      "query_types": ["full_text", "faceted", "semantic", "autocomplete"]
+    },
+    "learning_api": {
+      "endpoints": [
+        "/api/paths",
+        "/api/progress",
+        "/api/recommendations",
+        "/api/assessments"
+      ],
+      "query_types": ["path_lookup", "progress_tracking", "content_recommendation", "skill_assessment"]
+    }
+  },
+  "analytics": {
+    "usage_tracking": {
+      "page_views": true,
+      "time_on_content": true,
+      "navigation_patterns": true,
+      "search_queries": true,
+      "tool_usage": true
+    },
+    "content_metrics": {
+      "popular_content": true,
+      "completion_rates": true,
+      "exit_points": true,
+      "error_rates": true,
+      "user_satisfaction": true
+    },
+    "learning_metrics": {
+      "skill_progression": true,
+      "knowledge_gaps": true,
+      "learning_velocity": true,
+      "concept_mastery": true,
+      "retention_rates": true
+    }
+  },
+  "maintenance": {
+    "content_updates": {
+      "frequency": "monthly",
+      "versioning": true,
+      "change_tracking": true,
+      "rollback_capability": true
+    },
+    "quality_assurance": {
+      "link_checking": true,
+      "content_validation": true,
+      "accuracy_review": true,
+      "user_feedback_integration": true
+    },
+    "performance_monitoring": {
+      "load_times": true,
+      "search_performance": true,
+      "user_experience_metrics": true,
+      "system_health": true
+    }
+  }
+}

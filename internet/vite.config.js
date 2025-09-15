@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: './',
+  base: '/Internet-Infrastructure-Map/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -10,15 +10,14 @@ export default defineConfig({
       output: {
         manualChunks: {
           'three': ['three'],
-          'three-globe': ['three-globe'],
-          'd3': ['d3'],
-          'gsap': ['gsap']
+          'globe': ['globe.gl'],
+          'd3': ['d3']
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['three', 'globe.gl', 'd3', 'gsap']
+    include: ['three', 'globe.gl', 'd3']
   },
   server: {
     port: 5173,

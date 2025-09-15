@@ -1,0 +1,232 @@
+---
+layout: page
+title: Resources
+permalink: /resources/
+lang: en
+description: Spanish learning tools and authentic content sources
+---
+
+<!-- Tabs Navigation -->
+<div class="tabs">
+  <div class="tab-list">
+    <button class="tab-button active" onclick="switchTab('tools')">
+      {{ site.data.i18n[page.lang].sections.resources.tools_tab }}
+    </button>
+    <button class="tab-button" onclick="switchTab('accounts')">
+      {{ site.data.i18n[page.lang].sections.resources.accounts_tab }}
+    </button>
+  </div>
+  
+  <!-- Learning Tools Tab -->
+  <div class="tab-panel active" id="tools-tab">
+    <div class="mb-5">
+      <p class="lead">A curated collection of tools I've personally used for Spanish language learning.</p>
+    </div>
+    
+    <!-- Tools by Category -->
+    {% assign tools_by_category = site.data.learning_tools.tools | group_by: "category" %}
+    {% for category in tools_by_category %}
+    <section class="mb-6">
+      <h3 class="mb-4">{{ category.name }}</h3>
+      <div class="grid grid-cols-2 gap-4">
+        {% for tool in category.items %}
+        <div class="card">
+          {% if tool.id == 'geoguessr' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Geoguessr_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'figma' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Figma_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'anki' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/anki_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'anki-remote' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/anki_remote_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'seterra' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Seterra_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'unsplash' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/unsplash_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'personal-photos' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Google_photos_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'instagram' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/instagram_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'google-earth' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/google_street_view_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'llms' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/claude_llm_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'google-sheets' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/google_sheets_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'youtube-tutorials' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/youtube_drawing_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'music-platforms' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/spotify_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% endif %}
+          <h4 class="card-title">{{ tool.name }}</h4>
+          <p class="text-sm text-muted mb-2">{{ tool.category }}</p>
+          <p class="card-description">{{ tool.usage }}</p>
+          {% if tool.website_url %}
+          <div class="mt-3">
+            <a href="{{ tool.website_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+              Visit Website →
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+  
+  <!-- Spanish Accounts Tab -->
+  <div class="tab-panel" id="accounts-tab">
+    <div class="mb-5">
+      <p class="lead">Authentic Spanish Instagram accounts I follow for immersive language exposure across various topics and regions.</p>
+    </div>
+    
+    <!-- Category Filter -->
+    <div class="mb-5">
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-secondary account-filter active" data-filter="all">All</button>
+        <button class="btn btn-secondary account-filter" data-filter="Art">Art</button>
+        <button class="btn btn-secondary account-filter" data-filter="Banking">Banking</button>
+        <button class="btn btn-secondary account-filter" data-filter="Culture">Culture</button>
+        <button class="btn btn-secondary account-filter" data-filter="Diplomatic">Diplomatic</button>
+        <button class="btn btn-secondary account-filter" data-filter="Education">Education</button>
+        <button class="btn btn-secondary account-filter" data-filter="Food">Food</button>
+        <button class="btn btn-secondary account-filter" data-filter="Government">Government</button>
+        <button class="btn btn-secondary account-filter" data-filter="Language Learning">Language</button>
+        <button class="btn btn-secondary account-filter" data-filter="Lifestyle">Lifestyle</button>
+        <button class="btn btn-secondary account-filter" data-filter="Media">Media</button>
+        <button class="btn btn-secondary account-filter" data-filter="Nature">Nature</button>
+        <button class="btn btn-secondary account-filter" data-filter="News">News</button>
+        <button class="btn btn-secondary account-filter" data-filter="Research">Research</button>
+        <button class="btn btn-secondary account-filter" data-filter="Retail">Retail</button>
+        <button class="btn btn-secondary account-filter" data-filter="Sports">Sports</button>
+        <button class="btn btn-secondary account-filter" data-filter="Tourism">Tourism</button>
+        <button class="btn btn-secondary account-filter" data-filter="Transportation">Transportation</button>
+      </div>
+    </div>
+    
+    <!-- Accounts Grid -->
+    <div class="grid grid-cols-2 gap-4" id="accounts-container">
+      {% for account in site.data.spanish_accounts.accounts %}
+      <div class="card account-card" data-category="{{ account.category }}">
+        <div class="flex justify-between items-start mb-2">
+          <h4 class="card-title">{{ account.name }}</h4>
+          <span class="badge">{{ account.category }}</span>
+        </div>
+        <p class="card-description">{{ account.description }}</p>
+        <div class="flex gap-2 mt-3">
+          {% if account.instagram_url %}
+          <a href="{{ account.instagram_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+            Instagram →
+          </a>
+          {% endif %}
+          {% if account.youtube_url %}
+          <a href="{{ account.youtube_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+            YouTube →
+          </a>
+          {% endif %}
+          {% if account.website_url %}
+          <a href="{{ account.website_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+            Website →
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Learning Strategy Section -->
+<section class="mt-8">
+  <h2 class="mb-4">My Learning Strategy</h2>
+  <div class="card">
+    <h3 class="mb-3">Multi-Modal Engagement Approach</h3>
+    <p class="mb-3">Through years of language learning, I've developed a comprehensive strategy that combines multiple approaches:</p>
+    <ul>
+      <li><strong>Visual Learning:</strong> Using Unsplash and personal photos for vocabulary building and scene description practice</li>
+      <li><strong>Geographic Immersion:</strong> Virtual exploration through Geoguessr and Google Earth for contextual learning</li>
+      <li><strong>Systematic Retention:</strong> Converting messy notes into structured Anki flashcards for spaced repetition</li>
+      <li><strong>AI Enhancement:</strong> Leveraging LLMs for note transformation, exercise generation, and interactive practice</li>
+      <li><strong>Social Integration:</strong> Following authentic Spanish accounts for real-world language exposure</li>
+      <li><strong>Active Production:</strong> Moving from passive consumption to active narration and description</li>
+    </ul>
+    <p class="mt-3 text-muted">The key is using personal life experiences as learning material - this emotional resonance significantly improves retention and engagement.</p>
+  </div>
+</section>
+
+<script>
+// Tab switching
+function switchTab(tab) {
+  const buttons = document.querySelectorAll('.tab-button');
+  const panels = document.querySelectorAll('.tab-panel');
+  
+  buttons.forEach(btn => btn.classList.remove('active'));
+  panels.forEach(panel => panel.classList.remove('active'));
+  
+  if (tab === 'tools') {
+    buttons[0].classList.add('active');
+    document.getElementById('tools-tab').classList.add('active');
+  } else {
+    buttons[1].classList.add('active');
+    document.getElementById('accounts-tab').classList.add('active');
+  }
+}
+
+// Account filtering
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('.account-filter');
+  const accountCards = document.querySelectorAll('.account-card');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      accountCards.forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
+
+<style>
+.account-filter.active {
+  background-color: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+</style>

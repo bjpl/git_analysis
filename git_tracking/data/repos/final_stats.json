@@ -1,0 +1,368 @@
+{
+  "generated": "2025-09-12T19:55:28.553645",
+  "summary": {
+    "total_repositories": 20,
+    "active_repositories": 8,
+    "archived_repositories": 10,
+    "total_current_loc": 3397862,
+    "total_files": 11956,
+    "total_commits_30d": 472
+  },
+  "repositories": {
+    "active": [
+      {
+        "name": "describe_it",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\describe_it",
+        "current_loc": 284484,
+        "file_count": 1009,
+        "commits_30d": 147,
+        "commits_total": 147,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-12 | fix: Complete resolution of Winston and encryption module issues",
+          "2025-09-12 | fix: Resolve Winston and encryption module issues for Vercel deployment",
+          "2025-09-12 | fix: Resolve final import syntax error in api-middleware.ts"
+        ],
+        "primary_language": "TypeScript",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/describe_it.git",
+        "is_public": true
+      },
+      {
+        "name": "brandonjplambert",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\brandonjplambert",
+        "current_loc": 64171,
+        "file_count": 99,
+        "commits_30d": 128,
+        "commits_total": 128,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-12 | Improve info icon readability on technology pills",
+          "2025-09-12 | Trigger GitHub Pages deployment",
+          "2025-09-12 | Organize directory structure for better maintainability"
+        ],
+        "primary_language": "Python",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/brandonjplambert.git",
+        "is_public": true
+      },
+      {
+        "name": "letratos",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\letratos",
+        "current_loc": 2229,
+        "file_count": 45,
+        "commits_30d": 80,
+        "commits_total": 80,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-12 | Center photography card below language cards on desktop",
+          "2025-09-12 | Restore card-based layout styling for homepage",
+          "2025-09-12 | Major site optimization and architecture refactoring"
+        ],
+        "primary_language": "Markdown",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/letratos.git",
+        "is_public": true
+      },
+      {
+        "name": "Project_Workspace",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace",
+        "current_loc": 2142347,
+        "file_count": 7423,
+        "commits_30d": 68,
+        "commits_total": 68,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-12 | Add Windows-compatible CLI launcher",
+          "2025-09-12 | Add comprehensive CLI UI system",
+          "2025-09-11 | Remove misleading Q&A feature and add honest usage guide"
+        ],
+        "primary_language": "Markdown",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/brandonjplambert_archived.git",
+        "is_public": true
+      },
+      {
+        "name": "fancy_monkey",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\fancy_monkey",
+        "current_loc": 2573,
+        "file_count": 17,
+        "commits_30d": 18,
+        "commits_total": 18,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-11 | Resolve CNAME conflict - use apex domain fancymonkey.shop",
+          "2025-09-11 | Add custom domain fancymonkey.shop",
+          "2025-09-11 | Create CNAME"
+        ],
+        "primary_language": "Web",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/fancy_monkey.git",
+        "is_public": true
+      },
+      {
+        "name": "internet",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\internet",
+        "current_loc": 58154,
+        "file_count": 297,
+        "commits_30d": 14,
+        "commits_total": 14,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-11 | Build for deployment",
+          "2025-09-11 | Major UI refinement and functionality improvements",
+          "2025-09-11 | CRITICAL FIX: Move tooltips out of control panel to app level"
+        ],
+        "primary_language": "JavaScript",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/Internet-Infrastructure-Map.git",
+        "is_public": true
+      },
+      {
+        "name": "subjunctive_practice",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\subjunctive_practice",
+        "current_loc": 322979,
+        "file_count": 1055,
+        "commits_30d": 3,
+        "commits_total": 4,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-08 | feat: Critical UI and accessibility improvements",
+          "2025-08-25 | Fix display issues: text truncation, checkbox rendering, and layout",
+          "2025-08-25 | Fix UI colors: Replace harsh red outlines with cleaner design"
+        ],
+        "primary_language": "Markdown",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/subjunctive_practice.git",
+        "is_public": true
+      },
+      {
+        "name": "letratos-clean",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\letratos-clean",
+        "current_loc": 1644,
+        "file_count": 30,
+        "commits_30d": 1,
+        "commits_total": 1,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-08-30 | Initial commit: Bilingual poetry website"
+        ],
+        "primary_language": "Web",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/letratos.git",
+        "is_public": true
+      }
+    ],
+    "archived": [
+      {
+        "name": "anki_generator",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\anki_generator",
+        "current_loc": 5758,
+        "file_count": 40,
+        "commits_30d": 0,
+        "commits_total": 11,
+        "authors": [],
+        "recent_commits": [],
+        "primary_language": "Python",
+        "is_archived": true,
+        "remote_url": "https://github.com/bjpl/anki_generator",
+        "is_public": true
+      },
+      {
+        "name": "brandonjplambert_archived_2",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\brandonjplambert_archived_2",
+        "current_loc": 90015,
+        "file_count": 322,
+        "commits_30d": 1,
+        "commits_total": 1,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-09-01 | Archive current portfolio project state with Prismic integration"
+        ],
+        "primary_language": "JavaScript",
+        "is_archived": true,
+        "remote_url": "https://github.com/bjpl/brandonjplambert_archived_2.git",
+        "is_public": true
+      },
+      {
+        "name": "conjugation_gui",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\conjugation_gui",
+        "current_loc": 30250,
+        "file_count": 79,
+        "commits_30d": 8,
+        "commits_total": 9,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-08-17 | catch up",
+          "2025-08-15 | Add complete user control and flexibility",
+          "2025-08-15 | Add strategic features for real conversational fluency"
+        ],
+        "primary_language": "Python",
+        "is_archived": true,
+        "remote_url": "https://github.com/bjpl/conjugation_gui.git",
+        "is_public": true
+      },
+      {
+        "name": "image-questionnaire-gpt",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\image-questionnaire-gpt",
+        "current_loc": 34356,
+        "file_count": 188,
+        "commits_30d": 0,
+        "commits_total": 1,
+        "authors": [],
+        "recent_commits": [],
+        "primary_language": "Web",
+        "is_archived": true,
+        "remote_url": "https://github.com/bjpl/image-questionnaire-gpt.git",
+        "is_public": true
+      },
+      {
+        "name": "langtool",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\langtool",
+        "current_loc": 12169,
+        "file_count": 82,
+        "commits_30d": 1,
+        "commits_total": 27,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-08-17 | Major refactor: restructured project, added docs and specs, removed duplicates"
+        ],
+        "primary_language": "Python",
+        "is_archived": true,
+        "remote_url": "https://github.com/bjpl/langtool.git",
+        "is_public": true
+      },
+      {
+        "name": "mealplanner_and_pantry_manager",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\mealplanner_and_pantry_manager",
+        "current_loc": 900,
+        "file_count": 4,
+        "commits_30d": 0,
+        "commits_total": 1,
+        "authors": [],
+        "recent_commits": [],
+        "primary_language": "Markdown",
+        "is_archived": true,
+        "remote_url": "",
+        "is_public": false
+      },
+      {
+        "name": "nutriplan",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\nutriplan",
+        "current_loc": 7817,
+        "file_count": 36,
+        "commits_30d": 0,
+        "commits_total": 3,
+        "authors": [],
+        "recent_commits": [],
+        "primary_language": "Python",
+        "is_archived": true,
+        "remote_url": "https://github.com/bjpl/nutriplan.git",
+        "is_public": true
+      },
+      {
+        "name": "portfolio_site",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\portfolio_site",
+        "current_loc": 241286,
+        "file_count": 788,
+        "commits_30d": 0,
+        "commits_total": 0,
+        "authors": [],
+        "recent_commits": [],
+        "primary_language": "Unknown",
+        "is_archived": true,
+        "remote_url": "",
+        "is_public": false
+      },
+      {
+        "name": "spanish-master",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\spanish-master",
+        "current_loc": 24786,
+        "file_count": 92,
+        "commits_30d": 2,
+        "commits_total": 2,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-08-23 | Add comprehensive SPARC documentation and implementation roadmap",
+          "2025-08-23 | Initial commit: SpanishMaster integrated learning platform"
+        ],
+        "primary_language": "TypeScript",
+        "is_archived": true,
+        "remote_url": "https://github.com/bjpl/SpanishMaster.git",
+        "is_public": true
+      },
+      {
+        "name": "vocablens-fresh",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\archive\\vocablens-fresh",
+        "current_loc": 4072,
+        "file_count": 25,
+        "commits_30d": 1,
+        "commits_total": 1,
+        "authors": [
+          "bjpl"
+        ],
+        "recent_commits": [
+          "2025-08-27 | Initial commit: Fresh VocabLens project with React + TypeScript + Tailwind"
+        ],
+        "primary_language": "TypeScript",
+        "is_archived": true,
+        "remote_url": "",
+        "is_public": false
+      }
+    ],
+    "inactive": [
+      {
+        "name": "hablas",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\hablas",
+        "current_loc": 10410,
+        "file_count": 30,
+        "commits_30d": 0,
+        "commits_total": 0,
+        "authors": [],
+        "recent_commits": [],
+        "primary_language": "Unknown",
+        "is_archived": false,
+        "remote_url": "",
+        "is_public": false
+      },
+      {
+        "name": "internet-map-clean",
+        "path": "C:\\Users\\brand\\Development\\Project_Workspace\\internet-map-clean",
+        "current_loc": 57462,
+        "file_count": 295,
+        "commits_30d": 0,
+        "commits_total": 0,
+        "authors": [],
+        "recent_commits": [],
+        "primary_language": "Unknown",
+        "is_archived": false,
+        "remote_url": "https://github.com/bjpl/Internet-Infrastructure-Map.git",
+        "is_public": true
+      }
+    ]
+  }
+}

@@ -29,7 +29,6 @@ class CleanInfrastructureMap {
         tertiary: 'rgba(150, 200, 100, 0.3)',    // Soft green for regional
         accent: 'rgba(255, 200, 50, 0.5)',       // Gold for highlights
         datacenter: 'rgba(255, 255, 255, 0.8)',  // White for data centers
-        attack: 'rgba(255, 50, 50, 0.3)'         // Red for attacks
       },
       cable: {
         maxStroke: 2.0,  // Slightly thicker for visibility
@@ -42,8 +41,6 @@ class CleanInfrastructureMap {
     this.stats = {
       cables: 0,
       datacenters: 0,
-      bgpRoutes: 0,
-      attacks: 0
     };
     
     this.init();
@@ -1202,18 +1199,83 @@ class CleanInfrastructureMap {
   }
   
   setupInfoTooltips() {
-    // Helper function to toggle tooltip
-    const toggleTooltip = (tooltipId) => {
+    // Smart positioning function - centers tooltip for maximum visibility
+    const positionTooltip = (tooltip, triggerElement) => {
+      // Get viewport dimensions
+      const viewport = {
+        width: window.innerWidth,
+        height: window.innerHeight
+      };
+      
+      // Set tooltip width with responsive sizing
+      const tooltipWidth = Math.min(420, viewport.width - 40);
+      const tooltipMaxHeight = viewport.height - 40;
+      
+      // Calculate centered position
+      const centerX = (viewport.width - tooltipWidth) / 2;
+      const centerY = 20; // Fixed top position with margin
+      
+      // Apply styles
+      tooltip.style.width = `${tooltipWidth}px`;
+      tooltip.style.left = `${centerX}px`;
+      tooltip.style.top = `${centerY}px`;
+      tooltip.style.maxHeight = `${tooltipMaxHeight}px`;
+      tooltip.style.transform = 'none'; // Clear any transform
+      
+      // Add semi-transparent overlay behind tooltip for better focus
+      const overlay = document.getElementById('tooltip-overlay');
+      if (overlay) {
+        overlay.classList.remove('hidden');
+      } else {
+        // Create overlay if it doesn't exist
+        const newOverlay = document.createElement('div');
+        newOverlay.id = 'tooltip-overlay';
+        newOverlay.className = 'tooltip-overlay';
+        newOverlay.addEventListener('click', () => {
+          document.querySelectorAll('.info-tooltip').forEach(t => {
+            t.classList.remove('visible');
+          });
+          newOverlay.classList.add('hidden');
+        });
+        document.body.appendChild(newOverlay);
+      }
+      
+      // For mobile, adjust margins
+      if (viewport.width < 768) {
+        tooltip.style.left = '10px';
+        tooltip.style.width = `${viewport.width - 20}px`;
+        tooltip.style.top = '10px';
+        tooltip.style.maxHeight = `${viewport.height - 20}px`;
+      }
+    };
+    
+    // Helper function to toggle tooltip with smart positioning
+    const toggleTooltip = (tooltipId, triggerElement) => {
       const tooltip = document.getElementById(tooltipId);
+      const overlay = document.getElementById('tooltip-overlay');
+      
       if (tooltip) {
         // Hide all other tooltips first
         document.querySelectorAll('.info-tooltip').forEach(t => {
           if (t.id !== tooltipId) {
-            t.classList.add('hidden');
+            t.classList.remove('visible');
           }
         });
+        
         // Toggle the clicked tooltip
-        tooltip.classList.toggle('hidden');
+        const isVisible = tooltip.classList.contains('visible');
+        
+        if (!isVisible) {
+          // Show tooltip
+          tooltip.classList.add('visible');
+          positionTooltip(tooltip, triggerElement);
+        } else {
+          // Hide tooltip
+          tooltip.classList.remove('visible');
+          if (overlay) {
+            overlay.classList.add('hidden');
+          }
+        }
       }
     };
     
@@ -1222,7 +1284,7 @@ class CleanInfrastructureMap {
     majorCablesInfo?.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      toggleTooltip('major-cables-tooltip');
+      toggleTooltip('major-cables-tooltip', majorCablesInfo);
     });
     
     // Capacity info
@@ -1230,7 +1292,7 @@ class CleanInfrastructureMap {
     capacityInfo?.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      toggleTooltip('capacity-tooltip');
+      toggleTooltip('capacity-tooltip', capacityInfo);
     });
     
     // Tiers info
@@ -1238,35 +1300,70 @@ class CleanInfrastructureMap {
     tiersInfo?.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      toggleTooltip('tiers-tooltip');
+      toggleTooltip('tiers-tooltip', tiersInfo);
     });
     
     // Close buttons for tooltips
+    const closeTooltip = (tooltipId) => {
+      const tooltip = document.getElementById(tooltipId);
+      const overlay = document.getElementById('tooltip-overlay');
+      if (tooltip) {
+        tooltip.classList.remove('visible');
+        if (overlay) {
+          overlay.classList.add('hidden');
+        }
+      }
+    };
+    
     document.getElementById('close-major-tooltip')?.addEventListener('click', () => {
-      document.getElementById('major-cables-tooltip')?.classList.add('hidden');
+      closeTooltip('major-cables-tooltip');
     });
     
     document.getElementById('close-capacity-tooltip')?.addEventListener('click', () => {
-      document.getElementById('capacity-tooltip')?.classList.add('hidden');
+      closeTooltip('capacity-tooltip');
     });
     
     document.getElementById('close-tiers-tooltip')?.addEventListener('click', () => {
-      document.getElementById('tiers-tooltip')?.classList.add('hidden');
+      closeTooltip('tiers-tooltip');
     });
     
     // Click outside to close tooltips
     document.addEventListener('click', (e) => {
       // If click is not on an info icon or inside a tooltip, close all tooltips
       if (!e.target.closest('.info-icon') && !e.target.closest('.info-tooltip')) {
+        const overlay = document.getElementById('tooltip-overlay');
         document.querySelectorAll('.info-tooltip').forEach(tooltip => {
-          tooltip.classList.add('hidden');
+          tooltip.classList.remove('visible');
         });
+        if (overlay) {
+          overlay.classList.add('hidden');
+        }
       }
+    });
+    
+    // Reposition tooltips on window resize
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.info-tooltip.visible').forEach(tooltip => {
+        // Find the corresponding trigger element
+        let triggerElement = null;
+        if (tooltip.id === 'major-cables-tooltip') {
+          triggerElement = document.getElementById('major-cables-info');
+        } else if (tooltip.id === 'capacity-tooltip') {
+          triggerElement = document.getElementById('capacity-info');
+        } else if (tooltip.id === 'tiers-tooltip') {
+          triggerElement = document.getElementById('tiers-info');
+        }
+        
+        if (triggerElement) {
+          positionTooltip(tooltip, triggerElement);
+        }
+      });
     });
   }
   
-  setupListView() {
-    const listViewToggle = document.getElementById('list-view-toggle');
+  setupDataTables() {
+    // Cable table functionality
+    const cableTableToggle = document.getElementById('cable-table-toggle');
     const listViewModal = document.getElementById('list-view-modal');
     const listViewClose = document.getElementById('list-view-close');
     const exportBtn = document.getElementById('export-csv');
@@ -1380,8 +1477,8 @@ class CleanInfrastructureMap {
       }
     };
     
-    // Show modal
-    listViewToggle?.addEventListener('click', () => {
+    // Show cable modal
+    cableTableToggle?.addEventListener('click', () => {
       if (listViewModal) {
         listViewModal.classList.remove('hidden');
         populateTable();
@@ -1424,6 +1521,122 @@ class CleanInfrastructureMap {
         tbody.innerHTML = '';
         rows.forEach(row => tbody.appendChild(row));
       });
+    });
+
+    // Data Center table functionality
+    const datacenterTableToggle = document.getElementById('datacenter-table-toggle');
+    const datacenterModal = document.getElementById('datacenter-list-modal');
+    const datacenterClose = document.getElementById('datacenter-list-close');
+    const datacenterExportBtn = document.getElementById('datacenter-export-csv');
+    const datacenterTbody = document.getElementById('datacenter-tbody');
+    const datacenterFilteredCount = document.getElementById('datacenter-filtered-count');
+    const datacenterTotalCount = document.getElementById('datacenter-total-count');
+    
+    // Function to populate data center table
+    const populateDatacenterTable = () => {
+      if (!datacenterTbody || !this.allDatacenters) return;
+      
+      // Clear existing rows
+      datacenterTbody.innerHTML = '';
+      
+      // Get current filter from control panel
+      const tierFilter = document.getElementById('datacenter-filter')?.value || 'all';
+      
+      // Filter datacenters
+      let filtered = [...this.allDatacenters];
+      if (tierFilter !== 'all') {
+        // Extract the tier number from the filter value (e.g., "tier1" -> 1)
+        const tierNum = parseInt(tierFilter.replace('tier', ''));
+        filtered = filtered.filter(dc => dc.tier === tierNum);
+      }
+      
+      // Update counts
+      if (datacenterFilteredCount) datacenterFilteredCount.textContent = filtered.length;
+      if (datacenterTotalCount) datacenterTotalCount.textContent = this.allDatacenters.length;
+      
+      // Create rows
+      filtered.forEach(dc => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${dc.city || 'Unknown'}</td>
+          <td>${dc.country || 'Unknown'}</td>
+          <td><span class="tier-badge tier${dc.tier}">Tier ${dc.tier}</span></td>
+          <td>${dc.provider || 'N/A'}</td>
+          <td>${dc.latitude?.toFixed(4)}, ${dc.longitude?.toFixed(4)}</td>
+          <td>${dc.name || 'DC'}</td>
+          <td><span class="status-active">Active</span></td>
+        `;
+        datacenterTbody.appendChild(row);
+      });
+    };
+    
+    // Show data center modal
+    datacenterTableToggle?.addEventListener('click', () => {
+      if (datacenterModal) {
+        datacenterModal.classList.remove('hidden');
+        populateDatacenterTable();
+      }
+    });
+    
+    // Close data center modal
+    datacenterClose?.addEventListener('click', () => {
+      if (datacenterModal) {
+        datacenterModal.classList.add('hidden');
+      }
+    });
+    
+    // Update table when filter changes (if modal is open)
+    document.getElementById('datacenter-filter')?.addEventListener('change', () => {
+      if (datacenterModal && !datacenterModal.classList.contains('hidden')) {
+        populateDatacenterTable();
+      }
+    });
+    
+    // Export data centers to CSV
+    datacenterExportBtn?.addEventListener('click', () => {
+      // Get current filter
+      const tierFilter = document.getElementById('datacenter-filter')?.value || 'all';
+      let dataToExport = [...this.allDatacenters];
+      
+      // Apply filter
+      if (tierFilter !== 'all') {
+        const tierNum = parseInt(tierFilter.replace('tier', ''));
+        dataToExport = dataToExport.filter(dc => dc.tier === tierNum);
+      }
+      
+      const headers = ['City', 'Country', 'Tier', 'Provider', 'Latitude', 'Longitude', 'Name'];
+      const rows = dataToExport.map(dc => [
+        dc.city || 'Unknown',
+        dc.country || 'Unknown',
+        `Tier ${dc.tier}`,
+        dc.provider || 'N/A',
+        dc.latitude,
+        dc.longitude,
+        dc.name || 'DC'
+      ]);
+      
+      let csv = headers.join(',') + '\n';
+      rows.forEach(row => {
+        csv += row.map(cell => `"${cell}"`).join(',') + '\n';
+      });
+      
+      this.downloadCSV(csv, 'data_centers.csv');
+    });
+
+    // Panel collapse/expand functionality
+    const panelToggle = document.getElementById('panel-toggle');
+    const controlPanel = document.querySelector('.control-panel');
+    
+    panelToggle?.addEventListener('click', () => {
+      if (controlPanel) {
+        controlPanel.classList.toggle('collapsed');
+        // Update tooltip text based on state
+        if (controlPanel.classList.contains('collapsed')) {
+          panelToggle.title = 'Show Panel';
+        } else {
+          panelToggle.title = 'Hide Panel';
+        }
+      }
     });
   }
   
@@ -1468,8 +1681,8 @@ class CleanInfrastructureMap {
   }
   
   setupMinimalControls() {
-    // List View functionality
-    this.setupListView();
+    // Data Tables functionality
+    this.setupDataTables();
     
     // Setup info tooltips
     this.setupInfoTooltips();
@@ -1562,12 +1775,6 @@ class CleanInfrastructureMap {
       this.globe.showAtmosphere(e.target.checked);
     });
     
-    // Hide unnecessary controls
-    const bgpToggle = document.getElementById('toggle-bgp');
-    if (bgpToggle?.parentElement) bgpToggle.parentElement.style.display = 'none';
-    
-    const attacksToggle = document.getElementById('toggle-attacks');
-    if (attacksToggle?.parentElement) attacksToggle.parentElement.style.display = 'none';
     
     const cableGlow = document.getElementById('cable-glow');
     if (cableGlow?.parentElement?.parentElement) cableGlow.parentElement.parentElement.style.display = 'none';
@@ -1610,8 +1817,6 @@ class CleanInfrastructureMap {
   updateStats() {
     document.getElementById('cable-count').textContent = this.stats.cables;
     document.getElementById('datacenter-count').textContent = this.stats.datacenters;
-    document.getElementById('bgp-routes').textContent = '0';
-    document.getElementById('attack-count').textContent = '0';
   }
 }
 

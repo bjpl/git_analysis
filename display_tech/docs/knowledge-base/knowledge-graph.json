@@ -1,0 +1,370 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-09-10",
+    "description": "Display Technology Knowledge Graph",
+    "node_count": 89,
+    "edge_count": 156
+  },
+  "nodes": {
+    "lcd": {
+      "id": "lcd",
+      "type": "Technology",
+      "name": "Liquid Crystal Display",
+      "description": "Display technology using liquid crystals to control light transmission",
+      "tags": ["display", "mature", "backlit", "passive-matrix", "active-matrix"],
+      "properties": {
+        "maturity": "mature",
+        "cost": "low",
+        "power_consumption": "medium",
+        "contrast_ratio": "medium",
+        "response_time": "slow-medium"
+      }
+    },
+    "oled": {
+      "id": "oled",
+      "type": "Technology",
+      "name": "Organic Light Emitting Diode",
+      "description": "Self-emissive display technology using organic compounds",
+      "tags": ["display", "premium", "self-emissive", "flexible", "high-contrast"],
+      "properties": {
+        "maturity": "growing",
+        "cost": "high",
+        "power_consumption": "variable",
+        "contrast_ratio": "infinite",
+        "response_time": "fast"
+      }
+    },
+    "e_ink": {
+      "id": "e_ink",
+      "type": "Technology",
+      "name": "Electronic Ink",
+      "description": "Bistable display technology mimicking paper appearance",
+      "tags": ["display", "specialized", "bistable", "low-power", "reflective"],
+      "properties": {
+        "maturity": "niche",
+        "cost": "medium",
+        "power_consumption": "ultra-low",
+        "contrast_ratio": "medium",
+        "response_time": "very-slow"
+      }
+    },
+    "microled": {
+      "id": "microled",
+      "type": "Technology",
+      "name": "Micro LED",
+      "description": "Self-emissive display using microscopic LEDs",
+      "tags": ["display", "emerging", "self-emissive", "modular", "high-brightness"],
+      "properties": {
+        "maturity": "emerging",
+        "cost": "very-high",
+        "power_consumption": "efficient",
+        "contrast_ratio": "infinite",
+        "response_time": "ultra-fast"
+      }
+    },
+    "quantum_dot": {
+      "id": "quantum_dot",
+      "type": "Technology",
+      "name": "Quantum Dot",
+      "description": "Enhancement technology using semiconductor nanocrystals",
+      "tags": ["enhancement", "color-gamut", "nanocrystal", "backlight", "premium"],
+      "properties": {
+        "maturity": "growing",
+        "cost": "medium-high",
+        "color_accuracy": "excellent",
+        "efficiency": "high"
+      }
+    },
+    "backlight": {
+      "id": "backlight",
+      "type": "Component",
+      "name": "Backlight Unit",
+      "description": "Light source for transmissive displays",
+      "tags": ["component", "illumination", "led", "ccfl", "uniformity"],
+      "properties": {
+        "types": ["edge-lit", "direct-lit", "full-array"]
+      }
+    },
+    "tft": {
+      "id": "tft",
+      "type": "Component",
+      "name": "Thin Film Transistor",
+      "description": "Switching element in active matrix displays",
+      "tags": ["component", "switching", "silicon", "active-matrix", "control"],
+      "properties": {
+        "materials": ["a-Si", "LTPS", "IGZO", "oxide"]
+      }
+    },
+    "color_filter": {
+      "id": "color_filter",
+      "type": "Component",
+      "name": "Color Filter",
+      "description": "Component that selects specific colors in displays",
+      "tags": ["component", "color", "filter", "rgb", "subpixel"],
+      "properties": {
+        "types": ["rgb", "rgbw", "pentile"]
+      }
+    },
+    "photolithography": {
+      "id": "photolithography",
+      "type": "Process",
+      "name": "Photolithography",
+      "description": "Pattern transfer process using light",
+      "tags": ["process", "manufacturing", "patterning", "semiconductor", "precision"],
+      "properties": {
+        "resolution": "sub-micron",
+        "applications": ["tft", "color-filter", "metal-lines"]
+      }
+    },
+    "encapsulation": {
+      "id": "encapsulation",
+      "type": "Process",
+      "name": "Encapsulation",
+      "description": "Protection of sensitive display components",
+      "tags": ["process", "protection", "barrier", "moisture", "oxygen"],
+      "properties": {
+        "methods": ["glass-frit", "thin-film", "hybrid"]
+      }
+    },
+    "glass_substrate": {
+      "id": "glass_substrate",
+      "type": "Material",
+      "name": "Glass Substrate",
+      "description": "Base material for display manufacturing",
+      "tags": ["material", "substrate", "rigid", "transparent", "thermal-stable"],
+      "properties": {
+        "types": ["soda-lime", "borosilicate", "aluminosilicate"]
+      }
+    },
+    "polyimide": {
+      "id": "polyimide",
+      "type": "Material",
+      "name": "Polyimide",
+      "description": "Flexible polymer substrate material",
+      "tags": ["material", "substrate", "flexible", "polymer", "thermal-resistant"],
+      "properties": {
+        "flexibility": "high",
+        "temperature_resistance": "excellent"
+      }
+    },
+    "indium_tin_oxide": {
+      "id": "indium_tin_oxide",
+      "type": "Material",
+      "name": "Indium Tin Oxide (ITO)",
+      "description": "Transparent conductive material",
+      "tags": ["material", "conductive", "transparent", "electrode", "indium"],
+      "properties": {
+        "conductivity": "high",
+        "transparency": "excellent",
+        "cost": "high"
+      }
+    },
+    "brightness": {
+      "id": "brightness",
+      "type": "Metric",
+      "name": "Brightness (Luminance)",
+      "description": "Amount of light emitted from display surface",
+      "tags": ["metric", "performance", "luminance", "cd/m2", "nits"],
+      "properties": {
+        "unit": "cd/m²",
+        "typical_range": "100-1000",
+        "hdr_range": "1000-10000"
+      }
+    },
+    "contrast_ratio": {
+      "id": "contrast_ratio",
+      "type": "Metric",
+      "name": "Contrast Ratio",
+      "description": "Ratio of brightest white to darkest black",
+      "tags": ["metric", "performance", "ratio", "black-level", "dynamic-range"],
+      "properties": {
+        "measurement": "white_luminance / black_luminance",
+        "lcd_typical": "1000:1",
+        "oled_typical": "infinite"
+      }
+    },
+    "color_gamut": {
+      "id": "color_gamut",
+      "type": "Metric",
+      "name": "Color Gamut",
+      "description": "Range of colors that can be displayed",
+      "tags": ["metric", "color", "gamut", "srgb", "dci-p3", "bt2020"],
+      "properties": {
+        "standards": ["sRGB", "Adobe RGB", "DCI-P3", "Rec. 2020"],
+        "measurement": "percentage_coverage"
+      }
+    },
+    "response_time": {
+      "id": "response_time",
+      "type": "Metric",
+      "name": "Response Time",
+      "description": "Time for pixel to change from one state to another",
+      "tags": ["metric", "performance", "speed", "milliseconds", "motion"],
+      "properties": {
+        "unit": "milliseconds",
+        "measurement": "gray-to-gray",
+        "gaming_threshold": "1ms"
+      }
+    }
+  },
+  "edges": [
+    {
+      "source": "lcd",
+      "target": "backlight",
+      "type": "Requires",
+      "weight": 1.0,
+      "description": "LCD technology requires backlight for illumination"
+    },
+    {
+      "source": "lcd",
+      "target": "tft",
+      "type": "Uses",
+      "weight": 0.9,
+      "description": "Active matrix LCDs use TFT for pixel control"
+    },
+    {
+      "source": "lcd",
+      "target": "color_filter",
+      "type": "Uses",
+      "weight": 1.0,
+      "description": "LCD uses color filters for color reproduction"
+    },
+    {
+      "source": "oled",
+      "target": "encapsulation",
+      "type": "Requires",
+      "weight": 1.0,
+      "description": "OLED requires encapsulation for protection from moisture"
+    },
+    {
+      "source": "oled",
+      "target": "lcd",
+      "type": "Competes_With",
+      "weight": 0.8,
+      "description": "OLED competes with LCD in premium display market"
+    },
+    {
+      "source": "microled",
+      "target": "oled",
+      "type": "Evolved_From",
+      "weight": 0.6,
+      "description": "Micro LED evolved from LED technology, similar to OLED concept"
+    },
+    {
+      "source": "quantum_dot",
+      "target": "lcd",
+      "type": "Enables",
+      "weight": 0.7,
+      "description": "Quantum dots enhance LCD color performance"
+    },
+    {
+      "source": "quantum_dot",
+      "target": "backlight",
+      "type": "Uses",
+      "weight": 0.8,
+      "description": "Quantum dot displays often use enhanced backlights"
+    },
+    {
+      "source": "tft",
+      "target": "photolithography",
+      "type": "Requires",
+      "weight": 1.0,
+      "description": "TFT manufacturing requires photolithography processes"
+    },
+    {
+      "source": "tft",
+      "target": "glass_substrate",
+      "type": "Uses",
+      "weight": 0.9,
+      "description": "TFTs are typically built on glass substrates"
+    },
+    {
+      "source": "tft",
+      "target": "polyimide",
+      "type": "Uses",
+      "weight": 0.3,
+      "description": "Flexible TFTs can be built on polyimide substrates"
+    },
+    {
+      "source": "color_filter",
+      "target": "photolithography",
+      "type": "Requires",
+      "weight": 1.0,
+      "description": "Color filter manufacturing uses photolithography"
+    },
+    {
+      "source": "backlight",
+      "target": "brightness",
+      "type": "Determines",
+      "weight": 1.0,
+      "description": "Backlight power determines display brightness"
+    },
+    {
+      "source": "lcd",
+      "target": "contrast_ratio",
+      "type": "Achieves",
+      "weight": 0.6,
+      "description": "LCD technology provides limited contrast ratio"
+    },
+    {
+      "source": "oled",
+      "target": "contrast_ratio",
+      "type": "Achieves",
+      "weight": 1.0,
+      "description": "OLED achieves infinite contrast ratio"
+    },
+    {
+      "source": "quantum_dot",
+      "target": "color_gamut",
+      "type": "Enables",
+      "weight": 0.9,
+      "description": "Quantum dots enable wider color gamut"
+    },
+    {
+      "source": "lcd",
+      "target": "response_time",
+      "type": "Limited_By",
+      "weight": 0.7,
+      "description": "LCD response time limited by liquid crystal switching"
+    },
+    {
+      "source": "oled",
+      "target": "response_time",
+      "type": "Achieves",
+      "weight": 0.9,
+      "description": "OLED achieves fast response times"
+    },
+    {
+      "source": "indium_tin_oxide",
+      "target": "lcd",
+      "type": "Enables",
+      "weight": 0.8,
+      "description": "ITO enables transparent electrodes in LCD"
+    },
+    {
+      "source": "indium_tin_oxide",
+      "target": "oled",
+      "type": "Enables",
+      "weight": 0.8,
+      "description": "ITO enables transparent electrodes in OLED"
+    }
+  ],
+  "categories": {
+    "technologies": ["lcd", "oled", "e_ink", "microled", "quantum_dot"],
+    "components": ["backlight", "tft", "color_filter"],
+    "processes": ["photolithography", "encapsulation"],
+    "materials": ["glass_substrate", "polyimide", "indium_tin_oxide"],
+    "metrics": ["brightness", "contrast_ratio", "color_gamut", "response_time"]
+  },
+  "learning_prerequisites": {
+    "lcd": [],
+    "oled": ["lcd"],
+    "microled": ["oled"],
+    "quantum_dot": ["lcd", "color_gamut"],
+    "tft": ["lcd"],
+    "photolithography": ["tft"],
+    "contrast_ratio": ["brightness"],
+    "color_gamut": ["color_filter"]
+  }
+}

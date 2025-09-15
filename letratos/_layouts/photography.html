@@ -1,0 +1,61 @@
+---
+layout: default
+---
+<article class="photography">
+  <header class="photography-header">
+    <h1 class="photography-title">{{ page.title }}</h1>
+    {% if page.description %}
+    <p class="photography-description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  <div class="photography-container">
+    {% if page.images %}
+      <div class="image-grid">
+        {% for image in page.images %}
+        <div class="grid-item">
+          <figure>
+            {% assign file_ext = image.url | split: '.' | last | downcase %}
+            {% if file_ext == 'mp4' or file_ext == 'webm' or file_ext == 'mov' %}
+              <video src="{{ image.url | relative_url }}"
+                     autoplay
+                     loop
+                     muted
+                     playsinline
+                     class="gallery-video"
+                     onclick="toggleVideo(this)">
+              </video>
+            {% else %}
+              <img src="{{ image.url | relative_url }}" 
+                   alt="{{ image.alt | default: page.title }}" 
+                   loading="lazy"
+                   class="gallery-image"
+                   onclick="openLightbox('{{ image.url | relative_url }}', '{{ image.caption | escape }}')">
+            {% endif %}
+            {% if image.caption %}
+            <figcaption class="image-caption">{{ image.caption }}</figcaption>
+            {% endif %}
+          </figure>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="photography-content">
+        {{ content }}
+      </div>
+    {% endif %}
+  </div>
+  
+  <nav class="photography-nav">
+    <a href="{{ '/photography/' | relative_url }}">← Back to Photography</a>
+  </nav>
+</article>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <span class="close">&times;</span>
+  <img id="lightbox-img" src="">
+  <div id="lightbox-caption"></div>
+</div>
+
+

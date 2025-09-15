@@ -1,0 +1,16 @@
+Technology,Type,Principle,Brightness_nits,Contrast_Ratio,Response_Time_ms,Color_Gamut,Power_Efficiency,Cost_Level,Applications
+LCD IPS,Non-Emissive,Liquid Crystal Alignment,300-1000,1000:1,4-8,85-95% sRGB,Medium,Low,Monitors Professional Graphics Gaming
+LCD VA,Non-Emissive,Vertical Alignment,350-800,3000:1,3-6,90-98% sRGB,Medium,Low,TVs Curved Displays Budget Monitors
+LCD TN,Non-Emissive,Twisted Nematic,250-400,1000:1,1-3,70-85% sRGB,High,Very Low,Gaming Budget Laptops Entry Level
+OLED AMOLED,Emissive,Organic Electroluminescence,100-800,∞:1,<1,95-100% DCI-P3,High,High,Smartphones Premium TVs Wearables
+OLED PMOLED,Emissive,Passive Matrix OLED,50-300,∞:1,<1,90-95% sRGB,Medium,Medium,Small Displays Wearables IoT Devices
+MicroLED,Emissive,Inorganic LED Arrays,1000-4000,∞:1,<1,100%+ Rec.2020,Medium,Very High,Premium TVs Digital Signage Luxury Displays
+Mini-LED,Hybrid,LED Backlight + LCD,600-4000,10000:1,2-5,95-98% DCI-P3,Medium,High,Premium TVs Gaming Monitors Professional
+QLED Samsung,Hybrid,Quantum Dot + LCD,500-4000,4000:1,2-8,100% DCI-P3,Medium,Medium,TVs Premium Monitors Gaming
+QD-OLED,Hybrid,Quantum Dot + OLED,200-1000,∞:1,<1,100%+ Rec.2020,High,Very High,Premium TVs Gaming Monitors
+E-Paper,Non-Emissive,Electrophoretic,20-50,10:1,100-1000,Monochrome,Very High,Low,E-Readers Signage Smart Labels
+Plasma,Emissive,Gas Discharge,500-1000,30000:1,<1,95% NTSC,Low,Discontinued,Large TVs Legacy Systems
+DLP,Projection,Micromirrors,2000-5000,2000:1,16,85-95% sRGB,Low,Medium,Projectors Cinema Digital Signage
+Electrowetting,Reflective,Oil Film Manipulation,100-500,50:1,10-50,85% sRGB,High,Experimental,Outdoor Displays Automotive
+Transparent OLED,Emissive,See-through OLED,100-400,∞:1,<1,90% sRGB,Medium,Very High,Retail Displays Automotive Windows
+Flexible OLED,Emissive,Bendable Substrates,100-600,∞:1,<1,95% DCI-P3,High,Very High,Foldables Wearables Curved Devices

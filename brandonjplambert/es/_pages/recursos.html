@@ -1,0 +1,309 @@
+---
+layout: page
+title: Recursos
+permalink: /es/recursos/
+lang: es
+description: Herramientas de aprendizaje de español y fuentes de contenido auténtico
+---
+
+<!-- Tabs Navigation -->
+<div class="tabs">
+  <div class="tab-list">
+    <button class="tab-button active" onclick="switchTab('tools')">
+      {{ site.data.i18n[page.lang].sections.resources.tools_tab }}
+    </button>
+    <button class="tab-button" onclick="switchTab('accounts')">
+      {{ site.data.i18n[page.lang].sections.resources.accounts_tab }}
+    </button>
+  </div>
+  
+  <!-- Learning Tools Tab -->
+  <div class="tab-panel active" id="tools-tab">
+    <div class="mb-5">
+      <p class="lead">Una colección curada de herramientas que he usado personalmente para el aprendizaje del español.</p>
+    </div>
+    
+    <!-- Tools by Category -->
+    {% assign tools_by_category = site.data.learning_tools.tools | group_by: "category" %}
+    {% for category in tools_by_category %}
+    <section class="mb-6">
+      <h3 class="mb-4">
+        {% case category.name %}
+          {% when 'Geographic & Cultural Immersion' %}
+            Inmersión Geográfica y Cultural
+          {% when 'Memory & Retention Systems' %}
+            Sistemas de Memoria y Retención
+          {% when 'AI-Powered Learning Enhancement' %}
+            Mejora del Aprendizaje con IA
+          {% when 'Visual Learning Resources' %}
+            Recursos de Aprendizaje Visual
+          {% when 'Design & Organization Tools' %}
+            Herramientas de Diseño y Organización
+          {% when 'Multimedia Practice Methods' %}
+            Métodos de Práctica Multimedia
+          {% when 'Social Integration' %}
+            Integración Social
+          {% else %}
+            {{ category.name }}
+        {% endcase %}
+      </h3>
+      <div class="grid grid-cols-2 gap-4">
+        {% for tool in category.items %}
+        <div class="card">
+          {% if tool.id == 'geoguessr' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Geoguessr_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'figma' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Figma_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'anki' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/anki_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'anki-remote' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/anki_remote_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'seterra' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Seterra_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'unsplash' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/unsplash_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'personal-photos' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/Google_photos_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'instagram' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/instagram_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'google-earth' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/google_street_view_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'llms' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/claude_llm_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'google-sheets' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/google_sheets_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'youtube-tutorials' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/youtube_drawing_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% elsif tool.id == 'music-platforms' %}
+          <div class="mb-3">
+            <img src="{{ '/assets/images/spotify_1.png' | relative_url }}" alt="{{ tool.name }}" class="w-full rounded" style="height: 150px; object-fit: cover;">
+          </div>
+          {% endif %}
+          <h4 class="card-title">{{ tool.name }}</h4>
+          <p class="text-sm text-muted mb-2">
+            {% case tool.category %}
+              {% when 'Geographic & Cultural Immersion' %}
+                Inmersión Geográfica y Cultural
+              {% when 'Memory & Retention Systems' %}
+                Sistemas de Memoria y Retención
+              {% when 'AI-Powered Learning Enhancement' %}
+                Mejora del Aprendizaje con IA
+              {% when 'Visual Learning Resources' %}
+                Recursos de Aprendizaje Visual
+              {% when 'Design & Organization Tools' %}
+                Herramientas de Diseño y Organización
+              {% when 'Multimedia Practice Methods' %}
+                Métodos de Práctica Multimedia
+              {% when 'Social Integration' %}
+                Integración Social
+              {% else %}
+                {{ tool.category }}
+            {% endcase %}
+          </p>
+          <p class="card-description">{{ tool.usage }}</p>
+          {% if tool.website_url %}
+          <div class="mt-3">
+            <a href="{{ tool.website_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+              Visitar Sitio Web →
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+  
+  <!-- Spanish Accounts Tab -->
+  <div class="tab-panel" id="accounts-tab">
+    <div class="mb-5">
+      <p class="lead">Cuentas auténticas de Instagram en español que sigo para exposición inmersiva al idioma en varios temas y regiones.</p>
+    </div>
+    
+    <!-- Category Filter -->
+    <div class="mb-5">
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-secondary account-filter active" data-filter="all">Todas</button>
+        <button class="btn btn-secondary account-filter" data-filter="Art">Arte</button>
+        <button class="btn btn-secondary account-filter" data-filter="Banking">Banca</button>
+        <button class="btn btn-secondary account-filter" data-filter="Culture">Cultura</button>
+        <button class="btn btn-secondary account-filter" data-filter="Diplomatic">Diplomático</button>
+        <button class="btn btn-secondary account-filter" data-filter="Education">Educación</button>
+        <button class="btn btn-secondary account-filter" data-filter="Food">Comida</button>
+        <button class="btn btn-secondary account-filter" data-filter="Government">Gobierno</button>
+        <button class="btn btn-secondary account-filter" data-filter="Language Learning">Idiomas</button>
+        <button class="btn btn-secondary account-filter" data-filter="Lifestyle">Estilo de Vida</button>
+        <button class="btn btn-secondary account-filter" data-filter="Media">Medios</button>
+        <button class="btn btn-secondary account-filter" data-filter="Nature">Naturaleza</button>
+        <button class="btn btn-secondary account-filter" data-filter="News">Noticias</button>
+        <button class="btn btn-secondary account-filter" data-filter="Research">Investigación</button>
+        <button class="btn btn-secondary account-filter" data-filter="Retail">Comercio</button>
+        <button class="btn btn-secondary account-filter" data-filter="Sports">Deportes</button>
+        <button class="btn btn-secondary account-filter" data-filter="Tourism">Turismo</button>
+        <button class="btn btn-secondary account-filter" data-filter="Transportation">Transporte</button>
+      </div>
+    </div>
+    
+    <!-- Accounts Grid -->
+    <div class="grid grid-cols-2 gap-4" id="accounts-container">
+      {% for account in site.data.spanish_accounts.accounts %}
+      <div class="card account-card" data-category="{{ account.category }}">
+        <div class="flex justify-between items-start mb-2">
+          <h4 class="card-title">{{ account.name }}</h4>
+          <span class="badge">
+            {% case account.category %}
+              {% when 'Art' %}
+                Arte
+              {% when 'Banking' %}
+                Banca
+              {% when 'Culture' %}
+                Cultura
+              {% when 'Diplomatic' %}
+                Diplomático
+              {% when 'Education' %}
+                Educación
+              {% when 'Food' %}
+                Comida
+              {% when 'Government' %}
+                Gobierno
+              {% when 'Language Learning' %}
+                Idiomas
+              {% when 'Lifestyle' %}
+                Estilo de Vida
+              {% when 'Media' %}
+                Medios
+              {% when 'Nature' %}
+                Naturaleza
+              {% when 'News' %}
+                Noticias
+              {% when 'Research' %}
+                Investigación
+              {% when 'Retail' %}
+                Comercio
+              {% when 'Sports' %}
+                Deportes
+              {% when 'Tourism' %}
+                Turismo
+              {% when 'Transportation' %}
+                Transporte
+              {% else %}
+                {{ account.category }}
+            {% endcase %}
+          </span>
+        </div>
+        <p class="card-description">{{ account.description }}</p>
+        <div class="flex gap-2 mt-3">
+          {% if account.instagram_url %}
+          <a href="{{ account.instagram_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+            Instagram →
+          </a>
+          {% endif %}
+          {% if account.youtube_url %}
+          <a href="{{ account.youtube_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+            YouTube →
+          </a>
+          {% endif %}
+          {% if account.website_url %}
+          <a href="{{ account.website_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-text">
+            Sitio Web →
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Learning Strategy Section -->
+<section class="mt-8">
+  <h2 class="mb-4">Mi Estrategia de Aprendizaje</h2>
+  <div class="card">
+    <h3 class="mb-3">Enfoque de Compromiso Multi-Modal</h3>
+    <p class="mb-3">A través de años de aprendizaje de idiomas, he desarrollado una estrategia integral que combina múltiples enfoques:</p>
+    <ul>
+      <li><strong>Aprendizaje Visual:</strong> Usando Unsplash y fotos personales para construir vocabulario y practicar descripción de escenas</li>
+      <li><strong>Inmersión Geográfica:</strong> Exploración virtual a través de Geoguessr y Google Earth para aprendizaje contextual</li>
+      <li><strong>Retención Sistemática:</strong> Convirtiendo notas desordenadas en tarjetas Anki estructuradas para repetición espaciada</li>
+      <li><strong>Mejora con IA:</strong> Aprovechando LLMs para transformación de notas, generación de ejercicios y práctica interactiva</li>
+      <li><strong>Integración Social:</strong> Siguiendo cuentas auténticas en español para exposición al idioma del mundo real</li>
+      <li><strong>Producción Activa:</strong> Pasando del consumo pasivo a la narración y descripción activa</li>
+    </ul>
+    <p class="mt-3 text-muted">La clave es usar experiencias de vida personal como material de aprendizaje: esta resonancia emocional mejora significativamente la retención y el compromiso.</p>
+  </div>
+</section>
+
+<script>
+// Tab switching
+function switchTab(tab) {
+  const buttons = document.querySelectorAll('.tab-button');
+  const panels = document.querySelectorAll('.tab-panel');
+  
+  buttons.forEach(btn => btn.classList.remove('active'));
+  panels.forEach(panel => panel.classList.remove('active'));
+  
+  if (tab === 'tools') {
+    buttons[0].classList.add('active');
+    document.getElementById('tools-tab').classList.add('active');
+  } else {
+    buttons[1].classList.add('active');
+    document.getElementById('accounts-tab').classList.add('active');
+  }
+}
+
+// Account filtering
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('.account-filter');
+  const accountCards = document.querySelectorAll('.account-card');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const filter = this.getAttribute('data-filter');
+      
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      accountCards.forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
+
+<style>
+.account-filter.active {
+  background-color: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+</style>

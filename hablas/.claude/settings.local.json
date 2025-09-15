@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__flow-nexus__task_orchestrate",
+      "Bash(npx create-next-app:*)",
+      "Bash(rm:*)",
+      "Bash(npm install)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(npx vercel:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "outputStyle": "Explanatory"
+}

@@ -1,0 +1,195 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-09-10",
+    "description": "Cross-reference system linking related display technology concepts",
+    "total_references": 234
+  },
+  "concept_relationships": {
+    "lcd": {
+      "prerequisites": [],
+      "related_concepts": ["backlight", "tft", "color_filter", "liquid_crystal"],
+      "competing_technologies": ["oled", "e_ink"],
+      "enhanced_by": ["quantum_dot", "local_dimming"],
+      "see_also": ["active_matrix", "viewing_angle", "response_time"],
+      "applications": ["monitors", "tvs", "mobile_displays", "automotive"],
+      "key_metrics": ["contrast_ratio", "brightness", "response_time", "power_consumption"],
+      "learning_path": ["display_basics", "backlight_technology", "tft_operation"]
+    },
+    "oled": {
+      "prerequisites": ["lcd", "display_basics"],
+      "related_concepts": ["organic_materials", "encapsulation", "amoled"],
+      "competing_technologies": ["lcd", "microled"],
+      "enhanced_by": ["flexible_substrate", "transparent_display"],
+      "see_also": ["burn_in", "lifetime", "color_accuracy"],
+      "applications": ["smartphones", "premium_tvs", "automotive", "wearables"],
+      "key_metrics": ["contrast_ratio", "color_gamut", "power_efficiency", "lifetime"],
+      "learning_path": ["lcd_fundamentals", "self_emissive_concepts", "organic_chemistry"]
+    },
+    "microled": {
+      "prerequisites": ["oled", "led_basics"],
+      "related_concepts": ["mass_transfer", "inorganic_led", "modular_display"],
+      "competing_technologies": ["oled", "lcd"],
+      "enhanced_by": ["seamless_tiling", "outdoor_brightness"],
+      "see_also": ["manufacturing_challenges", "cost_structure", "yield"],
+      "applications": ["large_displays", "outdoor_signage", "ar_vr", "automotive"],
+      "key_metrics": ["brightness", "efficiency", "lifetime", "pixel_density"],
+      "learning_path": ["oled_understanding", "led_technology", "semiconductor_processing"]
+    },
+    "quantum_dot": {
+      "prerequisites": ["lcd", "color_theory"],
+      "related_concepts": ["nanocrystal", "photoluminescence", "backlight_enhancement"],
+      "competing_technologies": ["wide_gamut_led", "laser_backlight"],
+      "enhanced_by": ["blue_led_excitation", "size_tuning"],
+      "see_also": ["color_purity", "efficiency", "thermal_stability"],
+      "applications": ["premium_lcd", "gaming_monitors", "professional_displays"],
+      "key_metrics": ["color_gamut", "efficiency", "lifetime", "thermal_stability"],
+      "learning_path": ["color_fundamentals", "lcd_backlighting", "nanotechnology"]
+    },
+    "backlight": {
+      "prerequisites": ["display_basics"],
+      "related_concepts": ["led", "light_guide", "diffuser", "brightness_uniformity"],
+      "types": ["edge_lit", "direct_lit", "full_array"],
+      "enhanced_by": ["quantum_dot", "local_dimming", "mini_led"],
+      "see_also": ["power_consumption", "thermal_management", "optical_efficiency"],
+      "applications": ["lcd_displays", "automotive", "medical", "industrial"],
+      "key_metrics": ["brightness", "uniformity", "efficiency", "lifetime"],
+      "learning_path": ["lcd_basics", "optical_principles", "led_technology"]
+    },
+    "tft": {
+      "prerequisites": ["semiconductor_basics"],
+      "related_concepts": ["active_matrix", "switching_element", "pixel_electrode"],
+      "materials": ["amorphous_silicon", "ltps", "igzo", "oxide"],
+      "enhanced_by": ["high_mobility", "low_temperature_processing"],
+      "see_also": ["leakage_current", "uniformity", "yield"],
+      "applications": ["lcd", "oled", "e_paper", "sensors"],
+      "key_metrics": ["mobility", "threshold_voltage", "leakage", "uniformity"],
+      "learning_path": ["semiconductor_physics", "transistor_operation", "thin_film_deposition"]
+    },
+    "color_filter": {
+      "prerequisites": ["color_theory"],
+      "related_concepts": ["rgb_subpixels", "color_reproduction", "optical_filter"],
+      "types": ["rgb_stripe", "pentile", "rgbw"],
+      "enhanced_by": ["quantum_dot_filter", "photolithography"],
+      "see_also": ["transmission_efficiency", "color_purity", "viewing_angle"],
+      "applications": ["lcd", "image_sensors", "optical_instruments"],
+      "key_metrics": ["transmission", "color_purity", "contrast", "durability"],
+      "learning_path": ["color_fundamentals", "optical_filters", "display_manufacturing"]
+    },
+    "photolithography": {
+      "prerequisites": ["semiconductor_manufacturing"],
+      "related_concepts": ["patterning", "photoresist", "exposure", "development"],
+      "applications": ["tft_fabrication", "color_filter", "metal_lines"],
+      "enhanced_by": ["advanced_masks", "immersion_lithography"],
+      "see_also": ["resolution", "alignment", "yield", "cost"],
+      "key_metrics": ["resolution", "cd_uniformity", "overlay_accuracy", "throughput"],
+      "learning_path": ["semiconductor_basics", "optical_systems", "process_engineering"]
+    },
+    "encapsulation": {
+      "prerequisites": ["materials_science"],
+      "related_concepts": ["barrier_properties", "moisture_protection", "oxygen_blocking"],
+      "methods": ["glass_frit", "thin_film", "hybrid"],
+      "critical_for": ["oled", "organic_photovoltaics", "flexible_electronics"],
+      "see_also": ["permeation_rate", "adhesion", "thermal_cycling"],
+      "key_metrics": ["wvtr", "otr", "adhesion_strength", "thermal_stability"],
+      "learning_path": ["materials_fundamentals", "barrier_coatings", "reliability_testing"]
+    }
+  },
+  "application_examples": {
+    "smartphone_display": {
+      "primary_technologies": ["oled", "lcd"],
+      "key_requirements": ["power_efficiency", "thin_profile", "touch_integration"],
+      "typical_specs": {
+        "size": "5-7 inches",
+        "resolution": "1080p-4K",
+        "brightness": "400-800 nits",
+        "color_gamut": "DCI-P3"
+      },
+      "design_considerations": ["battery_life", "thermal_management", "durability"]
+    },
+    "gaming_monitor": {
+      "primary_technologies": ["lcd", "oled"],
+      "key_requirements": ["fast_response", "high_refresh_rate", "low_input_lag"],
+      "typical_specs": {
+        "size": "24-32 inches",
+        "resolution": "1440p-4K",
+        "refresh_rate": "144-240 Hz",
+        "response_time": "1ms"
+      },
+      "design_considerations": ["motion_blur", "ghosting", "adaptive_sync"]
+    },
+    "automotive_display": {
+      "primary_technologies": ["lcd", "oled"],
+      "key_requirements": ["wide_temperature", "high_brightness", "reliability"],
+      "typical_specs": {
+        "size": "8-17 inches",
+        "brightness": "1000+ nits",
+        "temperature_range": "-40 to 85°C",
+        "lifetime": "15+ years"
+      },
+      "design_considerations": ["sunlight_readability", "vibration_resistance", "safety"]
+    },
+    "ar_vr_display": {
+      "primary_technologies": ["oled", "microled"],
+      "key_requirements": ["high_ppi", "fast_response", "low_persistence"],
+      "typical_specs": {
+        "pixel_density": "1000+ PPI",
+        "refresh_rate": "90-120 Hz",
+        "persistence": "<3ms",
+        "field_of_view": "90-120°"
+      },
+      "design_considerations": ["motion_sickness", "vergence_accommodation", "power"]
+    }
+  },
+  "troubleshooting_guides": {
+    "poor_contrast": {
+      "symptoms": ["washed_out_blacks", "low_dynamic_range"],
+      "possible_causes": ["backlight_leakage", "ips_glow", "ambient_light"],
+      "solutions": ["local_dimming", "va_panel", "oled_upgrade"],
+      "related_concepts": ["contrast_ratio", "black_level", "viewing_environment"]
+    },
+    "color_inaccuracy": {
+      "symptoms": ["wrong_colors", "oversaturation", "color_shift"],
+      "possible_causes": ["uncalibrated", "narrow_gamut", "aging"],
+      "solutions": ["calibration", "wide_gamut_display", "replacement"],
+      "related_concepts": ["color_gamut", "calibration", "color_management"]
+    },
+    "motion_blur": {
+      "symptoms": ["ghosting", "trailing", "smearing"],
+      "possible_causes": ["slow_response", "sample_hold", "overdrive"],
+      "solutions": ["faster_panel", "backlight_strobing", "higher_refresh"],
+      "related_concepts": ["response_time", "motion_handling", "refresh_rate"]
+    }
+  },
+  "standards_and_specifications": {
+    "color_standards": {
+      "srgb": {
+        "description": "Standard RGB color space for web and general use",
+        "coverage": "35% of visible spectrum",
+        "applications": ["web_content", "office_displays", "basic_editing"]
+      },
+      "dci_p3": {
+        "description": "Digital cinema color space, 25% larger than sRGB",
+        "coverage": "45% of visible spectrum", 
+        "applications": ["cinema", "hdr_content", "professional_displays"]
+      },
+      "rec_2020": {
+        "description": "Ultra-wide color space for future broadcast",
+        "coverage": "75% of visible spectrum",
+        "applications": ["8k_broadcast", "next_gen_displays", "research"]
+      }
+    },
+    "performance_standards": {
+      "hdr10": {
+        "brightness_range": "0.05-1000 nits",
+        "color_depth": "10-bit",
+        "color_space": "Rec 2020"
+      },
+      "dolby_vision": {
+        "brightness_range": "0.005-10000 nits",
+        "color_depth": "12-bit",
+        "dynamic_metadata": true
+      }
+    }
+  }
+}

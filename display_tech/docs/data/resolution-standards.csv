@@ -1,0 +1,29 @@
+Standard_Name,Resolution,Pixel_Count,Aspect_Ratio,Common_Uses,PPI_at_Distance
+HD Ready,1280x720,921600,16:9,Budget TVs Entry Smartphones,36 PPI at 3m
+Full HD,1920x1080,2073600,16:9,Standard TVs Monitors Laptops,52 PPI at 3m
+WQHD,2560x1440,3686400,16:9,Gaming Monitors Professional,73 PPI at 3m
+4K UHD,3840x2160,8294400,16:9,Premium TVs Monitors,105 PPI at 3m
+4K DCI,4096x2160,8847360,1.9:1,Cinema Digital Projection,110 PPI at 3m
+5K,5120x2880,14745600,16:9,Professional Monitors,147 PPI at 3m
+6K,6016x3384,20358144,16:9,Professional Video Editing,170 PPI at 3m
+8K UHD,7680x4320,33177600,16:9,Premium Large TVs Future,210 PPI at 3m
+VGA,640x480,307200,4:3,Legacy Systems Basic Displays,24 PPI at 3m
+SVGA,800x600,480000,4:3,Old Monitors Projectors,30 PPI at 3m
+XGA,1024x768,786432,4:3,Legacy Monitors Projectors,38 PPI at 3m
+SXGA,1280x1024,1310720,5:4,Professional CRT Legacy,48 PPI at 3m
+UXGA,1600x1200,1920000,4:3,High-end Legacy,60 PPI at 3m
+WUXGA,1920x1200,2304000,16:10,Professional Monitors,58 PPI at 3m
+QSXGA,2560x2048,5242880,5:4,Professional Graphics,95 PPI at 3m
+WQSXGA,3200x2048,6553600,25:16,Ultra-wide Professional,120 PPI at 3m
+HXGA,4096x3072,12582912,4:3,Digital Cinema Professional,153 PPI at 3m
+WHXGA,5120x3200,16384000,16:10,Ultra High-end Professional,191 PPI at 3m
+HSXGA,5120x4096,20971520,5:4,Extreme Professional,240 PPI at 3m
+WHSXGA,6400x4096,26214400,25:16,Future Professional,300 PPI at 3m
+Mobile QVGA,240x320,76800,3:4,Legacy Mobile,160 PPI at 25cm
+Mobile HVGA,320x480,153600,2:3,Basic Smartphones,200 PPI at 25cm
+Mobile WVGA,480x800,384000,3:5,Entry Smartphones,250 PPI at 25cm
+Mobile qHD,540x960,518400,9:16,Mid-range Smartphones,280 PPI at 25cm
+Mobile HD,720x1280,921600,9:16,Standard Smartphones,320 PPI at 25cm
+Mobile FHD,1080x1920,2073600,9:16,Premium Smartphones,440 PPI at 25cm
+Mobile QHD,1440x2560,3686400,9:16,Flagship Smartphones,520 PPI at 25cm
+Mobile 4K,2160x3840,8294400,9:16,Ultra Premium Smartphones,800 PPI at 25cm

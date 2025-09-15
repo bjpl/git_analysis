@@ -1,0 +1,341 @@
+index,handle,name,category,description,has_instagram
+1,@infopresidencia,Presidencia de Colombia,Government,Official account of the Presidency of Colombia - Casa de Nariño,Yes
+3,@consulmexsea,Mexican Consulate Seattle,Diplomatic,"Mexican Consulate in Seattle, Washington",Yes
+7,@sremx,SRE Mexico,Government,Ministry of Foreign Affairs of Mexico,Yes
+9,@mindefensa,MinDefensa Colombia,Government,Ministry of National Defense of Colombia,Yes
+12,@minticscolombia,MinTIC Colombia,Government,Ministry of Information and Communication Technologies of Colombia,No
+13,@mintrabajocol,MinTrabajo Colombia,Government,Ministry of Labor of Colombia,Yes
+16,@sepgobmx,SEP México,Government,Ministry of Public Education of Mexico,Yes
+17,@saludmexico,Salud México,Government,Ministry of Health of Mexico,Yes
+18,@hacienda_mexico,Hacienda México,Government,Ministry of Finance and Public Credit of Mexico,No
+19,@sct_mx,SCT México,Government,Ministry of Communications and Transportation of Mexico,No
+20,@semarnat_mexico,SEMARNAT México,Government,Ministry of Environment and Natural Resources of Mexico,No
+21,@economía.mexico,Economía México,Government,Ministry of Economy of Mexico,No
+22,@usembassymex,USA Embassy Mexico,Diplomatic,United States Embassy in Mexico,Yes
+25,@embamexchi,Mexico in Chile,Diplomatic,Embassy of Mexico in Chile,Yes
+27,@embamexgua,Mexico in Guatemala,Diplomatic,Embassy of Mexico in Guatemala,Yes
+28,@embamex_italia,Mexico in Italy,Diplomatic,Embassy of Mexico in Italy,Yes
+30,@embamexlibano,Mexico in Lebanon,Diplomatic,Embassy of Mexico in Lebanon,Yes
+32,@embamexesp,Mexico in Spain,Diplomatic,Embassy of Mexico in Spain,Yes
+33,@embamexur,Mexico in Uruguay,Diplomatic,Embassy of Mexico in Uruguay,Yes
+34,@embamexvenezuela,Mexico in Venezuela,Diplomatic,Embassy of Mexico in Venezuela,Yes
+37,@consulmexhou,Mexican Consulate Houston,Diplomatic,Mexican Consulate General in Houston,Yes
+39,@cdmx,CDMX,Government,Government of Mexico City (Ciudad de México),Yes
+40,@guadalajaramx,Guadalajara,Government,"Municipal Government of Guadalajara, Mexico",Yes
+41,@monterreymx,Monterrey,Government,"Municipal Government of Monterrey, Mexico",Yes
+42,@udea,Universidad de Antioquia,Education,University of Antioquia - Leading Colombian university in Medellín,Yes
+43,@instituto_humboldt,Instituto Humboldt,Research,Alexander von Humboldt Biological Resources Research Institute,Yes
+44,@laprofemonica,La Profe Mónica,Language Learning,Spanish language teacher sharing educational content,Yes
+45,@museodeloro,Museo del Oro,Culture,Gold Museum of Colombia showcasing pre-Columbian artifacts,No
+46,@elmamm,MAMM Medellín,Art,Museum of Modern Art of Medellín,No
+47,@bibliotecaluisangelarango,Biblioteca Luis Ángel Arango,Culture,Major cultural library in Bogotá with events and exhibitions,No
+48,@museodeartemoderno,Museo de Arte Moderno MX,Culture,Museum of Modern Art showcasing contemporary Mexican and international art,Yes
+50,@imcine,IMCINE,Culture,Mexican Institute of Cinematography - promoting Mexican cinema,Yes
+51,@elcorraloficial,El Corral,Food,Colombian burger restaurant chain - local favorite,Yes
+52,@colcafe,Colcafé,Food,Colombian coffee brand and culture,Yes
+53,@visitbogota.co,Visit Bogotá,Tourism,Official Bogotá tourism account with city highlights,Yes
+54,@visitarmedellin,Visitar Medellín,Tourism,Medellín tourism and local experiences,No
+55,@medellin_guru,Medellín Guru,Tourism,Comprehensive Medellín travel guide and tips,No
+56,@parquescolombia,Parques Nacionales Colombia,Nature,National Parks of Colombia - natural beauty and conservation,No
+57,@visitmexico,Visit Mexico,Tourism,Official tourism promotion of Mexico - destinations and experiences,Yes
+59,@nomadafrustrada,Nómada Frustrada,Tourism,Digital nomad travel content and lifestyle,Yes
+60,@viajandoempelota,Viajando Empelota,Tourism,Backpacking adventures across Latin America,Yes
+61,@bogotacomidas,Bogotá Comidas,Food,Food guide and restaurant recommendations in Bogotá,Yes
+62,@bogotaplan,Bogotá Plan,Culture,"Events, culture, and activities in Bogotá",Yes
+63,@colombianfamily,Colombian Family,Lifestyle,Colombian family travel and lifestyle content,No
+71,@uruguaynatural,Uruguay Natural,Tourism,Official tourism promotion of Uruguay,No
+72,@museonacional,Museo Nacional Mexico,Culture,National Museum of Mexico showcasing Mexican history and culture,No
+73,@malba,MALBA,Culture,Museum of Latin American Art of Buenos Aires,Yes
+74,@museolarco,Museo Larco,Culture,"Museum showcasing pre-Columbian art in Lima, Peru",Yes
+75,@museobotero,Museo Botero,Culture,Museum dedicated to Fernando Botero's works in Bogotá,Yes
+83,@munal,MUNAL,Culture,National Art Museum of Mexico,Yes
+85,@mnba,MNBA Chile,Culture,National Museum of Fine Arts of Chile,Yes
+86,@macchile,MAC Chile,Culture,Museum of Contemporary Art of Chile,Yes
+88,@mali,MALI,Culture,Lima Art Museum showcasing Peruvian art,No
+97,@imagentv,Imagen TV,Media,Mexican television network focusing on news and entertainment,No
+102,@tudn,TUDN,Sports,Spanish-language sports television network,No
+106,@uamx,UAM México,Education,Metropolitan Autonomous University of Mexico,Yes
+107,@itesm,Tec de Monterrey,Education,Monterrey Institute of Technology and Higher Education,Yes
+108,@unal,Universidad Nacional Colombia,Education,National University of Colombia,No
+113,@pucchile,PUC Chile,Education,Pontifical Catholic University of Chile,No
+118,@milenio,Milenio Noticias,News,Mexican multimedia news organization,No
+123,@eltiempo,El Tiempo,News,Colombia's leading newspaper and news organization,No
+128,@elcomercio,El Comercio,News,Leading Peruvian newspaper and news organization,No
+133,@afa,AFA Argentina,Sports,Argentine Football Association and national team,No
+138,@vivaaerobus,VivaAerobus,Transportation,Mexican low-cost airline,Yes
+139,@avianca,Avianca,Transportation,Colombian flagship airline serving Latin America,No
+140,@latam,LATAM Airlines,Transportation,Latin American airline group serving the region,Yes
+143,@santandermexico,Santander México,Banking,Spanish bank's Mexican operations,Yes
+144,@scotiabank,Scotiabank México,Banking,Canadian bank's Mexican operations,No
+145,@hsbc,HSBC México,Banking,British bank's Mexican operations,Yes
+147,@metrocdmx,Metro CDMX,Transportation,Mexico City Metro system,Yes
+149,@metrosantiago,Metro Santiago,Transportation,Santiago Metro system in Chile,No
+150,@metrolima,Metro Lima,Transportation,Lima Metro system in Peru,No
+151,@metroquito,Metro Quito,Transportation,Quito Metro system in Ecuador,Yes
+153,@teatrocolonbogota,Teatro Colón Bogotá,Culture,Historic opera house and cultural venue in Bogotá,Yes
+155,@teatrosolis,Teatro Solís,Culture,Principal theater of Uruguay in Montevideo,Yes
+156,@cenart,CENART,Culture,National Center for the Arts of Mexico,No
+157,@ccemx,CCE México,Culture,Cultural Center of Spain in Mexico,No
+158,@casaamerica,Casa de América,Culture,Institution promoting Ibero-American culture in Spain,Yes
+159,@bibliotecanalco,Biblioteca Nacional Colombia,Culture,National Library of Colombia,Yes
+161,@bibliotecanalargentina,Biblioteca Nacional Argentina,Culture,National Library of Argentina,Yes
+162,@bibliotecavasconcelos,Biblioteca Vasconcelos,Culture,José Vasconcelos Library in Mexico City,Yes
+163,@liverpool,Liverpool,Retail,Mexican luxury department store chain,No
+168,@coppel,Coppel,Retail,Mexican retail chain with credit services,No
+171,@edomex,Estado de México,Government,Government of the State of Mexico,Yes
+172,@nuevoleon,Nuevo León,Government,Government of Nuevo León state in Mexico,Yes
+173,@jalisco,Jalisco,Government,Government of Jalisco state in Mexico,Yes
+174,@puebla,Puebla,Government,Government of Puebla state in Mexico,Yes
+175,@veracruz,Veracruz,Government,Government of Veracruz state in Mexico,No
+176,@oaxaca,Oaxaca,Government,Government of Oaxaca state in Mexico,Yes
+178,@yucatan,Yucatán,Government,Government of Yucatán state in Mexico,Yes
+179,@queretaro,Querétaro,Government,Government of Querétaro state in Mexico,Yes
+180,@guanajuato,Guanajuato,Government,Government of Guanajuato state in Mexico,No
+181,@cundinamarca,Cundinamarca,Government,Government of Cundinamarca department in Colombia,No
+184,@atlantico,Atlántico,Government,Government of Atlántico department in Colombia,No
+185,@santander,Santander,Government,Government of Santander department in Colombia,No
+186,@bolivar,Bolívar,Government,Government of Bolívar department in Colombia,No
+187,@casarealtv,Casa Real TV,Government,Official channel of the Spanish Royal House,No
+188,@institutocervantes,Instituto Cervantes,Culture,Spanish government institution promoting Spanish language and culture worldwide,No
+190,@canaldelcongreso,Canal del Congreso,Government,Television channel of the Mexican Congress,No
+192,@guardianacionalmx,Guardia Nacional México,Government,Mexican National Guard,No
+197,@america,Club América,Sports,Mexican professional football club from Mexico City,No
+198,@chivas,Chivas,Sports,Club de Fútbol Guadalajara professional football team,No
+199,@pumas,Pumas UNAM,Sports,Mexican professional football club affiliated with UNAM,No
+201,@river,River Plate,Sports,Argentine professional football club from Buenos Aires,No
+207,@bimbo,Grupo Bimbo,Food,Mexican multinational bakery company,No
+208,,Coca-Cola Colombia,Food & Beverage,,No
+209,,Pepsi Colombia,Food & Beverage,,No
+210,,Doritos Colombia,Food & Beverage,,Yes
+211,,Oreo Colombia,Food & Beverage,,No
+212,,Nutella Colombia,Food & Beverage,,Yes
+213,,KitKat Colombia,Food & Beverage,,Yes
+214,,Snickers Colombia,Food & Beverage,,Yes
+215,,M&M's Colombia,Food & Beverage,,Yes
+216,,Pringles Colombia,Food & Beverage,,Yes
+217,,Red Bull Colombia,Food & Beverage,,No
+218,,Monster Energy Colombia,Food & Beverage,,No
+219,,Gatorade Colombia,Food & Beverage,,No
+220,,Samsung Colombia,Technology,,Yes
+221,,Apple Colombia,Technology,,No
+222,,HP Colombia,Technology,,Yes
+223,,Dell Colombia,Technology,,Yes
+224,,Lenovo Colombia,Technology,,Yes
+225,,Sony Colombia,Technology,,Yes
+226,,LG Colombia,Technology,,Yes
+227,,Huawei Colombia,Technology,,No
+228,,Xiaomi Colombia,Technology,,No
+229,,Nike Colombia,Sports & Apparel,,No
+230,,Adidas Colombia,Sports & Apparel,,Yes
+231,,Puma Colombia,Sports & Apparel,,No
+232,,Reebok Colombia,Sports & Apparel,,Yes
+233,,Under Armour Colombia,Sports & Apparel,,Yes
+234,,New Balance Colombia,Sports & Apparel,,Yes
+235,,Converse Colombia,Sports & Apparel,,Yes
+236,,Vans Colombia,Sports & Apparel,,Yes
+237,,The North Face Colombia,Sports & Apparel,,No
+238,,Columbia Sportswear Colombia,Sports & Apparel,,No
+239,,Netflix Colombia,Entertainment,,No
+240,,HBO Latinoamérica,Entertainment,,Yes
+241,,Disney+ Latinoamérica,Entertainment,,No
+242,,Amazon Prime Video Latinoamérica,Entertainment,,Yes
+243,,Spotify Colombia,Entertainment,,Yes
+244,,YouTube Colombia,Entertainment,,Yes
+245,,TikTok Colombia,Entertainment,,Yes
+246,,Warner Bros Colombia,Entertainment,,Yes
+247,,Universal Pictures Colombia,Entertainment,,No
+248,,Sony Pictures Colombia,Entertainment,,No
+249,,L'Oréal Colombia,Beauty & Personal Care,,No
+250,,Maybelline Colombia,Beauty & Personal Care,,Yes
+251,,MAC Cosmetics Colombia,Beauty & Personal Care,,No
+252,,Clinique Colombia,Beauty & Personal Care,,Yes
+253,,Estée Lauder Colombia,Beauty & Personal Care,,Yes
+254,,Lancôme Colombia,Beauty & Personal Care,,Yes
+255,,Dove Colombia,Beauty & Personal Care,,Yes
+256,,Nivea Colombia,Beauty & Personal Care,,Yes
+257,,Head & Shoulders Colombia,Beauty & Personal Care,,No
+258,,Pantene Colombia,Beauty & Personal Care,,No
+259,,Toyota Colombia,Automotive,,No
+260,,Mazda Colombia,Automotive,,Yes
+261,,Nissan Colombia,Automotive,,No
+262,,Chevrolet Colombia,Automotive,,Yes
+263,,Ford Colombia,Automotive,,Yes
+264,,Renault Colombia,Automotive,,Yes
+265,,Volkswagen Colombia,Automotive,,Yes
+266,,BMW Colombia,Automotive,,Yes
+267,,Mercedes-Benz Colombia,Automotive,,No
+268,,Audi Colombia,Automotive,,No
+269,,IKEA Colombia,Retail,,No
+270,,Zara Colombia,Retail,,Yes
+271,,H&M Colombia,Retail,,No
+272,,Forever 21 Colombia,Retail,,Yes
+273,,Mango Colombia,Retail,,Yes
+274,,Pull&Bear Colombia,Retail,,Yes
+275,,Bershka Colombia,Retail,,Yes
+276,,Stradivarius Colombia,Retail,,Yes
+277,,Massimo Dutti Colombia,Retail,,No
+278,,Gap Colombia,Retail,,No
+279,,Bancolombia,Banking,,No
+280,,Banco de Bogotá,Banking,,Yes
+281,,Davivienda,Banking,,No
+282,,BBVA Colombia,Banking,,Yes
+283,,Banco de Occidente,Banking,,Yes
+284,,Scotiabank Colpatria,Banking,,Yes
+285,,Banco Popular Colombia,Banking,,Yes
+286,,Banco AV Villas,Banking,,Yes
+287,,Banco Caja Social,Banking,,No
+288,,Itaú Colombia,Banking,,No
+289,,Avianca,Transportation,,No
+290,,LATAM Colombia,Transportation,,Yes
+291,,Copa Airlines Colombia,Transportation,,No
+292,,Viva Air Colombia,Transportation,,Yes
+293,,EasyFly,Transportation,,Yes
+294,,Satena,Transportation,,Yes
+295,,Wingo,Transportation,,Yes
+296,,JetSMART Colombia,Transportation,,Yes
+297,,Ultra Air,Transportation,,No
+298,,ADA Aerolínea de Antioquia,Transportation,,No
+299,,Claro Colombia,Telecommunications,,No
+300,,Movistar Colombia,Telecommunications,,Yes
+301,,Tigo Colombia,Telecommunications,,No
+302,,Virgin Mobile Colombia,Telecommunications,,Yes
+303,,WOM Colombia,Telecommunications,,Yes
+304,,Flash Mobile Colombia,Telecommunications,,Yes
+305,,ETB,Telecommunications,,Yes
+306,,Une EPM Telecomunicaciones,Telecommunications,,Yes
+307,,DirecTV Colombia,Telecommunications,,No
+308,,Claro TV Colombia,Telecommunications,,No
+309,,Éxito,Retail,,No
+310,,Carulla,Retail,,Yes
+311,,Jumbo Colombia,Retail,,No
+312,,Alkosto,Retail,,Yes
+313,,Falabella Colombia,Retail,,Yes
+314,,Homecenter,Retail,,Yes
+315,,Easy Colombia,Retail,,Yes
+316,,Olímpica,Retail,,Yes
+317,,D1 Colombia,Retail,,No
+318,,Ara,Retail,,No
+319,,EPM (Empresas Públicas de Medellín),Utilities,,No
+320,,Ecopetrol,Energy,,Yes
+321,,ISA (Interconexión Eléctrica S.A.),Energy,,No
+322,,Grupo Energía Bogotá,Energy,,Yes
+323,,Celsia,Energy,,Yes
+324,,Codensa,Energy,,Yes
+325,,Emgesa,Energy,,Yes
+326,,Gas Natural Fenosa Colombia,Energy,,Yes
+327,,TGI (Transportadora de Gas Internacional),Energy,,Yes
+328,,XM (Expertos en Mercados),Energy,,No
+329,,Postobón,Food & Beverage,,No
+330,,Bavaria,Food & Beverage,,No
+331,,Alpina,Food & Beverage,,Yes
+332,,Colanta,Food & Beverage,,No
+333,,Grupo Nutresa,Food & Beverage,,Yes
+334,,Colombina,Food & Beverage,,Yes
+335,,Ramo,Food & Beverage,,Yes
+336,,Bimbo Colombia,Food & Beverage,,Yes
+337,,Alquería,Food & Beverage,,Yes
+338,,Diana,Food & Beverage,,No
+339,,Juan Valdez Café,Food & Beverage,,No
+340,,Oma (Café),Food & Beverage,,No
+341,,Tostao' Café,Food & Beverage,,Yes
+342,,Crepes & Waffles,Food & Beverage,,No
+343,,El Corral,Food & Beverage,,Yes
+344,,Frisby,Food & Beverage,,Yes
+345,,Kokoriko,Food & Beverage,,Yes
+346,,Jeno's Pizza,Food & Beverage,,Yes
+347,,Archie's,Food & Beverage,,Yes
+348,,Sandwich Qbano,Food & Beverage,,No
+349,,Sura,Insurance,,No
+350,,Seguros Bolívar,Insurance,,No
+351,,Allianz Colombia,Insurance,,Yes
+352,,Liberty Seguros Colombia,Insurance,,No
+353,,Mapfre Colombia,Insurance,,Yes
+354,,AXA Colpatria,Insurance,,Yes
+355,,Seguros del Estado,Insurance,,Yes
+356,,Positiva Compañía de Seguros,Insurance,,Yes
+357,,La Equidad Seguros,Insurance,,Yes
+358,,Aseguradora Solidaria,Insurance,,No
+359,,Universidad Nacional de Colombia,Education,,No
+360,,Universidad de los Andes,Education,,No
+361,,Universidad Javeriana,Education,,Yes
+362,,Universidad del Rosario,Education,,No
+363,,Universidad de Antioquia,Education,,Yes
+364,,Universidad del Valle,Education,,Yes
+365,,Universidad Industrial de Santander,Education,,Yes
+366,,Universidad Externado,Education,,Yes
+367,,Universidad de la Sabana,Education,,Yes
+368,,Universidad EAFIT,Education,,No
+369,,Ministerio de Relaciones Exteriores de Colombia,Government,,No
+370,,Ministerio de Defensa Nacional de Colombia,Government,,No
+371,,Ministerio del Interior de Colombia,Government,,Yes
+372,,Ministerio de Hacienda de Colombia,Government,,No
+373,,Ministerio de Justicia de Colombia,Government,,Yes
+374,,Ministerio de Educación Nacional de Colombia,Government,,Yes
+375,,Ministerio de Salud de Colombia,Government,,Yes
+376,,Ministerio de Trabajo de Colombia,Government,,Yes
+377,,Ministerio de Comercio de Colombia,Government,,Yes
+378,,Ministerio de Agricultura de Colombia,Government,,No
+379,,Ministerio de Ambiente de Colombia,Government,,No
+380,,Ministerio de Vivienda de Colombia,Government,,No
+381,,Ministerio de Transporte de Colombia,Government,,Yes
+382,,Ministerio de Minas y Energía de Colombia,Government,,No
+383,,Ministerio de Tecnologías de Colombia,Government,,Yes
+384,,Ministerio de Cultura de Colombia,Government,,Yes
+385,,Ministerio del Deporte de Colombia,Government,,Yes
+386,,Ministerio de Ciencia de Colombia,Government,,Yes
+387,,Departamento Nacional de Planeación,Government,,Yes
+388,,DANE Colombia,Government,,No
+389,,DIAN Colombia,Government,,No
+390,,Procuraduría General de la Nación,Government,,No
+391,,Contraloría General de la República,Government,,Yes
+392,,Fiscalía General de la Nación,Government,,No
+393,,Defensoría del Pueblo Colombia,Government,,Yes
+394,,Registraduría Nacional,Government,,Yes
+395,,ICBF (Instituto Colombiano de Bienestar Familiar),Government,,Yes
+396,,SENA Colombia,Government,,Yes
+397,,Colpensiones,Government,,Yes
+398,,INVIMA,Government,,No
+399,,Superintendencia de Industria y Comercio,Government,,No
+400,,Superintendencia Financiera de Colombia,Government,,No
+401,,Superintendencia de Salud,Government,,Yes
+402,,Superintendencia de Servicios Públicos,Government,,No
+403,,Superintendencia de Transporte,Government,,Yes
+404,,Superintendencia de Notariado y Registro,Government,,Yes
+405,,Agencia Nacional de Infraestructura,Government,,Yes
+406,,Agencia Nacional de Tierras,Government,,Yes
+407,,Unidad Nacional para la Gestión del Riesgo,Government,,Yes
+408,,Instituto Geográfico Agustín Codazzi,Government,,No
+409,,Embajada de Colombia en Estados Unidos,Diplomatic,,No
+410,,Embajada de Colombia en México,Diplomatic,,No
+411,,Embajada de Colombia en España,Diplomatic,,Yes
+412,,Embajada de Colombia en Francia,Diplomatic,,No
+413,,Embajada de Colombia en Reino Unido,Diplomatic,,Yes
+414,,Embajada de Colombia en Alemania,Diplomatic,,Yes
+415,,Embajada de Colombia en Italia,Diplomatic,,Yes
+416,,Embajada de Colombia en Brasil,Diplomatic,,Yes
+417,,Embajada de Colombia en Argentina,Diplomatic,,Yes
+418,,Embajada de Colombia en Chile,Diplomatic,,No
+419,,Consulado de Colombia en Miami,Diplomatic,,No
+420,,Consulado de Colombia en Nueva York,Diplomatic,,No
+421,,Consulado de Colombia en Los Ángeles,Diplomatic,,Yes
+422,,Consulado de Colombia en Madrid,Diplomatic,,No
+423,,Consulado de Colombia en Barcelona,Diplomatic,,Yes
+424,,Museo Nacional de Colombia,Culture,,Yes
+425,,Museo del Oro,Culture,,Yes
+426,,Museo Botero,Culture,,Yes
+427,,MAMBO (Museo de Arte Moderno de Bogotá),Culture,,Yes
+428,,Museo de Antioquia,Culture,,No
+429,,MAMM (Museo de Arte Moderno de Medellín),Culture,,No
+430,,Biblioteca Nacional de Colombia,Culture,,No
+431,,Biblioteca Luis Ángel Arango,Culture,,Yes
+432,,Teatro Colón Bogotá,Culture,,No
+433,,Teatro Mayor Julio Mario Santo Domingo,Culture,,Yes
+434,,Empresas Polar,Food & Beverage,,Yes
+435,,Banco de Venezuela,Banking,,Yes
+436,,Banesco,Banking,,Yes
+437,,Mercantil Banco,Banking,,Yes
+438,,CANTV,Telecommunications,,No
+439,,Movistar Venezuela,Telecommunications,,No
+440,,Digitel,Telecommunications,,No
+441,,Conviasa,Transportation,,Yes
+442,,Avior Airlines,Transportation,,No

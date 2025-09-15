@@ -1,0 +1,119 @@
+---
+layout: page
+title: Contacto
+permalink: /es/contacto/
+lang: es
+description: Contáctame para colaboraciones, consultas u oportunidades.
+---
+
+<div class="max-w-content mx-auto">
+  <section class="mb-8">
+    <!-- Contact Options -->
+    <div class="mb-8">
+      <div class="card text-center mb-4">
+        <h3 class="mb-3">Correo Electrónico</h3>
+        <p class="text-muted mb-3">Para consultas profesionales y colaboraciones</p>
+        <div class="email-display">
+          <span class="email-text">{{ site.data.profile.email }}</span>
+          <button class="copy-btn" onclick="copyEmail()" title="Copiar al portapapeles">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span class="copy-feedback">¡Copiado!</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="card text-center mb-4">
+        <h3 class="mb-3">LinkedIn</h3>
+        <p class="text-muted mb-3">Conéctate para networking profesional</p>
+        <a href="https://linkedin.com/in/{{ site.data.profile.social.linkedin }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          Ver Perfil →
+        </a>
+      </div>
+      
+      <div class="card text-center">
+        <h3 class="mb-3">GitHub</h3>
+        <p class="text-muted mb-3">Ver mis proyectos de código abierto y contribuciones</p>
+        <a href="https://github.com/{{ site.data.profile.social.github }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          Ver Perfil →
+        </a>
+      </div>
+    </div>
+    
+    <!-- Response Time -->
+    <div class="card text-center">
+      <p class="text-muted">
+        Normalmente respondo a las consultas dentro de 2-3 días hábiles. 
+        Para asuntos urgentes, por favor indícalo en el asunto del mensaje.
+      </p>
+    </div>
+  </section>
+</div>
+
+<style>
+.email-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-highlight);
+  border-radius: 0.375rem;
+  font-size: 1.125rem;
+}
+
+.email-text {
+  font-family: monospace;
+  color: var(--color-accent);
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.375rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.copy-btn:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
+.copy-feedback {
+  position: absolute;
+  top: -2rem;
+  right: -1rem;
+  background: var(--color-accent);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.copy-feedback.show {
+  opacity: 1;
+}
+</style>
+
+<script>
+function copyEmail() {
+  const email = '{{ site.data.profile.email }}';
+  navigator.clipboard.writeText(email).then(function() {
+    const feedback = document.querySelector('.copy-feedback');
+    feedback.classList.add('show');
+    setTimeout(() => {
+      feedback.classList.remove('show');
+    }, 2000);
+  });
+}
+</script>

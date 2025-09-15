@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Management Evolution: From jQuery to Signals</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        .evolution-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .evolution-timeline::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 0;
+        }
+
+        .era {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .era-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--primary);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .era.active .era-dot {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.2);
+        }
+
+        .era-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .era-year {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .example-card {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .example-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .example-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .paradigm-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .demo-area {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .counter-display {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .metric {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pros, .cons {
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .pros {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .cons {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .pros h4 {
+            color: var(--secondary);
+        }
+
+        .cons h4 {
+            color: var(--danger);
+        }
+
+        ul {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin: 0.25rem 0;
+        }
+
+        .highlight {
+            background: yellow;
+            padding: 0.2rem;
+            animation: highlight 0.5s ease;
+        }
+
+        @keyframes highlight {
+            from {
+                background: rgba(255, 255, 0, 0);
+            }
+            to {
+                background: rgba(255, 255, 0, 0.3);
+            }
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-node {
+            padding: 1rem;
+            background: var(--light);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .evolution-timeline {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .evolution-timeline::before {
+                width: 2px;
+                height: 100%;
+                top: 0;
+                left: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>State Management Evolution</h1>
+        <p class="subtitle">From Imperative DOM Manipulation to Reactive Programming</p>
+
+        <!-- Timeline -->
+        <div class="evolution-timeline">
+            <div class="era" id="era-jquery">
+                <div class="era-dot">1</div>
+                <div class="era-title">DOM Manipulation</div>
+                <div class="era-year">2006-2012</div>
+            </div>
+            <div class="era" id="era-component">
+                <div class="era-dot">2</div>
+                <div class="era-title">Component State</div>
+                <div class="era-year">2013-2018</div>
+            </div>
+            <div class="era" id="era-webcomponent">
+                <div class="era-dot">3</div>
+                <div class="era-title">Web Components</div>
+                <div class="era-year">2018-Present</div>
+            </div>
+            <div class="era" id="era-signals">
+                <div class="era-dot">4</div>
+                <div class="era-title">Signals & Fine-grained</div>
+                <div class="era-year">2022-Future</div>
+            </div>
+        </div>
+
+        <!-- Examples Grid -->
+        <div class="examples-grid">
+            <!-- jQuery Era Example -->
+            <div class="example-card">
+                <h3>
+                    <span class="paradigm-badge">jQuery Era</span>
+                    DOM Manipulation
+                </h3>
+                
+                <div class="code-block" data-lang="JavaScript">
+// Imperative: Tell the browser HOW to update
+$('#counter').text(count);
+$('#increment').click(function() {
+    count++;
+    $('#counter').text(count);
+    $('#history').append('&lt;li&gt;' + count + '&lt;/li&gt;');
+    if (count > 10) {
+        $('#warning').show();
+    }
+});
+                </div>
+
+                <div class="demo-area">
+                    <div id="jquery-counter" class="counter-display">0</div>
+                    <div class="button-group">
+                        <button class="btn-primary" id="jquery-increment">Increment</button>
+                        <button class="btn-danger" id="jquery-reset">Reset</button>
+                    </div>
+                    <div id="jquery-warning" style="display:none; color: red; text-align: center; margin-top: 1rem;">
+                        Count exceeded 10!
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Simple mental model</li>
+                            <li>Direct control</li>
+                            <li>Small library size</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Manual DOM sync</li>
+                            <li>State scattered</li>
+                            <li>Hard to debug</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="performance-metrics">
+                    <div class="metric">
+                        <div class="metric-label">DOM Queries</div>
+                        <div class="metric-value" id="jquery-queries">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Updates</div>
+                        <div class="metric-value" id="jquery-updates">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- React/Vue Era Example -->
+            <div class="example-card">
+                <h3>
+                    <span class="paradigm-badge">React/Vue Era</span>
+                    Component State
+                </h3>
+                
+                <div class="code-block" data-lang="React">
+// Declarative: Describe WHAT the UI should be
+const [count, setCount] = useState(0);
+
+return (
+    &lt;div&gt;
+        &lt;h1&gt;{count}&lt;/h1&gt;
+        &lt;button onClick={() => setCount(count + 1)}&gt;
+            Increment
+        &lt;/button&gt;
+        {count > 10 && &lt;Warning /&gt;}
+    &lt;/div&gt;
+);
+                </div>
+
+                <div class="demo-area">
+                    <div id="react-counter" class="counter-display">0</div>
+                    <div class="button-group">
+                        <button class="btn-primary" id="react-increment">Increment</button>
+                        <button class="btn-success" id="react-double">Double</button>
+                        <button class="btn-danger" id="react-reset">Reset</button>
+                    </div>
+                    <div id="react-warning" style="display:none; color: red; text-align: center; margin-top: 1rem;">
+                        Count exceeded 10!
+                    </div>
+                    <div id="react-history" style="margin-top: 1rem; font-size: 0.875rem;"></div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Declarative UI</li>
+                            <li>Predictable updates</li>
+                            <li>Component isolation</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Virtual DOM overhead</li>
+                            <li>Large bundle size</li>
+                            <li>Re-render cascades</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="performance-metrics">
+                    <div class="metric">
+                        <div class="metric-label">Renders</div>
+                        <div class="metric-value" id="react-renders">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Diffs</div>
+                        <div class="metric-value" id="react-diffs">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web Components Example -->
+            <div class="example-card">
+                <h3>
+                    <span class="paradigm-badge">Web Components</span>
+                    Platform Native
+                </h3>
+                
+                <div class="code-block" data-lang="Web Components">
+// Native encapsulation with Shadow DOM
+class CounterElement extends HTMLElement {
+    #count = 0;
+    
+    connectedCallback() {
+        this.attachShadow({ mode: 'open' });
+        this.render();
+    }
+    
+    set count(val) {
+        this.#count = val;
+        this.render();
+    }
+}
+                </div>
+
+                <div class="demo-area">
+                    <counter-element id="wc-counter"></counter-element>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>No framework needed</li>
+                            <li>True encapsulation</li>
+                            <li>Standard APIs</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Verbose API</li>
+                            <li>Manual reactivity</li>
+                            <li>Browser support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="performance-metrics">
+                    <div class="metric">
+                        <div class="metric-label">Shadow Roots</div>
+                        <div class="metric-value" id="wc-shadows">1</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Updates</div>
+                        <div class="metric-value" id="wc-updates">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signals Example -->
+            <div class="example-card">
+                <h3>
+                    <span class="paradigm-badge">Future</span>
+                    Signals & Fine-grained
+                </h3>
+                
+                <div class="code-block" data-lang="Signals">
+// Fine-grained reactivity: Only update what changed
+const count = signal(0);
+const doubled = computed(() => count.value * 2);
+
+effect(() => {
+    // This runs ONLY when count changes
+    updateDOM(count.value);
+});
+
+// No re-renders, just precise updates
+count.value++;
+                </div>
+
+                <div class="demo-area">
+                    <div id="signals-counter" class="counter-display">0</div>
+                    <div style="text-align: center; color: #666; margin-bottom: 1rem;">
+                        Doubled: <span id="signals-doubled" style="font-weight: bold;">0</span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-primary" id="signals-increment">Increment</button>
+                        <button class="btn-warning" id="signals-batch">Batch +5</button>
+                        <button class="btn-danger" id="signals-reset">Reset</button>
+                    </div>
+                    <div id="signals-graph" style="margin-top: 1rem;">
+                        <canvas id="dependency-graph" width="300" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Surgical updates</li>
+                            <li>No VDOM needed</li>
+                            <li>Auto-tracking deps</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>New mental model</li>
+                            <li>Memory overhead</li>
+                            <li>Debugging complexity</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="performance-metrics">
+                    <div class="metric">
+                        <div class="metric-label">Signals</div>
+                        <div class="metric-value" id="signals-count">3</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Effects Run</div>
+                        <div class="metric-value" id="signals-effects">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conceptual Comparison -->
+        <h2 style="margin-top: 3rem; margin-bottom: 1.5rem;">Paradigm Comparison</h2>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>DOM Manipulation</th>
+                    <th>Component State</th>
+                    <th>Web Components</th>
+                    <th>Signals</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Mental Model</strong></td>
+                    <td>Imperative commands</td>
+                    <td>UI = f(state)</td>
+                    <td>Custom elements</td>
+                    <td>Reactive graph</td>
+                </tr>
+                <tr>
+                    <td><strong>Update Strategy</strong></td>
+                    <td>Manual DOM updates</td>
+                    <td>Virtual DOM diff</td>
+                    <td>Manual or observed</td>
+                    <td>Auto-dependency tracking</td>
+                </tr>
+                <tr>
+                    <td><strong>Performance</strong></td>
+                    <td>Direct but manual</td>
+                    <td>Batch updates</td>
+                    <td>Native fast</td>
+                    <td>Surgical precision</td>
+                </tr>
+                <tr>
+                    <td><strong>Bundle Size</strong></td>
+                    <td>~30KB (jQuery)</td>
+                    <td>~45KB (React)</td>
+                    <td>0KB (native)</td>
+                    <td>~3KB (Solid)</td>
+                </tr>
+                <tr>
+                    <td><strong>Learning Curve</strong></td>
+                    <td>Low</td>
+                    <td>Medium</td>
+                    <td>Medium-High</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td><strong>Debugging</strong></td>
+                    <td>Console logs</td>
+                    <td>DevTools</td>
+                    <td>Native tools</td>
+                    <td>Signal graphs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Flow Diagram -->
+        <h2 style="margin-top: 3rem; margin-bottom: 1.5rem;">Data Flow Architecture</h2>
+        
+        <div class="flow-diagram">
+            <div class="flow-node">User Action</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node" id="flow-handler">Event Handler</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node" id="flow-state">State Update</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node" id="flow-render">Re-render Logic</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-node">DOM Update</div>
+        </div>
+
+        <div id="flow-explanation" style="text-align: center; margin-top: 1rem; padding: 1rem; background: var(--light); border-radius: 8px;">
+            Click on the examples above to see how each paradigm handles the data flow differently
+        </div>
+    </div>
+
+    <script>
+        // jQuery Era Implementation
+        (function() {
+            let count = 0;
+            let queries = 0;
+            let updates = 0;
+
+            document.getElementById('jquery-increment').addEventListener('click', function() {
+                count++;
+                queries += 3; // Simulating jQuery queries
+                updates++;
+                
+                document.getElementById('jquery-counter').textContent = count;
+                document.getElementById('jquery-queries').textContent = queries;
+                document.getElementById('jquery-updates').textContent = updates;
+                
+                if (count > 10) {
+                    document.getElementById('jquery-warning').style.display = 'block';
+                }
+            });
+
+            document.getElementById('jquery-reset').addEventListener('click', function() {
+                count = 0;
+                queries += 2;
+                updates++;
+                
+                document.getElementById('jquery-counter').textContent = count;
+                document.getElementById('jquery-warning').style.display = 'none';
+                document.getElementById('jquery-queries').textContent = queries;
+                document.getElementById('jquery-updates').textContent = updates;
+            });
+        })();
+
+        // React-like Implementation
+        class ReactLikeComponent {
+            constructor(elementId) {
+                this.state = { count: 0, history: [] };
+                this.renders = 0;
+                this.diffs = 0;
+                this.elementId = elementId;
+                this.init();
+            }
+
+            setState(newState) {
+                const oldState = {...this.state};
+                this.state = {...this.state, ...newState};
+                this.diffs++;
+                
+                // Simulated reconciliation
+                if (oldState.count !== this.state.count) {
+                    this.render();
+                }
+            }
+
+            render() {
+                this.renders++;
+                
+                // Update DOM based on state
+                document.getElementById('react-counter').textContent = this.state.count;
+                document.getElementById('react-renders').textContent = this.renders;
+                document.getElementById('react-diffs').textContent = this.diffs;
+                
+                if (this.state.count > 10) {
+                    document.getElementById('react-warning').style.display = 'block';
+                } else {
+                    document.getElementById('react-warning').style.display = 'none';
+                }
+                
+                if (this.state.history.length > 0) {
+                    document.getElementById('react-history').innerHTML = 
+                        'History: ' + this.state.history.slice(-5).join(', ');
+                }
+            }
+
+            init() {
+                document.getElementById('react-increment').addEventListener('click', () => {
+                    this.setState({
+                        count: this.state.count + 1,
+                        history: [...this.state.history, this.state.count + 1]
+                    });
+                });
+
+                document.getElementById('react-double').addEventListener('click', () => {
+                    this.setState({
+                        count: this.state.count * 2,
+                        history: [...this.state.history, this.state.count * 2]
+                    });
+                });
+
+                document.getElementById('react-reset').addEventListener('click', () => {
+                    this.setState({ count: 0, history: [] });
+                });
+
+                this.render();
+            }
+        }
+
+        const reactComponent = new ReactLikeComponent('react-example');
+
+        // Web Components Implementation
+        class CounterElement extends HTMLElement {
+            constructor() {
+                super();
+                this._count = 0;
+                this.updates = 0;
+            }
+
+            connectedCallback() {
+                this.attachShadow({ mode: 'open' });
+                this.render();
+            }
+
+            set count(value) {
+                this._count = value;
+                this.updates++;
+                this.render();
+            }
+
+            get count() {
+                return this._count;
+            }
+
+            render() {
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        :host {
+                            display: block;
+                        }
+                        .counter {
+                            font-size: 3rem;
+                            font-weight: bold;
+                            text-align: center;
+                            margin: 1rem 0;
+                            color: #6366f1;
+                        }
+                        .buttons {
+                            display: flex;
+                            gap: 1rem;
+                            justify-content: center;
+                        }
+                        button {
+                            padding: 0.75rem 1.5rem;
+                            border: none;
+                            border-radius: 8px;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            color: white;
+                            background: #6366f1;
+                        }
+                        button:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                        }
+                        .warning {
+                            color: red;
+                            text-align: center;
+                            margin-top: 1rem;
+                        }
+                    </style>
+                    <div class="counter">${this._count}</div>
+                    <div class="buttons">
+                        <button id="increment">Increment</button>
+                        <button id="decrement">Decrement</button>
+                        <button id="reset" style="background: #ef4444;">Reset</button>
+                    </div>
+                    ${this._count > 10 ? '<div class="warning">Count exceeded 10!</div>' : ''}
+                `;
+
+                // Re-attach event listeners
+                this.shadowRoot.getElementById('increment')?.addEventListener('click', () => {
+                    this.count = this._count + 1;
+                    document.getElementById('wc-updates').textContent = this.updates;
+                });
+
+                this.shadowRoot.getElementById('decrement')?.addEventListener('click', () => {
+                    this.count = Math.max(0, this._count - 1);
+                    document.getElementById('wc-updates').textContent = this.updates;
+                });
+
+                this.shadowRoot.getElementById('reset')?.addEventListener('click', () => {
+                    this.count = 0;
+                    document.getElementById('wc-updates').textContent = this.updates;
+                });
+            }
+        }
+
+        customElements.define('counter-element', CounterElement);
+
+        // Signals Implementation (Simplified)
+        class Signal {
+            constructor(value) {
+                this.value = value;
+                this.observers = new Set();
+            }
+
+            get() {
+                if (Signal.currentEffect) {
+                    this.observers.add(Signal.currentEffect);
+                }
+                return this.value;
+            }
+
+            set(newValue) {
+                if (this.value !== newValue) {
+                    this.value = newValue;
+                    this.notify();
+                }
+            }
+
+            notify() {
+                this.observers.forEach(effect => effect());
+            }
+        }
+
+        Signal.currentEffect = null;
+
+        function createSignal(initialValue) {
+            return new Signal(initialValue);
+        }
+
+        function effect(fn) {
+            Signal.currentEffect = fn;
+            fn();
+            Signal.currentEffect = null;
+        }
+
+        function computed(fn) {
+            const signal = createSignal(null);
+            effect(() => signal.set(fn()));
+            return signal;
+        }
+
+        // Signals example implementation
+        const signalsCount = createSignal(0);
+        const signalsDoubled = computed(() => signalsCount.get() * 2);
+        let signalsEffects = 0;
+
+        effect(() => {
+            document.getElementById('signals-counter').textContent = signalsCount.get();
+            signalsEffects++;
+            document.getElementById('signals-effects').textContent = signalsEffects;
+        });
+
+        effect(() => {
+            document.getElementById('signals-doubled').textContent = signalsDoubled.get();
+        });
+
+        document.getElementById('signals-increment').addEventListener('click', () => {
+            signalsCount.set(signalsCount.get() + 1);
+        });
+
+        document.getElementById('signals-batch').addEventListener('click', () => {
+            // Batch updates - only triggers effects once
+            for (let i = 0; i < 5; i++) {
+                signalsCount.set(signalsCount.get() + 1);
+            }
+        });
+
+        document.getElementById('signals-reset').addEventListener('click', () => {
+            signalsCount.set(0);
+        });
+
+        // Draw dependency graph
+        const canvas = document.getElementById('dependency-graph');
+        const ctx = canvas.getContext('2d');
+        
+        function drawDependencyGraph() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw nodes
+            ctx.fillStyle = '#6366f1';
+            ctx.beginPath();
+            ctx.arc(50, 75, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.font = '12px sans-serif';
+            ctx.fillText('count', 35, 80);
+            
+            ctx.fillStyle = '#10b981';
+            ctx.beginPath();
+            ctx.arc(150, 50, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.fillText('x2', 145, 55);
+            
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(150, 100, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.fillText('DOM', 138, 105);
+            
+            // Draw edges
+            ctx.strokeStyle = '#ccc';
+            ctx.beginPath();
+            ctx.moveTo(70, 75);
+            ctx.lineTo(130, 50);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(70, 75);
+            ctx.lineTo(130, 100);
+            ctx.stroke();
+        }
+        
+        drawDependencyGraph();
+
+        // Timeline interaction
+        document.querySelectorAll('.era').forEach((era, index) => {
+            era.addEventListener('click', () => {
+                document.querySelectorAll('.era').forEach(e => e.classList.remove('active'));
+                era.classList.add('active');
+                
+                const explanations = [
+                    'jQuery Era: Direct DOM manipulation with imperative code. Every state change requires manual DOM updates.',
+                    'Component State: Declarative UI with automatic DOM synchronization through Virtual DOM diffing.',
+                    'Web Components: Browser-native encapsulation with Shadow DOM. No framework required but manual reactivity.',
+                    'Signals: Fine-grained reactivity with automatic dependency tracking. Only updates exactly what changed.'
+                ];
+                
+                document.getElementById('flow-explanation').innerHTML = explanations[index];
+            });
+        });
+    </script>
+</body>
+</html>

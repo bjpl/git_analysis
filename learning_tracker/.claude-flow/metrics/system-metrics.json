@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": 1756695922301,
+    "memoryTotal": 68125028352,
+    "memoryUsed": 29353467904,
+    "memoryFree": 38771560448,
+    "memoryUsagePercent": 43.08764137657529,
+    "memoryEfficiency": 56.91235862342471,
+    "cpuCount": 22,
+    "cpuLoad": 0,
+    "platform": "win32",
+    "uptime": 19152.609
+  },
+  {
+    "timestamp": 1756695952306,
+    "memoryTotal": 68125028352,
+    "memoryUsed": 29288550400,
+    "memoryFree": 38836477952,
+    "memoryUsagePercent": 42.9923496672426,
+    "memoryEfficiency": 57.0076503327574,
+    "cpuCount": 22,
+    "cpuLoad": 0,
+    "platform": "win32",
+    "uptime": 19182.625
+  }
+]

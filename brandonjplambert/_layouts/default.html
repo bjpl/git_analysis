@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.default_lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- SEO Meta Tags -->
+  {% seo %}
+  
+  <!-- Alternate language versions -->
+  <link rel="alternate" hreflang="en" href="{{ site.url }}{{ page.url | replace: '/es/', '/' }}">
+  <link rel="alternate" hreflang="es" href="{{ site.url }}/es{{ page.url }}">
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ page.url }}">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/favicon-32x32.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/favicon-16x16.png' | relative_url }}">
+  
+  <!-- Feed -->
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+</head>
+<body>
+  <!-- Skip to content link for accessibility -->
+  <a href="#main" class="sr-only">Skip to main content</a>
+  
+  <!-- Header -->
+  <header class="site-header" id="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="{{ '/' | relative_url }}" class="site-title">{{ site.data.profile.name }}</a>
+        
+        <nav class="site-nav" id="site-nav" style="display: none;">
+          <ul>
+            {% for item in site.data.navigation.main %}
+            {% assign nav_key = item.title | downcase | replace: ' ', '_' %}
+            {% if page.lang == 'es' %}
+              {% case item.url %}
+                {% when '/' %}
+                  {% assign nav_url = '/es/' %}
+                {% when '/work/' %}
+                  {% assign nav_url = '/es/trabajo/' %}
+                {% when '/ai-projects/' %}
+                  {% assign nav_url = '/es/proyectos-ia/' %}
+                {% when '/resources/' %}
+                  {% assign nav_url = '/es/recursos/' %}
+                {% when '/contact/' %}
+                  {% assign nav_url = '/es/contacto/' %}
+                {% else %}
+                  {% assign nav_url = item.url %}
+              {% endcase %}
+            {% else %}
+              {% assign nav_url = item.url %}
+            {% endif %}
+            <li>
+              <a href="{{ nav_url | relative_url }}" 
+                 {% if page.url == nav_url %}class="active"{% endif %}>
+                {{ site.data.i18n[page.lang].navigation[nav_key] }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </nav>
+        
+        <div class="flex items-center gap-3">
+          <!-- Language Toggle -->
+          <div class="language-toggle" id="language-toggle">
+            <button class="lang-btn" data-lang="en"
+                    onclick="switchLanguage('en')"
+                    aria-label="Switch to English">EN</button>
+            <button class="lang-btn" data-lang="es"
+                    onclick="switchLanguage('es')"
+                    aria-label="Cambiar a Español">ES</button>
+          </div>
+          
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu-overlay" style="display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.98); z-index: 9999;">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem;">
+      <nav style="width: 100%; max-width: 400px;">
+        <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+          {% for item in site.data.navigation.main %}
+          {% assign nav_key = item.title | downcase | replace: ' ', '_' %}
+          {% if page.lang == 'es' %}
+            {% case item.url %}
+              {% when '/' %}
+                {% assign nav_url = '/es/' %}
+              {% when '/work/' %}
+                {% assign nav_url = '/es/trabajo/' %}
+              {% when '/ai-projects/' %}
+                {% assign nav_url = '/es/proyectos-ia/' %}
+              {% when '/resources/' %}
+                {% assign nav_url = '/es/recursos/' %}
+              {% when '/contact/' %}
+                {% assign nav_url = '/es/contacto/' %}
+              {% else %}
+                {% assign nav_url = item.url %}
+            {% endcase %}
+          {% else %}
+            {% assign nav_url = item.url %}
+          {% endif %}
+          <li style="width: 100%;">
+            <a href="{{ nav_url | relative_url }}" 
+               style="display: block; padding: 1rem; font-size: 1.2rem; color: #1a1a1a; text-decoration: none; text-align: center; border-radius: 4px; transition: background-color 0.2s;"
+               onmouseover="this.style.backgroundColor='rgba(0,0,0,0.05)'"
+               onmouseout="this.style.backgroundColor='transparent'"
+               onclick="closeMobileMenu()">
+              {{ site.data.i18n[page.lang].navigation[nav_key] }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <main id="main">
+    {{ content }}
+  </main>
+  
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          {% for item in site.data.navigation.footer %}
+          <a href="{{ item.url }}" {% if item.external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+            {{ item.title }}
+          </a>
+          {% endfor %}
+        </div>
+        <div class="footer-copyright">
+          <p>&copy; {{ 'now' | date: '%Y' }} {{ site.data.profile.name }}. {{ site.data.i18n[page.lang].footer.copyright }}.</p>
+          <p class="text-small text-muted">{{ site.data.i18n[page.lang].footer.built_with }}</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- JavaScript -->
+  <script>
+    // Header scroll effect
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('site-header');
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      
+      lastScroll = currentScroll;
+    });
+    
+    // Mobile menu toggle - using overlay div
+    function toggleMobileMenu() {
+      const overlay = document.getElementById('mobile-menu-overlay');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      
+      if (!overlay || !toggle) {
+        return;
+      }
+      
+      // Check if menu is open
+      const isOpen = overlay.style.display === 'block';
+      
+      if (!isOpen) {
+        // Open menu
+        overlay.style.display = 'block';
+        toggle.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        // Close menu
+        overlay.style.display = 'none';
+        toggle.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+    
+    // Close mobile menu function
+    function closeMobileMenu() {
+      const overlay = document.getElementById('mobile-menu-overlay');
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+      if (toggle) {
+        toggle.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+    }
+    
+    // Make functions globally available
+    window.toggleMobileMenu = toggleMobileMenu;
+    window.closeMobileMenu = closeMobileMenu;
+    
+    // Language switcher
+    function switchLanguage(lang) {
+      localStorage.setItem('preferredLanguage', lang);
+      const currentPath = window.location.pathname;
+      const baseUrl = '{{ site.baseurl }}';
+      let newPath;
+      
+      // Remove baseurl from current path for processing
+      let cleanPath = currentPath.replace(baseUrl, '');
+      
+      if (lang === 'es') {
+        if (!cleanPath.includes('/es/')) {
+          // Map English paths to Spanish
+          newPath = cleanPath
+            .replace('/work/', '/es/trabajo/')
+            .replace('/ai-projects/', '/es/proyectos-ia/')
+            .replace('/resources/', '/es/recursos/')
+            .replace('/contact/', '/es/contacto/');
+          
+          // If no specific page match, just add /es prefix
+          if (newPath === cleanPath) {
+            newPath = '/es' + cleanPath;
+          }
+        } else {
+          newPath = cleanPath;
+        }
+      } else {
+        // Map Spanish paths to English
+        newPath = cleanPath
+          .replace('/es/trabajo/', '/work/')
+          .replace('/es/proyectos-ia/', '/ai-projects/')
+          .replace('/es/recursos/', '/resources/')
+          .replace('/es/contacto/', '/contact/')
+          .replace('/es/', '/');
+      }
+      
+      // Add baseurl back and navigate
+      window.location.pathname = baseUrl + newPath;
+    }
+    
+    // Update language toggle button states
+    function updateLanguageButtons() {
+      const savedLang = localStorage.getItem('preferredLanguage') || '{{ page.lang }}' || 'en';
+      const buttons = document.querySelectorAll('.lang-btn');
+      
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-lang') === savedLang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+    
+    // Show/hide navigation based on screen size
+    function updateNavDisplay() {
+      const desktopNav = document.getElementById('site-nav');
+      const mobileToggle = document.querySelector('.mobile-menu-toggle');
+      
+      if (window.innerWidth >= 1024) {
+        // Desktop - show regular nav, hide mobile toggle
+        if (desktopNav) desktopNav.style.display = 'flex';
+        if (mobileToggle) mobileToggle.style.display = 'none';
+      } else {
+        // Mobile/tablet - hide regular nav, show mobile toggle
+        if (desktopNav) desktopNav.style.display = 'none';
+        if (mobileToggle) mobileToggle.style.display = 'flex';
+      }
+    }
+    
+    // Update on resize
+    window.addEventListener('resize', updateNavDisplay);
+    
+    // Check for saved language preference and auto-redirect
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set initial nav display
+      updateNavDisplay();
+      const savedLang = localStorage.getItem('preferredLanguage');
+      const currentLang = '{{ page.lang }}' || 'en';
+      
+      // Update button states
+      updateLanguageButtons();
+      
+      // If user has a saved preference and they're on the wrong language version
+      if (savedLang && savedLang !== currentLang) {
+        // Automatically switch to their preferred language
+        switchLanguage(savedLang);
+      }
+      
+      // If no preference saved yet, save the current language
+      if (!savedLang) {
+        localStorage.setItem('preferredLanguage', currentLang);
+        updateLanguageButtons();
+      }
+      
+      // Close mobile menu when clicking on a link
+      const navLinks = document.querySelectorAll('.site-nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          const nav = document.getElementById('site-nav');
+          const toggle = document.querySelector('.mobile-menu-toggle');
+          
+          // If menu is open, close it
+          if (nav && nav.classList.contains('mobile-menu-open')) {
+            nav.classList.remove('mobile-menu-open');
+            if (toggle) toggle.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

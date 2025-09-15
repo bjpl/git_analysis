@@ -9,7 +9,12 @@ import tempfile
 import os
 import time
 import threading
-import memory_profiler
+try:
+    import memory_profiler
+except ImportError:
+    # Fallback for when memory_profiler is not available
+    memory_profiler = None
+    print("Warning: memory_profiler not installed. Memory profiling disabled.")
 import psutil
 import sqlite3
 import json

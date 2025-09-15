@@ -1,0 +1,25 @@
+# Personal profile information
+name: Brandon JP Lambert
+tagline: Language Learning & Teaching
+summary: >-
+  Fourth-generation educator with MA-TESOL and 10 years in language education and edtech.
+  I use English (native) and Spanish (B2/ACTFL Advanced Low/Mid, self-assessed).
+email: brandon.lambert87@gmail.com
+avatar_url: /assets/images/headshot.jpg
+languages:
+  - name: English
+    level: Native
+  - name: Spanish
+    level: B2/ACTFL Advanced Low/Mid (self-assessed)
+
+# Social links
+social:
+  github: bjpl
+  linkedin: brandonjplambert
+  twitter: 
+  website: 
+
+# SEO metadata
+meta_description: >-
+  Fourth-generation educator with MA-TESOL specializing in language education,
+  edtech, and bilingual resource development.

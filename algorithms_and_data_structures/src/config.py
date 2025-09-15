@@ -425,3 +425,5 @@ class CLIConfig:
         }
         
         return yaml.dump(sample_data, default_flow_style=False, indent=2)
+# Add alias for backward compatibility
+Config = CLIConfig

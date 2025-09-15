@@ -1,0 +1,32 @@
+Process_Name,Technology,Temperature_C,Pressure,Duration,Equipment,Precision_nm,Yield_Percent
+Glass Substrate Preparation,LCD,600-700,Atmosphere,2-4 hours,Float Glass Furnace,±50,98.5
+TFT Photolithography,LCD,20-25,Cleanroom 10^-6,30-60 min,Stepper/Scanner,±10,95.0
+Amorphous Silicon Deposition,LCD,300-350,10^-6 Torr,1-2 hours,PECVD Chamber,±5,97.0
+Gate Oxide Formation,LCD,350-400,10^-7 Torr,45-90 min,Thermal Oxidation,±2,98.0
+Source Drain Etching,LCD,25,Atmosphere,15-30 min,Plasma Etcher,±20,96.5
+Passivation Layer,LCD,250-300,10^-6 Torr,30-60 min,PECVD System,±10,97.5
+ITO Sputtering,LCD,200-300,10^-3 Torr,20-40 min,Magnetron Sputterer,±15,96.0
+Color Filter Production,LCD,200-250,Atmosphere,1-3 hours,Spin Coater,±25,94.0
+Liquid Crystal Injection,LCD,25,Vacuum,10-20 min,Vacuum Injection,±100,92.0
+Cell Assembly,LCD,25,Cleanroom,30-60 min,Bonding Machine,±50,95.5
+Module Integration,LCD,25,Atmosphere,15-30 min,Assembly Line,±200,98.0
+Organic Layer Deposition,OLED,25-150,10^-8 Torr,2-6 hours,Thermal Evaporator,±1,85.0
+Encapsulation Process,OLED,80-120,10^-6 Torr,1-2 hours,ALD Chamber,±5,90.0
+Pixel Definition,OLED,25,Atmosphere,45-90 min,Photolithography,±5,88.0
+Cathode Deposition,OLED,25,10^-8 Torr,30-60 min,Sputtering System,±3,92.0
+Flexible Substrate Prep,OLED,150-200,Atmosphere,1-2 hours,Roll-to-Roll,±20,87.0
+Solution Processing,OLED,100-200,Nitrogen,30-120 min,Inkjet Printer,±10,80.0
+LED Die Preparation,MicroLED,25,Cleanroom,60-120 min,Pick and Place,±1,75.0
+Mass Transfer,MicroLED,150-300,Vacuum,2-8 hours,Laser Lift-off,±0.5,70.0
+Bonding Process,MicroLED,200-400,10^-3 Torr,30-60 min,Thermocompression,±2,85.0
+Inspection Testing,MicroLED,25,Atmosphere,10-30 min,AOI System,±1,95.0
+Quantum Dot Synthesis,QLED,200-350,Inert Gas,2-12 hours,Chemical Reactor,±1,90.0
+QD Film Formation,QLED,80-150,Atmosphere,15-45 min,Slot Die Coating,±10,92.0
+Barrier Coating,QLED,100-200,10^-4 Torr,30-90 min,ALD System,±2,95.0
+Backlight Assembly,QLED,25,Atmosphere,20-40 min,Assembly Machine,±100,97.0
+Panel Lamination,All,60-120,Vacuum,10-30 min,Laminator,±50,96.0
+Final Testing,All,25,Atmosphere,5-15 min,Test Equipment,±1000,99.0
+Aging Process,OLED,60-85,Atmosphere,24-72 hours,Burn-in Chamber,N/A,98.0
+Laser Annealing,LCD,400-600,Atmosphere,1-5 ms,Excimer Laser,±5,94.0
+Ion Implantation,LCD,25,10^-6 Torr,15-60 min,Ion Implanter,±1,96.0
+Chemical Vapor Deposition,All,200-800,10^-3 Torr,30-180 min,CVD Reactor,±2,93.0

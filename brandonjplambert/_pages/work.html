@@ -1,0 +1,156 @@
+---
+layout: page
+title: Work
+permalink: /work/
+lang: en
+description: Experience, education, and teaching philosophy
+---
+
+<!-- Career Timeline Section -->
+<section id="career" class="mb-8">
+  <h2 class="mb-5">{{ site.data.i18n[page.lang].sections.career.title }}</h2>
+  
+  <div class="timeline">
+    {% for position in site.data.career_timeline.timeline %}
+    <div class="timeline-item" id="{{ position.organization | slugify }}">
+      <div class="timeline-date">
+        {{ position.start_date | date: "%b %Y" }} - 
+        {% if position.end_date %}
+          {{ position.end_date | date: "%b %Y" }}
+        {% else %}
+          Present
+        {% endif %}
+      </div>
+      <h3 class="timeline-title">{{ position.title }}</h3>
+      <div class="timeline-organization">
+        {{ position.organization }}
+        <span class="work-badges">
+          <span class="badge badge-outline">{{ position.employment_type }}</span>
+          <span class="badge badge-outline">{{ position.work_location }}</span>
+        </span>
+      </div>
+      <div class="timeline-description">
+        {% if page.lang == 'es' and position.description_es %}
+          {{ position.description_es | markdownify }}
+        {% elsif position.description_en %}
+          {{ position.description_en | markdownify }}
+        {% else %}
+          {{ position.description | markdownify }}
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Education Section -->
+<section id="education" class="mb-8">
+  <h2 class="mb-5">{{ site.data.i18n[page.lang].sections.education.title }}</h2>
+  
+  <div class="grid gap-5">
+    {% for edu in site.data.education.education %}
+    <div class="card">
+      <div class="education-header">
+        <div class="education-details">
+          <h3 class="card-title mb-1">{{ edu.degree }}, {{ edu.field }}</h3>
+          <p class="text-accent">{{ edu.institution }}</p>
+          <p class="text-muted">{{ edu.location }}</p>
+        </div>
+        <div class="education-date-wrapper">
+          <span class="education-date">
+            {{ edu.start_date | date: "%b %Y" }}&nbsp;-&nbsp;{{ edu.end_date | date: "%b %Y" }}
+          </span>
+        </div>
+      </div>
+      {% if edu.honors %}
+      <p class="mb-2"><strong>Honors:</strong> {{ edu.honors }}</p>
+      {% endif %}
+      {% if edu.thesis %}
+      <p class="mb-2"><strong>Thesis:</strong> {{ edu.thesis }}</p>
+      {% endif %}
+      {% if edu.notes %}
+      <p class="text-muted">{{ edu.notes }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Teaching Philosophy Section -->
+<section id="philosophy" class="mb-8">
+  <h2 class="mb-5">{{ site.data.i18n[page.lang].sections.teaching_philosophy.title }}</h2>
+  
+  {% for principle in site.data.teaching_principles.principles %}
+  <div class="expandable mb-3">
+    <div class="expandable-header" onclick="toggleExpand(this)">
+      <div>
+        <h3 class="text-lg font-semibold mb-0">
+        {% if page.lang == 'es' and principle.title_es %}
+          {{ principle.title_es }}
+        {% elsif principle.title_en %}
+          {{ principle.title_en }}
+        {% else %}
+          {{ principle.title }}
+        {% endif %}
+      </h3>
+      </div>
+      <span class="expand-icon">▼</span>
+    </div>
+    <div class="expandable-content">
+      <p>
+        {% if page.lang == 'es' and principle.elaboration_es %}
+          {{ principle.elaboration_es }}
+        {% elsif principle.elaboration_en %}
+          {{ principle.elaboration_en }}
+        {% else %}
+          {{ principle.elaboration }}
+        {% endif %}
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+<!-- Skills & Expertise -->
+<section id="skills" class="mb-8">
+  <h2 class="mb-5">Skills & Expertise</h2>
+  
+  <div class="grid grid-cols-3 gap-5">
+    <div>
+      <h3 class="mb-3">Languages</h3>
+      <ul>
+        <li>English (Native or Bilingual)</li>
+        <li>Spanish (Professional Working)</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-3">Top Skills</h3>
+      <ul>
+        <li>Enseñanza de idiomas</li>
+        <li>Coaching</li>
+        <li>Inglés para fines específicos</li>
+        <li>Curriculum Development</li>
+        <li>VR Language Learning</li>
+        <li>Online Course Design</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-3">Certifications</h3>
+      <ul>
+        <li>UX Nanodegree</li>
+        <li>ClickUp Novice Certificate</li>
+        <li>UI/UX Bootcamp</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleExpand(element) {
+  const content = element.nextElementSibling;
+  const icon = element.querySelector('.expand-icon');
+  
+  content.classList.toggle('expanded');
+  icon.classList.toggle('expanded');
+}
+</script>

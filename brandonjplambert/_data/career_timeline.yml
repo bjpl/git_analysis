@@ -1,0 +1,259 @@
+# Career Timeline
+timeline:
+  - title: Program Manager
+    organization: Immerse
+    location: Mountain View, California, United States
+    employment_type: Full-time
+    work_location: Remote
+    start_date: 2023-05-01
+    end_date: 2024-04-01
+    description_en: |
+      Supported the growth and development of Immerse's VR English program and directly managed 8 VR language instructors.
+      
+      **Department:** Education  
+      **Team:** Program Management  
+      **Cross-functional with:** Product, Research, Customer Success, and Marketing
+    description_es: |
+      Apoyé el crecimiento y desarrollo del programa de inglés en RV de Immerse y gestioné directamente a 8 instructores de idiomas en RV.
+      
+      **Departamento:** Education  
+      **Equipo:** Program Management  
+      **Interfuncional con:** Product, Research, Customer Success y Marketing
+    
+  - title: Director of Language Programs (Interim)
+    organization: Immerse
+    location: Mountain View, California, United States
+    employment_type: Full-time
+    work_location: Remote
+    start_date: 2023-08-01
+    end_date: 2023-11-01
+    description_en: |
+      Temporarily led Immerse's team of program managers and VR instructors for English, French, and Spanish. (Interim role to support evolving departmental needs).
+      
+      **Department:** Education  
+      **Team:** Program Management  
+      **Cross-functional with:** Product, Research, Customer Success, and Marketing
+    description_es: |
+      Lideré temporalmente el equipo de gerentes de programa e instructores de RV de Immerse para inglés, francés y español. (Rol interino para apoyar las necesidades departamentales en evolución).
+      
+      **Departamento:** Education  
+      **Equipo:** Program Management  
+      **Interfuncional con:** Product, Research, Customer Success y Marketing
+    
+  - title: Founder & CEO
+    organization: PartnerEd.tech
+    location: Mountain View, California, United States
+    employment_type: Full-time
+    work_location: Remote
+    start_date: 2022-01-01
+    end_date: 2023-08-01
+    description_en: |
+      PartnerEd.tech was an evolving platform for my efforts to engage in the edtech market, acquire new domain knowledge (business development, operations, marketing, etc.) and experiment with a wide range of the latest technology:
+      
+      AI Training & Coaching - Developed custom resources to help educators, administrators, and next-generation operators build better experiences with AI and automation.
+      
+      Partnership Consulting - Developed co-marketing campaigns for Tipalti (payment automation) and Nintex (process automation) to promote automation solutions for edtech. Worked closely with SAAS partnership managers.
+      
+      Ecosystem Strategy & Narrative Advisory - Advised a pre-Series A CEO to support ecosystem narrative development. Included market research and deck development.
+    
+    description_es: |
+      PartnerEd.tech fue una plataforma en evolución para mis esfuerzos de participar en el mercado edtech, adquirir nuevo conocimiento de dominio (desarrollo de negocio, operaciones, marketing, etc.) y experimentar con una amplia gama de la tecnología más reciente:
+      
+      Capacitación y Coaching en IA - Desarrollé recursos personalizados para ayudar a educadores, administradores y operadores de nueva generación a construir mejores experiencias con IA y automatización.
+      
+      Consultoría de Alianzas - Desarrollé campañas de co-marketing para Tipalti (automatización de pagos) y Nintex (automatización de procesos) para promover soluciones de automatización para edtech. Trabajé estrechamente con gerentes de alianzas SAAS.
+      
+      Estrategia de Ecosistema y Asesoría Narrativa - Asesoré a un CEO pre-Series A para apoyar el desarrollo de una narrativa de ecosistema. Incluyó investigación de mercado y desarrollo de presentaciones.
+  - title: Adjunct Instructor
+    organization: University of California, Berkeley
+    location: Berkeley, CA
+    employment_type: Part-time
+    work_location: Remote
+    start_date: 2022-07-01
+    end_date: 2022-08-01
+    description_en: |
+      In summer 2022, I developed and taught three online courses:
+      "Marketing" and "Innovation" for high-achieving international high school students
+      "Writing for Digital Media" for domestic and international Berkeley undergraduate students and visiting international students.
+      
+      **Department:** UC Berkeley College Writing Program
+    
+    description_es: |
+      En el verano de 2022, desarrollé e impartí tres cursos en línea:
+      "Marketing" e "Innovation" para estudiantes internacionales de secundaria de alto rendimiento
+      "Writing for Digital Media" para estudiantes universitarios de Berkeley nacionales e internacionales y estudiantes internacionales visitantes.
+      
+      **Departamento:** UC Berkeley College Writing Program
+  - title: Specialist, Academics & Research
+    organization: VIPKid
+    location: Sunnyvale, California, United States
+    employment_type: Full-time
+    work_location: Remote
+    start_date: 2021-05-01
+    end_date: 2021-08-01
+    description_en: |
+      Supported strategic research objectives
+      
+      **Team:** Curriculum and Research (US)  
+      **Cross-functional with:** Curriculum (China), Product (China), Community, Public Relations, Legal  
+      **Selected projects:** Teacher research and white paper lead author
+    
+    description_es: |
+      Apoyé objetivos estratégicos de investigación
+      
+      **Equipo:** Curriculum and Research (US)  
+      **Interfuncional con:** Curriculum (China), Product (China), Community, Public Relations, Legal  
+      **Proyectos seleccionados:** Investigación de maestros y autor principal de white paper
+  - title: Senior Curriculum Developer
+    organization: VIPKid
+    location: Sunnyvale, California, United States
+    employment_type: Full-time
+    work_location: Remote
+    start_date: 2021-02-01
+    end_date: 2021-05-01
+    description_en: |
+      Supported a range of curriculum and assessment projects impacting 100,000 US-based online teachers and 800,000 China-based learners.
+      
+      **Team:** Curriculum and Assessment (US)  
+      **Cross-functional with:** Curriculum (China), Product (China)  
+      **Selected projects:** Mentored China-based curriculum developers; developed framework-aligned multi-level scope and sequence; developed and reviewed interactive learning content
+    
+    description_es: |
+      Apoyé una gama de proyectos de currículo y evaluación que impactaron a 100,000 maestros en línea basados en EE.UU. y 800,000 estudiantes basados en China.
+      
+      **Equipo:** Curriculum and Assessment (US)  
+      **Interfuncional con:** Curriculum (China), Product (China)  
+      **Proyectos seleccionados:** Mentoreo de desarrolladores de currículo basados en China; desarrollo de alcance y secuencia multinivel alineado con marcos; desarrollo y revisión de contenido de aprendizaje interactivo
+  - title: Curriculum Developer
+    organization: VIPKid
+    location: Sunnyvale, CA
+    employment_type: Full-time
+    work_location: Remote
+    start_date: 2019-08-01
+    end_date: 2021-02-01
+    description_en: |
+      Supported a range of curriculum and assessment projects impacting 100,000 US-based online teachers and 800,000 China-based learners.
+      
+      **Team:** Curriculum and Assessment (US)  
+      **Cross-functional with:** Curriculum (China), Product (China), Community (US)  
+      **Selected projects:** Curriculum and training workshop facilitator (US-based teachers and China-based curriculum development team)
+    
+    description_es: |
+      Apoyé una gama de proyectos de currículo y evaluación que impactaron a 100,000 maestros en línea basados en EE.UU. y 800,000 estudiantes basados en China.
+      
+      **Equipo:** Curriculum and Assessment (US)  
+      **Interfuncional con:** Curriculum (China), Product (China), Community (US)  
+      **Proyectos seleccionados:** Facilitador de talleres de currículo y capacitación (maestros basados en EE.UU. y equipo de desarrollo de currículo basado en China)
+  - title: Adjunct Instructor
+    organization: Middlebury Institute of International Studies at Monterey
+    location: Monterey, CA
+    employment_type: Part-time
+    work_location: In-person
+    start_date: 2018-06-01
+    end_date: 2021-08-01
+    description_en: |
+      Developed and facilitated a range of custom language programs and courses.
+      
+      **Departments/Programs:** Custom Language Services, English for Academic and Professional Purposes (EAPP), Intensive English Program (IEP), English Preparation for Graduate Studies (EPGS)  
+      
+      **Selected projects:** English for Disaster Management Professionals; English for Diplomats
+    
+    description_es: |
+      Desarrollé y facilité una gama de programas y cursos de idiomas personalizados.
+      
+      **Departamentos/Programas:** Custom Language Services, English for Academic and Professional Purposes (EAPP), Intensive English Program (IEP), English Preparation for Graduate Studies (EPGS)  
+      
+      **Proyectos seleccionados:** English for Disaster Management Professionals; English for Diplomats
+  - title: Adjunct Instructor
+    organization: University of California, Berkeley
+    location: Berkeley, CA
+    employment_type: Part-time
+    work_location: Remote
+    start_date: 2020-07-01
+    end_date: 2020-08-01
+    description_en: |
+      In summer 2020, I developed and taught "Creative Nonfiction", an online course for domestic and international Berkeley undergraduate students and visiting international students.
+      
+      **Department:** UC Berkeley College Writing Program
+    
+    description_es: |
+      En el verano de 2020, desarrollé e impartí "Creative Nonfiction", un curso en línea para estudiantes universitarios de Berkeley nacionales e internacionales y estudiantes internacionales visitantes.
+      
+      **Departamento:** UC Berkeley College Writing Program
+  - title: Language Coach & Training Facilitator
+    organization: Ovient, Inc.
+    location: Sunnyvale, CA
+    employment_type: Full-time
+    work_location: In-person
+    start_date: 2018-09-01
+    end_date: 2019-07-01
+    description_en: |
+      Coached tech industry professionals, including senior leaders. Traveled to global and US headquarters throughout the San Francisco Bay Area. Worked directly with founders/CEOs to develop online learning and assessment content.
+    
+    description_es: |
+      Entrené a profesionales de la industria tecnológica, incluyendo líderes senior. Viajé a sedes globales y de EE.UU. por toda el área de la bahía de San Francisco. Trabajé directamente con fundadores/CEO para desarrollar contenido de aprendizaje y evaluación en línea.
+  - title: Learning and Development Consultant
+    organization: dKomplex, Inc.
+    location: Remote
+    employment_type: Part-time
+    work_location: Remote
+    start_date: 2018-05-01
+    end_date: 2019-02-01
+    description_en: |
+      Worked directly with founder/CEO to build internal resources and grow a new business line.
+      
+      **Selected projects:** Microsoft 365 CRM e-learning and virtual instruction; internship program and talent/learning pipeline.
+    
+    description_es: |
+      Trabajé directamente con el fundador/CEO para construir recursos internos y hacer crecer una nueva línea de negocio.
+      
+      **Proyectos seleccionados:** E-learning de Microsoft 365 CRM e instrucción virtual; programa de pasantías y pipeline de talento/aprendizaje.
+  - title: Professor of ESL
+    organization: Savannah College of Art and Design
+    location: Savannah, Georgia Area
+    employment_type: Full-time
+    work_location: In-person
+    start_date: 2016-08-01
+    end_date: 2018-08-01
+    description_en: |
+      Developed and taught undergraduate and graduate-level English for specific purposes courses and programs for international art and design students. Supported departmental professional development initiatives and mentored faculty.
+      
+      **Department and campus:** SCAD Language Studio (Savannah)  
+      **Selected projects:** Research and Writing in Art and Design; Digital Storytelling; "Buzz into Fall" Orientation Programming
+    
+    description_es: |
+      Desarrollé e impartí cursos y programas de inglés para propósitos específicos de nivel universitario y de posgrado para estudiantes internacionales de arte y diseño. Apoyé iniciativas de desarrollo profesional departamental y mentoreé a la facultad.
+      
+      **Departamento y campus:** SCAD Language Studio (Savannah)  
+      **Proyectos seleccionados:** Research and Writing in Art and Design; Digital Storytelling; "Buzz into Fall" Orientation Programming
+  - title: Adjunct Instructor
+    organization: Middlebury Institute of International Studies at Monterey
+    location: Monterey, CA
+    employment_type: Part-time
+    work_location: In-person
+    start_date: 2015-06-01
+    end_date: 2016-08-01
+    description_en: |
+      Developed and facilitated a range of custom language programs and courses.
+      
+      **Departments/Programs:** Custom Language Services, English for Academic and Professional Purposes (EAPP), Intensive English Program (IEP), English Preparation for Graduate Studies (EPGS)  
+      
+      **Selected projects:** Writing and Research for Translation and Localization Management; English for Diplomats; Digital Media Literacy
+    description_es: |
+      Desarrollé y facilité una gama de programas y cursos de idiomas personalizados.
+      
+      **Departamentos/Programas:** Custom Language Services, English for Academic and Professional Purposes (EAPP), Intensive English Program (IEP), English Preparation for Graduate Studies (EPGS)  
+      
+      **Proyectos seleccionados:** Writing and Research for Translation and Localization Management; English for Diplomats; Digital Media Literacy
+    
+  - title: Junior Account Executive & Copywriter
+    organization: CV Strategies, Inc.
+    location: Indian Wells, CA
+    employment_type: Full-time
+    work_location: In-person
+    start_date: 2014-03-01
+    end_date: 2015-02-01
+    description_en: |
+      Wrote copy for water district brochures, conservation campaigns, and nonprofit newsletters.
+    description_es: |
+      Escribí textos para folletos de distrito de agua, campañas de conservación y boletines de organizaciones sin fines de lucro.

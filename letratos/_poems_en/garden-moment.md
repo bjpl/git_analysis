@@ -3,17 +3,19 @@ layout: poem
 title: "Garden moment"
 date: 2024-01-20
 lang: en
+sketch: garden_moment_sketch.png
 ---
 
-A leaf in the shape of a heart,
-A morning with energy and a pen
+Under a leaf in the shape of a heart,
+a morning with energy and a pen
 
-Fed by sunshine, lust for 
-the winged angels landing
+fed by sunshine, lusting for 
+the winged, landing
+on something shared willingly
 
-On a fresh, crusty loaf, shared willingly.
-
-In a garden far removed, but closer
-To what you know to be true.
+in a garden far removed, but closer
+to what I know to be true...
 
 Here, I am.
+
+ -Brandon JP Lambert

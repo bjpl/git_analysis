@@ -1,0 +1,35 @@
+---
+layout: default
+lang: en
+---
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container container-narrow">
+    <div class="hero-content">
+      <!-- Left side: Main hero content -->
+      <div class="hero-main">
+        <div class="hero-avatar">
+          <img src="{{ site.data.profile.avatar_url | relative_url }}" alt="{{ site.data.profile.name }}">
+        </div>
+        <h1 class="hero-title">{{ site.data.profile.name }}</h1>
+        <p class="hero-tagline">{{ site.data.profile.tagline }}</p>
+        <div class="hero-actions">
+          <a href="{{ '/work/' | relative_url }}" class="btn btn-primary">{{ site.data.i18n[page.lang].buttons.learn_more }}</a>
+          <a href="{{ '/contact/' | relative_url }}" class="btn btn-secondary">{{ site.data.i18n[page.lang].buttons.contact_me }}</a>
+        </div>
+      </div>
+      <!-- Right side: Bio/Summary -->
+      <div class="hero-bio">
+        <div class="hero-bio-content">
+          <p class="hero-summary">Fourth-generation educator with MA-TESOL and 10 years in language education and edtech.</p>
+          <div class="language-pills">
+            <span class="pill">🇺🇸 English (Native)</span>
+            <span class="pill">🇪🇸 Spanish (B2/ACTFL Advanced)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
